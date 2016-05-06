@@ -14,7 +14,7 @@
             try
             {
                 action();
-                Assert.Fail($"Expect {typeof (TExpection)} exception, but no expection happened");
+                Assert.Fail($"Expect {typeof(TExpection)} exception, but no expection happened");
             }
             catch (TExpection)
             {
@@ -27,7 +27,7 @@
             try
             {
                 action();
-                Assert.Fail($"Expected {typeof (UCenterException)} Exception, but no expection happened");
+                Assert.Fail($"Expected {typeof(UCenterException)} Exception, but no expection happened");
             }
             catch (UCenterException ex)
             {

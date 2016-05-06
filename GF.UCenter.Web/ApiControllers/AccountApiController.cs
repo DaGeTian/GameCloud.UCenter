@@ -5,6 +5,7 @@
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Net.Http;
     using System.ServiceModel.Channels;
     using System.Threading;
@@ -171,6 +172,17 @@
                     await
                         this.DatabaseContext.Bucket.FirstOrDefaultAsync<AccountEntity>(
                             a => a.AccountName == info.AccountName);
+            }
+
+            if (account == null)
+            {
+                // somehow, currently we faced index not work issue. if we cannot get the account information by index.
+                // just query it again without index.
+                var accounts = await this.DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
+                if (accounts != null && accounts.Count() > 0)
+                {
+                    account = accounts.FirstOrDefault();
+                }
             }
 
             if (account == null)
@@ -374,11 +386,11 @@
             if (sourceImage.Width > this.settings.MaxThumbnailWidth ||
                 sourceImage.Height > this.settings.MaxThumbnailHeight)
             {
-                var radio = Math.Min((double) this.settings.MaxThumbnailWidth/sourceImage.Width,
-                    (double) this.settings.MaxThumbnailHeight/sourceImage.Height);
+                var radio = Math.Min((double)this.settings.MaxThumbnailWidth / sourceImage.Width,
+                    (double)this.settings.MaxThumbnailHeight / sourceImage.Height);
 
-                var twidth = (int) (sourceImage.Width*radio);
-                var theigth = (int) (sourceImage.Height*radio);
+                var twidth = (int)(sourceImage.Width * radio);
+                var theigth = (int)(sourceImage.Height * radio);
                 var thumbnail = sourceImage.GetThumbnailImage(twidth, theigth, null, IntPtr.Zero);
 
                 thumbnail.Save(stream, sourceImage.RawFormat);
@@ -398,11 +410,11 @@
 
             if (request.Properties.ContainsKey("MS_HttpContext"))
             {
-                return ((HttpContextWrapper) request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
             }
             if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
             {
-                var prop = (RemoteEndpointMessageProperty) request.Properties[RemoteEndpointMessageProperty.Name];
+                var prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
                 return prop.Address;
             }
             if (HttpContext.Current != null)

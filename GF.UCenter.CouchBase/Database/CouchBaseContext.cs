@@ -23,7 +23,7 @@
             this.settings = settings;
 
             var servers = this.settings
-                .ServerUris
+                .CouchBaseServerUris
                 .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => new Uri(s))
                 .ToList();

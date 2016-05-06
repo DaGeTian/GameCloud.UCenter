@@ -21,8 +21,9 @@
 
         public UCenterE2ETestBase()
         {
-            this.host = "http://localhost:8888/";
-            this.cClient = new UCenterClient(host);
+            this.host = "http://localhost:8888";
+            var settings = ExportProvider.GetExportedValue<Settings>();
+            this.cClient = new UCenterClient($"http://{settings.ServerHost}:{settings.ServerPort}");
             this.sClient = new SDK.AppServer.UCenterClient(host);
         }
 

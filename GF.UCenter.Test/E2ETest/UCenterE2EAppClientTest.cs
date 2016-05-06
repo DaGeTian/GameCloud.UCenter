@@ -67,14 +67,14 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
-            {
-                await cClient.AccountLoginAsync(new AccountLoginInfo
-                {
-                    AccountName = registerResponse.AccountName,
-                    Password = InValidAccountPassword
-                });
-            });
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
+             {
+                 await cClient.AccountLoginAsync(new AccountLoginInfo
+                 {
+                     AccountName = registerResponse.AccountName,
+                     Password = InValidAccountPassword
+                 });
+             });
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@
 
             await cClient.AccountRegisterAsync(info);
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
                 async () => { await cClient.AccountRegisterAsync(info); });
         }
 
@@ -154,7 +154,7 @@
                 Password = ValidAccountPassword
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                 async () => { await cClient.AccountLoginAsync(loginInfo); });
         }
 

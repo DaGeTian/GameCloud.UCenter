@@ -18,7 +18,7 @@
         [ImportingConstructor]
         public StorageAccountContext(Settings settings)
         {
-            var account = CloudStorageAccount.Parse(settings.UCStorageConnectionString);
+            var account = CloudStorageAccount.Parse(settings.PrimaryStorageConnectionString);
             var client = account.CreateCloudBlobClient();
             this.container = client.GetContainerReference(settings.ImageContainerName);
             this.container.CreateIfNotExistsAsync();
