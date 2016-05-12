@@ -54,7 +54,7 @@
             }
         }
 
-        public static async void ExpectUCenterErrorAsync(UCenterErrorCode expectedErrorCode, Func<Task> func)
+        public static async Task ExpectUCenterErrorAsync(UCenterErrorCode expectedErrorCode, Func<Task> func)
         {
             try
             {
