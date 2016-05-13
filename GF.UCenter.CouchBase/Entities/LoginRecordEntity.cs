@@ -18,6 +18,8 @@
 
         public UCenterErrorCode Code { get; set; }
 
+        public string LoginArea { get; set; }
+
         public string Comments { get; set; }
     }
 }

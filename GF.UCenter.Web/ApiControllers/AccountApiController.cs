@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
@@ -13,6 +14,7 @@
     using System.Web;
     using System.Web.Http;
     using Common;
+    using Common.IP;
     using Common.Portable;
     using Common.Settings;
     using Comomn;
@@ -335,6 +337,21 @@
 
         private async Task RecordLogin(AccountEntity account, UCenterErrorCode code, string comments = null)
         {
+            var clientIp = this.GetClientIp(Request);
+            var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
+            string area;
+            if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
+            {
+                area = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}-{1}", ipInfoResponse.Info.Country,
+                    ipInfoResponse.Info.City ?? ipInfoResponse.Info.County);
+            }
+            else
+            {
+                area = string.Empty;
+            }
+
             var record = new LoginRecordEntity
             {
                 AccountName = account.AccountName,
@@ -342,7 +359,8 @@
                 Code = code,
                 LoginTime = DateTime.UtcNow,
                 UserAgent = Request.Headers.UserAgent.ToString(),
-                ClientIp = this.GetClientIp(Request),
+                ClientIp = clientIp,
+                LoginArea = area,
                 Comments = comments
             };
 

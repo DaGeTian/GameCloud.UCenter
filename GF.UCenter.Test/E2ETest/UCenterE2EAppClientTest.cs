@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using Common.Portable;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -146,6 +147,8 @@
                 SuperPassword = ValidAccountPassword
             };
 
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            
             var resetPasswordResponse = await cClient.AccountResetPasswordAsync(resetInfo);
 
             var loginInfo = new AccountLoginInfo
