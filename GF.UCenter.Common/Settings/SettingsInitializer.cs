@@ -11,7 +11,7 @@
             params ISettingsValueProvider[] providers)
         {
             var settings = exportProvider.GetExportedValue<TSettings>();
-            var properties = typeof (TSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            var properties = typeof(TSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public);
             foreach (var provider in providers)
             {
                 provider.SettingValues.AsParallel()

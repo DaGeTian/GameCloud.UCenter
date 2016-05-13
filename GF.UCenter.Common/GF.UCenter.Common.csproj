@@ -47,6 +47,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,6 +70,8 @@
     <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\RSACryptoServiceProviderExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="IP\IPHelper.cs" />
+    <Compile Include="IP\IPInfoResponse.cs" />
     <Compile Include="Models\AppClient\AccountRegisterRequestInfo.cs" />
     <Compile Include="Dumper\ObjectDumper.cs" />
     <Compile Include="Models\PingPlusPlus\Charge.cs" />

@@ -14,7 +14,7 @@
             try
             {
                 action();
-                Assert.Fail($"Expect {typeof (TExpection)} exception, but no expection happened");
+                Assert.Fail($"Expect {typeof(TExpection)} exception, but no expection happened");
             }
             catch (TExpection)
             {
@@ -27,7 +27,7 @@
             try
             {
                 action();
-                Assert.Fail($"Expected {typeof (UCenterException)} Exception, but no expection happened");
+                Assert.Fail($"Expected {typeof(UCenterException)} Exception, but no expection happened");
             }
             catch (UCenterException ex)
             {
@@ -54,7 +54,7 @@
             }
         }
 
-        public static async void ExpectUCenterErrorAsync(UCenterErrorCode expectedErrorCode, Func<Task> func)
+        public static async Task ExpectUCenterErrorAsync(UCenterErrorCode expectedErrorCode, Func<Task> func)
         {
             try
             {

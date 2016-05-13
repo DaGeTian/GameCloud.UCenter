@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using Common.Portable;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,14 +68,14 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
-            {
-                await cClient.AccountLoginAsync(new AccountLoginInfo
-                {
-                    AccountName = registerResponse.AccountName,
-                    Password = InValidAccountPassword
-                });
-            });
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
+             {
+                 await cClient.AccountLoginAsync(new AccountLoginInfo
+                 {
+                     AccountName = registerResponse.AccountName,
+                     Password = InValidAccountPassword
+                 });
+             });
         }
 
         [TestMethod]
@@ -94,7 +95,7 @@
 
             await cClient.AccountRegisterAsync(info);
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
                 async () => { await cClient.AccountRegisterAsync(info); });
         }
 
@@ -141,11 +142,13 @@
 
             var resetInfo = new AccountResetPasswordInfo
             {
-                AccountId = registerResponse.AccountId,
+                AccountName = registerResponse.AccountName,
                 Password = "123456",
                 SuperPassword = ValidAccountPassword
             };
 
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            
             var resetPasswordResponse = await cClient.AccountResetPasswordAsync(resetInfo);
 
             var loginInfo = new AccountLoginInfo
@@ -154,7 +157,7 @@
                 Password = ValidAccountPassword
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                 async () => { await cClient.AccountLoginAsync(loginInfo); });
         }
 

@@ -10,7 +10,7 @@
         public string BucketName { get; set; }
 
         [DefaultValue("http://127.0.0.1:8091")]
-        public string ServerUris { get; set; }
+        public string CouchBaseServerUris { get; set; }
 
         [DefaultValue(1000)]
         public uint DefaultOperationLifespan { get; set; }
@@ -36,7 +36,8 @@
         [DefaultValue(12000)]
         public int PoolSendTimeout { get; set; }
 
-        public string UCStorageConnectionString { get; set; }
+        [DefaultValue("UseDevelopmentStorage=true")]
+        public string PrimaryStorageConnectionString { get; set; }
 
         public string SecondaryStorageConnectionString { get; set; }
 

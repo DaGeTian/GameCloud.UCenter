@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
+    using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Net.Http;
     using System.ServiceModel.Channels;
     using System.Threading;
@@ -12,6 +14,7 @@
     using System.Web;
     using System.Web.Http;
     using Common;
+    using Common.IP;
     using Common.Portable;
     using Common.Settings;
     using Comomn;
@@ -175,6 +178,17 @@
 
             if (account == null)
             {
+                // somehow, currently we faced index not work issue. if we cannot get the account information by index.
+                // just query it again without index.
+                var accounts = await this.DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
+                if (accounts != null && accounts.Count() > 0)
+                {
+                    account = accounts.FirstOrDefault();
+                }
+            }
+
+            if (account == null)
+            {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
@@ -260,10 +274,15 @@
         [Route("resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info)
         {
-            Logger.Info($"Account.ResetPassword AccountName={info.AccountId}");
+            Logger.Info($"Account.ResetPassword AccountName={info.AccountName}");
 
-            var account = await GetAndVerifyAccount(info.AccountId);
+            var accounts = await DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
+            if (accounts == null || accounts.Count() != 1)
+            {
+                throw new UCenterException(UCenterErrorCode.AccountNotExist);
+            }
 
+            var account = accounts.First();
             if (!EncryptHashManager.VerifyHash(info.SuperPassword, account.SuperPassword))
             {
                 await
@@ -318,6 +337,21 @@
 
         private async Task RecordLogin(AccountEntity account, UCenterErrorCode code, string comments = null)
         {
+            var clientIp = IPHelper.GetClientIpAddress(Request);
+            var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
+            string area;
+            if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
+            {
+                area = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}-{1}", ipInfoResponse.Info.Country,
+                    ipInfoResponse.Info.City ?? ipInfoResponse.Info.County);
+            }
+            else
+            {
+                area = string.Empty;
+            }
+
             var record = new LoginRecordEntity
             {
                 AccountName = account.AccountName,
@@ -325,7 +359,8 @@
                 Code = code,
                 LoginTime = DateTime.UtcNow,
                 UserAgent = Request.Headers.UserAgent.ToString(),
-                ClientIp = this.GetClientIp(Request),
+                ClientIp = clientIp,
+                LoginArea = area,
                 Comments = comments
             };
 
@@ -374,11 +409,11 @@
             if (sourceImage.Width > this.settings.MaxThumbnailWidth ||
                 sourceImage.Height > this.settings.MaxThumbnailHeight)
             {
-                var radio = Math.Min((double) this.settings.MaxThumbnailWidth/sourceImage.Width,
-                    (double) this.settings.MaxThumbnailHeight/sourceImage.Height);
+                var radio = Math.Min((double)this.settings.MaxThumbnailWidth / sourceImage.Width,
+                    (double)this.settings.MaxThumbnailHeight / sourceImage.Height);
 
-                var twidth = (int) (sourceImage.Width*radio);
-                var theigth = (int) (sourceImage.Height*radio);
+                var twidth = (int)(sourceImage.Width * radio);
+                var theigth = (int)(sourceImage.Height * radio);
                 var thumbnail = sourceImage.GetThumbnailImage(twidth, theigth, null, IntPtr.Zero);
 
                 thumbnail.Save(stream, sourceImage.RawFormat);
@@ -392,24 +427,5 @@
             return stream;
         }
 
-        private string GetClientIp(HttpRequestMessage request)
-        {
-            request = request ?? this.Request;
-
-            if (request.Properties.ContainsKey("MS_HttpContext"))
-            {
-                return ((HttpContextWrapper) request.Properties["MS_HttpContext"]).Request.UserHostAddress;
-            }
-            if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
-            {
-                var prop = (RemoteEndpointMessageProperty) request.Properties[RemoteEndpointMessageProperty.Name];
-                return prop.Address;
-            }
-            if (HttpContext.Current != null)
-            {
-                return HttpContext.Current.Request.UserHostAddress;
-            }
-            return null;
-        }
     }
 }

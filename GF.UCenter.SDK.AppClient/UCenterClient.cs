@@ -3,6 +3,7 @@
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Common.Portable;
     using Common.SDK;
@@ -15,7 +16,14 @@
         public UCenterClient(string host)
         {
             this.httpClient = new UCenterHttpClient();
-            this.host = host;
+            if (host.EndsWith("/"))
+            {
+                this.host = host.Substring(0, host.Length - 1);
+            }
+            else
+            {
+                this.host = host;
+            }
         }
 
         public async Task<AccountRegisterResponse> AccountRegisterAsync(AccountRegisterInfo info)
@@ -69,7 +77,7 @@
         public async Task<AccountUploadProfileImageResponse> AccountUploadProfileImagesync(string accountId,
             string imagePath)
         {
-            const int bufferSize = 1024*1024;
+            const int bufferSize = 1024 * 1024;
             using (
                 var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true)
                 )

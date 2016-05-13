@@ -35,7 +35,7 @@
         }
 
         [TestMethod]
-        public void E2E_AppServer_VerifyAccount_AccountNotExist_Test()
+        public async Task E2E_AppServer_VerifyAccount_AccountNotExist_Test()
         {
             var appVerifyAccountInfo = new AppVerifyAccountInfo
             {
@@ -45,7 +45,7 @@
                 AccountToken = ValidAccountPassword
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNotExist,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNotExist,
                 async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
@@ -68,7 +68,7 @@
                 AccountToken = loginResponse.Token
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExit,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExit,
                 async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
@@ -91,7 +91,7 @@
                 AccountToken = ValidAccountPassword
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
                 async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
@@ -114,7 +114,7 @@
                 AccountToken = InValidAccountToken
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedTokenNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedTokenNotMatch,
                 async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
@@ -165,7 +165,7 @@
                 AccountId = loginResponse.AccountId
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
                 async () => { await sClient.AppReadAccountDataAsync(accountData); });
         }
 
@@ -189,8 +189,8 @@
                 Data = data
             };
 
-            TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
-                async () => { await sClient.AppWriteAccountDataAsync(accountData); });
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+               async () => { await sClient.AppWriteAccountDataAsync(accountData); });
         }
 
         [TestMethod]

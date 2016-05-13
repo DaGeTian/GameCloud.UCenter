@@ -6,7 +6,7 @@
     public class AccountResetPasswordInfo
     {
         [DataMember]
-        public string AccountId { get; set; }
+        public string AccountName { get; set; }
 
         [DataMember]
         public string Password { get; set; }
