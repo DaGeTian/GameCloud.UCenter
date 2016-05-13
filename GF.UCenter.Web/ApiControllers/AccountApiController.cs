@@ -337,7 +337,7 @@
 
         private async Task RecordLogin(AccountEntity account, UCenterErrorCode code, string comments = null)
         {
-            var clientIp = this.GetClientIp(Request);
+            var clientIp = IPHelper.GetClientIpAddress(Request);
             var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
             string area;
             if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
@@ -427,24 +427,5 @@
             return stream;
         }
 
-        private string GetClientIp(HttpRequestMessage request)
-        {
-            request = request ?? this.Request;
-
-            if (request.Properties.ContainsKey("MS_HttpContext"))
-            {
-                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
-            }
-            if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
-            {
-                var prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
-                return prop.Address;
-            }
-            if (HttpContext.Current != null)
-            {
-                return HttpContext.Current.Request.UserHostAddress;
-            }
-            return null;
-        }
     }
 }

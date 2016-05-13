@@ -10,6 +10,7 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
     using Common;
+    using Common.IP;
     using Common.Portable;
     using CouchBase;
     using NLog;
@@ -20,7 +21,7 @@
 
         public override async Task OnActionExecutingAsync(HttpActionContext context, CancellationToken token)
         {
-            this.LogIncomingRequest(context);
+            this.LogInboundRequest(context);
 
             if (!context.ModelState.IsValid)
             {
@@ -64,21 +65,21 @@
             base.OnActionExecuted(context);
         }
 
-        private void LogIncomingRequest(HttpActionContext context)
+        private void LogInboundRequest(HttpActionContext context)
         {
             try
             {
+                string clientIpAddress = IPHelper.GetClientIpAddress(context.Request);
                 string request = context.Request.ToString();
-
                 string arguments = context.ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
                     .JoinToString(",");
 
-                string message = $"Incoming Request\n\t{request}\n\n\t Arguments:{arguments}";
+                string message = $"Inbound Request IP:{clientIpAddress}\n\tRequest: {request}\n\n\t Arguments:{arguments}";
                 logger.Info(message);
             }
             catch (Exception ex)
             {
-                logger.Error(ex, $"Log Incoming Request Error: \n\t{context.Request}");
+                logger.Error(ex, $"Log Inbound Request Error: \n\t{context.Request}");
             }
         }
 
@@ -88,7 +89,7 @@
             var content = new UCenterResponse<UCenterError>
             {
                 Status = UCenterResponseStatus.Error,
-                Error = new UCenterError {ErrorCode = errorCode, Message = errorMessage}
+                Error = new UCenterError { ErrorCode = errorCode, Message = errorMessage }
             };
 
             response.Content = new ObjectContent<UCenterResponse<UCenterError>>(content, new JsonMediaTypeFormatter());

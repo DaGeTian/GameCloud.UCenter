@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace GF.UCenter.Common.IP
+﻿namespace GF.UCenter.Common.IP
 {
+    using System;
+    using System.Globalization;
+    using System.Net.Http;
+    using System.ServiceModel.Channels;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web;
+    using Newtonsoft.Json;
+
     public static class IPHelper
     {
         private const string HostUrl = "http://ip.taobao.com/service/getIpInfo.php";
+
         public static async Task<IPInfoResponse> GetIPInfoAsync(string ipAddress, CancellationToken token)
         {
             try
@@ -32,8 +31,26 @@ namespace GF.UCenter.Common.IP
             }
             catch (Exception)
             {
-                return new IPInfoResponse() { Code = IPInfoResponseCode.Failed };
+                return new IPInfoResponse { Code = IPInfoResponseCode.Failed };
             }
+        }
+
+        public static string GetClientIpAddress(HttpRequestMessage request)
+        {
+            if (request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+            }
+            if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
+            {
+                var prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
+                return prop.Address;
+            }
+            if (HttpContext.Current != null)
+            {
+                return HttpContext.Current.Request.UserHostAddress;
+            }
+            return null;
         }
     }
 }
