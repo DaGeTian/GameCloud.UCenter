@@ -141,7 +141,7 @@
 
             var resetInfo = new AccountResetPasswordInfo
             {
-                AccountId = registerResponse.AccountId,
+                AccountName = registerResponse.AccountName,
                 Password = "123456",
                 SuperPassword = ValidAccountPassword
             };

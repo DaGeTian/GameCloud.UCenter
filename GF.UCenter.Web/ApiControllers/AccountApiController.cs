@@ -272,10 +272,15 @@
         [Route("resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info)
         {
-            Logger.Info($"Account.ResetPassword AccountName={info.AccountId}");
+            Logger.Info($"Account.ResetPassword AccountName={info.AccountName}");
 
-            var account = await GetAndVerifyAccount(info.AccountId);
+            var accounts = await DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
+            if (accounts == null || accounts.Count() != 1)
+            {
+                throw new UCenterException(UCenterErrorCode.AccountNotExist);
+            }
 
+            var account = accounts.First();
             if (!EncryptHashManager.VerifyHash(info.SuperPassword, account.SuperPassword))
             {
                 await
