@@ -175,8 +175,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\AppClientApiController.cs" />
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
-    <Compile Include="ApiControllers\AppApiController.cs" />
+    <Compile Include="ApiControllers\AppServerApiController.cs" />
     <Compile Include="ApiControllers\AccountApiController.cs" />
     <Compile Include="ApiControllers\PaymentApiController.cs" />
     <Compile Include="Attributes\ActionExecutionFilterAttribute.cs" />

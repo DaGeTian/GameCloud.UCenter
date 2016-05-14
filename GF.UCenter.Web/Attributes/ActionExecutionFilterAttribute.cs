@@ -74,7 +74,7 @@
                 string arguments = context.ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
                     .JoinToString(",");
 
-                string message = $"Inbound Request IP:{clientIpAddress}\n\tRequest: {request}\n\n\t Arguments:{arguments}";
+                string message = $"Inbound Request IP: {clientIpAddress}\n\tRequest: {request}\n\n\t Arguments: {arguments}";
                 logger.Info(message);
             }
             catch (Exception ex)

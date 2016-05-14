@@ -148,7 +148,7 @@
             };
 
             await Task.Delay(TimeSpan.FromSeconds(1));
-            
+
             var resetPasswordResponse = await cClient.AccountResetPasswordAsync(resetInfo);
 
             var loginInfo = new AccountLoginInfo
@@ -198,6 +198,15 @@
                 Assert.AreEqual(registerResponse.Sex, uploadProfileResponse.Sex);
                 Assert.IsNotNull(uploadProfileResponse.ProfileImage);
             }
+        }
+
+        [TestMethod]
+        public async Task E2E_AppClient_GetAppConfiguration_Test()
+        {
+            var result = await cClient.GetAppConfigurationAsync(TestAppId);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.AppId, TestAppId);
+            Assert.AreEqual(result.Configuration, TestAppConfiguration);
         }
     }
 }

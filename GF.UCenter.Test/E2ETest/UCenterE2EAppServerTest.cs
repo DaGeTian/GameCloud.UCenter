@@ -225,23 +225,5 @@
             Assert.IsNotNull(result.OrderNo);
             Assert.IsNotNull(result.TransactionNo);
         }
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            // use public async void Initialize() will never triggered
-            this.InitializeAsync().Wait();
-        }
-
-        private async Task InitializeAsync()
-        {
-            var appInfo = new AppInfo
-            {
-                AppId = TestAppId,
-                AppSecret = TestAppSecret
-            };
-
-            await sClient.AppCreateAsync(appInfo);
-        }
     }
 }

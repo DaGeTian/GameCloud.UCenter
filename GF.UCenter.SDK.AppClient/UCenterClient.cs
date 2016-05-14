@@ -1,10 +1,12 @@
 ﻿namespace GF.UCenter.SDK.AppClient
 {
+    using System;
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Common;
+    using Common.IP;
     using Common.Portable;
     using Common.SDK;
 
@@ -96,6 +98,20 @@
                 await
                     httpClient.SendAsyncWithException<HttpContent, AccountUploadProfileImageResponse>(HttpMethod.Post,
                         url, content);
+        }
+
+        public async Task<IPInfoResponse> GetClientIpInfoAsync()
+        {
+            var url = GenerateApiEndpoint("appclient", "ip");
+            var response = await httpClient.SendAsyncWithException<string, IPInfoResponse>(HttpMethod.Post, url, null);
+            return response;
+        }
+
+        public async Task<AppConfigurationResponse> GetAppConfigurationAsync(string appId)
+        {
+            var url = GenerateApiEndpoint("appclient", $"conf?appId={appId}");
+            var response = await httpClient.SendAsyncWithException<string, AppConfigurationResponse>(HttpMethod.Post, url, null);
+            return response;
         }
 
         private string GenerateApiEndpoint(string controller, string route, string queryString = null)

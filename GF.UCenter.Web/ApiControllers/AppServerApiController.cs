@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.Composition;
+    using System.ServiceModel.Security;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common;
@@ -14,14 +15,14 @@
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [RoutePrefix("api/app")]
-    public class AppApiController : ApiControllerBase
+    public class AppServerApiController : ApiControllerBase
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="ImportingConstructor" /> class.
         /// </summary>
         /// <param name="db">The couch base context.</param>
         [ImportingConstructor]
-        public AppApiController(CouchBaseContext db)
+        public AppServerApiController(CouchBaseContext db)
             : base(db)
         {
         }
@@ -39,7 +40,8 @@
                 var appEntity = new AppEntity
                 {
                     Id = info.AppId,
-                    AppSecret = info.AppSecret
+                    AppSecret = info.AppSecret,
+                    Configuration = info.Configuration
                 };
 
                 await this.DatabaseContext.Bucket.InsertSlimAsync(appEntity);

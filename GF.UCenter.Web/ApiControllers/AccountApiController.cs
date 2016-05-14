@@ -426,6 +426,5 @@
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
-
     }
 }

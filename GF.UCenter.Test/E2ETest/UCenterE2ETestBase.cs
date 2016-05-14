@@ -1,6 +1,7 @@
 ﻿namespace GF.UCenter.Test
 {
     using System.Threading.Tasks;
+    using Common;
     using Common.Portable;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SDK.AppClient;
@@ -10,6 +11,7 @@
     {
         protected const string TestAppId = "utapp";
         protected const string TestAppSecret = "#pA554&3321#";
+        protected const string TestAppConfiguration = @"{foo:1,bar:2}";
         protected const string InvalidAppSecret = "";
         protected const string ValidAccountPassword = "#pA554&3321#";
         protected const string InValidAccountPassword = "";
@@ -25,6 +27,25 @@
             var settings = ExportProvider.GetExportedValue<Settings>();
             this.cClient = new UCenterClient($"http://{settings.ServerHost}:{settings.ServerPort}");
             this.sClient = new SDK.AppServer.UCenterClient(host);
+        }
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            // use public async void Initialize() will never triggered
+            this.InitializeAsync().Wait();
+        }
+
+        private async Task InitializeAsync()
+        {
+            var appInfo = new AppInfo
+            {
+                AppId = TestAppId,
+                AppSecret = TestAppSecret,
+                Configuration = TestAppConfiguration
+            };
+
+            await sClient.AppCreateAsync(appInfo);
         }
 
         protected async Task<AccountRegisterResponse> CreateTestAccount(AccountRegisterInfo info = null)

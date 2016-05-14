@@ -11,5 +11,8 @@
         [DataMember]
         [DumperTo("<--AppSecret-->")]
         public virtual string AppSecret { get; set; }
+
+        [DataMember]
+        public virtual string Configuration { get; set; }
     }
 }
