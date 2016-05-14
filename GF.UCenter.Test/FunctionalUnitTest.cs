@@ -8,7 +8,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class EncryptHashManagerTest
+    public class FunctionalUnitTest
     {
         [TestMethod]
         public void TestEncryptAndCompare()

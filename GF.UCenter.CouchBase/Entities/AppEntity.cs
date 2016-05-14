@@ -4,5 +4,6 @@
     public class AppEntity : BaseEntity<AppEntity>
     {
         public string AppSecret { get; set; }
+        public string Configuration { get; set; }
     }
 }

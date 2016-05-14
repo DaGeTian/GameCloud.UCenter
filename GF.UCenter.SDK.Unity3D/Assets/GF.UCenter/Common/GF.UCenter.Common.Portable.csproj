@@ -58,6 +58,7 @@
     <Compile Include="Models\AppClient\AccountRequestResponse.cs" />
     <Compile Include="Models\AppClient\AccountResetPasswordResponse.cs" />
     <Compile Include="Models\AppClient\AccountResponse.cs" />
+    <Compile Include="Models\AppClient\AppConfigurationResponse.cs" />
     <Compile Include="Models\AppClient\Sex.cs" />
     <Compile Include="Contracts\UCenterError.cs" />
     <Compile Include="Contracts\UCenterErrorCode.cs" />
