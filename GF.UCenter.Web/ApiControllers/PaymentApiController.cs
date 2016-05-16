@@ -13,7 +13,6 @@
     using Common.Settings;
     using CouchBase;
     using Newtonsoft.Json.Linq;
-    using pingpp;
 
     /// <summary>
     ///     UCenter payment api controller
@@ -37,11 +36,14 @@
         [Route("charge")]
         public IHttpActionResult Charge([FromBody] ChargeInfo info)
         {
-            Logger.Info($"AppServer请求读取Data\nAppId={info.AppId}\nAccountId={info.AccountId}");
+            Logger.Info($"AppServer支付请求\nAppId={info.AppId}\nAccountId={info.AccountId}");
 
             try
             {
-                Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+                // TODO: Replace with live key
+                Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+                // TODO: Fix hard code path
+                Pingpp.Pingpp.SetPrivateKeyPath(@"C:\git\UCenter\src\GF.UCenter.Web\App_Data\rsa_public_key.pem");
 
                 var appId = "app_H4yDu5COi1O4SWvz";
                 var r = new Random();
@@ -51,21 +53,20 @@
                 var channel = "alipay";
                 var currency = "cny";
 
-                var param = new Dictionary<string, object>
+                //交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
+                var chParams = new Dictionary<string, object>
                 {
-                    {"livemode", false},
                     {"order_no", orderNo},
                     {"amount", amount},
-                    {"channel", channel},
-                    {"currency", currency},
-                    {"subject", info.Subject},
-                    {"body", info.Body},
-                    {"description", info.Description},
-                    {"client_ip", info.ClientIp},
+                    {"channel", "wx"},
+                    {"currency", "cny"},
+                    {"subject", "Your Subject"},
+                    {"body", "Your Body"},
+                    {"client_ip", "127.0.0.1"},
                     {"app", new Dictionary<string, string> {{"id", appId}}}
                 };
-
-                var charge = pingpp.Models.Charge.create(param);
+                
+                var charge = Pingpp.Models.Charge.Create(chParams);
 
                 return CreateSuccessResult(charge);
             }

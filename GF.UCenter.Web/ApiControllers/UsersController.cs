@@ -30,7 +30,7 @@ namespace GF.UCenter.Web.ApiControllers
                 page = 1;
             }
             
-            var abc = this.DatabaseContext.Bucket.Query<object>(queryString);
+            //var abc = this.DatabaseContext.Bucket.Query<object>(queryString);
             IEnumerable<AccountEntity> users;
             Expression<Func<AccountEntity, bool>> expression;
             if (!string.IsNullOrEmpty(keyword))

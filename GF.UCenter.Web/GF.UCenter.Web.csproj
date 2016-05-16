@@ -122,7 +122,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="pingpp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\pingpp.1.0.0\lib\pingpp.dll</HintPath>
+      <HintPath>..\packages\pingpp.1.1.0\lib\pingpp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="React.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
@@ -275,6 +275,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\rsa_public_key.pem" />
     <None Include="Properties\PublishProfiles\cragonucenter - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\cragonucenterdev - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ucenter-westus - Web Deploy.pubxml" />
@@ -340,7 +341,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
