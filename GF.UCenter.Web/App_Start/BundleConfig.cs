@@ -34,14 +34,16 @@
 
             bundles.Add(new ScriptBundle("~/bundles/react").Include(
                 "~/Scripts/react/react.js",
-                "~/Scripts/react/react-dom.js"));
+                "~/Scripts/react/react-dom.js",
+                "~/Scripts/react-bootstrap-table.js"));
 
             bundles.Add(new BabelBundle("~/bundles/userList").Include(
-                "~/Scripts/UserList.jsx"));
+                "~/Scripts/User.jsx"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+                "~/Content/site.css",
+                "~/Content/react-bootstrap-table-all.min.css"));
         }
     }
 }

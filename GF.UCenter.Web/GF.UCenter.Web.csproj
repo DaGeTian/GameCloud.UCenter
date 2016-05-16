@@ -253,6 +253,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\react-bootstrap-table-all.min.css" />
+    <Content Include="Content\react-bootstrap-table.css" />
+    <Content Include="Content\react-bootstrap-table.min.css" />
+    <Content Include="Content\toastr.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -282,6 +286,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\react-bootstrap-table.js" />
+    <Content Include="Scripts\react-bootstrap-table.min.js" />
     <Content Include="Scripts\react\react-dom-server.js" />
     <Content Include="Scripts\react\react-dom-server.min.js" />
     <Content Include="Scripts\react\react-dom.js" />
@@ -290,6 +296,7 @@
     <Content Include="Scripts\react\react-with-addons.min.js" />
     <Content Include="Scripts\react\react.js" />
     <Content Include="Scripts\react\react.min.js" />
+    <Content Include="Scripts\User.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -310,6 +317,8 @@
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <Content Include="Views\Home\UserList.cshtml" />
     <Content Include="Scripts\UserList.jsx" />
+    <Content Include="Scripts\react-bootstrap-table.js.map" />
+    <Content Include="Scripts\User.jsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
