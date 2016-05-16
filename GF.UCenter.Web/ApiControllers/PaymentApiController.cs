@@ -43,7 +43,7 @@
                 // TODO: Replace with live key
                 Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
                 // TODO: Fix hard code path
-                Pingpp.Pingpp.SetPrivateKeyPath(@"C:\git\UCenter\src\GF.UCenter.Web\App_Data\rsa_public_key.pem");
+                Pingpp.Pingpp.SetPrivateKeyPath(@"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_private_key.pem");
 
                 var appId = "app_H4yDu5COi1O4SWvz";
                 var r = new Random();
@@ -56,16 +56,16 @@
                 //交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
                 var chParams = new Dictionary<string, object>
                 {
-                    {"order_no", orderNo},
+                    {"order_no", new Random().Next(1, 999999999)},
                     {"amount", amount},
                     {"channel", "wx"},
                     {"currency", "cny"},
-                    {"subject", "Your Subject"},
-                    {"body", "Your Body"},
+                    {"subject", info.Subject},
+                    {"body", info.Body},
                     {"client_ip", "127.0.0.1"},
                     {"app", new Dictionary<string, string> {{"id", appId}}}
                 };
-                
+
                 var charge = Pingpp.Models.Charge.Create(chParams);
 
                 return CreateSuccessResult(charge);
