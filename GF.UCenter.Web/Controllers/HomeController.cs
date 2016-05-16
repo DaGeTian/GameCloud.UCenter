@@ -1,10 +1,19 @@
 ﻿namespace GF.UCenter.Web.Controllers
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
+    using CouchBase;
+    using Models;
+    using NLog;
 
     /// <summary>
-    ///     Home page controller
+    /// Home page controller
     /// </summary>
     [Export]
     public class HomeController : Controller
@@ -14,6 +23,26 @@
         /// </summary>
         /// <returns>The index page view</returns>
         public ActionResult Index()
+        {
+            return this.View();
+        }
+
+        public ActionResult UserList()
+        {
+            return this.View();
+        }
+
+        public ActionResult SingleUser()
+        {
+            return this.View();
+        }
+
+        public ActionResult OrderList()
+        {
+            return this.View();
+        }
+
+        public ActionResult SingleOrder()
         {
             return this.View();
         }
