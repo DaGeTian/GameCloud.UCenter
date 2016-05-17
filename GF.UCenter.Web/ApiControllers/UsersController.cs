@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace GF.UCenter.Web.ApiControllers
     public class UsersController : ApiControllerBase
     {
         private readonly Settings settings;
+
         [ImportingConstructor]
         public UsersController(CouchBaseContext db, Settings settings) : base(db)
         {
@@ -29,8 +31,7 @@ namespace GF.UCenter.Web.ApiControllers
             {
                 page = 1;
             }
-            
-            //var abc = this.DatabaseContext.Bucket.Query<object>(queryString);
+
             IEnumerable<AccountEntity> users;
             Expression<Func<AccountEntity, bool>> expression;
             if (!string.IsNullOrEmpty(keyword))
