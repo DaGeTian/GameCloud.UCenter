@@ -25,6 +25,7 @@
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             configuration.Filters.Add(new ActionExecutionFilterAttribute());
             RegisterMefDepencency(configuration, exportProvider);
+            ControllerBuilder.Current.SetControllerFactory(new MefControllerFactory(exportProvider));
             InitializeSettings(exportProvider);
         }
 

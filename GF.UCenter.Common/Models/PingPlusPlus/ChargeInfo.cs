@@ -15,7 +15,7 @@
         public string AccountId { get; set; }
 
         [DataMember]
-        public double Amount { get; set; }
+        public int Amount { get; set; }
 
         [DataMember]
         public string Subject { get; set; }

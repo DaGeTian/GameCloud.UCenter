@@ -1,7 +1,7 @@
 ﻿namespace GF.UCenter.Web
 {
     using System.Web.Optimization;
-
+    using System.Web.Optimization.React;
     /// <summary>
     ///     Bundle configuration
     /// </summary>
@@ -29,9 +29,22 @@
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                "~/Scripts/moment.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/react").Include(
+                "~/Scripts/react/react.js",
+                "~/Scripts/react/react-dom.js",
+                "~/Scripts/react-bootstrap-table.js",
+                "~/Scripts/react/browser.min.js"));
+
+            bundles.Add(new BabelBundle("~/bundles/table").Include(
+                "~/Scripts/Table.jsx"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+                "~/Content/site.css",
+                "~/Content/react-bootstrap-table-all.min.css"));
         }
     }
 }

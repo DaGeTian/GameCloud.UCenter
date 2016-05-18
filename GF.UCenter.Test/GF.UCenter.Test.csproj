@@ -92,6 +92,10 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.CouchBase\GF.UCenter.CouchBase.csproj">
+      <Project>{d67e912d-32b3-47ff-be31-1d1137040eaa}</Project>
+      <Name>GF.UCenter.CouchBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.SDK.AppClient\GF.UCenter.SDK.AppClient.csproj">
       <Project>{4367dcaa-97af-4710-a12f-8139c48dd9e6}</Project>
       <Name>GF.UCenter.SDK.AppClient</Name>
@@ -110,6 +114,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="TestData\charge.succeeded.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\github.png">

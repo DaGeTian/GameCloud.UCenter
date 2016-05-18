@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reflection;
     using System.Text;
 
     public abstract class QueryTranslator : ExpressionVisitor
@@ -27,15 +29,23 @@
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (node.Method.DeclaringType == typeof (Queryable) && node.Method.Name == "Where")
+            if (node.Method.DeclaringType == typeof(Queryable) && node.Method.Name == "Where")
             {
                 this.Write("SELECT * FROM (");
                 this.Visit(node.Arguments[0]);
                 this.Write(") AS T WHERE ");
-                var lambda = (LambdaExpression) StripQuotes(node.Arguments[1]);
+                var lambda = (LambdaExpression)StripQuotes(node.Arguments[1]);
                 this.Visit(lambda.Body);
                 return node;
             }
+            else if (node.Method.Name == "Contains")
+            {
+                this.Visit(node.Object);
+                this.Write(" like ");
+                this.Visit(SurrandPercent(node.Arguments[0]));
+                return node;
+            }
+
             throw new NotSupportedException(string.Format("The method '{0}' is not supported", node.Method.Name));
         }
 
@@ -102,7 +112,7 @@
                 switch (typeCode)
                 {
                     case TypeCode.Boolean:
-                        this.Write((bool) node.Value ? 1 : 0);
+                        this.Write((bool)node.Value ? 1 : 0);
                         break;
                     case TypeCode.String:
                     case TypeCode.DateTime:
@@ -199,7 +209,7 @@
         {
             string name = $"{prefix}{++this.parameterIndexer}";
             this.Write(name);
-            this.parameters.Add(new QueryParameter {Name = name, Value = value, TypeCode = code});
+            this.parameters.Add(new QueryParameter { Name = name, Value = value, TypeCode = code });
         }
 
         private void Clear()
@@ -213,8 +223,20 @@
         {
             while (node.NodeType == ExpressionType.Quote)
             {
-                node = ((UnaryExpression) node).Operand;
+                node = ((UnaryExpression)node).Operand;
             }
+            return node;
+        }
+
+        private static Expression SurrandPercent(Expression node)
+        {
+            if (node.NodeType == ExpressionType.Constant && node.Type == typeof(string))
+            {
+                var value = string.Format(CultureInfo.InvariantCulture, "%{0}%", (node as ConstantExpression).Value);
+
+                node = Expression.Constant(value);
+            }
+
             return node;
         }
     }

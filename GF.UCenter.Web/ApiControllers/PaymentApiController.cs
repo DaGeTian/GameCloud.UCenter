@@ -13,7 +13,8 @@
     using Common.Settings;
     using CouchBase;
     using Newtonsoft.Json.Linq;
-    using pingpp;
+    using System.Threading.Tasks;
+    using System.Web.Http.Results;
 
     /// <summary>
     ///     UCenter payment api controller
@@ -35,13 +36,25 @@
         }
 
         [Route("charge")]
-        public IHttpActionResult Charge([FromBody] ChargeInfo info)
+        public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info)
         {
-            Logger.Info($"AppServer请求读取Data\nAppId={info.AppId}\nAccountId={info.AccountId}");
+            Logger.Info($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
 
             try
             {
-                Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+                var orderEntity = new OrderEntity
+                {
+                    AppId = info.AppId,
+                    AccountId = info.AccountId,
+                    OrderStatus = OrderStatus.Created
+                };
+
+                await this.DatabaseContext.Bucket.InsertSlimAsync(orderEntity);
+
+                // TODO: Replace with live key
+                Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+                // TODO: Fix hard code path
+                Pingpp.Pingpp.SetPrivateKeyPath(@"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_private_key.pem");
 
                 var appId = "app_H4yDu5COi1O4SWvz";
                 var r = new Random();
@@ -51,40 +64,39 @@
                 var channel = "alipay";
                 var currency = "cny";
 
-                var param = new Dictionary<string, object>
+                //交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
+                var chParams = new Dictionary<string, object>
                 {
-                    {"livemode", false},
-                    {"order_no", orderNo},
+                    {"order_no", new Random().Next(1, 999999999)},
                     {"amount", amount},
-                    {"channel", channel},
-                    {"currency", currency},
+                    {"channel", "wx"},
+                    {"currency", "cny"},
                     {"subject", info.Subject},
                     {"body", info.Body},
-                    {"description", info.Description},
-                    {"client_ip", info.ClientIp},
+                    {"client_ip", "127.0.0.1"},
                     {"app", new Dictionary<string, string> {{"id", appId}}}
                 };
 
-                var charge = pingpp.Models.Charge.create(param);
+                var charge = Pingpp.Models.Charge.Create(chParams);
 
                 return CreateSuccessResult(charge);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "创建Charge失败");
+                Logger.Error(ex, "Failed to create charge");
                 throw new UCenterException(UCenterErrorCode.PaymentCreateChargeFailed, ex.Message);
             }
         }
 
         [HttpPost]
         [Route("webhook")]
-        public IHttpActionResult WebHook()
+        public async Task<IHttpActionResult> PingPlusPlusWebHook()
         {
-            Logger.Info("UCenter接收到ping++回调消息");
+            Logger.Info("AppServer.PingPlusPlusWebHook");
 
             //获取 post 的 event对象
             var inputData = Request.Content.ReadAsStringAsync().Result;
-            Logger.Info("消息内容\n" + inputData);
+            Logger.Info("Received event\n" + inputData);
 
             //获取 header 中的签名
             IEnumerable<string> headerValues;
@@ -95,21 +107,38 @@
             }
 
             //公钥路径（请检查你的公钥 .pem 文件存放路径）
-            var path = @"~/App_Data/rsa_public_key.pem";
+            string path = @"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_public_key.pem";
 
             //验证签名
-            var result = VerifySignedHash(inputData, sig, path);
+            VerifySignedHash(inputData, sig, path);
 
-            var jObject = JObject.Parse(inputData);
-            var type = jObject.SelectToken("type");
+            await ProcessOrderAsync(inputData);
 
-            if (type.ToString() == "charge.succeeded" || type.ToString() == "refund.succeeded")
+            return Ok();
+        }
+
+        public async Task ProcessOrderAsync(string orderData)
+        {
+            var jObject = JObject.Parse(orderData);
+            var eventType = jObject.SelectToken("type");
+            var orderNo = jObject.SelectToken("data.object.order_no");
+
+            var order = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<OrderEntity>(orderNo.ToString(), false);
+            if (order == null)
             {
-                // TODO what you need do
-                //Response.StatusCode = 200;
+                order = new OrderEntity
+                {
+                    Id = orderNo.ToString(),
+                    CreatedTime = DateTime.UtcNow
+                };
             }
+            
+            order.OrderStatus = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
+                ? OrderStatus.Success
+                : OrderStatus.Failed;
+            order.FinishTime = DateTime.UtcNow;
 
-            return CreateSuccessResult("Success received order info");
+            await DatabaseContext.Bucket.UpsertSlimAsync(order);
         }
 
         public static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
