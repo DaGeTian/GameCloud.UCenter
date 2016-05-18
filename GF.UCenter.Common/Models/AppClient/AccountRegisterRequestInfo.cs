@@ -1,4 +1,4 @@
-﻿namespace GF.UCenter.Comomn
+﻿namespace GF.UCenter.Common
 {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
