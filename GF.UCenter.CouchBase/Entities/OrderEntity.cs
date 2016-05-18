@@ -11,10 +11,10 @@ namespace GF.UCenter.CouchBase
 
         public OrderStatus OrderStatus { get; set; }
 
-        public string OrderData { get; set; }
+        public string RawData { get; set; }
 
         public DateTime CreatedTime { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public DateTime CompletedTime { get; set; }
     }
 }

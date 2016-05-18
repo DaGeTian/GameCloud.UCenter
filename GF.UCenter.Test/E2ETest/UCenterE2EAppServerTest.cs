@@ -4,6 +4,8 @@
     using Common;
     using Common.Portable;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
+    using Web;
 
     [TestClass]
     public class UCenterE2EAppServerTest : UCenterE2ETestBase
@@ -194,7 +196,7 @@
         }
 
         [TestMethod]
-        public async Task E2E_AppServer_Create_Charge_Test()
+        public async Task E2E_AppServer_Create_Order_Test()
         {
             var registerResponse = await CreateTestAccount();
 
@@ -224,6 +226,14 @@
             //Assert.AreEqual(result.Description, chargeInfo.Description);
             Assert.IsNotNull(result.OrderNo);
             //Assert.IsNotNull(result.TransactionNo);
+        }
+
+        [TestMethod]
+        public async Task E2E_AppServer_Complete_Order_Test()
+        {
+            var controller = ExportProvider.GetExportedValue<PaymentApiController>();
+            string orderData = File.ReadAllText(@"TestData\charge.succeeded.json");
+            await controller.ProcessOrderAsync(orderData);
         }
     }
 }

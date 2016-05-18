@@ -1,7 +1,6 @@
 ﻿namespace GF.UCenter.Test
 {
     using System;
-    using System.ComponentModel.Composition.Hosting;
     using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
@@ -11,7 +10,6 @@
     using Common.IP;
     using CouchBase;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Web;
 
     [TestClass]
     public class FunctionalUnitTest : UCenterE2ETestBase
@@ -45,16 +43,6 @@
             Assert.AreEqual(command.Command, "accountName like $1  OR  name like $2");
             Assert.AreEqual(2, command.Parameters.Count);
             Assert.AreEqual("%abc%", command.Parameters.First().Value);
-        }
-
-        [TestMethod]
-        public async Task TestProcessOrder()
-        {
-            var settings = ExportProvider.GetExportedValue<Common.Settings.Settings>();
-            CouchBaseContext db = new CouchBaseContext(settings);
-            var controller = new PaymentApiController(db, settings);
-            string orderData = File.ReadAllText(@"TestData\charge.succeeded.json");
-            await controller.ProcessOrderAsync(orderData);
         }
     }
 }

@@ -14,7 +14,6 @@
     using CouchBase;
     using Newtonsoft.Json.Linq;
     using System.Threading.Tasks;
-    using System.Web.Http.Results;
 
     /// <summary>
     ///     UCenter payment api controller
@@ -132,11 +131,12 @@
                     CreatedTime = DateTime.UtcNow
                 };
             }
-            
+
             order.OrderStatus = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
                 ? OrderStatus.Success
                 : OrderStatus.Failed;
-            order.FinishTime = DateTime.UtcNow;
+            order.RawData = orderData;
+            order.CompletedTime = DateTime.UtcNow;
 
             await DatabaseContext.Bucket.UpsertSlimAsync(order);
         }
