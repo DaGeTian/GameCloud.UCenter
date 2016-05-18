@@ -62,10 +62,10 @@
         [DefaultValue("profile_thumbnail_{0}.jpg")]
         public string ProfileThumbnailForBlobNameTemplate { get; set; }
 
-        [DefaultValue(480)]
+        [DefaultValue(128)]
         public int MaxThumbnailWidth { get; set; }
 
-        [DefaultValue(480)]
+        [DefaultValue(128)]
         public int MaxThumbnailHeight { get; set; }
     }
 }
