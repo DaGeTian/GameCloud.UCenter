@@ -54,6 +54,7 @@
         /// <summary>
         ///     创建Charge失败
         /// </summary>
-        PaymentCreateChargeFailed = 4000
+        PaymentCreateChargeFailed = 4000,
+        OrderNotFound = 4001
     }
 }

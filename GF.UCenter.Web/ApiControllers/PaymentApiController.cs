@@ -13,6 +13,8 @@
     using Common.Settings;
     using CouchBase;
     using Newtonsoft.Json.Linq;
+    using System.Threading.Tasks;
+    using System.Web.Http.Results;
 
     /// <summary>
     ///     UCenter payment api controller
@@ -34,12 +36,21 @@
         }
 
         [Route("charge")]
-        public IHttpActionResult Charge([FromBody] ChargeInfo info)
+        public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info)
         {
-            Logger.Info($"AppServer支付请求\nAppId={info.AppId}\nAccountId={info.AccountId}");
+            Logger.Info($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
 
             try
             {
+                var orderEntity = new OrderEntity
+                {
+                    AppId = info.AppId,
+                    AccountId = info.AccountId,
+                    OrderStatus = OrderStatus.Created
+                };
+
+                await this.DatabaseContext.Bucket.InsertSlimAsync(orderEntity);
+
                 // TODO: Replace with live key
                 Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
                 // TODO: Fix hard code path
@@ -72,20 +83,20 @@
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "创建Charge失败");
+                Logger.Error(ex, "Failed to create charge");
                 throw new UCenterException(UCenterErrorCode.PaymentCreateChargeFailed, ex.Message);
             }
         }
 
         [HttpPost]
         [Route("webhook")]
-        public IHttpActionResult WebHook()
+        public async Task<IHttpActionResult> PingPlusPlusWebHook()
         {
-            Logger.Info("UCenter接收到ping++回调消息");
+            Logger.Info("AppServer.PingPlusPlusWebHook");
 
             //获取 post 的 event对象
             var inputData = Request.Content.ReadAsStringAsync().Result;
-            Logger.Info("消息内容\n" + inputData);
+            Logger.Info("Received event\n" + inputData);
 
             //获取 header 中的签名
             IEnumerable<string> headerValues;
@@ -99,18 +110,32 @@
             var path = @"~/App_Data/rsa_public_key.pem";
 
             //验证签名
-            var result = VerifySignedHash(inputData, sig, path);
+            VerifySignedHash(inputData, sig, path);
 
             var jObject = JObject.Parse(inputData);
             var type = jObject.SelectToken("type");
 
-            if (type.ToString() == "charge.succeeded" || type.ToString() == "refund.succeeded")
+            // TODO: just place holder, change to use live data when get key
+            string orderNo = new Random().Next(1, 999999999).ToString();
+
+            var order = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<OrderEntity>(orderNo, false);
+            if (order == null)
             {
-                // TODO what you need do
-                //Response.StatusCode = 200;
+                throw new UCenterException(UCenterErrorCode.OrderNotFound);
             }
 
-            return CreateSuccessResult("Success received order info");
+            order.OrderData = jObject.ToString();
+
+            if (type.ToString() == "charge.succeeded" || type.ToString() == "refund.succeeded")
+            {
+                order.OrderStatus = OrderStatus.Success;
+                return CreateSuccessResult("Order proceeded successfully");
+            }
+            else
+            {
+                order.OrderStatus = OrderStatus.Failed;
+                return BadRequest();
+            }
         }
 
         public static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
