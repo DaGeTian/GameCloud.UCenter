@@ -25,7 +25,7 @@ namespace GF.UCenter.Web.ApiControllers
             this.settings = settings;
         }
 
-        public async Task<UserListModel> Get([FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
+        public async Task<ListModel<AccountEntity>> Get([FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
         {
             if (page < 1)
             {
@@ -51,12 +51,12 @@ namespace GF.UCenter.Web.ApiControllers
             users = users.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add order by support.
-            UserListModel model = new UserListModel()
+            ListModel<AccountEntity> model = new ListModel<AccountEntity>()
             {
                 Count = users.Count(),
                 Total = total,
                 Page = page,
-                Users = users
+                Raws = users
             };
 
             return model;

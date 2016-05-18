@@ -21,11 +21,16 @@ function boolFormatter(cell, row) {
     return cell ? "是" : "否";
 };
 
+function linkFormatter(cell,row)
+{
+    return '<a href="/Home/orderList?accountId=' + cell + '" >订单</a>';
+}
+
 var UserList = React.createClass({
 
     render: function () {
         return (
-          <BootstrapTable data={this.props.data} remote={true} search={true} pagination={true}
+          <BootstrapTable data={this.props.data} striped={true} condensed={true} remote={true} search={true} pagination={true}
                           fetchInfo={{ dataTotalSize: this.props.totalDataSize }}
                           options={{ onSearchChange: this.props.onSearchChange, sizePerPage: this.props.sizePerPage, onPageChange: this.props.onPageChange, sizePerPageList: [5, 10, 20, 50, 100], page: this.props.currentPage, onSizePerPageList: this.props.onSizePerPageList }}>
             <TableHeaderColumn dataField='AccountName' isKey={true}>账号</TableHeaderColumn>
@@ -37,15 +42,16 @@ var UserList = React.createClass({
             <TableHeaderColumn dataField='Email'>邮箱</TableHeaderColumn>
             <TableHeaderColumn dataField='CreatedDateTime'>注册日期</TableHeaderColumn>
             <TableHeaderColumn dataField='LastLoginDateTime'>最后登录日期</TableHeaderColumn>
+            <TableHeaderColumn dataField='Id' dataFormat={linkFormatter}>订单</TableHeaderColumn>
           </BootstrapTable>
         );
-    }
+}
 });
 
 var OrderList = React.createClass({
     render: function () {
         return (
-            <BootstrapTable data={this.props.data} remote={true} search={true} pagination={true}
+            <BootstrapTable data={this.props.data}  condensed={true} striped={true} remote={true} search={true} pagination={true}
                             fetchInfo={{ dataTotalSize: this.props.totalDataSize }}
                             options={{ onSearchChange: this.props.onSearchChange, sizePerPage: this.props.sizePerPage, onPageChange: this.props.onPageChange, sizePerPageList: [5, 10, 20, 50, 100], page: this.props.currentPage, onSizePerPageList: this.props.onSizePerPageList }}>
             <TableHeaderColumn dataField='OrderId' isKey={true}>订单Id</TableHeaderColumn>
@@ -57,7 +63,7 @@ var OrderList = React.createClass({
             <TableHeaderColumn dataField='FinishTime'>结束时间</TableHeaderColumn>
             </BootstrapTable>
         );
-    }
+}
 });
 
 var TableMixin = {
@@ -73,7 +79,6 @@ var TableMixin = {
             dataType: 'json',
             cache: false,
             success: function (data) {
-                console.log(data);
                 this.setState({
                     keyword: keyword,
                     orderby: orderby,
@@ -117,7 +122,7 @@ var UserListBox = React.createClass({
                       currentPage={this.state.currentPage}
                       onSizePerPageList={this.onSizePerPageList}></UserList>
         );
-    }
+}
 });
 
 var OrderListBox = React.createClass({
@@ -134,13 +139,3 @@ var OrderListBox = React.createClass({
         );
     }
 });
-
-ReactDOM.render(
-          <UserListBox url="/api/users" />,
-          document.getElementById('userList')
-);
-
-ReactDOM.render(
-    <OrderListBox url="/api/orders" />,
-    document.getElementById("orderList")
-);

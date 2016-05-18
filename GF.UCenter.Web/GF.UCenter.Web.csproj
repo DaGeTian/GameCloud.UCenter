@@ -230,6 +230,7 @@
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
     <Compile Include="ApiControllers\AppServerApiController.cs" />
     <Compile Include="ApiControllers\AccountApiController.cs" />
+    <Compile Include="ApiControllers\OrdersController.cs" />
     <Compile Include="ApiControllers\PaymentApiController.cs" />
     <Compile Include="ApiControllers\UsersController.cs" />
     <Compile Include="App_Start\ReactConfig.cs" />
@@ -245,7 +246,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Common\MefDependencyResolver.cs" />
-    <Compile Include="Models\UserListModel.cs" />
+    <Compile Include="Models\OrderListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -297,7 +298,6 @@
     <Content Include="Scripts\react\react-with-addons.min.js" />
     <Content Include="Scripts\react\react.js" />
     <Content Include="Scripts\react\react.min.js" />
-    <Content Include="Scripts\User.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -317,9 +317,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <Content Include="Views\Home\UserList.cshtml" />
-    <Content Include="Scripts\UserList.jsx" />
     <Content Include="Scripts\react-bootstrap-table.js.map" />
     <Content Include="Scripts\User.jsx" />
+    <Content Include="Views\Home\OrderList.cshtml" />
+    <Content Include="Scripts\Table.jsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
@@ -341,6 +342,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Orders\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

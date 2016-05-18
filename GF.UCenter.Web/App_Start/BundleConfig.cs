@@ -35,10 +35,11 @@
             bundles.Add(new ScriptBundle("~/bundles/react").Include(
                 "~/Scripts/react/react.js",
                 "~/Scripts/react/react-dom.js",
-                "~/Scripts/react-bootstrap-table.js"));
+                "~/Scripts/react-bootstrap-table.js",
+                "~/Scripts/react/browser.min.js"));
 
-            bundles.Add(new BabelBundle("~/bundles/userList").Include(
-                "~/Scripts/User.jsx"));
+            bundles.Add(new BabelBundle("~/bundles/table").Include(
+                "~/Scripts/Table.jsx"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",

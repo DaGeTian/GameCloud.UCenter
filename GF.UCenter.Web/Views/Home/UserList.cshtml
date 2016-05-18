@@ -1,9 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "UserList";
+    ViewBag.Title = "用户列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div>
+    <h1>用户列表</h1>
     <div id="userList"></div>
 </div>
-@Scripts.Render("~/bundles/userList")
+@Scripts.Render("~/bundles/table")
+<script type="text/babel">
+    ReactDOM.render(
+        <UserListBox url="/api/users" />,
+        document.getElementById('userList')
+    );
+</script>
