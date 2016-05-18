@@ -107,35 +107,38 @@
             }
 
             //公钥路径（请检查你的公钥 .pem 文件存放路径）
-            var path = @"~/App_Data/rsa_public_key.pem";
+            string path = @"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_public_key.pem";
 
             //验证签名
             VerifySignedHash(inputData, sig, path);
 
-            var jObject = JObject.Parse(inputData);
-            var type = jObject.SelectToken("type");
+            await ProcessOrderAsync(inputData);
 
-            // TODO: just place holder, change to use live data when get key
-            string orderNo = new Random().Next(1, 999999999).ToString();
+            return Ok();
+        }
 
-            var order = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<OrderEntity>(orderNo, false);
+        public async Task ProcessOrderAsync(string orderData)
+        {
+            var jObject = JObject.Parse(orderData);
+            var eventType = jObject.SelectToken("type");
+            var orderNo = jObject.SelectToken("data.object.order_no");
+
+            var order = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<OrderEntity>(orderNo.ToString(), false);
             if (order == null)
             {
-                throw new UCenterException(UCenterErrorCode.OrderNotFound);
+                order = new OrderEntity
+                {
+                    Id = orderNo.ToString(),
+                    CreatedTime = DateTime.UtcNow
+                };
             }
+            
+            order.OrderStatus = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
+                ? OrderStatus.Success
+                : OrderStatus.Failed;
+            order.FinishTime = DateTime.UtcNow;
 
-            order.OrderData = jObject.ToString();
-
-            if (type.ToString() == "charge.succeeded" || type.ToString() == "refund.succeeded")
-            {
-                order.OrderStatus = OrderStatus.Success;
-                return CreateSuccessResult("Order proceeded successfully");
-            }
-            else
-            {
-                order.OrderStatus = OrderStatus.Failed;
-                return BadRequest();
-            }
+            await DatabaseContext.Bucket.UpsertSlimAsync(order);
         }
 
         public static string VerifySignedHash(string str_DataToVerify, string str_SignedData,

@@ -1,17 +1,23 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "订单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
-    <h1>订单列表</h1>
+    @if (ViewBag.AccountName != null)
+    {
+        <h1>订单列表 - @ViewBag.AccountName</h1>
+    }
+    else
+    {
+        <h1>订单列表</h1>
+    }
     <div id="orderList"></div>
 </div>
 @Scripts.Render("~/bundles/table")
 <script type="text/babel">
     ReactDOM.render(
-        <OrderListBox url="/api/orders" />,
-        document.getElementById("orderList")
+    <OrderListBox url="/api/orders?accountId=@ViewBag.AccountId" />,
+    document.getElementById("orderList")
     );
 </script>

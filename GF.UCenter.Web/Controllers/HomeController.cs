@@ -16,8 +16,17 @@
     /// Home page controller
     /// </summary>
     [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : Controller
     {
+        private readonly CouchBaseContext db;
+
+        [ImportingConstructor]
+        public HomeController(CouchBaseContext db)
+        {
+            this.db = db;
+        }
+
         /// <summary>
         ///     Get the index page
         /// </summary>
@@ -37,8 +46,15 @@
             return this.View();
         }
 
-        public ActionResult OrderList()
+        public async Task<ActionResult> OrderList(string accountId = null)
         {
+            if (!string.IsNullOrEmpty(accountId))
+            {
+                var account = await db.Bucket.GetByEntityIdSlimAsync<AccountEntity>(accountId, false);
+                ViewBag.AccountId = account.Id;
+                ViewBag.AccountName = account.AccountName;
+            }
+
             return this.View();
         }
 
