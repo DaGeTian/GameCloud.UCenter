@@ -50,7 +50,7 @@
         {
             if (!string.IsNullOrEmpty(accountId))
             {
-                var account = await db.Bucket.GetByEntityIdSlimAsync<AccountEntity>(accountId, false);
+                var account = await db.Bucket.FirstOrDefaultAsync<AccountEntity>(a => a.Id == accountId, false);
                 ViewBag.AccountId = account.Id;
                 ViewBag.AccountName = account.AccountName;
             }

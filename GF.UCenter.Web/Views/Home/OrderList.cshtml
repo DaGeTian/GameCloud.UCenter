@@ -16,8 +16,11 @@
 </div>
 @Scripts.Render("~/bundles/table")
 <script type="text/babel">
+    var acc =  "@ViewBag.AccountId";
+    var params = (!!acc)?"?accountId=@ViewBag.AccountId":"";
+
     ReactDOM.render(
-    <OrderListBox url="/api/orders?accountId=@ViewBag.AccountId" />,
+    <OrderListBox url={'/api/orders'+params} />,
     document.getElementById("orderList")
     );
 </script>

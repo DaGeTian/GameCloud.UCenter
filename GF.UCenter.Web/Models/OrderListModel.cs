@@ -35,4 +35,9 @@ namespace GF.UCenter.Web.Models
 
         public DateTime CompletedTime { get; set; }
     }
+
+    public class CountRaw
+    {
+        public int Count { get; set; }
+    }
 }

@@ -52,6 +52,26 @@
             return new List<TEntity>();
         }
 
+        public static async Task<IEnumerable<TEntity>> QuerySlimAsync<TEntity>(this IBucket bucket, string queryString, bool throwIfFailed = true)
+        {
+            var result = await bucket.QueryAsync<TEntity>(queryString);
+
+            if (result.Success)
+            {
+                return result.Rows;
+            }
+
+            if (throwIfFailed)
+            {
+                if (result.Exception != null)
+                {
+                    throw result.Exception;
+                }
+                throw new CouchBaseException(result);
+            }
+            return new List<TEntity>();
+        }
+
         public static async Task<TEntity> InsertSlimAsync<TEntity>(this IBucket bucket, TEntity entity,
             bool throwIfFailed = true) where TEntity : BaseEntity<TEntity>, IBaseEntity
         {
