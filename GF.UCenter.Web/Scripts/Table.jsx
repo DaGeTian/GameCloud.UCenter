@@ -21,8 +21,7 @@ function boolFormatter(cell, row) {
     return cell ? "是" : "否";
 };
 
-function linkFormatter(cell,row)
-{
+function linkFormatter(cell, row) {
     return '<a href="/Home/orderList?accountId=' + cell + '" >订单</a>';
 }
 
@@ -45,25 +44,25 @@ var UserList = React.createClass({
             <TableHeaderColumn dataField='Id' dataFormat={linkFormatter}>订单</TableHeaderColumn>
           </BootstrapTable>
         );
-}
+    }
 });
 
 var OrderList = React.createClass({
     render: function () {
         return (
-            <BootstrapTable data={this.props.data}  condensed={true} striped={true} remote={true} search={true} pagination={true}
+            <BootstrapTable data={this.props.data} condensed={true} striped={true} remote={true} search={true} pagination={true}
                             fetchInfo={{ dataTotalSize: this.props.totalDataSize }}
                             options={{ onSearchChange: this.props.onSearchChange, sizePerPage: this.props.sizePerPage, onPageChange: this.props.onPageChange, sizePerPageList: [5, 10, 20, 50, 100], page: this.props.currentPage, onSizePerPageList: this.props.onSizePerPageList }}>
             <TableHeaderColumn dataField='OrderId' isKey={true}>订单Id</TableHeaderColumn>
             <TableHeaderColumn dataField='AccountName'>账号</TableHeaderColumn>
             <TableHeaderColumn dataField='AppId'>App Id</TableHeaderColumn>
             <TableHeaderColumn dataField='OrderStatus' dataFormat={ enumFormatter} formatExtraData={ orderStatusType }>订单状态</TableHeaderColumn>
-            <TableHeaderColumn dataField='OrderData'>订单数据</TableHeaderColumn>
+            <TableHeaderColumn dataField='RawData'>订单数据</TableHeaderColumn>
             <TableHeaderColumn dataField='CreatedTime'>创建时间</TableHeaderColumn>
-            <TableHeaderColumn dataField='FinishTime'>结束时间</TableHeaderColumn>
+            <TableHeaderColumn dataField='CompletedTime'>结束时间</TableHeaderColumn>
             </BootstrapTable>
         );
-}
+    }
 });
 
 var TableMixin = {
@@ -122,7 +121,7 @@ var UserListBox = React.createClass({
                       currentPage={this.state.currentPage}
                       onSizePerPageList={this.onSizePerPageList}></UserList>
         );
-}
+    }
 });
 
 var OrderListBox = React.createClass({
