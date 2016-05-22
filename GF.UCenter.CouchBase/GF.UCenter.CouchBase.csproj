@@ -76,6 +76,8 @@
     <Compile Include="Expressions\QueryCommand.cs" />
     <Compile Include="Expressions\QueryParameter.cs" />
     <Compile Include="Expressions\QueryTranslator.cs" />
+    <Compile Include="Models\PaginationResponse.cs" />
+    <Compile Include="Models\PaginationQueryExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
