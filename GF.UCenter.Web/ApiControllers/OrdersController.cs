@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using Couchbase.N1QL;
 using GF.UCenter.CouchBase;
+using GF.UCenter.CouchBase.Models;
 using GF.UCenter.Web.Models;
 
 namespace GF.UCenter.Web.ApiControllers
@@ -23,29 +24,28 @@ namespace GF.UCenter.Web.ApiControllers
         {
         }
 
-        public async Task<ListModel<OrderRaw>> Get([FromUri] string accountId = null, [FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
+        public async Task<PaginationResponse<OrderRaw>> Get([FromUri] string accountId = null, [FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
         {
-            // use the following stupid logic because join query always give empty result in couchbase.
-            ListModel<OrderRaw> result;
-            string where = $"type='{OrderEntity.DocumentType}'";
-            if (!string.IsNullOrEmpty(accountId))
-            {
-                where = $"{where} AND accountId='{accountId}'";
-            }
+            var expression = string.IsNullOrEmpty(accountId)
+                ? new PaginationQueryExpression<OrderEntity>(page, count)
+                : new PaginationQueryExpression<OrderEntity>(page, count, o => o.AccountId == accountId);
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                where = $"{where} AND appId LIKE '%{keyword}%' AND orderStatus LIKE '%{keyword}%' AND rawData LIKE '%{keyword}%'";
+                expression.AddLikeItem(e => e.AccountId, keyword);
+                expression.AddLikeItem(e => e.AppId, keyword);
+                expression.AddLikeItem(e => e.RawData, keyword);
             }
 
-            string taken = $"LIMIT {count} OFFSET {(page - 1) * count}";
-            string totalCountQuery = $"SELECT COUNT(1) FROM {this.DatabaseContext.Bucket.Name} WHERE {where};";
-            string rawsQuery = $"SELECT {this.DatabaseContext.Bucket.Name}.* FROM {this.DatabaseContext.Bucket.Name} WHERE {where} {taken};";
+            if (!string.IsNullOrEmpty(orderby))
+            {
+                expression.AddOrderByItem(orderby, OrderByType.ASC);
+            }
 
-            var totalCountRaws = await this.DatabaseContext.Bucket.QuerySlimAsync<CountRaw>(totalCountQuery, true);
-            var total = totalCountRaws.First().Count;
-            var orderRaws = await this.DatabaseContext.Bucket.QuerySlimAsync<OrderEntity>(rawsQuery, true);
-            var accountIds = orderRaws.Where(o => o.AccountId != null).Select(o => o.AccountId).Distinct();
+            var ordersResponse = await this.DatabaseContext.Bucket.PaginationQuerySlimAsync<OrderEntity>(expression);
+
+
+            var accountIds = ordersResponse.Raws.Where(o => o.AccountId != null).Select(o => o.AccountId).Distinct().ToList();
             List<AccountEntity> accounts = new List<AccountEntity>();
 
             // get one by one for did not find how to use 'in condition' in N1QL
@@ -64,34 +64,33 @@ namespace GF.UCenter.Web.ApiControllers
                 }
             }
 
-            result = new ListModel<OrderRaw>();
-            result.Total = total;
-            result.Page = page;
-            result.Count = orderRaws.Count();
-            var raws = new List<OrderRaw>();
-            foreach (var o in orderRaws)
+            var response = new PaginationResponse<OrderRaw>()
             {
-                var raw = new OrderRaw();
-                raw.AccountId = o.AccountId;
-                var account = accounts.FirstOrDefault(a => a.Id == o.AccountId);
-                if (account != null)
+                Page = ordersResponse.Page,
+                PageSize = ordersResponse.PageSize,
+                Total = ordersResponse.Total,
+                Raws = ordersResponse.Raws.Select(o =>
                 {
-                    raw.AccountName = account.AccountName;
-                }
+                    var raw = new OrderRaw();
+                    raw.AccountId = o.AccountId;
+                    var account = accounts.FirstOrDefault(a => a.Id == o.AccountId);
+                    if (account != null)
+                    {
+                        raw.AccountName = account.AccountName;
+                    }
 
-                raw.AppId = o.AppId;
-                raw.CreatedTime = o.CreatedTime;
-                raw.CompletedTime = o.CompletedTime;
-                raw.RawData = o.RawData;
-                raw.OrderStatus = o.OrderStatus;
-                raw.OrderId = o.Id;
+                    raw.AppId = o.AppId;
+                    raw.CreatedTime = o.CreatedTime;
+                    raw.CompletedTime = o.CompletedTime;
+                    raw.RawData = o.RawData;
+                    raw.OrderStatus = o.OrderStatus;
+                    raw.OrderId = o.Id;
 
-                raws.Add(raw);
-            }
+                    return raw;
+                })
+            };
 
-            result.Raws = raws;
-
-            return result;
+            return response;
         }
     }
 }

@@ -247,7 +247,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Common\MefDependencyResolver.cs" />
-    <Compile Include="Models\OrderListModel.cs" />
+    <Compile Include="Models\OrderRaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

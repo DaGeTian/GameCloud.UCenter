@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using GF.UCenter.Common.Settings;
 using GF.UCenter.CouchBase;
+using GF.UCenter.CouchBase.Models;
 using GF.UCenter.Web.Models;
 
 namespace GF.UCenter.Web.ApiControllers
@@ -25,39 +26,23 @@ namespace GF.UCenter.Web.ApiControllers
             this.settings = settings;
         }
 
-        public async Task<ListModel<AccountEntity>> Get([FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
+        public async Task<PaginationResponse<AccountEntity>> Get([FromUri]string keyword = null, [FromUri] string orderby = null, [FromUri] int page = 1, [FromUri] int count = 1000)
         {
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            IEnumerable<AccountEntity> users;
-            Expression<Func<AccountEntity, bool>> expression;
+            var expression = new PaginationQueryExpression<AccountEntity>(page, count);
             if (!string.IsNullOrEmpty(keyword))
             {
-                expression = a => a.AccountName.Contains(keyword) || a.Email.Contains(keyword) || a.PhoneNum.Contains(keyword);
+                expression.AddLikeItem(e => e.AccountName, keyword);
+                expression.AddLikeItem(e => e.Email, keyword);
+                expression.AddLikeItem(e => e.PhoneNum, keyword);
+                expression.AddLikeItem(e => e.IdentityNum, keyword);
             }
-            else
+
+            if (!string.IsNullOrEmpty(orderby))
             {
-                expression = null;
+                expression.AddOrderByItem(orderby, OrderByType.ASC);
             }
 
-            users = await this.DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(
-                    expression,
-                    throwIfFailed: false);
-
-            var total = users.Count();
-            users = users.Skip((page - 1) * count).Take(count).ToList();
-
-            // todo: add order by support.
-            ListModel<AccountEntity> model = new ListModel<AccountEntity>()
-            {
-                Count = users.Count(),
-                Total = total,
-                Page = page,
-                Raws = users
-            };
+            var model = await this.DatabaseContext.Bucket.PaginationQuerySlimAsync<AccountEntity>(expression);
 
             return model;
         }

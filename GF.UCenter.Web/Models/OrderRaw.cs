@@ -6,17 +6,6 @@ using GF.UCenter.CouchBase;
 
 namespace GF.UCenter.Web.Models
 {
-    public class ListModel<TRaw>
-    {
-        public int Total { get; set; }
-
-        public int Page { get; set; }
-
-        public int Count { get; set; }
-
-        public IEnumerable<TRaw> Raws { get; set; }
-    }
-
     public class OrderRaw
     {
         public string AccountId { get; set; }
@@ -34,10 +23,5 @@ namespace GF.UCenter.Web.Models
         public DateTime CreatedTime { get; set; }
 
         public DateTime CompletedTime { get; set; }
-    }
-
-    public class CountRaw
-    {
-        public int Count { get; set; }
     }
 }
