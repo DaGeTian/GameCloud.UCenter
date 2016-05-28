@@ -2,10 +2,9 @@
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
-    using Attributes;
-    using Common.Portable;
+    using Common;
     using CouchBase;
-    using NLog;
+    using UCenter.Common.Portable;
 
     /// <summary>
     ///     API controller base class
@@ -18,11 +17,6 @@
         ///     Couch database context
         /// </summary>
         protected readonly CouchBaseContext DatabaseContext;
-
-        /// <summary>
-        ///     The logger
-        /// </summary>
-        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ApiControllerBase" /> class.
@@ -42,7 +36,7 @@
         /// <returns>Http Action result</returns>
         protected IHttpActionResult CreateSuccessResult<TResult>(TResult result)
         {
-            return this.Ok(new UCenterResponse<TResult> {Status = UCenterResponseStatus.Success, Result = result});
+            return this.Ok(new UCenterResponse<TResult> { Status = UCenterResponseStatus.Success, Result = result });
         }
     }
 }

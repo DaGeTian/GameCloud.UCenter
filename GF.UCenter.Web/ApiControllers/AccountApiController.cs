@@ -7,18 +7,17 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Net.Http;
-    using System.ServiceModel.Channels;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Http;
     using Common;
-    using Common.IP;
-    using Common.Portable;
-    using Common.Settings;
+    using Common.Logger;
     using Couchbase;
     using CouchBase;
+    using UCenter.Common;
+    using UCenter.Common.IP;
+    using UCenter.Common.Portable;
+    using UCenter.Common.Settings;
 
     /// <summary>
     ///     UCenter account api controller
@@ -50,7 +49,7 @@
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info,
             CancellationToken token)
         {
-            this.Logger.Info($"Account.Register AccountName={info.AccountName}");
+            CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
             var removeTempsIfError = new List<AccountResourceEntity>();
             var error = false;
@@ -118,8 +117,7 @@
             }
             catch (Exception ex)
             {
-                this.Logger.Info($"Account.Register Exception：AccoundName={info.AccountName}");
-                this.Logger.Info(ex.ToString());
+                CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
 
                 error = true;
                 if (ex is CouchBaseException)
@@ -149,7 +147,7 @@
         [Route("login")]
         public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info)
         {
-            Logger.Info($"Account.Login AccountName={info.AccountName}");
+            CustomTrace.TraceInformation($"Account.Login AccountName={info.AccountName}");
 
             var accountResourceByName =
                 await
@@ -210,7 +208,7 @@
         [Route("guest")]
         public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info)
         {
-            Logger.Info("Account.GuestLogin");
+            CustomTrace.TraceInformation("Account.GuestLogin");
 
             var r = new Random();
             string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
@@ -243,7 +241,7 @@
         [Route("convert")]
         public async Task<IHttpActionResult> Convert([FromBody] AccountConvertInfo info)
         {
-            Logger.Info($"Account.Convert AccountName={info.AccountName}");
+            CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
 
             var account = await GetAndVerifyAccount(info.AccountId);
 
@@ -273,7 +271,7 @@
         [Route("resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info)
         {
-            Logger.Info($"Account.ResetPassword AccountName={info.AccountName}");
+            CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
 
             var accounts = await DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
             if (accounts == null || accounts.Count() != 1)
@@ -292,16 +290,16 @@
             account.Password = EncryptHashManager.ComputeHash(info.Password);
             await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
             await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.");
-            return CreateSuccessResult(ToResponse<AccountResetPasswordResponse>(account));
+            return this.CreateSuccessResult(ToResponse<AccountResetPasswordResponse>(account));
         }
 
         [HttpPost]
         [Route("upload/{accountId}")]
         public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
         {
-            this.Logger.Info($"Account.UploadProfileImage AccountId={accountId}");
+            CustomTrace.TraceInformation($"Account.UploadProfileImage AccountId={accountId}");
 
-            var account = await GetAndVerifyAccount(accountId);
+            var account = await this.GetAndVerifyAccount(accountId);
 
             using (var stream = await this.Request.Content.ReadAsStreamAsync())
             {
@@ -319,7 +317,7 @@
 
                 await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
                 await this.RecordLogin(account, UCenterErrorCode.Success, "Profile image uploaded successfully.");
-                return CreateSuccessResult(ToResponse<AccountUploadProfileImageResponse>(account));
+                return this.CreateSuccessResult(ToResponse<AccountUploadProfileImageResponse>(account));
             }
         }
 
@@ -327,11 +325,11 @@
         [Route("test")]
         public async Task<IHttpActionResult> Test(AccountLoginInfo info)
         {
-            Logger.Info($"Account.Test");
+            CustomTrace.TraceInformation($"Account.Test");
 
             var accounts = await this.DatabaseContext.Bucket.QueryAsync<AccountEntity>(a => a.AccountName == "Ny7IBHtK");
 
-            return await Task.FromResult(CreateSuccessResult(accounts));
+            return await Task.FromResult(this.CreateSuccessResult(accounts));
         }
 
         private async Task RecordLogin(AccountEntity account, UCenterErrorCode code, string comments = null)

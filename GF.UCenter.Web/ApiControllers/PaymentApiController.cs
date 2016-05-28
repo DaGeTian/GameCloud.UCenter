@@ -7,13 +7,14 @@
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading.Tasks;
     using System.Web.Http;
-    using Common;
-    using Common.Portable;
-    using Common.Settings;
+    using Common.Logger;
     using CouchBase;
     using Newtonsoft.Json.Linq;
-    using System.Threading.Tasks;
+    using UCenter.Common;
+    using UCenter.Common.Portable;
+    using UCenter.Common.Settings;
 
     /// <summary>
     ///     UCenter payment api controller
@@ -37,7 +38,7 @@
         [Route("charge")]
         public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info)
         {
-            Logger.Info($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
+            CustomTrace.TraceInformation($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
 
             try
             {
@@ -45,7 +46,8 @@
                 {
                     AppId = info.AppId,
                     AccountId = info.AccountId,
-                    OrderStatus = OrderStatus.Created
+                    OrderStatus = OrderStatus.Created,
+                    CreatedTime = DateTime.UtcNow
                 };
 
                 await this.DatabaseContext.Bucket.InsertSlimAsync(orderEntity);
@@ -82,7 +84,7 @@
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Failed to create charge");
+                CustomTrace.TraceError(ex, "Failed to create charge");
                 throw new UCenterException(UCenterErrorCode.PaymentCreateChargeFailed, ex.Message);
             }
         }
@@ -91,11 +93,11 @@
         [Route("webhook")]
         public async Task<IHttpActionResult> PingPlusPlusWebHook()
         {
-            Logger.Info("AppServer.PingPlusPlusWebHook");
+            CustomTrace.TraceInformation("AppServer.PingPlusPlusWebHook");
 
             //获取 post 的 event对象
             var inputData = Request.Content.ReadAsStringAsync().Result;
-            Logger.Info("Received event\n" + inputData);
+            CustomTrace.TraceInformation("Received event\n" + inputData);
 
             //获取 header 中的签名
             IEnumerable<string> headerValues;
@@ -164,7 +166,7 @@
             }
             catch (CryptographicException e)
             {
-                Console.WriteLine(e.Message);
+                CustomTrace.TraceError(e);
                 return "verify error";
             }
         }

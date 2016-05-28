@@ -7,7 +7,8 @@
     using System.Web.Http.SelfHost;
     using Common;
     using Web;
-
+    using Web.Common;
+    using Web.Common.Logger;
     [Export]
     public class WebContext : DisposableObjectSlim
     {
@@ -23,13 +24,22 @@
 
             if (UseSelfHost())
             {
-                this.configuration = new HttpSelfHostConfiguration(this.BaseAddress);
-                this.configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-                this.configuration.MapHttpAttributeRoutes();
-                ApplicationManager.InitializeApplication(configuration, exportProvider);
+                try
+                {
+                    this.configuration = new HttpSelfHostConfiguration(this.BaseAddress);
+                    this.configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+                    this.configuration.MapHttpAttributeRoutes();
+                    this.configuration.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+                    WebApplicationManager.InitializeApplication(configuration, exportProvider);
 
-                this.server = new HttpSelfHostServer(configuration);
-                this.server.OpenAsync().Wait();
+                    this.server = new HttpSelfHostServer(configuration);
+                    this.server.OpenAsync().Wait();
+                }
+                catch (Exception ex)
+                {
+                    CustomTrace.TraceError(ex);
+                    throw;
+                }
             }
         }
 

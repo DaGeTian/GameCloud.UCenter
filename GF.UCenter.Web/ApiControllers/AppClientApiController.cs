@@ -1,20 +1,16 @@
 ﻿namespace GF.UCenter.Web
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Drawing;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common;
-    using Common.IP;
-    using Common.Portable;
-    using Common.Settings;
+    using Common.Logger;
     using CouchBase;
+    using UCenter.Common;
+    using UCenter.Common.IP;
+    using UCenter.Common.Portable;
+    using UCenter.Common.Settings;
 
     /// <summary>
     ///     UCenter account api controller
@@ -45,7 +41,7 @@
         [Route("ip")]
         public async Task<IHttpActionResult> GetClientIpArea()
         {
-            Logger.Info("AppClient.GetClientIpArea");
+            CustomTrace.TraceInformation("AppClient.GetClientIpArea");
 
             string ipAddress = IPHelper.GetClientIpAddress(Request);
             var response = await IPHelper.GetIPInfoAsync(ipAddress, CancellationToken.None);
@@ -56,7 +52,7 @@
         [Route("conf")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId)
         {
-            Logger.Info($"AppClient.GetAppConfiguration AppId={appId}");
+            CustomTrace.TraceInformation($"AppClient.GetAppConfiguration AppId={appId}");
 
             var app = await this.DatabaseContext.Bucket.GetByEntityIdSlimAsync<AppEntity>(appId, false);
             if (app == null)

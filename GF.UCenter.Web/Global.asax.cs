@@ -4,8 +4,11 @@
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
     using Common;
-    using Common.Settings;
+    using UCenter.Common;
+    using UCenter.Common.Settings;
 
     /// <summary>
     ///     MVC Application
@@ -21,7 +24,11 @@
             GlobalConfiguration.Configure(WebApiConfig.Register);
             ExportProvider exportProvider = CompositionContainerFactory.Create();
 
-            ApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            WebApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
             SettingsInitializer.Initialize<Settings>(
                 exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,

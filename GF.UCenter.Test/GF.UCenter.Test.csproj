@@ -38,8 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -103,6 +103,10 @@
     <ProjectReference Include="..\GF.UCenter.SDK.AppServer\GF.UCenter.SDK.AppServer.csproj">
       <Project>{004e44f3-934b-47ca-99e5-9cd38aa32ef0}</Project>
       <Name>GF.UCenter.SDK.AppServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
+      <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>
+      <Name>GF.UCenter.Web.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web\GF.UCenter.Web.csproj">
       <Project>{a0cb1d60-827b-4702-8b50-4cb11889d656}</Project>

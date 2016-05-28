@@ -5,6 +5,7 @@
     using Common.Portable;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SDK.AppClient;
+    using Web.Common.Logger;
 
     [TestClass]
     public class UCenterE2ETestBase : UCenterTestBase
@@ -22,6 +23,7 @@
         protected SDK.AppServer.UCenterClient sClient;
 
         public UCenterE2ETestBase()
+            : base()
         {
             this.host = "http://localhost:8888";
             var settings = ExportProvider.GetExportedValue<Settings>();

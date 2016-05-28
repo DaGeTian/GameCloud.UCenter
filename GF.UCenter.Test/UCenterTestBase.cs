@@ -11,7 +11,8 @@
     using Common.Settings;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Web;
-
+    using Web.Common;
+    using Web.Common.Logger;
     [TestClass]
     public class UCenterTestBase
     {
@@ -33,6 +34,7 @@
         public UCenterTestBase()
         {
             this.Tenant = ExportProvider.GetExportedValue<TenantEnvironment>();
+            CustomTrace.Initialize(ExportProvider, "Trace.Console");
         }
 
         protected string GenerateRandomString(int length = 8)

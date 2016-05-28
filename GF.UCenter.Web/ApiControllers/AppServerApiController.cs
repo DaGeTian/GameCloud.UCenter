@@ -2,12 +2,12 @@
 {
     using System;
     using System.ComponentModel.Composition;
-    using System.ServiceModel.Security;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Common;
-    using Common.Portable;
+    using Common.Logger;
     using CouchBase;
+    using UCenter.Common;
+    using UCenter.Common.Portable;
 
     /// <summary>
     ///     UCenter app api controller
@@ -31,7 +31,7 @@
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] AppInfo info)
         {
-            Logger.Info("App.Create AppId={0}", info.AppId);
+            CustomTrace.TraceInformation("App.Create AppId={0}", info.AppId);
 
             var app = await this.DatabaseContext.Bucket.GetByEntityIdSlimAsync<AppEntity>(info.AppId, false);
 
@@ -59,7 +59,7 @@
         [Route("verifyaccount")]
         public async Task<IHttpActionResult> VerifyAccount(AppVerifyAccountInfo info)
         {
-            Logger.Info($"App.VerifyAccount AppId={info.AppId} AccountId={info.AccountId}");
+            CustomTrace.TraceInformation($"App.VerifyAccount AppId={info.AppId} AccountId={info.AccountId}");
 
             await VerifyApp(info.AppId, info.AppSecret);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken);
@@ -78,7 +78,7 @@
         [Route("readdata")]
         public async Task<IHttpActionResult> ReadAppAccountData(AppAccountDataInfo info)
         {
-            Logger.Info($"App.ReadAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
+            CustomTrace.TraceInformation($"App.ReadAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
 
             await VerifyApp(info.AppId, info.AppSecret);
 
@@ -100,7 +100,7 @@
         [Route("writedata")]
         public async Task<IHttpActionResult> WriteAppAccountData(AppAccountDataInfo info)
         {
-            Logger.Info($"App.WriteAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
+            CustomTrace.TraceInformation($"App.WriteAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
 
             await VerifyApp(info.AppId, info.AppSecret);
 
