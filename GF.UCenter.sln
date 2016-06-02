@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.UCenter.Web", "GF.UCenter.Web\GF.UCenter.Web.csproj", "{A0CB1D60-827B-4702-8B50-4CB11889D656}"
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{BEB753AA-E31F-42B5-A3EF-701750AC9CE1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{E81B8884-9274-4C61-9235-3BC507AABCE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.UCenter.MongoDB", "GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj", "{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{AC502C70-A944-462E-8E01-D30CBC9AE92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC502C70-A944-462E-8E01-D30CBC9AE92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC502C70-A944-462E-8E01-D30CBC9AE92B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{004E44F3-934B-47CA-99E5-9CD38AA32EF0} = {5086AF93-45EC-45F3-BF75-CACD851AF57F}
 		{4497DC6E-5B0E-42E4-9C2D-B93B9783D667} = {65E88A7B-1E9B-43F4-A6E0-4169A39B36B0}
 		{ED28724A-0787-4BE4-90FC-DF7F4C3A6145} = {BEB753AA-E31F-42B5-A3EF-701750AC9CE1}
+		{42EAA17F-1352-4E80-88F1-BF4F3AF2645D} = {E81B8884-9274-4C61-9235-3BC507AABCE8}
 	EndGlobalSection
 EndGlobal

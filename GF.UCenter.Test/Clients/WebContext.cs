@@ -29,7 +29,6 @@
                     this.configuration = new HttpSelfHostConfiguration(this.BaseAddress);
                     this.configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
                     this.configuration.MapHttpAttributeRoutes();
-                    this.configuration.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
                     WebApplicationManager.InitializeApplication(configuration, exportProvider);
 
                     this.server = new HttpSelfHostServer(configuration);
