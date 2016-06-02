@@ -1,8 +1,10 @@
 ﻿namespace GF.UCenter.MongoDB.Entity
 {
     using System;
+    using Attributes;
     using Common.Portable;
 
+    [CollectionName("Account")]
     public class Account : EntityBase
     {
         public string AccountName { get; set; }

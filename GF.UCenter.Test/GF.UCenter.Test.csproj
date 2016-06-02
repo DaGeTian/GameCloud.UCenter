@@ -73,10 +73,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\TestExpector.cs" />
-    <Compile Include="MongoDB\AppAccountDataRepositoryTest.cs" />
-    <Compile Include="MongoDB\AppRepositoryTest.cs" />
-    <Compile Include="MongoDB\AccountRepositoryTest.cs" />
-    <Compile Include="MongoDB\RepositoryTestBase.cs" />
+    <Compile Include="MongoDB\AdapterTest.cs" />
     <Compile Include="E2ETest\UCenterE2EAppServerTest.cs" />
     <Compile Include="E2ETest\UCenterE2EAppClientTest.cs" />
     <Compile Include="E2ETest\UCenterE2ETestBase.cs" />

@@ -1,5 +1,8 @@
-﻿namespace GF.UCenter.MongoDB.Entity
+﻿using GF.UCenter.MongoDB.Attributes;
+
+namespace GF.UCenter.MongoDB.Entity
 {
+    [CollectionName("App")]
     public class App : EntityBase
     {
         public string Name { get; set; }

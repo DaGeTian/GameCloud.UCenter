@@ -48,6 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,19 +58,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\CollectionAdapter.cs" />
+    <Compile Include="Adapters\ICollectionAdapter.cs" />
+    <Compile Include="Attributes\CollectionNameAttribute.cs" />
+    <Compile Include="DatabaseContext.cs" />
+    <Compile Include="DatabaseContextSettings.cs" />
     <Compile Include="Database\IMongoContext.cs" />
     <Compile Include="Entity\AppAccountData.cs" />
     <Compile Include="Entity\App.cs" />
-    <Compile Include="Repository\AppAccountDataRepository.cs" />
-    <Compile Include="Repository\AppRepository.cs" />
-    <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
-    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Database\MongoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -80,6 +81,7 @@
       <Name>GF.UCenter.Common.Portable</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

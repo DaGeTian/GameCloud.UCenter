@@ -10,6 +10,7 @@
     using Common;
     using Common.Settings;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using UCenter.MongoDB;
     using Web;
     using Web.Common;
     using Web.Common.Logger;
@@ -70,6 +71,11 @@
             SettingsInitializer.Initialize<Common.Settings.Settings>(
                 ExportProvider,
                 SettingsDefaultValueProvider<Common.Settings.Settings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            SettingsInitializer.Initialize<DatabaseContextSettings>(
+                ExportProvider,
+                SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
 
             var settings = ExportProvider.GetExportedValue<Common.Settings.Settings>();

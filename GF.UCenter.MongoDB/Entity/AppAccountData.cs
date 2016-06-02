@@ -1,5 +1,8 @@
-﻿namespace GF.UCenter.MongoDB.Entity
+﻿using GF.UCenter.MongoDB.Attributes;
+
+namespace GF.UCenter.MongoDB.Entity
 {
+    [CollectionName("AppAccountData")]
     public class AppAccountData : EntityBase
     {
         public string AppId { get; set; }
