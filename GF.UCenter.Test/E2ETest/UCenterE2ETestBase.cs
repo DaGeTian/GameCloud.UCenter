@@ -14,7 +14,7 @@
         protected const string TestAppSecret = "#pA554&3321#";
         protected const string TestAppConfiguration = @"{foo:1,bar:2}";
         protected const string TestAppAccountData = @"{foo:1,bar:2}";
-        
+
         protected const string InvalidAppSecret = "";
         protected const string ValidAccountPassword = "#pA554&3321#";
         protected const string InValidAccountPassword = "";
@@ -58,12 +58,12 @@
             {
                 info = new AccountRegisterInfo
                 {
-                    AccountName = GenerateRandomString(),
+                    AccountName = "an-" + GenerateRandomString(),
                     Password = ValidAccountPassword,
                     SuperPassword = ValidAccountPassword,
-                    Name = GenerateRandomString(),
-                    IdentityNum = GenerateRandomString(),
-                    PhoneNum = GenerateRandomString(),
+                    Name = "n-" + GenerateRandomString(),
+                    IdentityNum = "in-" + GenerateRandomString(),
+                    PhoneNum = "p-" + GenerateRandomString(),
                     Sex = Sex.Female
                 };
             }

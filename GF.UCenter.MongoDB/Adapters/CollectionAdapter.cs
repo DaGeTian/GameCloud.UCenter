@@ -56,29 +56,27 @@ namespace GF.UCenter.MongoDB.Adapters
             }
         }
 
-        Task<long> ICollectionAdapter<TEntity>.CountAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)
-        {
-            return ((ICollectionAdapter<TEntity>)this).CountAsync(filter, null, token);
-        }
-
         Task<long> ICollectionAdapter<TEntity>.CountAsync(Expression<Func<TEntity, bool>> filter, CountOptions options, CancellationToken token)
         {
-            return this.collection.CountAsync(filter, options, token);
+            if (filter == null)
+            {
+                return this.collection.CountAsync(new BsonDocument(), options, token);
+            }
+            else
+            {
+                return this.collection.CountAsync(filter, options, token);
+            }
         }
 
-        Task ICollectionAdapter<TEntity>.DeleteAsync(string id, CancellationToken token)
+        async Task ICollectionAdapter<TEntity>.DeleteAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)
         {
-            return this.collection.DeleteOneAsync(e => e.Id == id, token);
+            var result = await this.collection.DeleteOneAsync(filter, token);
+            // todo: check the delete result.
         }
 
-        Task ICollectionAdapter<TEntity>.DeleteAsync(TEntity entity, CancellationToken token)
+        async Task<IReadOnlyList<TEntity>> ICollectionAdapter<TEntity>.GetListAsync(Expression<Func<TEntity, bool>> filter, FindOptions options, CancellationToken token)
         {
-            return ((ICollectionAdapter<TEntity>)this).DeleteAsync(entity.Id, token);
-        }
-
-        async Task<IReadOnlyList<TEntity>> ICollectionAdapter<TEntity>.GetListAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)
-        {
-            return await this.collection.Find(filter).ToListAsync(token);
+            return await this.collection.Find(filter, options).ToListAsync(token);
         }
 
         Task<TEntity> ICollectionAdapter<TEntity>.GetSingleAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)
@@ -86,25 +84,20 @@ namespace GF.UCenter.MongoDB.Adapters
             return this.collection.Find(filter, null).FirstOrDefaultAsync(token);
         }
 
-        Task<TEntity> ICollectionAdapter<TEntity>.GetSingleAsync(string id, CancellationToken token)
+        async Task<TEntity> ICollectionAdapter<TEntity>.InsertAsync(TEntity entity, InsertOneOptions options, CancellationToken token)
         {
-            return ((ICollectionAdapter<TEntity>)this).GetSingleAsync(e => e.Id == id, token);
-        }
-
-        async Task<TEntity> ICollectionAdapter<TEntity>.InsertAsync(TEntity entity, CancellationToken token)
-        {
-            await this.collection.InsertOneAsync(entity, null, token);
+            await this.collection.InsertOneAsync(entity, options, token);
 
             // todo: need retrieve the entity from server side?
             return entity;
         }
 
-        async Task<TEntity> ICollectionAdapter<TEntity>.UpdateAsync(TEntity entity, CancellationToken token)
+        async Task<TEntity> ICollectionAdapter<TEntity>.UpdateAsync(TEntity entity, UpdateOptions options, CancellationToken token)
         {
             var replaceResult = await this.collection.ReplaceOneAsync(
                 e => e.Id == entity.Id,
                 entity,
-                null,
+                options,
                 token);
 
             // todo: add some check logic here.

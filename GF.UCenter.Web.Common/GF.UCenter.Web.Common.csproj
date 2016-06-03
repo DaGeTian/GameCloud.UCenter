@@ -54,6 +54,18 @@
       <HintPath>..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -98,6 +110,7 @@
     <Compile Include="Logger\ILoggerAdapter.cs" />
     <Compile Include="Logger\NLoggerAdapter.cs" />
     <Compile Include="Modes\OrderRaw.cs" />
+    <Compile Include="Modes\PaginationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\StorageAccountContext.cs" />
     <Compile Include="WebApplicationManager.cs" />
@@ -118,6 +131,10 @@
     <ProjectReference Include="..\GF.UCenter.CouchBase\GF.UCenter.CouchBase.csproj">
       <Project>{d67e912d-32b3-47ff-be31-1d1137040eaa}</Project>
       <Name>GF.UCenter.CouchBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
+      <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
+      <Name>GF.UCenter.MongoDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

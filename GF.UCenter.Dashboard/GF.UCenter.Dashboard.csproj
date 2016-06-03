@@ -56,10 +56,6 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Couchbase.NetClient, Version=2.2.8.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
-      <HintPath>..\packages\CouchbaseNetClient.2.2.8\lib\net45\Couchbase.NetClient.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +89,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -271,9 +279,9 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.CouchBase\GF.UCenter.CouchBase.csproj">
-      <Project>{d67e912d-32b3-47ff-be31-1d1137040eaa}</Project>
-      <Name>GF.UCenter.CouchBase</Name>
+    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
+      <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
+      <Name>GF.UCenter.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>

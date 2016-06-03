@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\CollectionAdapter.cs" />
+    <Compile Include="Adapters\CollectionAdapterExtensions.cs" />
     <Compile Include="Adapters\ICollectionAdapter.cs" />
     <Compile Include="Attributes\CollectionNameAttribute.cs" />
     <Compile Include="DatabaseContext.cs" />
@@ -67,6 +68,10 @@
     <Compile Include="Entity\AppAccountData.cs" />
     <Compile Include="Entity\App.cs" />
     <Compile Include="Entity\Account.cs" />
+    <Compile Include="Entity\KeyTomb.cs" />
+    <Compile Include="Entity\LoginRecord.cs" />
+    <Compile Include="Entity\Order.cs" />
+    <Compile Include="Entity\OrderState.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Database\MongoContext.cs" />

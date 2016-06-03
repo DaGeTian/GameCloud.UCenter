@@ -3,12 +3,12 @@
     using System.Web.Http;
 
     /// <summary>
-    ///     The web API configuration
+    /// The web API configuration
     /// </summary>
     public static class WebApiConfig
     {
         /// <summary>
-        ///     Register http configuration
+        /// Register http configuration
         /// </summary>
         /// <param name="config">The http configuration.</param>
         public static void Register(HttpConfiguration config)

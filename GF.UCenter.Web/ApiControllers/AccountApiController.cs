@@ -6,21 +6,22 @@
     using System.Drawing;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common;
     using Common.Logger;
-    using Couchbase;
-    using CouchBase;
+    using global::MongoDB.Driver;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable;
     using UCenter.Common.Settings;
 
     /// <summary>
-    ///     UCenter account api controller
+    /// UCenter account api controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -31,14 +32,14 @@
         private readonly StorageAccountContext storageContext;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="AccountApiController" /> class.
+        /// Initializes a new instance of the <see cref="AccountApiController" /> class.
         /// </summary>
-        /// <param name="db">The couch base context.</param>
+        /// <param name="database">The database context.</param>
         /// <param name="settings">The UCenter settings.</param>
         /// <param name="storageContext">The storage account context.</param>
         [ImportingConstructor]
-        public AccountApiController(CouchBaseContext db, Settings settings, StorageAccountContext storageContext)
-            : base(db)
+        public AccountApiController(DatabaseContext database, Settings settings, StorageAccountContext storageContext)
+            : base(database)
         {
             this.settings = settings;
             this.storageContext = storageContext;
@@ -46,26 +47,26 @@
 
         [HttpPost]
         [Route("register")]
-        public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info,
+        public async Task<IHttpActionResult> Register(
+            [FromBody] AccountRegisterRequestInfo info,
             CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
-            var removeTempsIfError = new List<AccountResourceEntity>();
+            var removeTempsIfError = new List<KeyPlaceholder>();
             var error = false;
             try
             {
-                var account =
-                    await
-                        DatabaseContext.Bucket.FirstOrDefaultAsync<AccountEntity>(
-                            a => a.AccountName == info.AccountName, false);
+                var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
+
                 if (account != null)
                 {
                     throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
                 }
 
-                account = new AccountEntity
+                account = new Account
                 {
+                    Id = Guid.NewGuid().ToString(),
                     AccountName = info.AccountName,
                     IsGuest = false,
                     Name = info.Name,
@@ -73,27 +74,23 @@
                     Password = EncryptHashManager.ComputeHash(info.Password),
                     SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword),
                     PhoneNum = info.PhoneNum,
-                    Sex = info.Sex,
-                    CreatedDateTime = DateTime.UtcNow
+                    Sex = info.Sex
                 };
 
-                if (!string.IsNullOrEmpty(account.AccountName))
+                var placeholders = new KeyPlaceholder[]
                 {
-                    var namePointer = new AccountResourceEntity(account, AccountResourceType.AccountName);
-                    await this.DatabaseContext.Bucket.InsertSlimAsync(namePointer);
-                    removeTempsIfError.Add(namePointer);
-                }
-                if (!string.IsNullOrEmpty(account.PhoneNum))
+                    this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id,account.AccountName),
+                    this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id,account.AccountName),
+                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id,account.AccountName),
+                };
+
+                foreach (var placeholder in placeholders)
                 {
-                    var phonePointer = new AccountResourceEntity(account, AccountResourceType.Phone);
-                    await this.DatabaseContext.Bucket.InsertSlimAsync(phonePointer);
-                    removeTempsIfError.Add(phonePointer);
-                }
-                else if (!string.IsNullOrEmpty(account.Email))
-                {
-                    var emailPointer = new AccountResourceEntity(account, AccountResourceType.Email);
-                    await this.DatabaseContext.Bucket.InsertSlimAsync(emailPointer);
-                    removeTempsIfError.Add(emailPointer);
+                    if (!string.IsNullOrEmpty(placeholder.Name))
+                    {
+                        await this.Database.KeyPlaceholders.InsertAsync(placeholder, token);
+                        removeTempsIfError.Add(placeholder);
+                    }
                 }
 
                 // set the default profiles
@@ -111,19 +108,20 @@
                     this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(account.Id),
                     token);
 
-                await this.DatabaseContext.Bucket.InsertSlimAsync(account);
+                await this.Database.Accounts.InsertAsync(account, token);
 
-                return CreateSuccessResult(ToResponse<AccountRegisterResponse>(account));
+                return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
             }
             catch (Exception ex)
             {
                 CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
 
                 error = true;
-                if (ex is CouchBaseException)
+                if (ex is MongoWriteException)
                 {
-                    var status = (ex as CouchBaseException).Result as IDocumentResult<AccountResourceEntity>;
-                    if (status != null)
+                    var mex = ex as MongoWriteException;
+
+                    if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
                     {
                         throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist, ex);
                     }
@@ -135,9 +133,16 @@
             {
                 if (error)
                 {
-                    foreach (var item in removeTempsIfError)
+                    try
                     {
-                        this.DatabaseContext.Bucket.Remove(item.ToDocument());
+                        foreach (var item in removeTempsIfError)
+                        {
+                            this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomTrace.TraceError(ex, "Error to remove placeholder");
                     }
                 }
             }
@@ -145,44 +150,11 @@
 
         [HttpPost]
         [Route("login")]
-        public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info)
+        public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Login AccountName={info.AccountName}");
 
-            var accountResourceByName =
-                await
-                    this.DatabaseContext.Bucket.GetByEntityIdSlimAsync<AccountResourceEntity>(
-                        AccountResourceEntity.GenerateResourceId(AccountResourceType.AccountName, info.AccountName),
-                        false);
-            AccountEntity account = null;
-            if (accountResourceByName != null)
-            {
-                // this means the temp value still exists, we can directly get the account by account id.
-                account =
-                    await
-                        this.DatabaseContext.Bucket.GetByEntityIdSlimAsync<AccountEntity>(
-                            accountResourceByName.AccountId);
-            }
-            else
-            {
-                // this means the temp value not exists any more, meanwhile, it have passed a period after the account created
-                // so the index should be already created and we can query the entity by query string
-                account =
-                    await
-                        this.DatabaseContext.Bucket.FirstOrDefaultAsync<AccountEntity>(
-                            a => a.AccountName == info.AccountName);
-            }
-
-            if (account == null)
-            {
-                // somehow, currently we faced index not work issue. if we cannot get the account information by index.
-                // just query it again without index.
-                var accounts = await this.DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
-                if (accounts != null && accounts.Count() > 0)
-                {
-                    account = accounts.FirstOrDefault();
-                }
-            }
+            var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
             if (account == null)
             {
@@ -198,52 +170,54 @@
             }
             account.LastLoginDateTime = DateTime.UtcNow;
             account.Token = EncryptHashManager.GenerateToken();
-            await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
+            await this.Database.Accounts.UpsertAsync(account, token);
             await this.RecordLogin(account, UCenterErrorCode.Success);
 
-            return CreateSuccessResult(ToResponse<AccountLoginResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(account));
         }
 
         [HttpPost]
         [Route("guest")]
-        public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info)
+        public async Task<IHttpActionResult> GuestLogin(
+            [FromBody] AccountLoginInfo info,
+            CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
 
             var r = new Random();
             string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
             string accountName = $"uc_{DateTime.Now.ToString("yyyyMMddHHmmssffff")}_{accountNamePostfix}";
-            string token = EncryptHashManager.GenerateToken();
+            string accountToken = EncryptHashManager.GenerateToken();
             string password = Guid.NewGuid().ToString();
 
-            var account = new AccountEntity
+            var account = new Account
             {
+                Id = Guid.NewGuid().ToString(),
                 AccountName = accountName,
                 IsGuest = true,
                 Password = EncryptHashManager.ComputeHash(password),
-                Token = EncryptHashManager.GenerateToken(),
-                CreatedDateTime = DateTime.UtcNow
+                Token = EncryptHashManager.GenerateToken()
             };
 
-            await this.DatabaseContext.Bucket.InsertSlimAsync(account);
+            await this.Database.Accounts.InsertAsync(account, token);
 
             var response = new AccountGuestLoginResponse
             {
                 AccountId = account.Id,
                 AccountName = accountName,
-                Token = token,
+                Token = accountToken,
                 Password = password
             };
-            return CreateSuccessResult(response);
+            return this.CreateSuccessResult(response);
         }
 
         [HttpPost]
         [Route("convert")]
-        public async Task<IHttpActionResult> Convert([FromBody] AccountConvertInfo info)
+        public async Task<IHttpActionResult> Convert([FromBody] AccountConvertInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
 
-            var account = await GetAndVerifyAccount(info.AccountId);
+            var account = await this.GetAndVerifyAccount(info.AccountId, token);
 
             if (!EncryptHashManager.VerifyHash(info.OldPassword, account.Password))
             {
@@ -262,44 +236,51 @@
             account.PhoneNum = info.PhoneNum;
             account.Email = info.Email;
             account.Sex = info.Sex;
-            await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
+            await this.Database.Accounts.UpsertAsync(account, token);
+
             await this.RecordLogin(account, UCenterErrorCode.Success, "Account converted successfully.");
-            return CreateSuccessResult(ToResponse<AccountRegisterResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
         }
 
         [HttpPost]
         [Route("resetpassword")]
-        public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info)
+        public async Task<IHttpActionResult> ResetPassword(
+            [FromBody] AccountResetPasswordInfo info,
+            CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
 
-            var accounts = await DatabaseContext.Bucket.QuerySlimAsync<AccountEntity>(a => a.AccountName == info.AccountName, false);
-            if (accounts == null || accounts.Count() != 1)
+            var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
+            if (account == null)
             {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-            var account = accounts.First();
             if (!EncryptHashManager.VerifyHash(info.SuperPassword, account.SuperPassword))
             {
-                await
-                    this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                        "The super password provided is incorrect");
+                await this.RecordLogin(
+                    account,
+                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    "The super password provided is incorrect",
+                    token);
+
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
             account.Password = EncryptHashManager.ComputeHash(info.Password);
-            await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
+            await this.Database.Accounts.UpsertAsync(account, token);
             await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.");
-            return this.CreateSuccessResult(ToResponse<AccountResetPasswordResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(account));
         }
 
         [HttpPost]
         [Route("upload/{accountId}")]
-        public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
+        public async Task<IHttpActionResult> UploadProfileImage(
+            [FromUri] string accountId,
+            CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.UploadProfileImage AccountId={accountId}");
 
-            var account = await this.GetAndVerifyAccount(accountId);
+            var account = await this.GetAndVerifyAccount(accountId, token);
 
             using (var stream = await this.Request.Content.ReadAsStreamAsync())
             {
@@ -315,24 +296,18 @@
                 stream.Seek(0, SeekOrigin.Begin);
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
-                await this.DatabaseContext.Bucket.UpsertSlimAsync(account);
+                await this.Database.Accounts.UpsertAsync(account, token);
                 await this.RecordLogin(account, UCenterErrorCode.Success, "Profile image uploaded successfully.");
-                return this.CreateSuccessResult(ToResponse<AccountUploadProfileImageResponse>(account));
+                return this.CreateSuccessResult(
+                    this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
         }
 
-        [HttpGet]
-        [Route("test")]
-        public async Task<IHttpActionResult> Test(AccountLoginInfo info)
-        {
-            CustomTrace.TraceInformation($"Account.Test");
-
-            var accounts = await this.DatabaseContext.Bucket.QueryAsync<AccountEntity>(a => a.AccountName == "Ny7IBHtK");
-
-            return await Task.FromResult(this.CreateSuccessResult(accounts));
-        }
-
-        private async Task RecordLogin(AccountEntity account, UCenterErrorCode code, string comments = null)
+        private async Task RecordLogin(
+            Account account,
+            UCenterErrorCode code,
+            string comments = null,
+            CancellationToken token = default(CancellationToken))
         {
             var clientIp = IPHelper.GetClientIpAddress(Request);
             var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
@@ -349,8 +324,9 @@
                 area = string.Empty;
             }
 
-            var record = new LoginRecordEntity
+            var record = new LoginRecord
             {
+                Id = Guid.NewGuid().ToString(),
                 AccountName = account.AccountName,
                 AccountId = account.Id,
                 Code = code,
@@ -361,12 +337,12 @@
                 Comments = comments
             };
 
-            await this.DatabaseContext.Bucket.InsertSlimAsync(record, false);
+            await this.Database.LoginRecords.InsertAsync(record, token);
         }
 
-        private async Task<AccountEntity> GetAndVerifyAccount(string accountId)
+        private async Task<Account> GetAndVerifyAccount(string accountId, CancellationToken token)
         {
-            var account = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<AccountEntity>(accountId, false);
+            var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
             if (account == null)
             {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
@@ -375,7 +351,7 @@
             return account;
         }
 
-        private TResponse ToResponse<TResponse>(AccountEntity entity) where TResponse : AccountRequestResponse
+        private TResponse ToResponse<TResponse>(Account entity) where TResponse : AccountRequestResponse
         {
             var res = new AccountResponse
             {
@@ -422,6 +398,18 @@
 
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
+        }
+
+        private KeyPlaceholder GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
+        {
+            return new KeyPlaceholder()
+            {
+                Id = $"{type}-{name}",
+                Name = name,
+                Type = type,
+                AccountId = accountId,
+                AccountName = accountName
+            };
         }
     }
 }

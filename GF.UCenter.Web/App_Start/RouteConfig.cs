@@ -4,12 +4,12 @@
     using System.Web.Routing;
 
     /// <summary>
-    ///     The route configuration
+    /// The route configuration
     /// </summary>
     public class RouteConfig
     {
         /// <summary>
-        ///     Register route configuration
+        /// Register route configuration
         /// </summary>
         /// <param name="routes">The route collection.</param>
         public static void RegisterRoutes(RouteCollection routes)

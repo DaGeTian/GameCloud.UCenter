@@ -7,17 +7,20 @@
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Logger;
-    using CouchBase;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
     using Newtonsoft.Json.Linq;
     using UCenter.Common;
     using UCenter.Common.Portable;
     using UCenter.Common.Settings;
 
     /// <summary>
-    ///     UCenter payment api controller
+    /// UCenter payment api controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -25,32 +28,31 @@
     public class PaymentApiController : ApiControllerBase
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PaymentApiController" /> class.
+        /// Initializes a new instance of the <see cref="PaymentApiController" /> class.
         /// </summary>
-        /// <param name="db">The couch base context.</param>
-        /// <param name="settings">The UCenter settings.</param>
+        /// <param name="database">The database context.</param>
         [ImportingConstructor]
-        public PaymentApiController(CouchBaseContext db, Settings settings)
-            : base(db)
+        public PaymentApiController(DatabaseContext database)
+            : base(database)
         {
         }
 
         [Route("charge")]
-        public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info)
+        public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
 
             try
             {
-                var orderEntity = new OrderEntity
+                var orderEntity = new Order
                 {
                     AppId = info.AppId,
                     AccountId = info.AccountId,
-                    OrderStatus = OrderStatus.Created,
+                    State = OrderState.Created,
                     CreatedTime = DateTime.UtcNow
                 };
 
-                await this.DatabaseContext.Bucket.InsertSlimAsync(orderEntity);
+                await this.Database.Orders.InsertAsync(orderEntity, token);
 
                 // TODO: Replace with live key
                 Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
@@ -65,7 +67,7 @@
                 var channel = "alipay";
                 var currency = "cny";
 
-                //交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
+                // 交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
                 var chParams = new Dictionary<string, object>
                 {
                     {"order_no", new Random().Next(1, 999999999)},
@@ -80,7 +82,7 @@
 
                 var charge = Pingpp.Models.Charge.Create(chParams);
 
-                return CreateSuccessResult(charge);
+                return this.CreateSuccessResult(charge);
             }
             catch (Exception ex)
             {
@@ -91,15 +93,15 @@
 
         [HttpPost]
         [Route("webhook")]
-        public async Task<IHttpActionResult> PingPlusPlusWebHook()
+        public async Task<IHttpActionResult> PingPlusPlusWebHook(CancellationToken token)
         {
             CustomTrace.TraceInformation("AppServer.PingPlusPlusWebHook");
 
-            //获取 post 的 event对象
+            // 获取 post 的 event对象
             var inputData = Request.Content.ReadAsStringAsync().Result;
             CustomTrace.TraceInformation("Received event\n" + inputData);
 
-            //获取 header 中的签名
+            // 获取 header 中的签名
             IEnumerable<string> headerValues;
             string sig = string.Empty;
             if (Request.Headers.TryGetValues("x-pingplusplus-signature", out headerValues))
@@ -107,43 +109,45 @@
                 sig = headerValues.FirstOrDefault();
             }
 
-            //公钥路径（请检查你的公钥 .pem 文件存放路径）
+            // 公钥路径（请检查你的公钥 .pem 文件存放路径）
             string path = @"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_public_key.pem";
 
-            //验证签名
+            // 验证签名
             VerifySignedHash(inputData, sig, path);
 
-            await ProcessOrderAsync(inputData);
+            await this.ProcessOrderAsync(inputData, token);
 
-            return Ok();
+            return this.Ok();
         }
 
-        public async Task ProcessOrderAsync(string orderData)
+        internal async Task ProcessOrderAsync(string orderData, CancellationToken token)
         {
             var jObject = JObject.Parse(orderData);
             var eventType = jObject.SelectToken("type");
             var orderNo = jObject.SelectToken("data.object.order_no");
 
-            var order = await DatabaseContext.Bucket.GetByEntityIdSlimAsync<OrderEntity>(orderNo.ToString(), false);
+            var order = await this.Database.Orders.GetSingleAsync(orderNo.ToString(), token);
+
             if (order == null)
             {
-                order = new OrderEntity
+                order = new Order
                 {
                     Id = orderNo.ToString(),
                     CreatedTime = DateTime.UtcNow
                 };
             }
 
-            order.OrderStatus = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
-                ? OrderStatus.Success
-                : OrderStatus.Failed;
-            order.RawData = orderData;
+            order.State = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
+                ? OrderState.Success
+                : OrderState.Failed;
+
+            order.Content = orderData;
             order.CompletedTime = DateTime.UtcNow;
 
-            await DatabaseContext.Bucket.UpsertSlimAsync(order);
+            await this.Database.Orders.UpsertAsync(order, token);
         }
 
-        public static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
+        private static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
             string str_publicKeyFilePath)
         {
             byte[] SignedData = Convert.FromBase64String(str_SignedData);

@@ -11,12 +11,12 @@
     using UCenter.Common.Settings;
 
     /// <summary>
-    ///     MVC Application
+    /// MVC Application
     /// </summary>
     public class MvcApplication : HttpApplication
     {
         /// <summary>
-        ///     The application start event
+        /// The application start event
         /// </summary>
         protected void Application_Start()
         {

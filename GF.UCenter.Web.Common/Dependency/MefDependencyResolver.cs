@@ -7,14 +7,14 @@
     using System.Web.Http.Dependencies;
 
     /// <summary>
-    ///     The MEF dependency resolver
+    /// The MEF dependency resolver
     /// </summary>
     public class MefDependencyResolver : IDependencyResolver
     {
         private readonly ExportProvider exportProvider;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MefDependencyResolver" /> class.
+        /// Initializes a new instance of the <see cref="MefDependencyResolver" /> class.
         /// </summary>
         /// <param name="exportProvider">The export provider.</param>
         public MefDependencyResolver(ExportProvider exportProvider)
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        ///     Begin scope
+        /// Begin scope
         /// </summary>
         /// <returns>scope instance</returns>
         public IDependencyScope BeginScope()
@@ -32,14 +32,14 @@
         }
 
         /// <summary>
-        ///     Dispose the instance.
+        /// Dispose the instance.
         /// </summary>
         public void Dispose()
         {
         }
 
         /// <summary>
-        ///     Get service by service type
+        /// Get service by service type
         /// </summary>
         /// <param name="serviceType">The service type.</param>
         /// <returns>The service instance.</returns>
@@ -56,7 +56,7 @@
         }
 
         /// <summary>
-        ///     Get services by service type
+        /// Get services by service type
         /// </summary>
         /// <param name="serviceType">The service type</param>
         /// <returns>The service list</returns>

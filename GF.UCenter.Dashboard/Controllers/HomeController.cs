@@ -1,18 +1,20 @@
 ﻿namespace GF.UCenter.Dashboard.Controllers
 {
     using System.ComponentModel.Composition;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Mvc;
-    using GF.UCenter.CouchBase;
+    using MongoDB;
+    using MongoDB.Adapters;
 
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : Controller
     {
-        private readonly CouchBaseContext db;
+        private readonly DatabaseContext db;
 
         [ImportingConstructor]
-        public HomeController(CouchBaseContext db)
+        public HomeController(DatabaseContext db)
         {
             this.db = db;
         }
@@ -32,11 +34,11 @@
             return this.View();
         }
 
-        public async Task<ActionResult> OrderList(string accountId = null)
+        public async Task<ActionResult> OrderList(CancellationToken token, string accountId = null)
         {
             if (!string.IsNullOrEmpty(accountId))
             {
-                var account = await db.Bucket.FirstOrDefaultAsync<AccountEntity>(a => a.Id == accountId, false);
+                var account = await this.db.Accounts.GetSingleAsync(accountId, token);
                 ViewBag.AccountId = account.Id;
                 ViewBag.AccountName = account.AccountName;
             }

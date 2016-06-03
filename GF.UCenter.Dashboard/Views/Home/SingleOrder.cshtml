@@ -11,7 +11,7 @@
             订单状态
         </div>
         <div class="col-sm-10">
-            {{data.OrderStatus|enums:'orderStatus'}}
+            {{data.OrderState|enums:'orderState'}}
         </div>
     </div>
     <div class="row">
@@ -40,6 +40,14 @@
     </div>
     <div class="row">
         <div class="col-sm-2">
+            App名称
+        </div>
+        <div class="col-sm-10">
+            {{data.AppName}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
             创建日期
         </div>
         <div class="col-sm-10">
@@ -59,7 +67,7 @@
             订单数据
         </div>
         <div class="col-sm-10">
-            {{data.RawData}}
+            {{data.Content}}
         </div>
     </div>
     <div ng-init="fetch()"></div>

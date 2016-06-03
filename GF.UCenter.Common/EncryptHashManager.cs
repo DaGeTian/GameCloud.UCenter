@@ -75,9 +75,9 @@
         }
 
         /// <summary>
-        ///     A slow compare function to make the encrypted password string compare almost with the same time
-        ///     Even there are difference at the first n chars. This can avoid some attach based on remote timing
-        ///     https://crypto.stanford.edu/~dabo/papers/ssl-timing.pdf
+        /// A slow compare function to make the encrypted password string compare almost with the same time
+        /// Even there are difference at the first n chars. This can avoid some attach based on remote timing
+        /// https://crypto.stanford.edu/~dabo/papers/ssl-timing.pdf
         /// </summary>
         /// <param name="str1">String 1</param>
         /// <param name="str2">String 2</param>

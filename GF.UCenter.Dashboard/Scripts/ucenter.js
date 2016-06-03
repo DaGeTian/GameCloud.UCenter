@@ -1,12 +1,12 @@
 ﻿var enums = null;
 (function (enums) {
-    var orderStatus = {};
-    orderStatus[orderStatus['Created'] = 0] = '已创建';
-    orderStatus[orderStatus['Success'] = 1] = '成功';
-    orderStatus[orderStatus['Failed'] = 2] = '失败';
-    orderStatus[orderStatus['Expired'] = 3] = '已过期';
+    var orderState = {};
+    orderState[orderState['Created'] = 0] = '已创建';
+    orderState[orderState['Success'] = 1] = '成功';
+    orderState[orderState['Failed'] = 2] = '失败';
+    orderState[orderState['Expired'] = 3] = '已过期';
 
-    enums.orderStatus = orderStatus;
+    enums.orderState = orderState;
 
     var sex = {};
     sex[sex['Male'] = 0] = '男';

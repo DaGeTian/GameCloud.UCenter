@@ -3,33 +3,30 @@
     using System.ComponentModel.Composition;
     using System.Web.Http;
     using Common;
-    using CouchBase;
     using UCenter.Common.Portable;
+    using MongoDB;
 
     /// <summary>
-    ///     API controller base class
+    /// API controller base class
     /// </summary>
     [Export]
     [ActionExecutionFilter]
     public class ApiControllerBase : ApiController
     {
         /// <summary>
-        ///     Couch database context
+        /// Initializes a new instance of the <see cref="ApiControllerBase" /> class.
         /// </summary>
-        protected readonly CouchBaseContext DatabaseContext;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ApiControllerBase" /> class.
-        /// </summary>
-        /// <param name="db">The couch base context</param>
+        /// <param name="database">The database context</param>
         [ImportingConstructor]
-        public ApiControllerBase(CouchBaseContext db)
+        public ApiControllerBase(DatabaseContext database)
         {
-            this.DatabaseContext = db;
+            this.Database = database;
         }
 
+        public DatabaseContext Database { get; private set; }
+
         /// <summary>
-        ///     Create success result
+        /// Create success result
         /// </summary>
         /// <typeparam name="TResult">The type of the result</typeparam>
         /// <param name="result">The content of the result</param>

@@ -6,7 +6,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using Web;
-
+    using System.Threading;
     [TestClass]
     public class UCenterE2EAppServerTest : UCenterE2ETestBase
     {
@@ -233,7 +233,7 @@
         {
             var controller = ExportProvider.GetExportedValue<PaymentApiController>();
             string orderData = File.ReadAllText(@"TestData\charge.succeeded.json");
-            await controller.ProcessOrderAsync(orderData);
+            await controller.ProcessOrderAsync(orderData, CancellationToken.None);
         }
     }
 }

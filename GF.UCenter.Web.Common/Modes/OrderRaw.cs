@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GF.UCenter.CouchBase;
+using GF.UCenter.MongoDB.Entity;
 
 namespace GF.UCenter.Web.Common.Modes
 {
@@ -17,9 +18,9 @@ namespace GF.UCenter.Web.Common.Modes
 
         public string AppId { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public OrderState State { get; set; }
 
-        public string RawData { get; set; }
+        public string Content { get; set; }
 
         public DateTime CreatedTime { get; set; }
 

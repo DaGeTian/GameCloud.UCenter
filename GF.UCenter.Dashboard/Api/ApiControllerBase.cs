@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Web.Http;
 using GF.UCenter.Common.Settings;
-using GF.UCenter.CouchBase;
+using GF.UCenter.MongoDB;
 
 namespace GF.UCenter.Dashboard.Api
 {
@@ -9,13 +9,13 @@ namespace GF.UCenter.Dashboard.Api
     public class ApiControllerBase : ApiController
     {
         [ImportingConstructor]
-        public ApiControllerBase(CouchBaseContext database, Settings settings)
+        public ApiControllerBase(DatabaseContext database, Settings settings)
         {
             this.Database = database;
             this.Settings = settings;
         }
 
-        protected CouchBaseContext Database { get; private set; }
+        protected DatabaseContext Database { get; private set; }
 
         protected Settings Settings { get; private set; }
     }

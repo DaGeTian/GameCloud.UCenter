@@ -21,27 +21,27 @@ namespace GF.UCenter.Common
     ////////////////////////////////////////////////////////////////
 
     /// <summary>
-    ///     This class implements the core dumping algorithm.
+    /// This class implements the core dumping algorithm.
     /// </summary>
     public static class Dumper
     {
         /// <summary>
-        ///     Dumps the specified value to the <see cref="TextWriter" /> using the
-        ///     specified <paramref name="name" />.
+        /// Dumps the specified value to the <see cref="TextWriter" /> using the
+        /// specified <paramref name="name" />.
         /// </summary>
         /// <param name="value">
-        ///     The value to dump to the <paramref name="writer" />.
+        /// The value to dump to the <paramref name="writer" />.
         /// </param>
         /// <param name="name">
-        ///     The name of the <paramref name="value" /> being dumped.
+        /// The name of the <paramref name="value" /> being dumped.
         /// </param>
         /// <param name="writer">
-        ///     The <see cref="TextWriter" /> to dump the <paramref name="value" /> to.
+        /// The <see cref="TextWriter" /> to dump the <paramref name="value" /> to.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para><paramref name="name" /> is <c>null</c> or empty.</para>
-        ///     <para>- or -</para>
-        ///     <para><paramref name="writer" /> is <c>null</c>.</para>
+        /// <para><paramref name="name" /> is <c>null</c> or empty.</para>
+        /// <para>- or -</para>
+        /// <para><paramref name="writer" /> is <c>null</c>.</para>
         /// </exception>
         public static void Dump(object value, string name, TextWriter writer)
         {

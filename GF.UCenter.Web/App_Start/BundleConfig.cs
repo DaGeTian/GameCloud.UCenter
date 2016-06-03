@@ -3,13 +3,13 @@
     using System.Web.Optimization;
 
     /// <summary>
-    ///     Bundle configuration
+    /// Bundle configuration
     /// </summary>
     public class BundleConfig
     {
         /// <summary>
-        ///     Register bundles
-        ///     For more information on bundling, visit<see cref="http://go.microsoft.com/fwlink/?LinkId=301862" />
+        /// Register bundles
+        /// For more information on bundling, visit<see cref="http://go.microsoft.com/fwlink/?LinkId=301862" />
         /// </summary>
         /// <param name="bundles">The bundle collection</param>
         public static void RegisterBundles(BundleCollection bundles)

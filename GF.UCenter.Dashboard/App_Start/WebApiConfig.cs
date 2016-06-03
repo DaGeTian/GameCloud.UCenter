@@ -9,7 +9,7 @@ namespace GF.UCenter.Dashboard
     public static class WebApiConfig
     {
         /// <summary>
-        ///     Register http configuration
+        /// Register http configuration
         /// </summary>
         /// <param name="config">The http configuration.</param>
         public static void Register(HttpConfiguration config)

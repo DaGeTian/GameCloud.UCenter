@@ -7,12 +7,12 @@
     public static class Evaluator
     {
         /// <summary>
-        ///     Performs evaluation & replacement of independent sub-trees
+        /// Performs evaluation & replacement of independent sub-trees
         /// </summary>
         /// <param name="expression">The root of the expression tree.</param>
         /// <param name="fnCanBeEvaluated">
-        ///     A function that decides whether a given expression node can be part of the local
-        ///     function.
+        /// A function that decides whether a given expression node can be part of the local
+        /// function.
         /// </param>
         /// <returns>A new tree with sub-trees evaluated and replaced.</returns>
         public static Expression PartialEval(Expression expression, Func<Expression, bool> fnCanBeEvaluated)
@@ -21,7 +21,7 @@
         }
 
         /// <summary>
-        ///     Performs evaluation & replacement of independent sub-trees
+        /// Performs evaluation & replacement of independent sub-trees
         /// </summary>
         /// <param name="expression">The root of the expression tree.</param>
         /// <returns>A new tree with sub-trees evaluated and replaced.</returns>
@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        ///     Evaluates & replaces sub-trees when first candidate is reached (top-down)
+        /// Evaluates & replaces sub-trees when first candidate is reached (top-down)
         /// </summary>
         private class SubtreeEvaluator : ExpressionVisitor
         {
@@ -78,8 +78,8 @@
         }
 
         /// <summary>
-        ///     Performs bottom-up analysis to determine which nodes can possibly
-        ///     be part of an evaluated sub-tree.
+        /// Performs bottom-up analysis to determine which nodes can possibly
+        /// be part of an evaluated sub-tree.
         /// </summary>
         private class Nominator : ExpressionVisitor
         {

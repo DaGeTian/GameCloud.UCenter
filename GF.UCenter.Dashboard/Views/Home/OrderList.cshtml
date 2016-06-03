@@ -20,7 +20,7 @@
                 <tr>
                     <th>订单号</th>
                     <th>账号</th>
-                    <th>App Id</th>
+                    <th>App</th>
                     <th>状态</th>
                     <th>创建时间</th>
                     <th>完成时间</th>
@@ -29,13 +29,13 @@
             </thead>
             <tbody>
                 <tr ng-repeat="row in raws">
-                    <td>{{row.OrderId}}</td>
+                    <td>{{row.Id}}</td>
                     <td>{{row.AccountName}}</td>
-                    <td>{{row.AppId}}</td>
-                    <td>{{row.OrderStatus|enums:'orderStatus'}}</td>
+                    <td>{{row.AppName}}</td>
+                    <td>{{row.OrderState|enums:'orderState'}}</td>
                     <td>{{row.CreatedTime | date:'yyyy/MM/dd HH:mm'}}</td>
                     <td>{{row.CompletedTime|date:'yyyy/MM/dd HH:mm'}}</td>
-                    <td><a href="/home/singleorder?id={{row.OrderId}}">详情</a></td>
+                    <td><a href="/home/singleorder?id={{row.Id}}">详情</>详情</a></td>
                 </tr>
             </tbody>
         </table>

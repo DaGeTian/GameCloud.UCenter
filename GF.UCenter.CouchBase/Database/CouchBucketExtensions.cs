@@ -141,31 +141,5 @@
 
             return result.FirstOrDefault();
         }
-
-        public static async Task<PaginationResponse<TEntity>> PaginationQuerySlimAsync<TEntity>(
-            this IBucket bucket, PaginationQueryExpression<TEntity> expression) where TEntity : class, IBaseEntity
-        {
-            var countRequest = expression.BuildQueryCountRequest(bucket);
-            var countResult = await bucket.QueryAsync<CountRaw>(countRequest);
-            if (!countResult.Success)
-            {
-                throw countResult.Exception;
-            }
-
-            var rawRequest = expression.BuildQueryRawRequest(bucket);
-            var rawResult = await bucket.QueryAsync<TEntity>(rawRequest);
-            if (!rawResult.Success)
-            {
-                throw rawResult.Exception;
-            }
-
-            PaginationResponse<TEntity> response = new PaginationResponse<TEntity>();
-            response.Page = expression.Page;
-            response.PageSize = expression.PageSize;
-            response.Total = countResult.Rows.First().Count;
-            response.Raws = rawResult.Rows;
-
-            return response;
-        }
     }
 }

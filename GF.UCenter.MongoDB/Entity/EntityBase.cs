@@ -4,8 +4,10 @@
 
     public abstract class EntityBase
     {
-        public string Id { get; set; }
-        public DateTime CreatedTime { get; set; }
-        public DateTime? UpdatedTime { get; set; }
+        public virtual string Id { get; set; }
+
+        public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedTime { get; set; } = DateTime.UtcNow;
     }
 }
