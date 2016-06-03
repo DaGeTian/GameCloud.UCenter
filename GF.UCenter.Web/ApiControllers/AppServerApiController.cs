@@ -40,7 +40,7 @@
 
             if (app == null)
             {
-                app = new App
+                app = new AppEntity
                 {
                     Id = info.AppId,
                     AppSecret = info.AppSecret,
@@ -117,7 +117,7 @@
             }
             else
             {
-                accountData = new AppAccountData
+                accountData = new AppAccountDataEntity
                 {
                     Id = dataId,
                     AppId = info.AppId,
@@ -151,7 +151,7 @@
             }
         }
 
-        private async Task<Account> GetAndVerifyAccount(string accountId, CancellationToken token)
+        private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
         {
             var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
             if (account == null)
@@ -162,7 +162,7 @@
             return account;
         }
 
-        private async Task<Account> GetAndVerifyAccount(
+        private async Task<AccountEntity> GetAndVerifyAccount(
             string accountId,
             string accountToken,
             CancellationToken token)

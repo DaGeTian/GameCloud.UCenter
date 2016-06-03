@@ -22,10 +22,10 @@ namespace GF.UCenter.Test.MongoDB
         {
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
-            var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<Account>>();
+            var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
             await adapter.CreateIfNotExistsAsync(token);
 
-            var account = new Account()
+            var account = new AccountEntity()
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = GenerateRandomString(),
@@ -58,7 +58,7 @@ namespace GF.UCenter.Test.MongoDB
             Assert.AreEqual(0, list.Count);
         }
 
-        private void CheckEquals(Account entity1, Account entity2)
+        private void CheckEquals(AccountEntity entity1, AccountEntity entity2)
         {
             Assert.AreEqual(entity1.Id, entity2.Id);
             Assert.AreEqual(entity1.AccountName, entity2.AccountName);

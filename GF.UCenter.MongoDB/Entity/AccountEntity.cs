@@ -5,7 +5,7 @@
     using Common.Portable;
 
     [CollectionName("Account")]
-    public class Account : EntityBase
+    public class AccountEntity : EntityBase
     {
         public string AccountName { get; set; }
 

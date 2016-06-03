@@ -12,9 +12,10 @@
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable;
-    using UCenter.CouchBase;
     using NLog;
     using Logger;
+    using global::MongoDB.Driver;
+
     public sealed class ActionExecutionFilterAttribute : ActionFilterAttribute
     {
         public override async Task OnActionExecutingAsync(HttpActionContext context, CancellationToken token)
@@ -47,9 +48,9 @@
                 {
                     errorCode = (context.Exception as UCenterException).ErrorCode;
                 }
-                else if (context.Exception is CouchBaseException)
+                else if (context.Exception is MongoException)
                 {
-                    errorCode = UCenterErrorCode.CouchBaseError;
+                    errorCode = UCenterErrorCode.DatabaseError;
                 }
                 else
                 {

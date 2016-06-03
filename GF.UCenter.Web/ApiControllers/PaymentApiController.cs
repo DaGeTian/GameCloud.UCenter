@@ -9,6 +9,8 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Hosting;
     using System.Web.Http;
     using Common.Logger;
     using MongoDB;
@@ -44,8 +46,9 @@
 
             try
             {
-                var orderEntity = new Order
+                var orderEntity = new OrderEntity
                 {
+                    Id = Guid.NewGuid().ToString(),
                     AppId = info.AppId,
                     AccountId = info.AccountId,
                     State = OrderState.Created,
@@ -56,8 +59,10 @@
 
                 // TODO: Replace with live key
                 Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+
                 // TODO: Fix hard code path
-                Pingpp.Pingpp.SetPrivateKeyPath(@"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_private_key.pem");
+                var certFile = this.GetCertFilePath("rsa_private_key.pem");
+                Pingpp.Pingpp.SetPrivateKeyPath(certFile);
 
                 var appId = "app_H4yDu5COi1O4SWvz";
                 var r = new Random();
@@ -110,10 +115,10 @@
             }
 
             // 公钥路径（请检查你的公钥 .pem 文件存放路径）
-            string path = @"C:\github\GF.UCenter\GF.UCenter.Web\App_Data\rsa_public_key.pem";
+            string certPath = this.GetCertFilePath("rsa_public_key.pem");
 
             // 验证签名
-            VerifySignedHash(inputData, sig, path);
+            VerifySignedHash(inputData, sig, certPath);
 
             await this.ProcessOrderAsync(inputData, token);
 
@@ -130,7 +135,7 @@
 
             if (order == null)
             {
-                order = new Order
+                order = new OrderEntity
                 {
                     Id = orderNo.ToString(),
                     CreatedTime = DateTime.UtcNow
@@ -173,6 +178,15 @@
                 CustomTrace.TraceError(e);
                 return "verify error";
             }
+        }
+
+        private string GetCertFilePath(string certName)
+        {
+            // following not worked.
+            // var path = HostingEnvironment.MapPath($"~/App_Data/{certName}");
+            // todo: not sure if the followring logic can work well on iis.
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data", certName);
+            return path;
         }
     }
 }

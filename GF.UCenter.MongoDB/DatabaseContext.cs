@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GF.UCenter.MongoDB.Adapters;
 using GF.UCenter.MongoDB.Entity;
 using MongoDB.Driver;
@@ -41,52 +36,52 @@ namespace GF.UCenter.MongoDB
             get { return this.settings; }
         }
 
-        public ICollectionAdapter<Account> Accounts
+        public ICollectionAdapter<AccountEntity> Accounts
         {
             get
             {
-                return this.GetAdapter<Account>();
+                return this.GetAdapter<AccountEntity>();
             }
         }
 
-        public ICollectionAdapter<App> Apps
+        public ICollectionAdapter<AppEntity> Apps
         {
             get
             {
-                return this.GetAdapter<App>();
+                return this.GetAdapter<AppEntity>();
             }
         }
 
 
-        public ICollectionAdapter<AppAccountData> AppAccountDatas
+        public ICollectionAdapter<AppAccountDataEntity> AppAccountDatas
         {
             get
             {
-                return this.GetAdapter<AppAccountData>();
+                return this.GetAdapter<AppAccountDataEntity>();
             }
         }
 
-        public ICollectionAdapter<Order> Orders
+        public ICollectionAdapter<OrderEntity> Orders
         {
             get
             {
-                return this.GetAdapter<Order>();
+                return this.GetAdapter<OrderEntity>();
             }
         }
 
-        public ICollectionAdapter<KeyPlaceholder> KeyPlaceholders
+        public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders
         {
             get
             {
-                return this.GetAdapter<KeyPlaceholder>();
+                return this.GetAdapter<KeyPlaceholderEntity>();
             }
         }
 
-        public ICollectionAdapter<LoginRecord> LoginRecords
+        public ICollectionAdapter<LoginRecordEntity> LoginRecords
         {
             get
             {
-                return this.GetAdapter<LoginRecord>();
+                return this.GetAdapter<LoginRecordEntity>();
             }
         }
 

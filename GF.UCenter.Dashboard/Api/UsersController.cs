@@ -24,14 +24,14 @@ namespace GF.UCenter.Dashboard.Api
         {
         }
 
-        public async Task<PaginationResponse<Account>> Get(
+        public async Task<PaginationResponse<AccountEntity>> Get(
             CancellationToken token,
             [FromUri]string keyword = null,
             [FromUri] string orderby = null,
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
         {
-            Expression<Func<Account, bool>> filter = null;
+            Expression<Func<AccountEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -42,7 +42,7 @@ namespace GF.UCenter.Dashboard.Api
 
             var total = await this.Database.Accounts.CountAsync(filter, token);
 
-            IQueryable<Account> queryable = this.Database.Accounts.Collection.AsQueryable();
+            IQueryable<AccountEntity> queryable = this.Database.Accounts.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
@@ -51,7 +51,7 @@ namespace GF.UCenter.Dashboard.Api
             var accounts = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PaginationResponse<Account>()
+            var model = new PaginationResponse<AccountEntity>()
             {
                 Page = page,
                 PageSize = count,
@@ -62,7 +62,7 @@ namespace GF.UCenter.Dashboard.Api
             return model;
         }
 
-        public async Task<Account> Get(string id, CancellationToken token)
+        public async Task<AccountEntity> Get(string id, CancellationToken token)
         {
             var account = await this.Database.Accounts.GetSingleAsync(id, token);
 

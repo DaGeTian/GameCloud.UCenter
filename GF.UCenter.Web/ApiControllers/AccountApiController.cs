@@ -53,7 +53,7 @@
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
-            var removeTempsIfError = new List<KeyPlaceholder>();
+            var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
             try
             {
@@ -64,7 +64,7 @@
                     throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
                 }
 
-                account = new Account
+                account = new AccountEntity
                 {
                     Id = Guid.NewGuid().ToString(),
                     AccountName = info.AccountName,
@@ -77,7 +77,7 @@
                     Sex = info.Sex
                 };
 
-                var placeholders = new KeyPlaceholder[]
+                var placeholders = new KeyPlaceholderEntity[]
                 {
                     this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id,account.AccountName),
                     this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id,account.AccountName),
@@ -190,7 +190,7 @@
             string accountToken = EncryptHashManager.GenerateToken();
             string password = Guid.NewGuid().ToString();
 
-            var account = new Account
+            var account = new AccountEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = accountName,
@@ -304,7 +304,7 @@
         }
 
         private async Task RecordLogin(
-            Account account,
+            AccountEntity account,
             UCenterErrorCode code,
             string comments = null,
             CancellationToken token = default(CancellationToken))
@@ -324,7 +324,7 @@
                 area = string.Empty;
             }
 
-            var record = new LoginRecord
+            var record = new LoginRecordEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = account.AccountName,
@@ -340,7 +340,7 @@
             await this.Database.LoginRecords.InsertAsync(record, token);
         }
 
-        private async Task<Account> GetAndVerifyAccount(string accountId, CancellationToken token)
+        private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
         {
             var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
             if (account == null)
@@ -351,7 +351,7 @@
             return account;
         }
 
-        private TResponse ToResponse<TResponse>(Account entity) where TResponse : AccountRequestResponse
+        private TResponse ToResponse<TResponse>(AccountEntity entity) where TResponse : AccountRequestResponse
         {
             var res = new AccountResponse
             {
@@ -400,9 +400,9 @@
             return stream;
         }
 
-        private KeyPlaceholder GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
+        private KeyPlaceholderEntity GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
         {
-            return new KeyPlaceholder()
+            return new KeyPlaceholderEntity()
             {
                 Id = $"{type}-{name}",
                 Name = name,

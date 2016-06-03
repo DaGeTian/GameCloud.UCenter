@@ -3,7 +3,7 @@
 namespace GF.UCenter.MongoDB.Entity
 {
     [CollectionName("AppAccountData")]
-    public class AppAccountData : EntityBase
+    public class AppAccountDataEntity : EntityBase
     {
         public string AppId { get; set; }
 

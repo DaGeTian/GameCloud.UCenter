@@ -25,7 +25,7 @@ namespace GF.UCenter.Dashboard.Api
         {
         }
 
-        public async Task<PaginationResponse<Order>> Get(
+        public async Task<PaginationResponse<OrderEntity>> Get(
             CancellationToken token,
             [FromUri] string accountId = null,
             [FromUri]string keyword = null,
@@ -33,7 +33,7 @@ namespace GF.UCenter.Dashboard.Api
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
         {
-            Expression<Func<Order, bool>> filter = null;
+            Expression<Func<OrderEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -45,7 +45,7 @@ namespace GF.UCenter.Dashboard.Api
 
             var total = await this.Database.Orders.CountAsync(filter, token);
 
-            IQueryable<Order> querable = this.Database.Orders.Collection.AsQueryable();
+            IQueryable<OrderEntity> querable = this.Database.Orders.Collection.AsQueryable();
             if (filter != null)
             {
                 querable = querable.Where(filter);
@@ -53,7 +53,7 @@ namespace GF.UCenter.Dashboard.Api
 
             var orders = querable.Skip((page - 1) * count).Take(count).ToList();
 
-            var model = new PaginationResponse<Order>()
+            var model = new PaginationResponse<OrderEntity>()
             {
                 Page = page,
                 PageSize = count,

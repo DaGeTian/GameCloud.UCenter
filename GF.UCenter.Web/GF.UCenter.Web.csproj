@@ -229,8 +229,12 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\rsa_public_key.pem" />
-    <Content Include="App_Data\rsa_private_key.pem" />
+    <Content Include="App_Data\rsa_public_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\rsa_private_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\cragonucenter - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\tp-ucenter - Web Deploy.pubxml" />

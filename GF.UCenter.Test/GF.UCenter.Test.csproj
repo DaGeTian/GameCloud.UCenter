@@ -93,10 +93,6 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.CouchBase\GF.UCenter.CouchBase.csproj">
-      <Project>{d67e912d-32b3-47ff-be31-1d1137040eaa}</Project>
-      <Name>GF.UCenter.CouchBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
       <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
       <Name>GF.UCenter.MongoDB</Name>

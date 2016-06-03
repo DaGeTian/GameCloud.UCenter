@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GF.UCenter.CouchBase;
 using GF.UCenter.MongoDB.Entity;
 
 namespace GF.UCenter.Web.Common.Modes

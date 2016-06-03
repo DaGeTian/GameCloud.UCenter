@@ -21,7 +21,7 @@
             errorMessages.Add(UCenterErrorCode.AppNotExit, @"App not exists.");
             errorMessages.Add(UCenterErrorCode.AppReadAccountDataFailed, @"Read data failed.");
             errorMessages.Add(UCenterErrorCode.AppWriteAccountDataFailed, @"Write data failed.");
-            errorMessages.Add(UCenterErrorCode.CouchBaseError, @"Internal database error.");
+            errorMessages.Add(UCenterErrorCode.DatabaseError, @"Internal database error.");
             errorMessages.Add(UCenterErrorCode.Failed, @"Request execution failed.");
             errorMessages.Add(UCenterErrorCode.HttpClientError, @"Client error.");
             errorMessages.Add(UCenterErrorCode.PaymentCreateChargeFailed, @"Payment create failed.");

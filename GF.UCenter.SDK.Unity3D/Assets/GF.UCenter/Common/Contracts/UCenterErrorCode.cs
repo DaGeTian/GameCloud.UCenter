@@ -11,7 +11,7 @@
         /// 未处理的通用错误
         /// </summary>
         Failed = 1000,
-        CouchBaseError = 1001,
+        DatabaseError = 1001,
         HttpClientError = 1002,
 
         /// <summary>

@@ -7,21 +7,22 @@ using GF.UCenter.MongoDB.Attributes;
 
 namespace GF.UCenter.MongoDB.Entity
 {
-    [CollectionName("Order")]
-    public class Order : EntityBase
+    [CollectionName("KeyPlaceholder")]
+    public class KeyPlaceholderEntity : EntityBase
     {
-        public string AppId { get; set; }
+        public string Name { get; set; }
 
-        public string AppName { get; set; }
+        public KeyType Type { get; set; }
 
         public string AccountId { get; set; }
 
         public string AccountName { get; set; }
+    }
 
-        public OrderState State { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime CompletedTime { get; set; }
+    public enum KeyType
+    {
+        Name,
+        Phone,
+        Email
     }
 }

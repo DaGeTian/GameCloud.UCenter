@@ -9,7 +9,7 @@ using GF.UCenter.MongoDB.Attributes;
 namespace GF.UCenter.MongoDB.Entity
 {
     [CollectionName("LoginRecord")]
-    public class LoginRecord : EntityBase
+    public class LoginRecordEntity : EntityBase
     {
         public string AccountName { get; set; }
 
