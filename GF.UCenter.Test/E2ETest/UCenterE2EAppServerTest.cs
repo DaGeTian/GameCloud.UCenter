@@ -1,4 +1,6 @@
-﻿namespace GF.UCenter.Test
+﻿using GF.UCenter.Web.Api.ApiControllers;
+
+namespace GF.UCenter.Test
 {
     using System.Threading.Tasks;
     using Common;
