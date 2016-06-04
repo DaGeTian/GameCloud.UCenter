@@ -29,11 +29,6 @@
             return this.View();
         }
 
-        public ActionResult SingleUser()
-        {
-            return this.View();
-        }
-
         public async Task<ActionResult> OrderList(CancellationToken token, string accountId = null)
         {
             if (!string.IsNullOrEmpty(accountId))

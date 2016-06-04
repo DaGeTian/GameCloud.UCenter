@@ -69,14 +69,9 @@
         private static IEnumerable<string> GetDirectoryAssemblies()
         {
             string directory;
-            if (HostingEnvironment.IsHosted)
-            {
-                directory = HostingEnvironment.MapPath("~/bin");
-            }
-            else
-            {
-                directory = Path.GetDirectoryName(typeof (CompositionContainerFactory).Assembly.Location);
-            }
+            directory = HostingEnvironment.IsHosted 
+                ? HostingEnvironment.MapPath("~/bin") 
+                : Path.GetDirectoryName(typeof (CompositionContainerFactory).Assembly.Location);
 
             var dlls = Directory.EnumerateFiles(directory, "*.dll", SearchOption.AllDirectories);
             var exes = Directory.EnumerateFiles(directory, "*.exe", SearchOption.AllDirectories);

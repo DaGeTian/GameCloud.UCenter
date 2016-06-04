@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-
-namespace GF.UCenter.Common.Portable.Models.AppClient
+﻿namespace GF.UCenter.Common.Portable.Models.AppClient
 {
+    using System.Runtime.Serialization;
+
     [DataContract]
     public class AccountRegisterInfo
     {

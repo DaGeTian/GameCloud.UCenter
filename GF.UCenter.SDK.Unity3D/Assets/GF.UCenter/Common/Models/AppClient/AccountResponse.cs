@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace GF.UCenter.Common.Portable.Models.AppClient
+﻿namespace GF.UCenter.Common.Portable.Models.AppClient
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [DataContract]
     public class AccountResponse
     {

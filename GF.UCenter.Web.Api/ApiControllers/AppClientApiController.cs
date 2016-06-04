@@ -27,8 +27,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountApiController" /> class.
         /// </summary>
-        /// <param name="settings">The database context.</param>
-        /// <param name="storageContext">The UCenter settings.</param>
+        /// <param name="database">The database context.</param>
+        /// <param name="settings">The UCenter settings.</param>
         /// <param name="storageContext">The storage account context.</param>
         [ImportingConstructor]
         public AppClientApiController(DatabaseContext database, Settings settings, StorageAccountContext storageContext)

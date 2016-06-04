@@ -135,17 +135,11 @@
             var eventType = jObject.SelectToken("type");
             var orderNo = jObject.SelectToken("data.object.order_no");
 
-            var order = await this.Database.Orders.GetSingleAsync(orderNo.ToString(), token);
-
-            if (order == null)
+            var order = await this.Database.Orders.GetSingleAsync(orderNo.ToString(), token) ?? new OrderEntity
             {
-                // todo: how to set the account id?
-                order = new OrderEntity
-                {
-                    Id = orderNo.ToString(),
-                    CreatedTime = DateTime.UtcNow
-                };
-            }
+                Id = orderNo.ToString(),
+                CreatedTime = DateTime.UtcNow
+            };
 
             order.State = eventType.ToString() == "charge.succeeded" || eventType.ToString() == "refund.succeeded"
                 ? OrderState.Success

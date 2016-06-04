@@ -1,9 +1,9 @@
-﻿using System;
-using GF.UCenter.Common.Portable.Contracts;
-using GF.UCenter.Common.Portable.Resource;
-
-namespace GF.UCenter.Common.Portable.Exceptions
+﻿namespace GF.UCenter.Common.Portable.Exceptions
 {
+    using System;
+    using Contracts;
+    using Resource;
+
     public class UCenterException : ApplicationException
     {
         public UCenterException(UCenterErrorCode errorCode, string message, Exception innerException = null)

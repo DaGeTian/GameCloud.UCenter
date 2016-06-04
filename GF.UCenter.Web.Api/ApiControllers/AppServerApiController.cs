@@ -24,7 +24,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ImportingConstructor" /> class.
         /// </summary>
-        /// <param name="db">The database context.</param>
+        /// <param name="database">The database context.</param>
         [ImportingConstructor]
         public AppServerApiController(DatabaseContext database)
             : base(database)

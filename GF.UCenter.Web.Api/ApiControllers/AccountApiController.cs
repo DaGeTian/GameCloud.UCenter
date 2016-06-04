@@ -140,7 +140,7 @@
                     {
                         foreach (var item in removeTempsIfError)
                         {
-                            this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait();
+                            this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait(token);
                         }
                     }
                     catch (Exception ex)
@@ -165,16 +165,15 @@
             }
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
             {
-                await
-                    this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                        "The account name and password do not match");
+                await this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                        "The account name and password do not match", token);
 
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
             account.LastLoginDateTime = DateTime.UtcNow;
             account.Token = EncryptHashManager.GenerateToken();
             await this.Database.Accounts.UpsertAsync(account, token);
-            await this.RecordLogin(account, UCenterErrorCode.Success);
+            await this.RecordLogin(account, UCenterErrorCode.Success, token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(account));
         }
@@ -224,9 +223,8 @@
 
             if (!EncryptHashManager.VerifyHash(info.OldPassword, account.Password))
             {
-                await
-                    this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                        "The account name and password do not match");
+                await this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                        "The account name and password do not match", token);
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
@@ -241,7 +239,7 @@
             account.Sex = info.Sex;
             await this.Database.Accounts.UpsertAsync(account, token);
 
-            await this.RecordLogin(account, UCenterErrorCode.Success, "Account converted successfully.");
+            await this.RecordLogin(account, UCenterErrorCode.Success, "Account converted successfully.", token);
             return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
         }
 
@@ -271,7 +269,7 @@
             }
             account.Password = EncryptHashManager.ComputeHash(info.Password);
             await this.Database.Accounts.UpsertAsync(account, token);
-            await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.");
+            await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.", token);
             return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(account));
         }
 
@@ -300,7 +298,7 @@
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
                 await this.Database.Accounts.UpsertAsync(account, token);
-                await this.RecordLogin(account, UCenterErrorCode.Success, "Profile image uploaded successfully.");
+                await this.RecordLogin(account, UCenterErrorCode.Success, "Profile image uploaded successfully.", token);
                 return this.CreateSuccessResult(
                     this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
