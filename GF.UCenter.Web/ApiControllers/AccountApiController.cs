@@ -70,6 +70,7 @@
                     AccountName = info.AccountName,
                     IsGuest = false,
                     Name = info.Name,
+                    Email = info.Email,
                     IdentityNum = info.IdentityNum,
                     Password = EncryptHashManager.ComputeHash(info.Password),
                     SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword),

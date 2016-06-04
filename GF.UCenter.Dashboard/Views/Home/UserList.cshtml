@@ -29,7 +29,7 @@
                     <td>{{row.IsGuest|yesNo}}</td>
                     <td>{{row.Email}}</td>
                     <td>{{row.PhoneNum}}</td>
-                    <td>{{row.CreatedDateTime | date:'yyyy/MM/dd'}}</td>
+                    <td>{{row.CreatedTime | date:'yyyy/MM/dd'}}</td>
                     <td>{{row.LastLoginDateTime| date:'yyyy/MM/dd HH:mm'}}</td>
                     <td><a href="/home/orderlist?accountId={{row.Id}}">订单</a></td>
                 </tr>

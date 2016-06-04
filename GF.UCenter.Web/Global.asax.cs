@@ -7,6 +7,7 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using Common;
+    using MongoDB.Adapters;
     using UCenter.Common;
     using UCenter.Common.Settings;
 

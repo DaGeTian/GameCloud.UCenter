@@ -40,9 +40,11 @@
 
             if (app == null)
             {
+                // todo: currently, app name equals app id.
                 app = new AppEntity
                 {
                     Id = info.AppId,
+                    Name = info.AppId,
                     AppSecret = info.AppSecret,
                     Configuration = info.Configuration
                 };

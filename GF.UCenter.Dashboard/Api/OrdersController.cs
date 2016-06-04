@@ -33,25 +33,23 @@ namespace GF.UCenter.Dashboard.Api
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
         {
-            Expression<Func<OrderEntity, bool>> filter = null;
+            IQueryable<OrderEntity> querable = this.Database.Orders.Collection.AsQueryable();
+            if (!string.IsNullOrEmpty(accountId))
+            {
+                querable = querable.Where(a => a.AccountId == accountId);
+            }
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = a => a.Id.Contains(keyword)
+                querable = querable.Where(a => a.Id.Contains(keyword)
                     || a.AccountName.Contains(keyword)
                     || a.AppName.Contains(keyword)
-                    || a.Content.Contains(keyword);
-            }
-
-            var total = await this.Database.Orders.CountAsync(filter, token);
-
-            IQueryable<OrderEntity> querable = this.Database.Orders.Collection.AsQueryable();
-            if (filter != null)
-            {
-                querable = querable.Where(filter);
+                    || a.Content.Contains(keyword));
             }
 
             var orders = querable.Skip((page - 1) * count).Take(count).ToList();
+
+            var total = querable.LongCount();
 
             var model = new PaginationResponse<OrderEntity>()
             {

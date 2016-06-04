@@ -64,6 +64,7 @@
                     Name = "n-" + GenerateRandomString(),
                     IdentityNum = "in-" + GenerateRandomString(),
                     PhoneNum = "p-" + GenerateRandomString(),
+                    Email = GenerateRandomString() + "@test.com",
                     Sex = Sex.Female
                 };
             }
@@ -73,6 +74,7 @@
             Assert.AreEqual(registerResponse.IdentityNum, info.IdentityNum);
             Assert.AreEqual(registerResponse.Name, info.Name);
             Assert.AreEqual(registerResponse.PhoneNum, info.PhoneNum);
+            Assert.AreEqual(registerResponse.Email, info.Email);
             Assert.AreEqual(registerResponse.Sex, info.Sex);
             Assert.IsNotNull(registerResponse.ProfileImage);
             Assert.IsNotNull(registerResponse.ProfileThumbnail);

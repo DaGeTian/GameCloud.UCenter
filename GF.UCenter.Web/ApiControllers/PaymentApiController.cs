@@ -46,11 +46,15 @@
 
             try
             {
+                var account = await this.Database.Accounts.GetSingleAsync(info.AccountId, token);
+                var app = await this.Database.Apps.GetSingleAsync(info.AppId, token);
                 var orderEntity = new OrderEntity
                 {
                     Id = Guid.NewGuid().ToString(),
                     AppId = info.AppId,
+                    AppName = app == null ? null : app.Name,
                     AccountId = info.AccountId,
+                    AccountName = account == null ? null : account.AccountName,
                     State = OrderState.Created,
                     CreatedTime = DateTime.UtcNow
                 };
@@ -135,6 +139,7 @@
 
             if (order == null)
             {
+                // todo: how to set the account id?
                 order = new OrderEntity
                 {
                     Id = orderNo.ToString(),
@@ -155,10 +160,10 @@
         private static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
             string str_publicKeyFilePath)
         {
-            byte[] SignedData = Convert.FromBase64String(str_SignedData);
+            byte[] signedData = Convert.FromBase64String(str_SignedData);
 
-            var ByteConverter = new UTF8Encoding();
-            byte[] DataToVerify = ByteConverter.GetBytes(str_DataToVerify);
+            var byteConverter = new UTF8Encoding();
+            byte[] dataToVerify = byteConverter.GetBytes(str_DataToVerify);
             try
             {
                 string sPublicKeyPEM = File.ReadAllText(str_publicKeyFilePath);
@@ -167,7 +172,7 @@
                 rsa.PersistKeyInCsp = false;
                 rsa.LoadPublicKeyPEM(sPublicKeyPEM);
 
-                if (rsa.VerifyData(DataToVerify, "SHA256", SignedData))
+                if (rsa.VerifyData(dataToVerify, "SHA256", signedData))
                 {
                     return "verify success";
                 }

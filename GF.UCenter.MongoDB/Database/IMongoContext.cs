@@ -4,6 +4,6 @@ namespace GF.UCenter.MongoDB.Database
 {
     public interface IMongoContext
     {
-        MongoDatabase GetDatabase();
+        IMongoDatabase GetDatabase();
     }
 }

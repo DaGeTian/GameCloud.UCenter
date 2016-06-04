@@ -50,6 +50,7 @@
                             Password = ValidAccountPassword,
                             SuperPassword = ValidAccountPassword,
                             Name = random,
+                            Email = random,
                             IdentityNum = random,
                             PhoneNum = random,
                             Sex = Sex.Female
@@ -89,7 +90,7 @@
                 Name = GenerateRandomString(),
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
-                Email = "abc@abc.com",
+                Email = GenerateRandomString() + "@test.com",
                 Sex = Sex.Female
             };
 
