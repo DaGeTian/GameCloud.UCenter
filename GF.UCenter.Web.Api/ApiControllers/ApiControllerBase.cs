@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.Composition;
-using System.Web.Http;
-using GF.UCenter.Common.Portable;
-using GF.UCenter.MongoDB;
-using GF.UCenter.Web.Common;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
+    using System.ComponentModel.Composition;
+    using System.Web.Http;
+    using Common;
+    using MongoDB;
+    using UCenter.Common.Portable.Contracts;
+
     /// <summary>
     /// API controller base class
     /// </summary>

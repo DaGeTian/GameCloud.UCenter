@@ -47,7 +47,7 @@
         {
             if (serviceType == null)
             {
-                throw new ArgumentNullException("serviceType");
+                throw new ArgumentNullException(nameof(serviceType));
             }
 
             var contractName = AttributedModelServices.GetContractName(serviceType);
@@ -64,11 +64,10 @@
         {
             if (serviceType == null)
             {
-                throw new ArgumentNullException("serviceType");
+                throw new ArgumentNullException(nameof(serviceType));
             }
 
-            var exports =
-                this.exportProvider.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+            var exports = this.exportProvider.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
             return exports;
         }
     }

@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.Composition;
-using System.Web.Http;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-
-namespace GF.UCenter.Web.App.ApiControllers
+﻿namespace GF.UCenter.Web.App.ApiControllers
 {
+    using System.ComponentModel.Composition;
+    using System.Web.Http;
+    using MongoDB;
+    using UCenter.Common.Settings;
+
     [Export]
     public class ApiControllerBase : ApiController
     {

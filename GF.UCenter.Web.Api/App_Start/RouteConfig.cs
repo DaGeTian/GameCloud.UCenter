@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
-using System.Web.Routing;
-
-namespace GF.UCenter.Web.Api
+﻿namespace GF.UCenter.Web.Api
 {
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
     /// <summary>
     /// The route configuration
     /// </summary>

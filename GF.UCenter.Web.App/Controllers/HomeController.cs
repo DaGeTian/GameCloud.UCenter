@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-
-namespace GF.UCenter.Web.App.Controllers
+﻿namespace GF.UCenter.Web.App.Controllers
 {
+    using System.ComponentModel.Composition;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
+    using MongoDB;
+    using MongoDB.Adapters;
+
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : Controller

@@ -1,14 +1,14 @@
-﻿using GF.UCenter.Web.Api.ApiControllers;
-
-namespace GF.UCenter.Test
+﻿namespace GF.UCenter.Test
 {
+    using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using Common;
-    using Common.Portable;
+    using Common.Portable.Contracts;
+    using Common.Portable.Models.AppClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
-    using Web;
-    using System.Threading;
+    using Web.Api.ApiControllers;
+
     [TestClass]
     public class UCenterE2EAppServerTest : UCenterE2ETestBase
     {

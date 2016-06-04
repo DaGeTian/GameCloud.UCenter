@@ -1,19 +1,19 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using GF.UCenter.Web.Common.Modes;
-using MongoDB.Driver;
-
-namespace GF.UCenter.Web.App.ApiControllers
+﻿namespace GF.UCenter.Web.App.ApiControllers
 {
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common.Modes;
+    using global::MongoDB.Driver;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using UCenter.Common.Settings;
+
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class UsersController : ApiControllerBase
@@ -51,7 +51,7 @@ namespace GF.UCenter.Web.App.ApiControllers
             var accounts = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PaginationResponse<AccountEntity>()
+            var model = new PaginationResponse<AccountEntity>
             {
                 Page = page,
                 PageSize = count,

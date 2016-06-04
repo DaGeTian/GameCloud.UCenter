@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GF.UCenter.MongoDB.Entity;
-
-namespace GF.UCenter.Web.Common.Modes
+﻿namespace GF.UCenter.Web.Common.Modes
 {
+    using System;
+    using MongoDB.Entity;
+
     public class OrderRaw
     {
         public string AccountId { get; set; }

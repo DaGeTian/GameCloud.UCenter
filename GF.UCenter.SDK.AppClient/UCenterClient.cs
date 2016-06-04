@@ -1,13 +1,11 @@
 ﻿namespace GF.UCenter.SDK.AppClient
 {
-    using System;
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using Common;
     using Common.IP;
-    using Common.Portable;
+    using Common.Portable.Models.AppClient;
     using Common.SDK;
 
     public class UCenterClient
@@ -18,14 +16,7 @@
         public UCenterClient(string host)
         {
             this.httpClient = new UCenterHttpClient();
-            if (host.EndsWith("/"))
-            {
-                this.host = host.Substring(0, host.Length - 1);
-            }
-            else
-            {
-                this.host = host;
-            }
+            this.host = host.EndsWith("/") ? host.Substring(0, host.Length - 1) : host;
         }
 
         public async Task<AccountRegisterResponse> AccountRegisterAsync(AccountRegisterInfo info)

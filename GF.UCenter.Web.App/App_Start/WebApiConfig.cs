@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-
-namespace GF.UCenter.Web.App
+﻿namespace GF.UCenter.Web.App
 {
+    using System.Web.Http;
+
     public static class WebApiConfig
     {
         /// <summary>

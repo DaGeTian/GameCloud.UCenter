@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GF.UCenter.MongoDB.Attributes;
-
-namespace GF.UCenter.MongoDB.Entity
+﻿namespace GF.UCenter.MongoDB.Entity
 {
+    using System;
+    using Attributes;
+
     [CollectionName("Order")]
     public class OrderEntity : EntityBase
     {

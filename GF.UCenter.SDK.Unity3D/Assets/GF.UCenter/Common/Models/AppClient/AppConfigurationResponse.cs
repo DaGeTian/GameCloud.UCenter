@@ -1,7 +1,7 @@
-﻿namespace GF.UCenter.Common
-{
-    using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
+namespace GF.UCenter.Common.Portable.Models.AppClient
+{
     [DataContract]
     public class AppConfigurationResponse
     {

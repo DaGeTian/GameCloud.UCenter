@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GF.UCenter.Web.Common.Modes
+﻿namespace GF.UCenter.Web.Common.Modes
 {
+    using System.Collections.Generic;
+
     public class PaginationResponse<TRaw>
     {
         public long Total { get; set; }

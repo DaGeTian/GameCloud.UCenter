@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace GF.UCenter.Web.Api
+﻿namespace GF.UCenter.Web.Api
 {
+    using System.Web.Mvc;
+
     /// <summary>
     /// Filter configuration
     /// </summary>

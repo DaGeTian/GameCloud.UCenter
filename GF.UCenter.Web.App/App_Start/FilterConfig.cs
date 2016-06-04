@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace GF.UCenter.Web.App
+﻿namespace GF.UCenter.Web.App
 {
+    using System.Web.Mvc;
+
     public class FilterConfig
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

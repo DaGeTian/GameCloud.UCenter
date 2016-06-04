@@ -2,7 +2,7 @@
 {
     using System;
     using Attributes;
-    using Common.Portable;
+    using Common.Portable.Models.AppClient;
 
     [CollectionName("Account")]
     public class AccountEntity : EntityBase
@@ -32,6 +32,5 @@
         public string PhoneNum { get; set; }
 
         public string Email { get; set; }
-
     }
 }

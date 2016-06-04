@@ -3,9 +3,9 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
-    using Common.Portable;
+    using Common.Portable.Contracts;
+    using Common.Portable.Models.AppClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

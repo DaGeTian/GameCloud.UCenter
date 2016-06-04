@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using GF.UCenter.Web.Common.Modes;
-using MongoDB.Driver;
-
-namespace GF.UCenter.Web.App.ApiControllers
+﻿namespace GF.UCenter.Web.App.ApiControllers
 {
+    using System.ComponentModel.Composition;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common.Modes;
+    using global::MongoDB.Driver;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using UCenter.Common.Settings;
+
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class OrdersController : ApiControllerBase
@@ -48,7 +48,7 @@ namespace GF.UCenter.Web.App.ApiControllers
 
             var total = querable.LongCount();
 
-            var model = new PaginationResponse<OrderEntity>()
+            var model = new PaginationResponse<OrderEntity>
             {
                 Page = page,
                 PageSize = count,
@@ -62,7 +62,7 @@ namespace GF.UCenter.Web.App.ApiControllers
         public async Task<OrderRaw> Get(string id, CancellationToken token)
         {
             var order = await this.Database.Orders.GetSingleAsync(id, token);
-            var raw = new OrderRaw()
+            var raw = new OrderRaw
             {
                 OrderId = order.Id,
                 State = order.State,

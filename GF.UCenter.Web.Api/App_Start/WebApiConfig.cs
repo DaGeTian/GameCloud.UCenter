@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-
-namespace GF.UCenter.Web.Api
+﻿namespace GF.UCenter.Web.Api
 {
+    using System.Web.Http;
+
     /// <summary>
     /// The web API configuration
     /// </summary>

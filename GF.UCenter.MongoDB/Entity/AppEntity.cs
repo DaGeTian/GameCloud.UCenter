@@ -1,7 +1,7 @@
-﻿using GF.UCenter.MongoDB.Attributes;
-
-namespace GF.UCenter.MongoDB.Entity
+﻿namespace GF.UCenter.MongoDB.Entity
 {
+    using Attributes;
+
     [CollectionName("App")]
     public class AppEntity : EntityBase
     {

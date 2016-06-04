@@ -1,17 +1,18 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common;
-using GF.UCenter.Common.Portable;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using GF.UCenter.Web.Common.Logger;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common.Logger;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using UCenter.Common;
+    using UCenter.Common.Portable.Contracts;
+    using UCenter.Common.Portable.Exceptions;
+
     /// <summary>
     /// UCenter app api controller
     /// </summary>

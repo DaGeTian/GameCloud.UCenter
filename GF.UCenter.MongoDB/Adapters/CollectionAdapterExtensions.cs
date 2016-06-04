@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using GF.UCenter.MongoDB.Entity;
-using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB.Adapters
+﻿namespace GF.UCenter.MongoDB.Adapters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Entity;
+    using global::MongoDB.Driver;
+
     public static class CollectionAdapterExtensions
     {
         public static Task DeleteAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, TEntity entity, CancellationToken token)
@@ -53,7 +51,7 @@ namespace GF.UCenter.MongoDB.Adapters
         {
             return adapter.UpdateAsync(
                 entity,
-                new UpdateOptions() { IsUpsert = true },
+                new UpdateOptions { IsUpsert = true },
                 token);
         }
 

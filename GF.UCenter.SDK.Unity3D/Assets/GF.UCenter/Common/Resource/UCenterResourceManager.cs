@@ -1,4 +1,6 @@
-﻿namespace GF.UCenter.Common.Portable.Resource
+﻿using GF.UCenter.Common.Portable.Contracts;
+
+namespace GF.UCenter.Common.Portable.Resource
 {
     using System.Collections.Generic;
 

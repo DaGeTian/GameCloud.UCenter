@@ -1,23 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common;
-using GF.UCenter.Common.Portable;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using GF.UCenter.Web.Common.Logger;
-using Newtonsoft.Json.Linq;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common.Logger;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using Newtonsoft.Json.Linq;
+    using Pingpp;
+    using UCenter.Common;
+    using UCenter.Common.Portable.Contracts;
+    using UCenter.Common.Portable.Exceptions;
+    using Charge = Pingpp.Models.Charge;
+
     /// <summary>
     /// UCenter payment api controller
     /// </summary>
@@ -59,11 +62,11 @@ namespace GF.UCenter.Web.Api.ApiControllers
                 await this.Database.Orders.InsertAsync(orderEntity, token);
 
                 // TODO: Replace with live key
-                Pingpp.Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
+                Pingpp.SetApiKey("sk_test_zXnD8KKOyfn1vDuj9SG8ibfT");
 
                 // TODO: Fix hard code path
                 var certFile = this.GetCertFilePath("rsa_private_key.pem");
-                Pingpp.Pingpp.SetPrivateKeyPath(certFile);
+                Pingpp.SetPrivateKeyPath(certFile);
 
                 var appId = "app_H4yDu5COi1O4SWvz";
                 var r = new Random();
@@ -86,7 +89,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
                     {"app", new Dictionary<string, string> {{"id", appId}}}
                 };
 
-                var charge = Pingpp.Models.Charge.Create(chParams);
+                var charge = Charge.Create(chParams);
 
                 return this.CreateSuccessResult(charge);
             }

@@ -3,7 +3,8 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Common.Portable;
+    using Common.Portable.Contracts;
+    using Common.Portable.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public static class TestExpector

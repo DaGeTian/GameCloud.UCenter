@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common;
-using GF.UCenter.Common.IP;
-using GF.UCenter.Common.Portable;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using GF.UCenter.Web.Common;
-using GF.UCenter.Web.Common.Logger;
-using MongoDB.Driver;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Drawing;
+    using System.Globalization;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common;
+    using Common.Logger;
+    using global::MongoDB.Driver;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using UCenter.Common;
+    using UCenter.Common.IP;
+    using UCenter.Common.Portable.Contracts;
+    using UCenter.Common.Portable.Exceptions;
+    using UCenter.Common.Portable.Models.AppClient;
+    using UCenter.Common.Settings;
+
     /// <summary>
     /// UCenter account api controller
     /// </summary>
@@ -78,11 +80,11 @@ namespace GF.UCenter.Web.Api.ApiControllers
                     Sex = info.Sex
                 };
 
-                var placeholders = new KeyPlaceholderEntity[]
+                var placeholders = new[]
                 {
                     this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id,account.AccountName),
                     this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id,account.AccountName),
-                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id,account.AccountName),
+                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id,account.AccountName)
                 };
 
                 foreach (var placeholder in placeholders)
@@ -403,7 +405,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
 
         private KeyPlaceholderEntity GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
         {
-            return new KeyPlaceholderEntity()
+            return new KeyPlaceholderEntity
             {
                 Id = $"{type}-{name}",
                 Name = name,

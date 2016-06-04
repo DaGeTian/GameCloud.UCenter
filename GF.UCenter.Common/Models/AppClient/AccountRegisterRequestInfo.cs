@@ -2,8 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
-    using Common;
-    using Common.Portable;
+    using Portable.Models.AppClient;
 
     [DataContract]
     public class AccountRegisterRequestInfo : AccountRegisterInfo

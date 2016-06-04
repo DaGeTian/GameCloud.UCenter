@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GF.UCenter.Common;
-using GF.UCenter.Common.IP;
-using GF.UCenter.Common.Portable;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.Web.Common;
-using GF.UCenter.Web.Common.Logger;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
+    using System.ComponentModel.Composition;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Common;
+    using Common.Logger;
+    using MongoDB;
+    using MongoDB.Adapters;
+    using UCenter.Common.IP;
+    using UCenter.Common.Portable.Contracts;
+    using UCenter.Common.Portable.Exceptions;
+    using UCenter.Common.Portable.Models.AppClient;
+    using UCenter.Common.Settings;
+
     /// <summary>
     /// UCenter account api controller
     /// </summary>
@@ -59,7 +60,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExit);
             }
-            var response = new AppConfigurationResponse()
+            var response = new AppConfigurationResponse
             {
                 AppId = app.Id,
                 Configuration = app.Configuration

@@ -1,7 +1,7 @@
-﻿using System.Web.Optimization;
-
-namespace GF.UCenter.Web.Api
+﻿namespace GF.UCenter.Web.Api
 {
+    using System.Web.Optimization;
+
     /// <summary>
     /// Bundle configuration
     /// </summary>

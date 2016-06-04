@@ -9,12 +9,12 @@
     using System.Threading.Tasks;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
+    using global::MongoDB.Driver;
+    using Logger;
     using UCenter.Common;
     using UCenter.Common.IP;
-    using UCenter.Common.Portable;
-    using NLog;
-    using Logger;
-    using global::MongoDB.Driver;
+    using UCenter.Common.Portable.Contracts;
+    using UCenter.Common.Portable.Exceptions;
 
     public sealed class ActionExecutionFilterAttribute : ActionFilterAttribute
     {
@@ -42,7 +42,6 @@
                     context.ActionContext.ActionArguments);
 
                 var errorCode = UCenterErrorCode.Failed;
-                string errorMessage = null;
 
                 if (context.Exception is UCenterException)
                 {
@@ -57,7 +56,7 @@
                     errorCode = UCenterErrorCode.Failed;
                 }
 
-                errorMessage = context.Exception.Message;
+                string errorMessage = context.Exception.Message;
                 context.Response = this.CreateErrorResponseMessage(errorCode, errorMessage);
             }
 

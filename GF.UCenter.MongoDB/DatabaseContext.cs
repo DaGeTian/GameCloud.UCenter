@@ -1,29 +1,28 @@
-﻿using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB
+﻿namespace GF.UCenter.MongoDB
 {
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
+    using Adapters;
+    using Entity;
+    using global::MongoDB.Driver;
+
     [Export]
     public class DatabaseContext
     {
         private readonly ExportProvider exportProvider;
-        private readonly DatabaseContextSettings settings;
 
         [ImportingConstructor]
         private DatabaseContext(ExportProvider exportProvider, DatabaseContextSettings settings)
         {
             this.exportProvider = exportProvider;
-            this.settings = settings;
+            this.Settings = settings;
             var client = new MongoClient(settings.ConnectionString);
-            this.Database = client.GetDatabase(this.settings.DatabaseName);
+            this.Database = client.GetDatabase(this.Settings.DatabaseName);
         }
 
         public IMongoDatabase Database { get; }
 
-        public DatabaseContextSettings Settings => this.settings;
+        public DatabaseContextSettings Settings { get; }
 
         public ICollectionAdapter<AccountEntity> Accounts => this.GetAdapter<AccountEntity>();
 
