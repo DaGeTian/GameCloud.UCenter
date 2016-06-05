@@ -1,12 +1,12 @@
-﻿using System;
-using System.ComponentModel.Composition;
-
-namespace GF.UCenter.Web.Common.Logger
+﻿namespace GF.UCenter.Web.Common.Logger
 {
+    using System;
+    using System.ComponentModel.Composition;
+
     [Export("Trace.Console", typeof(ILoggerAdapter))]
     public class ConsoleLoggerAdapter : ILoggerAdapter
     {
-        private static object locker = new object();
+        private static readonly object locker = new object();
 
         public void TraceError(string message)
         {

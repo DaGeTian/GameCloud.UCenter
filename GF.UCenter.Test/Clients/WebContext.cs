@@ -6,9 +6,9 @@
     using System.Web.Http;
     using System.Web.Http.SelfHost;
     using Common;
-    using Web;
     using Web.Common;
     using Web.Common.Logger;
+
     [Export]
     public class WebContext : DisposableObjectSlim
     {

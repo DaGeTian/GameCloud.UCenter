@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB
+﻿namespace GF.UCenter.MongoDB
 {
+    using System.ComponentModel.Composition;
+    using global::MongoDB.Driver;
+
     [Export]
     public class DatabaseContextSettings
     {

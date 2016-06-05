@@ -3,9 +3,9 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
-    using Common.Portable;
+    using Common.Portable.Contracts;
+    using Common.Portable.Models.AppClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -50,6 +50,7 @@
                             Password = ValidAccountPassword,
                             SuperPassword = ValidAccountPassword,
                             Name = random,
+                            Email = random,
                             IdentityNum = random,
                             PhoneNum = random,
                             Sex = Sex.Female
@@ -89,7 +90,7 @@
                 Name = GenerateRandomString(),
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
-                Email = "abc@abc.com",
+                Email = GenerateRandomString() + "@test.com",
                 Sex = Sex.Female
             };
 

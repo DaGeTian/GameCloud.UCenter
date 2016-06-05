@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.Composition;
-
-namespace GF.UCenter.Web.Common.Logger
+﻿namespace GF.UCenter.Web.Common.Logger
 {
+    using System.ComponentModel.Composition;
+    using NLog;
+
     [Export("Trace.NLog", typeof(ILoggerAdapter))]
     public class NLoggerAdapter : ILoggerAdapter
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public void TraceError(string message)
         {

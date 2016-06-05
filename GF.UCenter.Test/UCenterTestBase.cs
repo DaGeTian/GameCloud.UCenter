@@ -11,9 +11,9 @@
     using Common.Settings;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using UCenter.MongoDB;
-    using Web;
     using Web.Common;
     using Web.Common.Logger;
+
     [TestClass]
     public class UCenterTestBase
     {

@@ -17,7 +17,7 @@
                 provider.SettingValues.AsParallel()
                     .ForAll(pair =>
                     {
-                        var property = properties.Where(p => p.Name == pair.Name).FirstOrDefault();
+                        var property = properties.FirstOrDefault(p => p.Name == pair.Name);
                         if (property != null)
                         {
                             property.SetValue(settings, Convert.ChangeType(pair.Value, property.PropertyType));

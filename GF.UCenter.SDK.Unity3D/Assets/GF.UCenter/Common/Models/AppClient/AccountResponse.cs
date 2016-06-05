@@ -1,4 +1,4 @@
-﻿namespace GF.UCenter.Common.Portable
+﻿namespace GF.UCenter.Common.Portable.Models.AppClient
 {
     using System;
     using System.Runtime.Serialization;

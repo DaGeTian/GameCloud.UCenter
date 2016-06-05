@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.Composition.Hosting;
-using System.Globalization;
-
-namespace GF.UCenter.Web.Common.Logger
+﻿namespace GF.UCenter.Web.Common.Logger
 {
+    using System;
+    using System.ComponentModel.Composition.Hosting;
+    using System.Globalization;
+
     public static class CustomTrace
     {
         private static ILoggerAdapter adapter = new NLoggerAdapter();

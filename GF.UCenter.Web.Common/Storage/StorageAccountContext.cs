@@ -5,9 +5,9 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using UCenter.Common.Settings;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using UCenter.Common.Settings;
 
     [Export]
     public class StorageAccountContext
@@ -79,7 +79,7 @@
 
                 DateTime startTime = DateTime.Now;
                 copyId = await targetBlob.StartCopyAsync(sourceBlob, token);
-                while ((DateTime.Now - startTime) < timeOut)
+                while (DateTime.Now - startTime < timeOut)
                 {
                     Thread.Sleep(100);
                     await targetBlob.FetchAttributesAsync(token);

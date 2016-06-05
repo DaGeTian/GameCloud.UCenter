@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace GF.UCenter.MongoDB
+﻿namespace GF.UCenter.MongoDB.Exceptions
 {
-    public class ModelNotFoundException : Exception
-    {
+    using System;
 
-    }
+    public class ModelNotFoundException : Exception
+    {}
 
     public class DatabaseException : Exception
     {
@@ -35,12 +33,8 @@ namespace GF.UCenter.MongoDB
     }
 
     public class AggregateDeletedException : Exception
-    {
-
-    }
+    {}
 
     public class ConcurrencyException : Exception
-    {
-
-    }
+    {}
 }

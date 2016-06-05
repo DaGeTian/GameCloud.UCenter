@@ -1,20 +1,20 @@
-﻿using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB.Database
+﻿namespace GF.UCenter.MongoDB.Database
 {
+    using System;
+    using global::MongoDB.Driver;
+
     public class MongoContext : IMongoContext
     {
-        private readonly MongoDatabase database;
+        private readonly IMongoDatabase database;
 
         public MongoContext(string url)
         {
-            string dbName = url.Substring(url.LastIndexOf("/") + 1);
+            string dbName = url.Substring(url.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1);
             var client = new MongoClient(url);
-            // todo: use new API
-            database = client.GetServer().GetDatabase(dbName);
+            database = client.GetDatabase(dbName);
         }
 
-        public MongoDatabase GetDatabase()
+        public IMongoDatabase GetDatabase()
         {
             return database;
         }

@@ -15,14 +15,9 @@
             () =>
             {
                 Configuration configuration = null;
-                if (HostingEnvironment.IsHosted)
-                {
-                    configuration = WebConfigurationManager.OpenWebConfiguration("~/");
-                }
-                else
-                {
-                    configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                }
+                configuration = HostingEnvironment.IsHosted
+                    ? WebConfigurationManager.OpenWebConfiguration("~/")
+                    : ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
                 return new AppConfigurationValueProvider(configuration);
             },
@@ -42,7 +37,7 @@
 
             foreach (var kv in settings)
             {
-                this.settingValues.Add(new SettingsValuePair {Name = kv.Key, Value = kv.Value});
+                this.settingValues.Add(new SettingsValuePair { Name = kv.Key, Value = kv.Value });
             }
         }
 

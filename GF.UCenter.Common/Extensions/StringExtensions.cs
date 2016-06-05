@@ -9,7 +9,7 @@
     {
         public static string MapNullToEmpty(this string str)
         {
-            return str == null ? "" : str;
+            return str ?? "";
         }
 
         public static string FormatInvariant(this string template, params object[] args)

@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using GF.UCenter.MongoDB.Attributes;
-using GF.UCenter.MongoDB.Entity;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB.Adapters
+﻿namespace GF.UCenter.MongoDB.Adapters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Attributes;
+    using Entity;
+    using global::MongoDB.Bson;
+    using global::MongoDB.Driver;
+
     [Export(typeof(ICollectionAdapter<>))]
     public class CollectionAdapter<TEntity> : ICollectionAdapter<TEntity>
         where TEntity : EntityBase
     {
-        private readonly DatabaseContext context;
         private readonly IMongoCollection<TEntity> collection;
         private readonly string collectionName;
+        private readonly DatabaseContext context;
 
         [ImportingConstructor]
         private CollectionAdapter(DatabaseContext context)
@@ -45,10 +43,10 @@ namespace GF.UCenter.MongoDB.Adapters
         {
             var filter = new BsonDocument("name", this.collectionName);
             var collections = await this.context.Database.ListCollectionsAsync(
-                new ListCollectionsOptions()
+                new ListCollectionsOptions
                 {
                     Filter = filter
-                });
+                }, token);
 
             if (!collections.Any())
             {
@@ -62,10 +60,7 @@ namespace GF.UCenter.MongoDB.Adapters
             {
                 return this.collection.CountAsync(new BsonDocument(), options, token);
             }
-            else
-            {
-                return this.collection.CountAsync(filter, options, token);
-            }
+            return this.collection.CountAsync(filter, options, token);
         }
 
         async Task ICollectionAdapter<TEntity>.DeleteAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)

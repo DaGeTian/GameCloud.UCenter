@@ -1,15 +1,11 @@
 ﻿namespace GF.UCenter.Web.Common
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Composition.Hosting;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Mvc;
-    using GF.UCenter.Common.Settings;
     using MongoDB;
+    using UCenter.Common.Settings;
+
     public static class WebApplicationManager
     {
         /// <summary>

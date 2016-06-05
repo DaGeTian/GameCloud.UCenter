@@ -1,9 +1,9 @@
-﻿using MongoDB.Driver;
-
-namespace GF.UCenter.MongoDB.Database
+﻿namespace GF.UCenter.MongoDB.Database
 {
+    using global::MongoDB.Driver;
+
     public interface IMongoContext
     {
-        MongoDatabase GetDatabase();
+        IMongoDatabase GetDatabase();
     }
 }

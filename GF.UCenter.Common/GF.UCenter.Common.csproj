@@ -61,8 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompositionContainerFactory.cs" />
-    <Compile Include="DisposableObjectSlim.cs" />
+    <Compile Include="MEF\CompositionContainerFactory.cs" />
+    <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Dumper\DebugWritter.cs" />
     <Compile Include="Dumper\DumperToAttribute.cs" />
     <Compile Include="Dumper\ObjectDumperExtension.cs" />

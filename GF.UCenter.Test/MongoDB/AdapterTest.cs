@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using GF.UCenter.Common;
-using GF.UCenter.Common.Settings;
-using GF.UCenter.MongoDB;
-using GF.UCenter.MongoDB.Adapters;
-using GF.UCenter.MongoDB.Entity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace GF.UCenter.Test.MongoDB
+﻿namespace GF.UCenter.Test.MongoDB
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Portable.Models.AppClient;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using UCenter.MongoDB.Adapters;
+    using UCenter.MongoDB.Entity;
+
     [TestClass]
     public class AdapterTest : UCenterTestBase
     {
@@ -25,7 +20,7 @@ namespace GF.UCenter.Test.MongoDB
             var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
             await adapter.CreateIfNotExistsAsync(token);
 
-            var account = new AccountEntity()
+            var account = new AccountEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = GenerateRandomString(),
@@ -33,8 +28,8 @@ namespace GF.UCenter.Test.MongoDB
                 CreatedTime = DateTime.UtcNow,
                 Email = "abc@ab.com",
                 PhoneNum = "12345678",
-                Sex = Common.Portable.Sex.Male,
-                IsGuest = false,
+                Sex = Sex.Male,
+                IsGuest = false
             };
 
             await adapter.InsertAsync(account, token);
