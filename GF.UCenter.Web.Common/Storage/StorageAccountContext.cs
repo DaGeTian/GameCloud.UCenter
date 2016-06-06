@@ -9,12 +9,19 @@
     using Microsoft.WindowsAzure.Storage.Blob;
     using UCenter.Common.Settings;
 
+    /// <summary>
+    /// Provide a class for storage account context.
+    /// </summary>
     [Export]
     public class StorageAccountContext
     {
         private readonly CloudBlobContainer container;
         private readonly CloudBlobContainer secondaryContainer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageAccountContext" /> class.
+        /// </summary>
+        /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
         public StorageAccountContext(Settings settings)
         {
@@ -31,6 +38,11 @@
             }
         }
 
+        /// <summary>
+        /// Create container if not exists.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         public async Task CreateContainerIfNotExists(CancellationToken token)
         {
             await this.container.CreateIfNotExistsAsync(token);
@@ -41,6 +53,13 @@
             }
         }
 
+        /// <summary>
+        /// Upload blob.
+        /// </summary>
+        /// <param name="blobName">Indicating the blob name.</param>
+        /// <param name="stream">Indicating the file stream.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>The blob full url.</returns>
         public async Task<string> UploadBlobAsync(string blobName, Stream stream, CancellationToken token)
         {
             var blob = this.container.GetBlockBlobReference(blobName);
@@ -55,6 +74,13 @@
             return blob.Uri.AbsoluteUri;
         }
 
+        /// <summary>
+        /// Copy blob inside storage.
+        /// </summary>
+        /// <param name="sourceBlobName">Indicating the source blob name.</param>
+        /// <param name="targetBlobName">Indicating the target blob name.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         public async Task<string> CopyBlobAsync(string sourceBlobName, string targetBlobName, CancellationToken token)
         {
             var sourceBlob = this.container.GetBlockBlobReference(sourceBlobName);
@@ -64,6 +90,13 @@
             return targetBlob.Uri.AbsoluteUri;
         }
 
+        /// <summary>
+        /// Copy blob inside storage.
+        /// </summary>
+        /// <param name="sourceBlob">Indicating the source blob.</param>
+        /// <param name="targetBlob">Indicating the target blob.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         public async Task<string> CopyBlobAsync(CloudBlockBlob sourceBlob, CloudBlockBlob targetBlob, CancellationToken token)
         {
             bool tryCopy = true;

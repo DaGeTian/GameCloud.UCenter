@@ -10,8 +10,14 @@
     using UCenter.Common;
     using UCenter.Common.Settings;
 
+    /// <summary>
+    /// MVC Application
+    /// </summary>
     public class MvcApplication : HttpApplication
     {
+        /// <summary>
+        /// Function for application start.
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

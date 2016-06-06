@@ -11,9 +11,9 @@
     using System.Web.Http;
     using Common;
     using Common.Logger;
-    using global::MongoDB.Driver;
     using MongoDB;
     using MongoDB.Adapters;
+    using global::MongoDB.Driver;
     using MongoDB.Entity;
     using UCenter.Common;
     using UCenter.Common.IP;
@@ -23,7 +23,7 @@
     using UCenter.Common.Settings;
 
     /// <summary>
-    /// UCenter account api controller
+    /// UCenter account API controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -47,6 +47,12 @@
             this.storageContext = storageContext;
         }
 
+        /// <summary>
+        /// Register account.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("register")]
         public async Task<IHttpActionResult> Register(
@@ -82,9 +88,9 @@
 
                 var placeholders = new[]
                 {
-                    this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id,account.AccountName),
-                    this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id,account.AccountName),
-                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id,account.AccountName)
+                    this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id, account.AccountName),
+                    this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id, account.AccountName),
+                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id, account.AccountName)
                 };
 
                 foreach (var placeholder in placeholders)
@@ -98,9 +104,7 @@
 
                 // set the default profiles
                 account.ProfileImage = await this.storageContext.CopyBlobAsync(
-                    account.Sex == Sex.Female
-                        ? this.settings.DefaultProfileImageForFemaleBlobName
-                        : this.settings.DefaultProfileImageForMaleBlobName,
+                    account.Sex == Sex.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
                     this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(account.Id),
                     token);
 
@@ -151,6 +155,12 @@
             }
         }
 
+        /// <summary>
+        /// Login account.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("login")]
         public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
@@ -163,13 +173,18 @@
             {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
+
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
             {
-                await this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                        "The account name and password do not match", token);
+                await this.RecordLogin(
+                    account,
+                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    "The account name and password do not match",
+                    token);
 
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
+
             account.LastLoginDateTime = DateTime.UtcNow;
             account.Token = EncryptHashManager.GenerateToken();
             await this.Database.Accounts.UpsertAsync(account, token);
@@ -178,6 +193,12 @@
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(account));
         }
 
+        /// <summary>
+        /// Guest account login.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("guest")]
         public async Task<IHttpActionResult> GuestLogin(
@@ -210,9 +231,16 @@
                 Token = accountToken,
                 Password = password
             };
+
             return this.CreateSuccessResult(response);
         }
 
+        /// <summary>
+        /// Convert guest to account.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("convert")]
         public async Task<IHttpActionResult> Convert([FromBody] AccountConvertInfo info, CancellationToken token)
@@ -223,8 +251,12 @@
 
             if (!EncryptHashManager.VerifyHash(info.OldPassword, account.Password))
             {
-                await this.RecordLogin(account, UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                        "The account name and password do not match", token);
+                await this.RecordLogin(
+                    account,
+                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    "The account name and password do not match",
+                    token);
+
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
@@ -243,6 +275,12 @@
             return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
         }
 
+        /// <summary>
+        /// Reset account password.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("resetpassword")]
         public async Task<IHttpActionResult> ResetPassword(
@@ -267,12 +305,19 @@
 
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
+
             account.Password = EncryptHashManager.ComputeHash(info.Password);
             await this.Database.Accounts.UpsertAsync(account, token);
             await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.", token);
             return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(account));
         }
 
+        /// <summary>
+        /// Upload account profile image.
+        /// </summary>
+        /// <param name="accountId">Indicating the account Id.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("upload/{accountId}")]
         public async Task<IHttpActionResult> UploadProfileImage(
@@ -317,7 +362,8 @@
             {
                 area = string.Format(
                     CultureInfo.InvariantCulture,
-                    "{0}-{1}", ipInfoResponse.Info.Country,
+                    "{0}-{1}",
+                    ipInfoResponse.Info.Country,
                     ipInfoResponse.Info.City ?? ipInfoResponse.Info.County);
             }
             else
@@ -380,10 +426,11 @@
         private Stream GetThumbprintStream(Image sourceImage)
         {
             var stream = new MemoryStream();
-            if (sourceImage.Width > this.settings.MaxThumbnailWidth ||
-                sourceImage.Height > this.settings.MaxThumbnailHeight)
+            if (sourceImage.Width > this.settings.MaxThumbnailWidth
+                || sourceImage.Height > this.settings.MaxThumbnailHeight)
             {
-                var radio = Math.Min((double)this.settings.MaxThumbnailWidth / sourceImage.Width,
+                var radio = Math.Min(
+                    (double)this.settings.MaxThumbnailWidth / sourceImage.Width,
                     (double)this.settings.MaxThumbnailHeight / sourceImage.Height);
 
                 var twidth = (int)(sourceImage.Width * radio);

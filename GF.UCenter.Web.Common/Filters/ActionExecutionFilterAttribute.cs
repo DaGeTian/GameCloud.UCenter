@@ -9,15 +9,24 @@
     using System.Threading.Tasks;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
-    using global::MongoDB.Driver;
     using Logger;
+    using global::MongoDB.Driver;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;
 
+    /// <summary>
+    /// Provide a class for action execution filter.
+    /// </summary>
     public sealed class ActionExecutionFilterAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// Occurs before the action method is invoked.
+        /// </summary>
+        /// <param name="context">Indicating the action context.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         public override async Task OnActionExecutingAsync(HttpActionContext context, CancellationToken token)
         {
             this.LogInboundRequest(context);
@@ -34,11 +43,18 @@
             await base.OnActionExecutingAsync(context, token);
         }
 
+        /// <summary>
+        /// Occurs after the action method is invoked.
+        /// </summary>
+        /// <param name="context">Indicating the executed context.</param>
         public override void OnActionExecuted(HttpActionExecutedContext context)
         {
             if (context.Exception != null)
             {
-                CustomTrace.TraceError(context.Exception, $"Execute request exception: url: {context.Request.RequestUri}",
+                CustomTrace.TraceError(
+                    context.Exception,
+                    "Execute request exception: url:{0}, arguments: {1}",
+                    context.Request.RequestUri,
                     context.ActionContext.ActionArguments);
 
                 var errorCode = UCenterErrorCode.Failed;
@@ -69,7 +85,8 @@
             {
                 string clientIpAddress = IPHelper.GetClientIpAddress(context.Request);
                 string request = context.Request.ToString();
-                string arguments = context.ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
+                string arguments = context
+                    .ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
                     .JoinToString(",");
 
                 string message = $"Inbound Request IP: {clientIpAddress}\n\tRequest: {request}\n\n\t Arguments: {arguments}";

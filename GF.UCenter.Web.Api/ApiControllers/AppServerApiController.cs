@@ -14,7 +14,7 @@
     using UCenter.Common.Portable.Exceptions;
 
     /// <summary>
-    /// UCenter app api controller
+    /// UCenter app API controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -22,7 +22,7 @@
     public class AppServerApiController : ApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImportingConstructor" /> class.
+        /// Initializes a new instance of the <see cref="AppServerApiController" /> class.
         /// </summary>
         /// <param name="database">The database context.</param>
         [ImportingConstructor]
@@ -31,6 +31,12 @@
         {
         }
 
+        /// <summary>
+        /// Create application.
+        /// </summary>
+        /// <param name="info">Indicating the application information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] AppInfo info, CancellationToken token)
@@ -61,6 +67,12 @@
             return this.CreateSuccessResult(response);
         }
 
+        /// <summary>
+        /// Verify the account.
+        /// </summary>
+        /// <param name="info">Indicating the account information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("verifyaccount")]
         public async Task<IHttpActionResult> VerifyAccount(AppVerifyAccountInfo info, CancellationToken token)
@@ -80,6 +92,12 @@
             return this.CreateSuccessResult(result);
         }
 
+        /// <summary>
+        /// Read application account data.
+        /// </summary>
+        /// <param name="info">Indicating the data information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("readdata")]
         public async Task<IHttpActionResult> ReadAppAccountData(AppAccountDataInfo info, CancellationToken token)
@@ -102,6 +120,12 @@
             return this.CreateSuccessResult(response);
         }
 
+        /// <summary>
+        /// Write application account data.
+        /// </summary>
+        /// <param name="info">Indicating the data information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("writedata")]
         public async Task<IHttpActionResult> WriteAppAccountData(AppAccountDataInfo info, CancellationToken token)
@@ -148,6 +172,7 @@
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExit);
             }
+
             if (appSecret != app.AppSecret)
             {
                 throw new UCenterException(UCenterErrorCode.AppAuthFailedSecretNotMatch);

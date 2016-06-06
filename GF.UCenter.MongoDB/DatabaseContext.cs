@@ -6,11 +6,19 @@
     using Entity;
     using global::MongoDB.Driver;
 
+    /// <summary>
+    /// Provide a class for database context.
+    /// </summary>
     [Export]
     public class DatabaseContext
     {
         private readonly ExportProvider exportProvider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseContext" /> class.
+        /// </summary>
+        /// <param name="exportProvider">Indicating the export provider.</param>
+        /// <param name="settings">Indicating the database context settings.</param>
         [ImportingConstructor]
         private DatabaseContext(ExportProvider exportProvider, DatabaseContextSettings settings)
         {
@@ -20,23 +28,83 @@
             this.Database = client.GetDatabase(this.Settings.DatabaseName);
         }
 
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
         public IMongoDatabase Database { get; }
 
+        /// <summary>
+        /// Gets the database context settings.
+        /// </summary>
         public DatabaseContextSettings Settings { get; }
 
-        public ICollectionAdapter<AccountEntity> Accounts => this.GetAdapter<AccountEntity>();
+        /// <summary>
+        /// Gets the account adapter.
+        /// </summary>
+        public ICollectionAdapter<AccountEntity> Accounts
+        {
+            get
+            {
+                return this.GetAdapter<AccountEntity>();
+            }
+        }
 
-        public ICollectionAdapter<AppEntity> Apps => this.GetAdapter<AppEntity>();
+        /// <summary>
+        /// Gets the application adapter.
+        /// </summary>
+        public ICollectionAdapter<AppEntity> Apps
+        {
+            get
+            {
+                return this.GetAdapter<AppEntity>();
+            }
+        }
 
-        public ICollectionAdapter<AppAccountDataEntity> AppAccountDatas => this.GetAdapter<AppAccountDataEntity>();
+        /// <summary>
+        /// Gets the account application data adapter.
+        /// </summary>
+        public ICollectionAdapter<AppAccountDataEntity> AppAccountDatas
+        {
+            get
+            {
+                return this.GetAdapter<AppAccountDataEntity>();
+            }
+        }
 
-        public ICollectionAdapter<OrderEntity> Orders => this.GetAdapter<OrderEntity>();
+        /// <summary>
+        /// Gets the order adapter.
+        /// </summary>
+        public ICollectionAdapter<OrderEntity> Orders
+        {
+            get
+            {
+                return this.GetAdapter<OrderEntity>();
+            }
+        }
 
-        public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders => this.GetAdapter<KeyPlaceholderEntity>();
+        /// <summary>
+        /// Gets the key placeholder adapter.
+        /// </summary>
+        public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders
+        {
+            get
+            {
+                return this.GetAdapter<KeyPlaceholderEntity>();
+            }
+        }
 
-        public ICollectionAdapter<LoginRecordEntity> LoginRecords => this.GetAdapter<LoginRecordEntity>();
+        /// <summary>
+        /// Gets the login record adapter.
+        /// </summary>
+        public ICollectionAdapter<LoginRecordEntity> LoginRecords
+        {
+            get
+            {
+                return this.GetAdapter<LoginRecordEntity>();
+            }
+        }
 
-        public ICollectionAdapter<TEntity> GetAdapter<TEntity>()
+        private ICollectionAdapter<TEntity> GetAdapter<TEntity>()
             where TEntity : EntityBase
         {
             return this.exportProvider.GetExportedValue<ICollectionAdapter<TEntity>>();

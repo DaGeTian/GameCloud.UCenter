@@ -2,7 +2,7 @@
 {
     using System.Web.Http;
 
-    public static class WebApiConfig
+    internal static class WebApiConfig
     {
         /// <summary>
         /// Register http configuration

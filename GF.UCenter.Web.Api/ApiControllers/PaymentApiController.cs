@@ -22,7 +22,7 @@
     using Charge = Pingpp.Models.Charge;
 
     /// <summary>
-    /// UCenter payment api controller
+    /// UCenter payment API controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -39,6 +39,12 @@
         {
         }
 
+        /// <summary>
+        /// Create charge.
+        /// </summary>
+        /// <param name="info">Indicating the charge information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [Route("charge")]
         public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info, CancellationToken token)
         {
@@ -73,23 +79,23 @@
                 string orderNoPostfix = r.Next(0, 1000000).ToString("D6");
                 string orderNo = $"{DateTime.Now.ToString("yyyyMMddHHmmssffff")}_{orderNoPostfix}";
                 var amount = info.Amount;
-                var channel = "alipay";
-                var currency = "cny";
 
+                // var channel = "alipay";
+                // var currency = "cny";
                 // 交易请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-c-new
-                var chParams = new Dictionary<string, object>
+                var chargeParams = new Dictionary<string, object>
                 {
-                    {"order_no", new Random().Next(1, 999999999)},
-                    {"amount", amount},
-                    {"channel", "wx"},
-                    {"currency", "cny"},
-                    {"subject", info.Subject},
-                    {"body", info.Body},
-                    {"client_ip", "127.0.0.1"},
-                    {"app", new Dictionary<string, string> {{"id", appId}}}
+                    { "order_no", new Random().Next(1, 999999999) },
+                    { "amount", amount },
+                    { "channel", "wx" },
+                    { "currency", "cny" },
+                    { "subject", info.Subject },
+                    { "body", info.Body },
+                    { "client_ip", "127.0.0.1" },
+                    { "app", new Dictionary<string, string> { { "id", appId } } }
                 };
 
-                var charge = Charge.Create(chParams);
+                var charge = Charge.Create(chargeParams);
 
                 return this.CreateSuccessResult(charge);
             }
@@ -100,6 +106,11 @@
             }
         }
 
+        /// <summary>
+        /// Ping plus plus web hook.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("webhook")]
         public async Task<IHttpActionResult> PingPlusPlusWebHook(CancellationToken token)
@@ -131,9 +142,9 @@
 
         internal async Task ProcessOrderAsync(string orderData, CancellationToken token)
         {
-            var jObject = JObject.Parse(orderData);
-            var eventType = jObject.SelectToken("type");
-            var orderNo = jObject.SelectToken("data.object.order_no");
+            var jobject = JObject.Parse(orderData);
+            var eventType = jobject.SelectToken("type");
+            var orderNo = jobject.SelectToken("data.object.order_no");
 
             var order = await this.Database.Orders.GetSingleAsync(orderNo.ToString(), token) ?? new OrderEntity
             {
@@ -151,7 +162,9 @@
             await this.Database.Orders.UpsertAsync(order, token);
         }
 
-        private static string VerifySignedHash(string str_DataToVerify, string str_SignedData,
+        private static string VerifySignedHash(
+            string str_DataToVerify,
+            string str_SignedData,
             string str_publicKeyFilePath)
         {
             byte[] signedData = Convert.FromBase64String(str_SignedData);
@@ -160,16 +173,17 @@
             byte[] dataToVerify = byteConverter.GetBytes(str_DataToVerify);
             try
             {
-                string sPublicKeyPEM = File.ReadAllText(str_publicKeyFilePath);
+                string publicKeyPEM = File.ReadAllText(str_publicKeyFilePath);
                 var rsa = new RSACryptoServiceProvider();
 
                 rsa.PersistKeyInCsp = false;
-                rsa.LoadPublicKeyPEM(sPublicKeyPEM);
+                rsa.LoadPublicKeyPEM(publicKeyPEM);
 
                 if (rsa.VerifyData(dataToVerify, "SHA256", signedData))
                 {
                     return "verify success";
                 }
+
                 return "verify fail";
             }
             catch (CryptographicException e)

@@ -6,6 +6,9 @@
     using MongoDB;
     using UCenter.Common.Settings;
 
+    /// <summary>
+    /// Provide a class to manage web application.
+    /// </summary>
     public static class WebApplicationManager
     {
         /// <summary>
@@ -17,7 +20,8 @@
         {
             configuration.Filters.Add(new ActionExecutionFilterAttribute());
             RegisterMefDepencency(configuration, exportProvider);
-            ControllerBuilder.Current.SetControllerFactory(new MefControllerFactory(exportProvider));
+            var controllerFactory = exportProvider.GetExportedValue<MefControllerFactory>();
+            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
             InitializeSettings(exportProvider);
         }
 
@@ -40,5 +44,4 @@
             configuration.DependencyResolver = dependency;
         }
     }
-
 }

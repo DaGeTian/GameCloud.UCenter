@@ -8,22 +8,39 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Modes;
-    using global::MongoDB.Driver;
     using MongoDB;
     using MongoDB.Adapters;
+    using global::MongoDB.Driver;
     using MongoDB.Entity;
     using UCenter.Common.Settings;
 
+    /// <summary>
+    /// Provide a controller for users.
+    /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class UsersController : ApiControllerBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController" /> class.
+        /// </summary>
+        /// <param name="database">Indicating the database context.</param>
+        /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
         public UsersController(DatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }
 
+        /// <summary>
+        /// Get user list.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <param name="keyword">Indicating the keyword.</param>
+        /// <param name="orderby">Indicating the order by name.</param>
+        /// <param name="page">Indicating the page number.</param>
+        /// <param name="count">Indicating the count.</param>
+        /// <returns>Async return user list.</returns>
         public async Task<PaginationResponse<AccountEntity>> Get(
             CancellationToken token,
             [FromUri]string keyword = null,
@@ -62,6 +79,12 @@
             return model;
         }
 
+        /// <summary>
+        /// Get single user details.
+        /// </summary>
+        /// <param name="id">Indicating the user id.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async return user details.</returns>
         public async Task<AccountEntity> Get(string id, CancellationToken token)
         {
             var account = await this.Database.Accounts.GetSingleAsync(id, token);

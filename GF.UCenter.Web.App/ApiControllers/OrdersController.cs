@@ -6,26 +6,42 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Modes;
-    using global::MongoDB.Driver;
     using MongoDB;
     using MongoDB.Adapters;
+    using global::MongoDB.Driver;
     using MongoDB.Entity;
     using UCenter.Common.Settings;
 
+    /// <summary>
+    /// Provide an order controller.
+    /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class OrdersController : ApiControllerBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrdersController" /> class.
+        /// </summary>
+        /// <param name="db">Indicating the database context.</param>
+        /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
         public OrdersController(DatabaseContext db, Settings settings)
             : base(db, settings)
         {
         }
 
-        public async Task<PaginationResponse<OrderEntity>> Get(
-            CancellationToken token,
+        /// <summary>
+        /// Get order list
+        /// </summary>
+        /// <param name="accountId">Indicating the user account id.</param>
+        /// <param name="keyword">Indicating the keyword.</param>
+        /// <param name="orderby">Indicating the order by name.</param>
+        /// <param name="page">Indicating the page number.</param>
+        /// <param name="count">Indicating the count.</param>
+        /// <returns>Async return order list.</returns>
+        public PaginationResponse<OrderEntity> Get(
             [FromUri] string accountId = null,
-            [FromUri]string keyword = null,
+            [FromUri] string keyword = null,
             [FromUri] string orderby = null,
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
@@ -59,24 +75,17 @@
             return model;
         }
 
-        public async Task<OrderRaw> Get(string id, CancellationToken token)
+        /// <summary>
+        /// Get single order detail.
+        /// </summary>
+        /// <param name="id">Indicating the order id.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        public async Task<OrderEntity> Get(string id, CancellationToken token)
         {
             var order = await this.Database.Orders.GetSingleAsync(id, token);
-            var raw = new OrderRaw
-            {
-                OrderId = order.Id,
-                State = order.State,
-                AccountId = order.AccountId,
-                AppId = order.AppId,
-                CompletedTime = order.CompletedTime,
-                CreatedTime = order.CreatedTime,
-                Content = order.Content
-            };
 
-            var account = await this.Database.Accounts.GetSingleAsync(order.AccountId, token);
-            raw.AccountName = account.AccountName;
-
-            return raw;
+            return order;
         }
     }
 }

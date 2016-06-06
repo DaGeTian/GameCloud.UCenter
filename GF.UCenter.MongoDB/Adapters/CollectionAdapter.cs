@@ -12,6 +12,10 @@
     using global::MongoDB.Bson;
     using global::MongoDB.Driver;
 
+    /// <summary>
+    /// Provide an adapter for MongoDBA collection.
+    /// </summary>
+    /// <typeparam name="TEntity">Indicating the document type.</typeparam>
     [Export(typeof(ICollectionAdapter<>))]
     public class CollectionAdapter<TEntity> : ICollectionAdapter<TEntity>
         where TEntity : EntityBase
@@ -20,6 +24,10 @@
         private readonly string collectionName;
         private readonly DatabaseContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollectionAdapter{TEntity}" /> class.
+        /// </summary>
+        /// <param name="context">Indicating the database context.</param>
         [ImportingConstructor]
         private CollectionAdapter(DatabaseContext context)
         {
@@ -46,7 +54,8 @@
                 new ListCollectionsOptions
                 {
                     Filter = filter
-                }, token);
+                },
+                token);
 
             if (!collections.Any())
             {
@@ -60,13 +69,14 @@
             {
                 return this.collection.CountAsync(new BsonDocument(), options, token);
             }
+
             return this.collection.CountAsync(filter, options, token);
         }
 
         async Task ICollectionAdapter<TEntity>.DeleteAsync(Expression<Func<TEntity, bool>> filter, CancellationToken token)
         {
             var result = await this.collection.DeleteOneAsync(filter, token);
-            // todo: check the delete result.
+            //// todo: check the delete result.
         }
 
         async Task<IReadOnlyList<TEntity>> ICollectionAdapter<TEntity>.GetListAsync(Expression<Func<TEntity, bool>> filter, FindOptions options, CancellationToken token)

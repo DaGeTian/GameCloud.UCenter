@@ -23,6 +23,9 @@
             this.Database = database;
         }
 
+        /// <summary>
+        /// Gets the database context.
+        /// </summary>
         public DatabaseContext Database { get; private set; }
 
         /// <summary>

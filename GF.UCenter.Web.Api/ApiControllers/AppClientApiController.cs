@@ -15,7 +15,7 @@
     using UCenter.Common.Settings;
 
     /// <summary>
-    /// UCenter account api controller
+    /// UCenter account API controller
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -25,7 +25,7 @@
         private readonly StorageAccountContext storageContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountApiController" /> class.
+        /// Initializes a new instance of the <see cref="AppClientApiController" /> class.
         /// </summary>
         /// <param name="database">The database context.</param>
         /// <param name="settings">The UCenter settings.</param>
@@ -37,6 +37,11 @@
             this.storageContext = storageContext;
         }
 
+        /// <summary>
+        /// Get client IP area.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("ip")]
         public async Task<IHttpActionResult> GetClientIpArea(CancellationToken token)
@@ -48,6 +53,12 @@
             return this.CreateSuccessResult(response);
         }
 
+        /// <summary>
+        /// Get the APP configuration.
+        /// </summary>
+        /// <param name="appId">Indicating the App id.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
         [HttpPost]
         [Route("conf")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
@@ -60,11 +71,13 @@
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExit);
             }
+
             var response = new AppConfigurationResponse
             {
                 AppId = app.Id,
                 Configuration = app.Configuration
             };
+
             return this.CreateSuccessResult(response);
         }
     }
