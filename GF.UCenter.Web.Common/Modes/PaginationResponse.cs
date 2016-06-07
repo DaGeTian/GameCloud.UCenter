@@ -5,7 +5,7 @@
     /// <summary>
     /// Provide a class for pagination response.
     /// </summary>
-    /// <typeparam name="TRaw"></typeparam>
+    /// <typeparam name="TRaw">The type of object to paginate</typeparam>
     public class PaginationResponse<TRaw>
     {
         /// <summary>
