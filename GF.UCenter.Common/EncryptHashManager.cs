@@ -42,10 +42,12 @@
         {
             byte[] hashBytes = Convert.FromBase64String(hash);
 
-            var hashSize = HashSizeInBits/8;
+            var hashSize = HashSizeInBits / 8;
 
             if (hashBytes.Length < hashSize)
+            {
                 return false;
+            }
 
             byte[] salt = new byte[hashBytes.Length - hashSize];
 

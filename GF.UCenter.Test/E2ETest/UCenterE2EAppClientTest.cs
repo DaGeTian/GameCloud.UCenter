@@ -16,7 +16,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -71,7 +71,7 @@
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
              {
-                 await cClient.AccountLoginAsync(new AccountLoginInfo
+                 await acClient.AccountLoginAsync(new AccountLoginInfo
                  {
                      AccountName = registerResponse.AccountName,
                      Password = InValidAccountPassword
@@ -94,16 +94,16 @@
                 Sex = Sex.Female
             };
 
-            await cClient.AccountRegisterAsync(info);
+            await acClient.AccountRegisterAsync(info);
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
-                async () => { await cClient.AccountRegisterAsync(info); });
+                async () => { await acClient.AccountRegisterAsync(info); });
         }
 
         [TestMethod]
         public async Task E2E_AppClient_Guest_Login_And_Convert_Test()
         {
-            var loginResponse = await cClient.AccountGuestLoginAsync();
+            var loginResponse = await acClient.AccountGuestLoginAsync();
 
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.IsNotNull(loginResponse.AccountName);
@@ -124,7 +124,7 @@
                 Sex = Sex.Female
             };
 
-            var convertResponse = await cClient.AccountConvertAsync(convertInfo);
+            var convertResponse = await acClient.AccountConvertAsync(convertInfo);
 
             Assert.IsNotNull(convertResponse.AccountId);
             Assert.IsNotNull(convertResponse.AccountId, convertInfo.AccountId);
@@ -150,7 +150,7 @@
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            var resetPasswordResponse = await cClient.AccountResetPasswordAsync(resetInfo);
+            var resetPasswordResponse = await acClient.AccountResetPasswordAsync(resetInfo);
 
             var loginInfo = new AccountLoginInfo
             {
@@ -159,7 +159,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
-                async () => { await cClient.AccountLoginAsync(loginInfo); });
+                async () => { await acClient.AccountLoginAsync(loginInfo); });
         }
 
         [TestMethod]
@@ -169,7 +169,7 @@
 
             var testFileForUpload = @"TestData\github.png";
             var uploadProfileResponse =
-                await cClient.AccountUploadProfileImagesync(registerResponse.AccountId, testFileForUpload);
+                await acClient.AccountUploadProfileImagesync(registerResponse.AccountId, testFileForUpload);
             Assert.AreEqual(registerResponse.AccountId, uploadProfileResponse.AccountId);
             Assert.AreEqual(registerResponse.AccountName, uploadProfileResponse.AccountName);
             Assert.AreEqual(registerResponse.Email, uploadProfileResponse.Email);
@@ -189,7 +189,7 @@
             using (var stream = new FileStream(testFileForUpload, FileMode.Open))
             {
                 var uploadProfileResponse =
-                    await cClient.AccountUploadProfileImagesync(registerResponse.AccountId, stream);
+                    await acClient.AccountUploadProfileImagesync(registerResponse.AccountId, stream);
                 Assert.AreEqual(registerResponse.AccountId, uploadProfileResponse.AccountId);
                 Assert.AreEqual(registerResponse.AccountName, uploadProfileResponse.AccountName);
                 Assert.AreEqual(registerResponse.Email, uploadProfileResponse.Email);
@@ -204,7 +204,7 @@
         [TestMethod]
         public async Task E2E_AppClient_GetAppConfiguration_Test()
         {
-            var result = await cClient.GetAppConfigurationAsync(TestAppId);
+            var result = await acClient.GetAppConfigurationAsync(TestAppId);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.AppId, TestAppId);
             Assert.AreEqual(result.Configuration, TestAppConfiguration);

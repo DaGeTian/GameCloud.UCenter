@@ -9,14 +9,13 @@
 
     public class SettingsDefaultValueProvider<TSettings> : ISettingsValueProvider
     {
-        private static readonly Lazy<SettingsDefaultValueProvider<TSettings>> defaultProvider = new Lazy
-            <SettingsDefaultValueProvider<TSettings>>(
-            () => { return new SettingsDefaultValueProvider<TSettings>(); },
+        private static readonly Lazy<SettingsDefaultValueProvider<TSettings>> DefaultProvider = new Lazy<SettingsDefaultValueProvider<TSettings>>(
+            () => new SettingsDefaultValueProvider<TSettings>(),
             LazyThreadSafetyMode.PublicationOnly);
 
         public SettingsDefaultValueProvider()
         {
-            this.SettingValues = typeof (TSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            this.SettingValues = typeof(TSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p => p.GetCustomAttribute<DefaultValueAttribute>() != null)
                 .AsParallel()
                 .Select(
@@ -31,9 +30,8 @@
 
         public static SettingsDefaultValueProvider<TSettings> Default
         {
-            get { return defaultProvider.Value; }
+            get { return DefaultProvider.Value; }
         }
-
 
         public ICollection<SettingsValuePair> SettingValues { get; }
     }

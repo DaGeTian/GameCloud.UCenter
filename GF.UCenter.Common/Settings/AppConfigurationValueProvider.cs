@@ -10,8 +10,7 @@
 
     public class AppConfigurationValueProvider : ISettingsValueProvider
     {
-        private static readonly Lazy<AppConfigurationValueProvider> defaultProvider = new Lazy
-            <AppConfigurationValueProvider>(
+        private static readonly Lazy<AppConfigurationValueProvider> DefaultProvider = new Lazy<AppConfigurationValueProvider>(
             () =>
             {
                 Configuration configuration = null;
@@ -43,7 +42,7 @@
 
         public static AppConfigurationValueProvider Default
         {
-            get { return defaultProvider.Value; }
+            get { return DefaultProvider.Value; }
         }
 
         public ICollection<SettingsValuePair> SettingValues

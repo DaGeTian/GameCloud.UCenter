@@ -17,8 +17,11 @@
     [TestClass]
     public class UCenterTestBase
     {
-        private static readonly List<IDisposable> disposableList = new List<IDisposable>();
+        internal static ExportProvider ExportProvider;
 
+        protected readonly TenantEnvironment Tenant;
+
+        private static readonly List<IDisposable> DisposableList = new List<IDisposable>();
         private static readonly Lazy<List<char>> CharsPool = new Lazy<List<char>>(() =>
         {
             var chars = new List<char>();
@@ -28,14 +31,28 @@
             return chars;
         }, LazyThreadSafetyMode.ExecutionAndPublication);
 
-        internal static ExportProvider ExportProvider;
-
-        protected readonly TenantEnvironment Tenant;
-
         public UCenterTestBase()
         {
             this.Tenant = ExportProvider.GetExportedValue<TenantEnvironment>();
             CustomTrace.Initialize(ExportProvider, "Trace.Console");
+        }
+
+        [AssemblyInitialize]
+        public static void AssemblyInitialize(TestContext context)
+        {
+            AssemblyInitializeAsync().Wait();
+        }
+
+        [AssemblyCleanup]
+        public static void AssemblyCleanUp()
+        {
+            foreach (var item in DisposableList)
+            {
+                if (item != null)
+                {
+                    item.Dispose();
+                }
+            }
         }
 
         protected string GenerateRandomString(int length = 8)
@@ -50,13 +67,7 @@
                 result.Add(CharsPool.Value.ElementAt(random.Next(0, maxIdx)));
             }
 
-            return string.Join("", result);
-        }
-
-        [AssemblyInitialize]
-        public static void AssemblyInitialize(TestContext context)
-        {
-            AssemblyInitializeAsync().Wait();
+            return string.Join(string.Empty, result);
         }
 
         private static async Task AssemblyInitializeAsync()
@@ -93,18 +104,6 @@
                 var settings = ExportProvider.GetExportedValue<Common.Settings.Settings>();
                 var blobContext = new StorageAccountContext(settings);
                 await blobContext.UploadBlobAsync(blobName, fileStream, CancellationToken.None);
-            }
-        }
-
-        [AssemblyCleanup]
-        public static void AssemblyCleanUp()
-        {
-            foreach (var item in disposableList)
-            {
-                if (item != null)
-                {
-                    item.Dispose();
-                }
             }
         }
     }

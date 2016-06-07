@@ -22,7 +22,6 @@
                     httpClient.Timeout = TimeSpan.FromSeconds(1);
                     string url = string.Format(CultureInfo.InvariantCulture, "{0}?ip={1}", HostUrl, ipAddress);
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
-                    // request.Properties.conte
                     var response = await httpClient.SendAsync(request, token);
                     string content = await response.Content.ReadAsStringAsync();
 
@@ -41,15 +40,18 @@
             {
                 return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
             }
+
             if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
             {
                 var prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
                 return prop.Address;
             }
+
             if (HttpContext.Current != null)
             {
                 return HttpContext.Current.Request.UserHostAddress;
             }
+
             return null;
         }
     }

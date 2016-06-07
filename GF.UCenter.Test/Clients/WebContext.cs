@@ -44,12 +44,6 @@
 
         public string BaseAddress { get; }
 
-        private bool UseSelfHost()
-        {
-            return BaseAddress.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                   BaseAddress.Contains("127.0.0.1");
-        }
-
         protected override void DisposeInternal()
         {
             if (this.configuration != null)
@@ -61,6 +55,12 @@
             {
                 this.server.Dispose();
             }
+        }
+
+        private bool UseSelfHost()
+        {
+            return BaseAddress.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   BaseAddress.Contains("127.0.0.1");
         }
     }
 }

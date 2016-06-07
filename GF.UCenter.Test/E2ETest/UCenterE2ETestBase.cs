@@ -13,41 +13,27 @@
         protected const string TestAppSecret = "#pA554&3321#";
         protected const string TestAppConfiguration = @"{foo:1,bar:2}";
         protected const string TestAppAccountData = @"{foo:1,bar:2}";
-
         protected const string InvalidAppSecret = "";
         protected const string ValidAccountPassword = "#pA554&3321#";
         protected const string InValidAccountPassword = "";
         protected const string InValidAccountToken = "";
 
-        protected readonly string host;
-        protected UCenterClient cClient;
-        protected SDK.AppServer.UCenterClient sClient;
+        protected SDK.AppClient.UCenterClient acClient;
+        protected SDK.AppServer.UCenterClient asClient;
 
         public UCenterE2ETestBase()
         {
-            this.host = "http://localhost:8888";
             var settings = ExportProvider.GetExportedValue<Settings>();
-            this.cClient = new UCenterClient($"http://{settings.ServerHost}:{settings.ServerPort}");
-            this.sClient = new SDK.AppServer.UCenterClient(host);
+            string host = $"http://{settings.ServerHost}:{settings.ServerPort}";
+            this.acClient = new UCenterClient(host);
+            this.asClient = new SDK.AppServer.UCenterClient(host);
         }
 
         [TestInitialize]
         public void Initialize()
         {
-            // use public async void Initialize() will never triggered
+            // Note: Do not use public async void Initialize(), it will never triggered
             this.InitializeAsync().Wait();
-        }
-
-        private async Task InitializeAsync()
-        {
-            var appInfo = new AppInfo
-            {
-                AppId = TestAppId,
-                AppSecret = TestAppSecret,
-                Configuration = TestAppConfiguration
-            };
-
-            await sClient.AppCreateAsync(appInfo);
         }
 
         protected async Task<AccountRegisterResponse> CreateTestAccount(AccountRegisterInfo info = null)
@@ -66,7 +52,8 @@
                     Sex = Sex.Female
                 };
             }
-            var registerResponse = await cClient.AccountRegisterAsync(info);
+
+            var registerResponse = await acClient.AccountRegisterAsync(info);
             Assert.IsNotNull(registerResponse.AccountId);
             Assert.AreEqual(registerResponse.AccountName, info.AccountName);
             Assert.AreEqual(registerResponse.IdentityNum, info.IdentityNum);
@@ -78,6 +65,18 @@
             Assert.IsNotNull(registerResponse.ProfileThumbnail);
 
             return registerResponse;
+        }
+
+        private async Task InitializeAsync()
+        {
+            var appInfo = new AppInfo
+            {
+                AppId = TestAppId,
+                AppSecret = TestAppSecret,
+                Configuration = TestAppConfiguration
+            };
+
+            await asClient.AppCreateAsync(appInfo);
         }
     }
 }

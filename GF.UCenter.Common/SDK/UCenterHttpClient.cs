@@ -49,10 +49,12 @@
             {
                 return response.Result;
             }
+
             if (response.Error != null)
             {
                 throw new UCenterException(response.Error.ErrorCode, response.Error.Message);
             }
+
             throw new UCenterException(UCenterErrorCode.Failed, "Error occurred when sending http request");
         }
 

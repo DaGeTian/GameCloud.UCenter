@@ -17,7 +17,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -30,7 +30,7 @@
                 AccountId = loginResponse.AccountId,
                 AccountToken = loginResponse.Token
             };
-            var result = await sClient.AppVerifyAccountAsync(appVerifyAccountInfo);
+            var result = await asClient.AppVerifyAccountAsync(appVerifyAccountInfo);
             Assert.IsNotNull(result.AccountId);
             Assert.IsNotNull(result.AccountName);
             Assert.IsNotNull(result.AccountToken);
@@ -50,7 +50,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNotExist,
-                async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
+                async () => { await asClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -73,7 +73,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExit,
-                async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
+                async () => { await asClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -96,7 +96,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
-                async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
+                async () => { await asClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -119,7 +119,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedTokenNotMatch,
-                async () => { await sClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
+                async () => { await asClient.AppVerifyAccountAsync(appVerifyAccountInfo); });
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -142,9 +142,9 @@
                 Data = data
             };
 
-            await sClient.AppWriteAccountDataAsync(accountData);
+            await asClient.AppWriteAccountDataAsync(accountData);
 
-            var result = await sClient.AppReadAccountDataAsync(accountData);
+            var result = await asClient.AppReadAccountDataAsync(accountData);
 
             Assert.AreEqual(accountData.AppId, result.AppId);
             Assert.AreEqual(accountData.AccountId, result.AccountId);
@@ -156,7 +156,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -170,7 +170,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
-                async () => { await sClient.AppReadAccountDataAsync(accountData); });
+                async () => { await asClient.AppReadAccountDataAsync(accountData); });
         }
 
         [TestMethod]
@@ -178,7 +178,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -194,7 +194,7 @@
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
-               async () => { await sClient.AppWriteAccountDataAsync(accountData); });
+               async () => { await asClient.AppWriteAccountDataAsync(accountData); });
         }
 
         [TestMethod]
@@ -202,7 +202,7 @@
         {
             var registerResponse = await CreateTestAccount();
 
-            var loginResponse = await cClient.AccountLoginAsync(new AccountLoginInfo
+            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
                 Password = ValidAccountPassword
@@ -220,14 +220,14 @@
                 Description = "This is a test order created by unit test"
             };
 
-            var result = await sClient.CreateChargeAsync(chargeInfo);
+            var result = await asClient.CreateChargeAsync(chargeInfo);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Amount, chargeInfo.Amount);
             Assert.AreEqual(result.Subject, chargeInfo.Subject);
             Assert.AreEqual(result.Body, chargeInfo.Body);
-            //Assert.AreEqual(result.Description, chargeInfo.Description);
+            //// Assert.AreEqual(result.Description, chargeInfo.Description);
             Assert.IsNotNull(result.OrderNo);
-            //Assert.IsNotNull(result.TransactionNo);
+            //// Assert.IsNotNull(result.TransactionNo);
         }
 
         [TestMethod]

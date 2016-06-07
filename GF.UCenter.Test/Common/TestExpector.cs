@@ -44,10 +44,12 @@
                 {
                     actual = ex.InnerExceptions.Single() as UCenterException;
                 }
+
                 if (actual == null)
                 {
                     throw;
                 }
+
                 if (actual.ErrorCode != expectedErrorCode)
                 {
                     Assert.Fail($"Expect ErrorCode: {expectedErrorCode} but actual: {actual.ErrorCode}");
