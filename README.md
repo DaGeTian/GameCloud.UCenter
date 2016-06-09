@@ -1,4 +1,4 @@
-# GF
+﻿# GF
 [![licence badge]][licence]
 [![stars badge]][stars]
 [![forks badge]][forks]
@@ -16,10 +16,8 @@ GF（Game Framework）是基于Unity3D，Orleans，Couchbase的全球大服，�
 - http://www.couchbase.com
 - https://azure.microsoft.com/zh-cn/
 
-
 ## License
 [MIT](/LICENSE)
-
 
 [licence badge]:https://img.shields.io/badge/license-MIT-blue.svg
 [stars badge]:https://img.shields.io/github/stars/CragonGame/GF.UCenter.svg
