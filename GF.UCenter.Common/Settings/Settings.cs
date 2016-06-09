@@ -9,9 +9,6 @@
         [DefaultValue("UCenter")]
         public string BucketName { get; set; }
 
-        [DefaultValue("http://127.0.0.1:8091")]
-        public string CouchBaseServerUris { get; set; }
-
         [DefaultValue(1000)]
         public uint DefaultOperationLifespan { get; set; }
 
