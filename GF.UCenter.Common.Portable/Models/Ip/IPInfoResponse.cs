@@ -1,4 +1,4 @@
-﻿namespace GF.UCenter.Common.IP
+﻿namespace GF.UCenter.Common.Portable.Models.Ip
 {
     using System.Runtime.Serialization;
 
@@ -9,6 +9,6 @@
         public IPInfoResponseCode Code { get; set; }
 
         [DataMember(Name = "data")]
-        public IPInfo Info { get; set; }
+        public IPInfoResponseContent Content { get; set; }
     }
 }

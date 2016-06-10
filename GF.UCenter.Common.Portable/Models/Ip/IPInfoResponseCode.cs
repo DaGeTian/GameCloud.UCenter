@@ -1,4 +1,4 @@
-﻿namespace GF.UCenter.Common.IP
+﻿namespace GF.UCenter.Common.Portable.Models.Ip
 {
     public enum IPInfoResponseCode
     {

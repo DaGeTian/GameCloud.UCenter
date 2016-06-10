@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Common;
     using Common.IP;
+    using Common.Portable.Models.Ip;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Web.Common.Logger;
 
@@ -27,8 +28,8 @@
             string ip = "23.99.99.89";
             var response = await IPHelper.GetIPInfoAsync("23.99.99.89", CancellationToken.None);
             Assert.AreEqual(response.Code, IPInfoResponseCode.Success);
-            Assert.AreEqual(response.Info.IP, ip);
-            Assert.AreEqual(response.Info.Country, "香港");
+            Assert.AreEqual(response.Content.IP, ip);
+            Assert.AreEqual(response.Content.Country, "香港");
         }
     }
 }

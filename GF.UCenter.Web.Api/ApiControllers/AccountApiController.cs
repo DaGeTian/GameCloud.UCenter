@@ -20,6 +20,7 @@
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;
     using UCenter.Common.Portable.Models.AppClient;
+    using UCenter.Common.Portable.Models.Ip;
     using UCenter.Common.Settings;
 
     /// <summary>
@@ -363,8 +364,8 @@
                 area = string.Format(
                     CultureInfo.InvariantCulture,
                     "{0}-{1}",
-                    ipInfoResponse.Info.Country,
-                    ipInfoResponse.Info.City ?? ipInfoResponse.Info.County);
+                    ipInfoResponse.Content.Country,
+                    ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
             }
             else
             {

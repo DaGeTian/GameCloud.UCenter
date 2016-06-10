@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Web;
     using Newtonsoft.Json;
+    using Portable.Models.Ip;
 
     public static class IPHelper
     {

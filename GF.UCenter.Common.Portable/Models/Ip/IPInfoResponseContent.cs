@@ -1,9 +1,9 @@
-﻿namespace GF.UCenter.Common.IP
+﻿namespace GF.UCenter.Common.Portable.Models.Ip
 {
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class IPInfo
+    public class IPInfoResponseContent
     {
         // {"code":0,"data":{"country":"\u9999\u6e2f","country_id":"HK","area":"","area_id":"","region":"\u9999\u6e2f\u7279\u522b\u884c\u653f\u533a","region_id":"HK_01","city":"","city_id":"","county":"","county_id":"","isp":"","isp_id":"-1","ip":"23.99.99.89"}}
 
