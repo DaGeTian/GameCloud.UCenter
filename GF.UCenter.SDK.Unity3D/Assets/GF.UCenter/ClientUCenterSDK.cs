@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using GF.Common;
-using GF.UCenter.Common.Portable;
+using GF.UCenter.Common.Portable.Contracts;
+using GF.UCenter.Common.Portable.Models.AppClient;
+using GF.UCenter.Common.Portable.Models.Ip;
 
 public delegate void OnUCenterRegister(UCenterResponseStatus status, AccountRegisterResponse response, UCenterError error);
 public delegate void OnUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
@@ -12,6 +14,8 @@ public delegate void OnUCenterGuestLogin(UCenterResponseStatus status, AccountGu
 public delegate void OnUCenterConvert(UCenterResponseStatus status, AccountConvertResponse response, UCenterError error);
 public delegate void OnUCenterResetPassword(UCenterResponseStatus status, AccountResetPasswordResponse response, UCenterError error);
 public delegate void OnUCenterUploadProfileImage(UCenterResponseStatus status, AccountUploadProfileImageResponse response, UCenterError error);
+public delegate void OnGetAppConfig(UCenterResponseStatus status, AppConfigurationResponse response, UCenterError error);
+public delegate void OnGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error);
 
 public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK, new()
 {
@@ -23,12 +27,16 @@ public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK
     public WWW WWWConvert { get; private set; }
     public WWW WWWResetPassword { get; private set; }
     public WWW WWWUploadProfileImage { get; private set; }
+    public WWW WWWGetAppConfig { get; private set; }
+    public WWW WWWGetIpAddress { get; private set; }
     Action<UCenterResponseStatus, AccountRegisterResponse, UCenterError> RegisterHandler { get; set; }
     Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> LoginHandler { get; set; }
     Action<UCenterResponseStatus, AccountGuestLoginResponse, UCenterError> GuestLoginHandler { get; set; }
     Action<UCenterResponseStatus, AccountConvertResponse, UCenterError> ConvertHandler { get; set; }
     Action<UCenterResponseStatus, AccountResetPasswordResponse, UCenterError> ResetPasswordHandler { get; set; }
     Action<UCenterResponseStatus, AccountUploadProfileImageResponse, UCenterError> UploadProfileImageHandler { get; set; }
+    Action<UCenterResponseStatus, AppConfigurationResponse, UCenterError> GetAppConfigHandler { get; set; }
+    Action<UCenterResponseStatus, IPInfoResponse, UCenterError> GetIpAddressHandler { get; set; }
 
     //-------------------------------------------------------------------------
     public override void init()
@@ -79,6 +87,18 @@ public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK
         {
             WWWUploadProfileImage = null;
             UploadProfileImageHandler = null;
+        }
+
+        if (_checkResponse<AppConfigurationResponse>(WWWGetAppConfig, GetAppConfigHandler))
+        {
+            WWWGetAppConfig = null;
+            GetAppConfigHandler = null;
+        }
+
+        if (_checkResponse<IPInfoResponse>(WWWGetIpAddress, GetIpAddressHandler))
+        {
+            WWWGetIpAddress = null;
+            GetIpAddressHandler = null;
         }
     }
 
@@ -209,6 +229,66 @@ public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK
     }
 
     //-------------------------------------------------------------------------
+    public void getAppConfig(string app_id, OnGetAppConfig handler)
+    {
+        if (WWWGetAppConfig != null)
+        {
+            return;
+        }
+
+        GetAppConfigHandler = new Action<UCenterResponseStatus, AppConfigurationResponse, UCenterError>(handler);
+
+        string http_url = null;
+        if (UCenterDomain.EndsWith("/"))
+        {
+            http_url = string.Format("{0}api/appclient/conf?appId={1}", UCenterDomain, app_id);
+        }
+        else
+        {
+            http_url = string.Format("{0}/api/appclient/conf?appId={1}", UCenterDomain, app_id);
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField("Accept", "application/x-www-form-urlencoded");
+        form.AddField("Content-Type", "application/json; charset=utf-8");
+        form.AddField("Content-Length", 0);
+        form.AddField("Host", _getHostName());
+        form.AddField("User-Agent", "");
+
+        WWWGetAppConfig = new WWW(http_url, form);
+    }
+
+    //-------------------------------------------------------------------------
+    public void getIpAddress(OnGetIpAddress handler)
+    {
+        if (WWWGetIpAddress != null)
+        {
+            return;
+        }
+
+        GetIpAddressHandler = new Action<UCenterResponseStatus, IPInfoResponse, UCenterError>(handler);
+
+        string http_url = null;
+        if (UCenterDomain.EndsWith("/"))
+        {
+            http_url = string.Format("{0}api/appclient/ip", UCenterDomain);
+        }
+        else
+        {
+            http_url = string.Format("{0}/api/appclient/ip", UCenterDomain);
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField("Accept", "application/x-www-form-urlencoded");
+        form.AddField("Content-Type", "application/json; charset=utf-8");
+        form.AddField("Content-Length", 0);
+        form.AddField("Host", _getHostName());
+        form.AddField("User-Agent", "");
+
+        WWWGetIpAddress = new WWW(http_url, form);
+    }
+
+    //-------------------------------------------------------------------------
     Dictionary<string, string> _genHeader(int content_len)
     {
         Dictionary<string, string> headers = new Dictionary<string, string>();
@@ -273,6 +353,11 @@ public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK
                         EbLog.Error("ClientUCenterSDK.update() UCenterResponse Error");
                         EbLog.Error(ex.ToString());
                     }
+                }
+                else
+                {
+                    EbLog.Error(www.url);
+                    EbLog.Error(www.error);
                 }
 
                 www = null;

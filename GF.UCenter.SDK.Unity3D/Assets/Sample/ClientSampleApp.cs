@@ -4,7 +4,9 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using GF.Common;
-using GF.UCenter.Common.Portable;
+using GF.UCenter.Common.Portable.Contracts;
+using GF.UCenter.Common.Portable.Models.AppClient;
+using GF.UCenter.Common.Portable.Models.Ip;
 
 public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, new()
 {
@@ -19,6 +21,13 @@ public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, 
         var et_ucentersdk = EntityMgr.createEntity<EtUCenterSDK>(null, Entity);
         var co_ucentersdk = et_ucentersdk.getComponent<ClientUCenterSDK<DefUCenterSDK>>();
         co_ucentersdk.UCenterDomain = "http://cragonucenter.chinacloudsites.cn/";
+        //co_ucentersdk.UCenterDomain = "http://blair-cs-sh.chinacloudapp.cn/";
+
+        // 获取Ip所在地
+        //co_ucentersdk.getIpAddress(_onUCenterGetIpAddress);
+
+        // 获取AppConfig
+        co_ucentersdk.getAppConfig("texaspoker", _onUCenterGetAppConfig);
 
         // 注册
         AccountRegisterInfo register_request = new AccountRegisterInfo();
@@ -34,7 +43,7 @@ public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, 
         //co_ucentersdk.login(login_request, _onUCenterLogin);
 
         // 游客登录
-        co_ucentersdk.guest(_onUCenterGuestLogin);
+        //co_ucentersdk.guest(_onUCenterGuestLogin);
 
         // 游客帐号转正
         AccountConvertInfo convert_info = new AccountConvertInfo();
@@ -57,9 +66,9 @@ public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, 
         //co_ucentersdk.resetPassword(resetpassword_request, _onUCenterResetPassword);
 
         // 上传图片
-        string account_id = "1111";
-        byte[] buffer = new byte[100];
-        MemoryStream ms = new MemoryStream(buffer);
+        //string account_id = "1111";
+        //byte[] buffer = new byte[100];
+        //MemoryStream ms = new MemoryStream(buffer);
         //co_ucentersdk.uploadProfileImage(account_id, ms, _onUCenterUploadProfileImage);
     }
 
@@ -77,6 +86,44 @@ public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, 
     //-------------------------------------------------------------------------
     public override void handleEvent(object sender, EntityEvent e)
     {
+    }
+
+    //-------------------------------------------------------------------------
+    void _onUCenterGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error)
+    {
+        EbLog.Note("ClientSampleApp._onUCenterGetIpAddress() UCenterResult=" + status);
+
+        if (error != null)
+        {
+            EbLog.Note("ErrorCode=" + error.ErrorCode);
+            EbLog.Note("ErrorMessage=" + error.Message);
+        }
+        else if (status == UCenterResponseStatus.Success)
+        {
+            EbLog.Note("Code=" + response.Code);
+            EbLog.Note("Area=" + response.Content.Area);
+            EbLog.Note("City=" + response.Content.City);
+            EbLog.Note("Country=" + response.Content.Country);
+            EbLog.Note("Region=" + response.Content.Region);
+            EbLog.Note("IP=" + response.Content.IP);
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    void _onUCenterGetAppConfig(UCenterResponseStatus status, AppConfigurationResponse response, UCenterError error)
+    {
+        EbLog.Note("ClientSampleApp._onUCenterGetAppConfig() UCenterResult=" + status);
+
+        if (error != null)
+        {
+            EbLog.Note("ErrorCode=" + error.ErrorCode);
+            EbLog.Note("ErrorMessage=" + error.Message);
+        }
+        else if (status == UCenterResponseStatus.Success)
+        {
+            EbLog.Note("AppId=" + response.AppId);
+            EbLog.Note("Configuration=" + response.Configuration);
+        }
     }
 
     //-------------------------------------------------------------------------
