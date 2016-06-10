@@ -12,14 +12,17 @@
     public class MefDependencyResolver : IDependencyResolver
     {
         private readonly ExportProvider exportProvider;
+        private readonly IDependencyResolver innerResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MefDependencyResolver" /> class.
         /// </summary>
         /// <param name="exportProvider">The export provider.</param>
-        public MefDependencyResolver(ExportProvider exportProvider)
+        /// <param name="innerResolver">Indicating the inner resolver.</param>
+        public MefDependencyResolver(ExportProvider exportProvider, IDependencyResolver innerResolver)
         {
             this.exportProvider = exportProvider;
+            this.innerResolver = innerResolver;
         }
 
         /// <summary>
@@ -52,7 +55,15 @@
 
             var contractName = AttributedModelServices.GetContractName(serviceType);
             var export = this.exportProvider.GetExportedValueOrDefault<object>(contractName);
-            return export;
+
+            if (export == null && this.innerResolver != null)
+            {
+                return this.innerResolver.GetService(serviceType);
+            }
+            else
+            {
+                return export;
+            }
         }
 
         /// <summary>
@@ -68,7 +79,15 @@
             }
 
             var exports = this.exportProvider.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
-            return exports;
+
+            if (exports == null && this.innerResolver != null)
+            {
+                return this.innerResolver.GetServices(serviceType);
+            }
+            else
+            {
+                return exports;
+            }
         }
     }
 }

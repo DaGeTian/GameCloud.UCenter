@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
+    using Common;
     using MongoDB;
     using UCenter.Common.Settings;
 
@@ -9,6 +10,7 @@
     /// Provide an API controller base class.
     /// </summary>
     [Export]
+    [ActionExecutionFilter]
     public class ApiControllerBase : ApiController
     {
         /// <summary>

@@ -40,7 +40,7 @@
 
         private static void RegisterMefDepencency(HttpConfiguration configuration, ExportProvider exportProvider)
         {
-            var dependency = new MefDependencyResolver(exportProvider);
+            var dependency = new MefDependencyResolver(exportProvider, configuration.DependencyResolver);
             configuration.DependencyResolver = dependency;
         }
     }
