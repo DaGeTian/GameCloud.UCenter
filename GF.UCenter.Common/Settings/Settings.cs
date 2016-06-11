@@ -6,33 +6,6 @@
     [Export]
     public class Settings
     {
-        [DefaultValue("UCenter")]
-        public string BucketName { get; set; }
-
-        [DefaultValue(1000)]
-        public uint DefaultOperationLifespan { get; set; }
-
-        [DefaultValue(true)]
-        public bool EnableTcpKeepAlives { get; set; }
-
-        [DefaultValue(1000 * 60 * 60)]
-        public uint TcpKeepAliveTime { get; set; }
-
-        [DefaultValue(1000)]
-        public uint TcpKeepAliveInterval { get; set; }
-
-        [DefaultValue(false)]
-        public bool UseSsl { get; set; }
-
-        [DefaultValue(10)]
-        public int PoolMaxSize { get; set; }
-
-        [DefaultValue(5)]
-        public int PoolMinSize { get; set; }
-
-        [DefaultValue(12000)]
-        public int PoolSendTimeout { get; set; }
-
         [DefaultValue("UseDevelopmentStorage=true")]
         public string PrimaryStorageConnectionString { get; set; }
 
