@@ -67,6 +67,7 @@
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DatabaseContextSettings.cs" />
     <Compile Include="Entity\AppAccountDataEntity.cs" />
+    <Compile Include="Entity\AppConfigurationEntity.cs" />
     <Compile Include="Entity\AppEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />
     <Compile Include="Entity\KeyPlaceholderEntity.cs" />

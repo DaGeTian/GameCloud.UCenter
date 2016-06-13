@@ -52,6 +52,17 @@
         /// <summary>
         /// Gets the application adapter.
         /// </summary>
+        public ICollectionAdapter<AppConfigurationEntity> AppConfigurations
+        {
+            get
+            {
+                return this.GetAdapter<AppConfigurationEntity>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the application adapter.
+        /// </summary>
         public ICollectionAdapter<AppEntity> Apps
         {
             get

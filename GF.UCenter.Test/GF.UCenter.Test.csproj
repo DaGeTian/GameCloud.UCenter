@@ -81,6 +81,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Clients\TenantEnvironment.cs" />
     <Compile Include="Clients\WebContext.cs" />
+    <Compile Include="TestAppConfiguration.cs" />
     <Compile Include="UCenterTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,6 +8,8 @@
     using Common.Logger;
     using MongoDB;
     using MongoDB.Adapters;
+    using MongoDB.Entity;
+    using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;
@@ -54,6 +56,43 @@
         }
 
         /// <summary>
+        /// Create application configuration
+        /// </summary>
+        /// <param name="info">Indicating the application information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        [HttpPost]
+        [Route("createconf")]
+        public async Task<IHttpActionResult> CreateAppConfiguration([FromBody] AppConfigurationInfo info, CancellationToken token)
+        {
+            CustomTrace.TraceInformation("[CreateAppConfiguration] AppId={0}", info.AppId);
+
+            var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(info.AppId, token);
+
+            if (appConfiguration == null)
+            {
+                appConfiguration = new AppConfigurationEntity
+                {
+                    Id = info.AppId,
+                    Configuration = info.Configuration,
+                };
+
+                await this.Database.AppConfigurations.InsertAsync(appConfiguration, token);
+            }
+            else
+            {
+                await this.Database.AppConfigurations.UpsertAsync(appConfiguration, token);
+            }
+
+            var response = new AppConfigurationResponse
+            {
+                AppId = info.AppId,
+                Configuration = info.Configuration
+            };
+            return this.CreateSuccessResult(response);
+        }
+
+        /// <summary>
         /// Get the APP configuration.
         /// </summary>
         /// <param name="appId">Indicating the App id.</param>
@@ -66,16 +105,17 @@
             CustomTrace.TraceInformation($"AppClient.GetAppConfiguration AppId={appId}");
 
             var app = await this.Database.Apps.GetSingleAsync(appId, token);
-
             if (app == null)
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExit);
             }
 
+            var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(appId, token);
+
             var response = new AppConfigurationResponse
             {
                 AppId = app.Id,
-                Configuration = app.Configuration
+                Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
             };
 
             return this.CreateSuccessResult(response);

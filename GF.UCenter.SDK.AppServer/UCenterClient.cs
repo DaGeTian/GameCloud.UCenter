@@ -28,10 +28,22 @@
         /// </summary>
         /// <param name="info">Indicating the application information.</param>
         /// <returns>Async response.</returns>
-        public async Task<AppResponse> AppCreateAsync(AppInfo info)
+        public async Task<AppResponse> CreateAppAsync(AppInfo info)
         {
             string url = this.GenerateApiEndpoint("app", "create");
             var response = await this.httpClient.SendAsyncWithException<AppInfo, AppResponse>(HttpMethod.Post, url, info);
+            return response;
+        }
+
+        /// <summary>
+        /// Create application.
+        /// </summary>
+        /// <param name="info">Indicating the application configuration information.</param>
+        /// <returns>Async response.</returns>
+        public async Task<AppResponse> CreateAppConfigurationAsync(AppConfigurationInfo info)
+        {
+            string url = this.GenerateApiEndpoint("appclient", "createconf");
+            var response = await this.httpClient.SendAsyncWithException<AppConfigurationInfo, AppResponse>(HttpMethod.Post, url, info);
             return response;
         }
 

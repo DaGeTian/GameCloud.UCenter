@@ -4,9 +4,11 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using Common.Portable.Contracts;
     using Common.Portable.Models.AppClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Newtonsoft.Json;
 
     [TestClass]
     public class UCenterE2EAppClientTest : UCenterE2ETestBase
@@ -204,6 +206,17 @@
         [TestMethod]
         public async Task E2E_AppClient_GetAppConfiguration_Test()
         {
+            var conf = new TestAppConfiguration()
+            {
+                Foo = "foo",
+                Bar = "bar"
+            };
+            var appConfigurationInfo = new AppConfigurationInfo()
+            {
+                AppId = TestAppId,
+                Configuration = JsonConvert.SerializeObject(conf)
+            };
+            await asClient.CreateAppConfigurationAsync(appConfigurationInfo);
             var result = await acClient.GetAppConfigurationAsync(TestAppId);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.AppId, TestAppId);

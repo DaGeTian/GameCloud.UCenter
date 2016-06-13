@@ -72,11 +72,18 @@
             var appInfo = new AppInfo
             {
                 AppId = TestAppId,
-                AppSecret = TestAppSecret,
+                AppSecret = TestAppSecret
+            };
+
+            await asClient.CreateAppAsync(appInfo);
+
+            var appConfigurationInfo = new AppConfigurationInfo
+            {
+                AppId = TestAppId,
                 Configuration = TestAppConfiguration
             };
 
-            await asClient.AppCreateAsync(appInfo);
+            await asClient.CreateAppConfigurationAsync(appConfigurationInfo);
         }
     }
 }

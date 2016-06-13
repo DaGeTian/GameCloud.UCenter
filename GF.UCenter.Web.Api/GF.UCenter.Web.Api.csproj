@@ -164,7 +164,6 @@
     <Compile Include="ApiControllers\AppServerApiController.cs" />
     <Compile Include="ApiControllers\AccountApiController.cs" />
     <Compile Include="ApiControllers\PaymentApiController.cs" />
-    <Compile Include="ApiControllers\ValuesController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

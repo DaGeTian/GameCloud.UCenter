@@ -5,8 +5,8 @@
     /// <summary>
     /// Provide a class for application entity.
     /// </summary>
-    [CollectionName("App")]
-    public class AppEntity : EntityBase
+    [CollectionName("AppConfiguration")]
+    public class AppConfigurationEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.
@@ -14,8 +14,8 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the application secret.
+        /// Gets or sets the configuration.
         /// </summary>
-        public string AppSecret { get; set; }
+        public string Configuration { get; set; }
     }
 }

@@ -39,9 +39,9 @@
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AppInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> CreateApp([FromBody] AppInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation("App.Create AppId={0}", info.AppId);
+            CustomTrace.TraceInformation("[CreateApp] AppId={0}", info.AppId);
 
             var app = await this.Database.Apps.GetSingleAsync(info.AppId, token);
 
@@ -53,7 +53,6 @@
                     Id = info.AppId,
                     Name = info.AppId,
                     AppSecret = info.AppSecret,
-                    Configuration = info.Configuration
                 };
 
                 await this.Database.Apps.InsertAsync(app, token);

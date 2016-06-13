@@ -3,13 +3,12 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class AppInfo
+    public class AppConfigurationInfo
     {
         [DataMember]
         public virtual string AppId { get; set; }
 
         [DataMember]
-        [DumperTo("<--AppSecret-->")]
-        public virtual string AppSecret { get; set; }
+        public virtual string Configuration { get; set; }
     }
 }
