@@ -11,7 +11,7 @@
     {
         protected const string TestAppId = "utapp";
         protected const string TestAppSecret = "#pA554&3321#";
-        protected const string TestAppConfiguration = @"{foo:1,bar:2}";
+        //protected const string TestAppConfiguration = @"{foo:1,bar:2}";
         protected const string TestAppAccountData = @"{foo:1,bar:2}";
         protected const string InvalidAppSecret = "";
         protected const string ValidAccountPassword = "#pA554&3321#";
@@ -76,14 +76,6 @@
             };
 
             await asClient.CreateAppAsync(appInfo);
-
-            var appConfigurationInfo = new AppConfigurationInfo
-            {
-                AppId = TestAppId,
-                Configuration = TestAppConfiguration
-            };
-
-            await asClient.CreateAppConfigurationAsync(appConfigurationInfo);
         }
     }
 }

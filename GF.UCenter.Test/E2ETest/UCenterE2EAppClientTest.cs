@@ -220,7 +220,13 @@
             var result = await acClient.GetAppConfigurationAsync(TestAppId);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.AppId, TestAppId);
-            Assert.AreEqual(result.Configuration, TestAppConfiguration);
+            CheckEquals(conf, JsonConvert.DeserializeObject<TestAppConfiguration>(result.Configuration) );
+        }
+
+        private void CheckEquals(TestAppConfiguration conf1, TestAppConfiguration conf2)
+        {
+            Assert.AreEqual(conf1.Foo, conf2.Foo);
+            Assert.AreEqual(conf1.Bar, conf2.Bar);
         }
     }
 }

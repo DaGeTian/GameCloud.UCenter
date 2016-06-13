@@ -56,9 +56,7 @@
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("register")]
-        public async Task<IHttpActionResult> Register(
-            [FromBody] AccountRegisterRequestInfo info,
-            CancellationToken token)
+        public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
@@ -202,9 +200,7 @@
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("guest")]
-        public async Task<IHttpActionResult> GuestLogin(
-            [FromBody] AccountLoginInfo info,
-            CancellationToken token)
+        public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
 
@@ -284,9 +280,7 @@
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("resetpassword")]
-        public async Task<IHttpActionResult> ResetPassword(
-            [FromBody] AccountResetPasswordInfo info,
-            CancellationToken token)
+        public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
 
@@ -321,9 +315,7 @@
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("upload/{accountId}")]
-        public async Task<IHttpActionResult> UploadProfileImage(
-            [FromUri] string accountId,
-            CancellationToken token)
+        public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.UploadProfileImage AccountId={accountId}");
 
