@@ -1,4 +1,4 @@
-﻿namespace GF.UCenter.Web.App.ApiControllers
+﻿namespace GF.Manager.Web.App.ApiControllers
 {
     using System;
     using System.ComponentModel.Composition;
@@ -7,11 +7,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Common.Modes;
-    using MongoDB;
-    using MongoDB.Adapters;
-    using MongoDB.Entity;
     using UCenter.Common.Settings;
+    using UCenter.MongoDB;
+    using UCenter.MongoDB.Adapters;
+    using UCenter.MongoDB.Entity;
+    using UCenter.Web.Common.Modes;
     using global::MongoDB.Driver;
 
     /// <summary>
