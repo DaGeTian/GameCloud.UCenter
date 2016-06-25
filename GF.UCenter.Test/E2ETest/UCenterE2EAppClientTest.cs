@@ -40,30 +40,23 @@
         [TestMethod]
         public async Task E2E_AppClient_Register_ParallelTest()
         {
-            try
-            {
-                await Task.WhenAll(ParallelEnumerable.Range(0, 10)
-                    .Select(async idx =>
+            await Task.WhenAll(ParallelEnumerable.Range(0, 10)
+                .Select(async idx =>
+                {
+                    var random = $"account.{GenerateRandomString()}.{idx.ToString()}";
+                    var info = new AccountRegisterInfo
                     {
-                        var random = GenerateRandomString() + idx.ToString();
-                        var info = new AccountRegisterInfo
-                        {
-                            AccountName = random,
-                            Password = ValidAccountPassword,
-                            SuperPassword = ValidAccountPassword,
-                            Name = random,
-                            Email = random,
-                            IdentityNum = random,
-                            PhoneNum = random,
-                            Sex = Sex.Female
-                        };
-                        await this.CreateTestAccount(info);
-                    }));
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.ToString());
-            }
+                        AccountName = random,
+                        Password = ValidAccountPassword,
+                        SuperPassword = ValidAccountPassword,
+                        Name = random,
+                        Email = random,
+                        IdentityNum = random,
+                        PhoneNum = random,
+                        Sex = Sex.Female
+                    };
+                    await this.CreateTestAccount(info);
+                }));
         }
 
         [TestMethod]
@@ -82,6 +75,30 @@
         }
 
         [TestMethod]
+        public async Task E2E_AppClient_Register_WithInvalidChars_Test()
+        {
+            var info = new AccountRegisterInfo
+            {
+                Password = ValidAccountPassword,
+                SuperPassword = ValidAccountPassword,
+                Name = GenerateRandomString(),
+                IdentityNum = GenerateRandomString(),
+                PhoneNum = GenerateRandomString(),
+                Email = GenerateRandomString() + "@test.com",
+                Sex = Sex.Female
+            };
+
+            // TOOD: Change ErrorCode in next client refresh
+            info.AccountName = "$%^";
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+                async () => { await acClient.AccountRegisterAsync(info); });
+
+            info.AccountName = "张无忌";
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+                async () => { await acClient.AccountRegisterAsync(info); });
+        }
+
+        [TestMethod]
         public async Task E2E_AppClient_Register_Twice_Test()
         {
             var info = new AccountRegisterInfo
@@ -89,7 +106,7 @@
                 AccountName = GenerateRandomString(),
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
-                Name = GenerateRandomString(),
+                Name = $"account.{GenerateRandomString()}",
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
@@ -115,7 +132,7 @@
             var convertInfo = new AccountConvertInfo
             {
                 AccountId = loginResponse.AccountId,
-                AccountName = GenerateRandomString(),
+                AccountName = $"guest.{GenerateRandomString()}",
                 OldPassword = loginResponse.Password,
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
@@ -220,7 +237,7 @@
             var result = await acClient.GetAppConfigurationAsync(TestAppId);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.AppId, TestAppId);
-            CheckEquals(conf, JsonConvert.DeserializeObject<TestAppConfiguration>(result.Configuration) );
+            CheckEquals(conf, JsonConvert.DeserializeObject<TestAppConfiguration>(result.Configuration));
         }
 
         private void CheckEquals(TestAppConfiguration conf1, TestAppConfiguration conf2)

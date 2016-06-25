@@ -41,13 +41,13 @@
             {
                 info = new AccountRegisterInfo
                 {
-                    AccountName = "an-" + GenerateRandomString(),
+                    AccountName = $"account.{GenerateRandomString()}",
                     Password = ValidAccountPassword,
                     SuperPassword = ValidAccountPassword,
-                    Name = "n-" + GenerateRandomString(),
-                    IdentityNum = "in-" + GenerateRandomString(),
-                    PhoneNum = "p-" + GenerateRandomString(),
-                    Email = GenerateRandomString() + "@test.com",
+                    Name = $"name.{GenerateRandomString()}",
+                    IdentityNum = $"id.{GenerateRandomString()}",
+                    PhoneNum = $"phone.{GenerateRandomString()}",
+                    Email = $"{GenerateRandomString()}@test.com",
                     Sex = Sex.Female
                 };
             }

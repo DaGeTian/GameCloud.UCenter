@@ -8,6 +8,7 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
     using System.Web.Http;
     using Common;
     using Common.Logger;
@@ -59,6 +60,12 @@
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
+
+            if (!ValidateAccountName(info.AccountName))
+            {
+                // TODO: Change to AccountRegisterFailedInvalidName in next client refresh
+                throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
+            }
 
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
@@ -451,6 +458,14 @@
                 AccountId = accountId,
                 AccountName = accountName
             };
+        }
+
+        private bool ValidateAccountName(string accountName)
+        {
+            string pattern = @"^[a-zA-Z0-9.@]*$";
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            return regex.IsMatch(accountName);
         }
     }
 }

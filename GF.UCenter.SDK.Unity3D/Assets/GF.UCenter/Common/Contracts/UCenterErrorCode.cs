@@ -25,6 +25,11 @@
         AccountRegisterFailedAlreadyExist,
 
         /// <summary>
+        /// 注册，用户名包含非法字符
+        /// </summary>
+        AccountRegisterFailedInvalidName,
+
+        /// <summary>
         /// 登陆，密码错误
         /// </summary>
         AccountLoginFailedPasswordNotMatch,
