@@ -20,7 +20,7 @@ var app = angular.module("ucenter", ['ui.bootstrap'])
     .filter('enums', function () {
         return function (input, enumName) {
             var items = enums[enumName];
-            if (typeof (input) == 'number') {
+            if (typeof (input) === 'number') {
                 return items[input];
             } else {
                 return items[items[input]];

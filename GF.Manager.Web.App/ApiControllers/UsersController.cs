@@ -6,30 +6,55 @@
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Web.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using MongoDB.Driver;
+    using UCenter.Common;
     using UCenter.Common.Settings;
     using UCenter.MongoDB;
     using UCenter.MongoDB.Adapters;
     using UCenter.MongoDB.Entity;
     using UCenter.Web.Common.Modes;
-    using global::MongoDB.Driver;
 
     /// <summary>
     /// Provide a controller for users.
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class UsersController : ApiControllerBase
+    [Route("api/[controller]")]
+    public class UsersController //: ApiControllerBase
     {
+        /// <summary>
+        /// Gets the database context.
+        /// </summary>
+        private DatabaseContext Database { get; set; }
+
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        private Settings Settings { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController" /> class.
         /// </summary>
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public UsersController(DatabaseContext database, Settings settings)
-            : base(database, settings)
+        public UsersController()
         {
+            var exportProvider = CompositionContainerFactory.Create();
+
+            SettingsInitializer.Initialize<Settings>(
+                exportProvider,
+                SettingsDefaultValueProvider<Settings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            SettingsInitializer.Initialize<DatabaseContextSettings>(
+                exportProvider,
+                SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            Database = exportProvider.GetExportedValue<DatabaseContext>();
+            Settings = exportProvider.GetExportedValue<Settings>();
         }
 
         /// <summary>
@@ -43,10 +68,10 @@
         /// <returns>Async return user list.</returns>
         public async Task<PaginationResponse<AccountEntity>> Get(
             CancellationToken token,
-            [FromUri]string keyword = null,
-            [FromUri] string orderby = null,
-            [FromUri] int page = 1,
-            [FromUri] int count = 1000)
+            [FromQuery]string keyword = null,
+            [FromQuery] string orderby = null,
+            [FromQuery] int page = 1,
+            [FromQuery] int count = 1000)
         {
             Expression<Func<AccountEntity, bool>> filter = null;
 
@@ -57,9 +82,9 @@
                     || a.PhoneNum.Contains(keyword);
             }
 
-            var total = await this.Database.Accounts.CountAsync(filter, token);
+            var total = await Database.Accounts.CountAsync(filter, token);
 
-            IQueryable<AccountEntity> queryable = this.Database.Accounts.Collection.AsQueryable();
+            IQueryable<AccountEntity> queryable = Database.Accounts.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
@@ -85,11 +110,11 @@
         /// <param name="id">Indicating the user id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user details.</returns>
-        public async Task<AccountEntity> Get(string id, CancellationToken token)
-        {
-            var account = await this.Database.Accounts.GetSingleAsync(id, token);
+        //public async Task<AccountEntity> Get(string id, CancellationToken token)
+        //{
+        //    var account = await Database.Accounts.GetSingleAsync(id, token);
 
-            return account;
-        }
+        //    return account;
+        //}
     }
 }

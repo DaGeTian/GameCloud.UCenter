@@ -16,11 +16,11 @@
     enums.sex = sex;
 })(enums || (enums = {}));
 
-var app = angular.module("ucenter", ['ui.bootstrap'])
+var app = angular.module("ucenter", [])
     .filter('enums', function () {
         return function (input, enumName) {
             var items = enums[enumName];
-            if (typeof (input) == 'number') {
+            if (typeof (input) === 'number') {
                 return items[input];
             } else {
                 return items[items[input]];

@@ -24,8 +24,8 @@
         {
             this.exportProvider = exportProvider;
             this.Settings = settings;
-            var client = new MongoClient(settings.ConnectionString);
-            this.Database = client.GetDatabase(this.Settings.DatabaseName);
+            var client = new MongoClient("mongodb://42.159.239.155:27017");//settings.ConnectionString);
+            this.Database = client.GetDatabase("ucenter_test"); //this.Settings.DatabaseName);
         }
 
         /// <summary>

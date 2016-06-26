@@ -1,7 +1,10 @@
-﻿namespace GF.Manager.Web.App.ApiControllers
+﻿using System.ComponentModel.Composition.Hosting;
+using GF.UCenter.Common;
+
+namespace GF.Manager.Web.App.ApiControllers
 {
     using System.ComponentModel.Composition;
-    using System.Web.Http;
+    using Microsoft.AspNetCore.Mvc;
     using UCenter.Common.Settings;
     using UCenter.MongoDB;
 
@@ -9,7 +12,7 @@
     /// Provide an API controller base class.
     /// </summary>
     [Export]
-    public class ApiControllerBase : ApiController
+    public class ApiControllerBase : Controller
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiControllerBase" /> class.
@@ -19,8 +22,22 @@
         [ImportingConstructor]
         public ApiControllerBase(DatabaseContext database, Settings settings)
         {
-            this.Database = database;
-            this.Settings = settings;
+            //Database = database;
+            //Settings = settings;
+            var exportProvider = CompositionContainerFactory.Create();
+
+            SettingsInitializer.Initialize<Settings>(
+                exportProvider,
+                SettingsDefaultValueProvider<Settings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            SettingsInitializer.Initialize<DatabaseContextSettings>(
+                exportProvider,
+                SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            Database = exportProvider.GetExportedValue<DatabaseContext>();
+            Settings = exportProvider.GetExportedValue<Settings>();
         }
 
         /// <summary>
