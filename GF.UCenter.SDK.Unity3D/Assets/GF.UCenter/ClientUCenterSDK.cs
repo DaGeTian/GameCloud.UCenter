@@ -250,6 +250,7 @@ public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK
 
         WWWForm form = new WWWForm();
         form.AddField("Accept", "application/x-www-form-urlencoded");
+        form.AddField("Accept-Encoding", "gzip,deflate,sdch");
         form.AddField("Content-Type", "application/json; charset=utf-8");
         form.AddField("Content-Length", 0);
         form.AddField("Host", _getHostName());
