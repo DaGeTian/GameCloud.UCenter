@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using GF.Common;
+using GF.Unity.Common;
+using GF.UCenter.SDK.Unity;
+using GF.UCenter.SDK.Sample;
 
 public class EcSampleListener : IEcEngineListener
 {
@@ -63,7 +65,6 @@ public class MbSample : MonoBehaviour
             EcEngineSettings settings;
             settings.ProjectName = "EcSample";
             settings.RootEntityType = "EtRoot";
-            settings.EnableCoSuperSocket = false;
             mEngine = new EcEngine(ref settings, new EcSampleListener());
         }
 

@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using GF.Common;
+﻿
 
-public class EtSampleApp : EntityDef
+namespace GF.UCenter.SDK.Sample
 {
-    //-------------------------------------------------------------------------
-    public override void declareAllComponent(byte node_type)
+    using System;
+    using System.Collections.Generic;
+    using GF.Unity.Common;
+
+    public class EtSampleApp : EntityDef
     {
-        declareComponent<DefSampleApp>();
+        //-------------------------------------------------------------------------
+        public override void declareAllComponent(byte node_type)
+        {
+            declareComponent<DefSampleApp>();
+        }
     }
 }
