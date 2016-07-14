@@ -19,6 +19,7 @@
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
+    [RoutePrefix("api/users")]
     public class UsersController : ApiControllerBase
     {
         /// <summary>
@@ -91,5 +92,29 @@
 
             return account;
         }
+
+        /// <summary>
+        /// Get single user details.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Get new user count</returns>
+        [HttpGet]
+        [Route("newUserCount")]
+        public async Task<long> GetNewUserCount(CancellationToken token)
+        {
+            return await this.Database.Accounts.CountAsync(a => a.CreatedTime < DateTime.Today, null, token);
+        }
+
+        /// <summary>
+        /// Get single user details.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Get new user count</returns>
+        //[HttpGet]
+        //[Route("newUserCount")]
+        //public async Task<long> GetNewUserCount(CancellationToken token)
+        //{
+        //    return await this.Database.Accounts.CountAsync(a => a.CreatedTime < DateTime.Today, null, token);
+        //}
     }
 }

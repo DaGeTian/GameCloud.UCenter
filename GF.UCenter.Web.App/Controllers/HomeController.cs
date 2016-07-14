@@ -74,10 +74,10 @@
         }
 
         /// <summary>
-        /// Get the about page.
+        /// 
         /// </summary>
         /// <returns>action result.</returns>
-        public ActionResult About()
+        public ActionResult RealtimeGlance()
         {
             ViewBag.Message = "Your application description page.";
 
@@ -85,10 +85,65 @@
         }
 
         /// <summary>
-        /// Get the contact page.
+        /// 
         /// </summary>
         /// <returns>action result.</returns>
-        public ActionResult Contact()
+        public ActionResult NewUsers()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult ActiveUsers()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult Stay()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult Lost()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult OnlineAnalytics()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult OnlineBehaviour()
         {
             ViewBag.Message = "Your contact page.";
 

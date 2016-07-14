@@ -183,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\angular-chart.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -205,6 +206,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\angular-chart.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
@@ -222,6 +224,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -249,14 +252,19 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\UserList.cshtml" />
     <Content Include="Views\Home\OrderList.cshtml" />
     <Content Include="Views\Home\SingleOrder.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageFootBar.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageHeadBar.cshtml" />
+    <Content Include="Views\Home\RealtimeGlance.cshtml" />
+    <Content Include="Views\Home\NewUsers.cshtml" />
+    <Content Include="Views\Home\ActiveUsers.cshtml" />
+    <Content Include="Views\Home\Stay.cshtml" />
+    <Content Include="Views\Home\Lost.cshtml" />
+    <Content Include="Views\Home\OnlineAnalytics.cshtml" />
+    <Content Include="Views\Home\OnlineBehaviour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

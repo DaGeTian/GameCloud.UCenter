@@ -27,11 +27,14 @@
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/angular-chart.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                      "~/Scripts/Chart.js",
                       "~/Scripts/angular.js",
                       "~/Scripts/angular-route.js",
+                      "~/Scripts/angular-chart.js",
                       "~/Scripts/angular-ui/ui-bootstrap.js",
                       "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
         }

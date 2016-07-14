@@ -16,7 +16,7 @@
     enums.sex = sex;
 })(enums || (enums = {}));
 
-var app = angular.module("ucenter", ['ui.bootstrap'])
+var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
     .filter('enums', function () {
         return function (input, enumName) {
             var items = enums[enumName];
@@ -26,8 +26,7 @@ var app = angular.module("ucenter", ['ui.bootstrap'])
                 return items[items[input]];
             }
         }
-    })
-    .filter('yesNo', function () {
+    }).filter('yesNo', function () {
         return function (input) {
             return input ? '是' : '否';
         }
@@ -110,5 +109,76 @@ var app = angular.module("ucenter", ['ui.bootstrap'])
                         $scope.status = response.status;
                     });
             };
+        }
+    ]).controller('activeUsersController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+
+        }
+    ])
+    .controller('newUsersController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+
+            $scope.firstPlayTimePieLabels = ["6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12PM"];
+            $scope.firstPlayTimePieData = [10, 20, 10, 20, 10, 20, 10];
+
+            $scope.sexPieLabels = ["男", "女", ];
+            $scope.sexPieData = [85, 15];
+
+            $scope.agePieLabels = ["20-30", "30-40", "40-50", "50-60"];
+            $scope.agePieData = [55, , 15, 15, 5];
+
+            $scope.hourNewDeviceLabels = ['6', '7', '8', '9', '10', '11', '12'];
+            $scope.hourNewDeviceSeries = ['激活设备'];
+            $scope.hourNewDeviceData = [
+              [65, 59, 80, 81, 56, 55, 40]
+            ];
+
+            $scope.hourNewUserlabels = ['6', '7', '8', '9', '10', '11', '12'];
+            $scope.hourNewUserSeries = ['激活用户'];
+            $scope.hourNewUserData = [
+              [65, 59, 80, 81, 56, 55, 40]
+            ];
+        }
+    ]).controller('onlineAnalyticsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $scope.activeUserLabels = ["6", "7", "8", "9", "10", "11", "12"];
+            $scope.activeUserSeries = ['今日', '昨日', '上周同日'];
+            $scope.activeUserData = [
+              [65, 59, 80, 81, 56, 55, 40],
+              [28, 48, 40, 19, 86, 27, 90],
+              [38, 28, 10, 49, 36, 17, 30]
+            ];
+            $scope.activeUserOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.activeUserDatasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }, { yAxisID: 'y-axis-3' }];
+            $scope.activeUserOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      },
+                      {
+                          id: 'y-axis-2',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      },
+                        {
+                            id: 'y-axis-3',
+                            type: 'linear',
+                            display: true,
+                            position: 'left'
+                        }
+                    ]
+                }
+            };
+        }
+    ]).controller('onlineBehaviourController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+
         }
     ]);

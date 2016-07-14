@@ -12,6 +12,7 @@
                 <tr>
                     <th>账号</th>
                     <th>姓名</th>
+                    <th>头像</th>
                     <th>性别</th>
                     <th>游客？</th>
                     <th>邮箱</th>
@@ -25,6 +26,7 @@
                 <tr ng-repeat="row in raws">
                     <td>{{row.AccountName}}</td>
                     <td>{{row.Name}}</td>
+                    <td><img src="{{row.ProfileThumbnail}}" width="50" /></td>
                     <td>{{row.Sex|enums:'sex'}}</td>
                     <td>{{row.IsGuest|yesNo}}</td>
                     <td>{{row.Email}}</td>
