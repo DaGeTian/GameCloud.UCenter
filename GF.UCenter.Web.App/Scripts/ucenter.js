@@ -112,6 +112,24 @@ var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
         }
     ]).controller('activeUsersController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
+            $scope.hourDAULabels = common.getNArray(30);
+            $scope.hourDAUSeries = ['小时DAU'];
+            $scope.hourDAUData = common.getNRandomArray(30);
+
+            $scope.hourWAULabels = common.getNArray(7);
+            $scope.hourWAUSeries = ['小时WAU'];
+            $scope.hourWAUData = common.getNRandomArray(7);
+
+            $scope.hourMAULabels = common.getNArray(30);
+            $scope.hourMAUSeries = ['小时MAU'];
+            $scope.hourMAUData = common.getNRandomArray(30);
+
+            $scope.activeUserSexPieLabels = ["男", "女"];
+            $scope.activeUserSexPieData = [85, 15];
+
+            $scope.activeUserAgePieLabels = ["20-30", "30-40", "40-50", "50-60"];
+            $scope.activeUserAgePieData = [55, 5, 15, 15, 5];
+
 
         }
     ])
@@ -121,32 +139,32 @@ var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
             $scope.firstPlayTimePieLabels = ["6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12PM"];
             $scope.firstPlayTimePieData = [10, 20, 10, 20, 10, 20, 10];
 
-            $scope.sexPieLabels = ["男", "女", ];
-            $scope.sexPieData = [85, 15];
+            $scope.newUserSexPieLabels = ["男", "女"];
+            $scope.newUserSexPieData = [85, 15];
 
-            $scope.agePieLabels = ["20-30", "30-40", "40-50", "50-60"];
-            $scope.agePieData = [55, , 15, 15, 5];
+            $scope.newUserAgePieLabels = ["20-30", "30-40", "40-50", "50-60"];
+            $scope.newUserAgePieData = [55, 5, 15, 15, 5];
 
-            $scope.hourNewDeviceLabels = ['6', '7', '8', '9', '10', '11', '12'];
-            $scope.hourNewDeviceSeries = ['激活设备'];
-            $scope.hourNewDeviceData = [
-              [65, 59, 80, 81, 56, 55, 40]
-            ];
+            $scope.hourActiveDeviceLabels = common.getNArray(24);
+            $scope.hourActiveDeviceSeries = ['小时设备激活'];
+            $scope.hourActiveDeviceData = common.getNRandomArray(24);
 
-            $scope.hourNewUserlabels = ['6', '7', '8', '9', '10', '11', '12'];
-            $scope.hourNewUserSeries = ['激活用户'];
-            $scope.hourNewUserData = [
-              [65, 59, 80, 81, 56, 55, 40]
-            ];
+            $scope.hourNewUserLabels = common.getNArray(7);
+            $scope.hourNewUserSeries = ['小时新增帐户'];
+            $scope.hourNewUserData = common.getNRandomArray(7);
+
+            $scope.hourNewDeviceLabels = common.getNArray(7);
+            $scope.hourNewDeviceSeries = ['小时新增设备'];
+            $scope.hourNewDeviceData = common.getNRandomArray(7);
         }
     ]).controller('onlineAnalyticsController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
-            $scope.activeUserLabels = ["6", "7", "8", "9", "10", "11", "12"];
+            $scope.activeUserLabels = common.getNArray(24);
             $scope.activeUserSeries = ['今日', '昨日', '上周同日'];
             $scope.activeUserData = [
-              [65, 59, 80, 81, 56, 55, 40],
-              [28, 48, 40, 19, 86, 27, 90],
-              [38, 28, 10, 49, 36, 17, 30]
+             common.getNRandomArray(24),
+             common.getNRandomArray(24),
+             common.getNRandomArray(24)
             ];
             $scope.activeUserOnClick = function (points, evt) {
                 console.log(points, evt);
@@ -173,6 +191,106 @@ var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
                             display: true,
                             position: 'left'
                         }
+                    ]
+                }
+            };
+
+            $scope.hourACULabels = common.getNArray(15);
+            $scope.hourACUSeries = ['今日'];
+            $scope.hourACUData = common.getNRandomArray(15);
+            $scope.hourACUOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.hourACUDatasetOverride = [{ yAxisID: 'y-axis-1' }];
+            $scope.hourACUOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      }
+                    ]
+                }
+            };
+
+            $scope.hourAveACULabels = common.getNArray(15);
+            $scope.hourAveACUSeries = ['今日'];
+            $scope.hourAveACUData = common.getNRandomArray(15);
+            $scope.hourAveACUOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.hourAveACUDatasetOverride = [{ yAxisID: 'y-axis-1' }];
+            $scope.hourAveACUOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      }
+                    ]
+                }
+            };
+
+            $scope.hourMaxACULabels = common.getNArray(15);
+            $scope.hourMaxACUSeries = ['今日'];
+            $scope.hourMaxACUData = common.getNRandomArray(15);
+            $scope.hourMaxACUOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.hourMaxACUDatasetOverride = [{ yAxisID: 'y-axis-1' }];
+            $scope.hourMaxACUOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      }
+                    ]
+                }
+            };
+
+            $scope.hourPCULabels = common.getNArray(15);
+            $scope.hourPCUSeries = ['今日'];
+            $scope.hourPCUData = common.getNRandomArray(15);
+            $scope.hourPCUOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.hourPCUDatasetOverride = [{ yAxisID: 'y-axis-1' }];
+            $scope.hourPCUOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      }
+                    ]
+                }
+            };
+
+            $scope.hourACUPCULabels = common.getNArray(15);
+            $scope.hourACUPCUSeries = ['今日'];
+            $scope.hourACUPCUData = common.getNRandomArray(15);
+            $scope.hourACUPCUOnClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.hourACUPCUDatasetOverride = [{ yAxisID: 'y-axis-1' }];
+            $scope.hourACUPCUOptions = {
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis-1',
+                          type: 'linear',
+                          display: true,
+                          position: 'left'
+                      }
                     ]
                 }
             };

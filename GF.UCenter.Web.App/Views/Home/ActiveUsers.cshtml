@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ActiveUsers</h2>
+<h2>活跃玩家</h2>
 <div ng-controller="activeUsersController">
     <div class="table-responsive">
         <table class="table">
@@ -19,20 +19,29 @@
                 <tr>
                     <td>小时DAU（日活跃玩家数量）</td>
                     <td>统计所选时期内，每日成功登录游戏的玩家数量。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourDAUBar" class="chart chart-bar"
+                                chart-data="hourDAUData" chart-labels="hourDAULabels" chart-series="hourDAUSeries"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时WAU（周活跃玩家数量）</td>
                     <td>统计所选时期内，当日往前推7日（当日计入天数）期间内，登陆过游戏的玩家总数量，按照玩家ID排重。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourWAUBar" class="chart chart-bar"
+                                chart-data="hourWAUData" chart-labels="hourWAULabels" chart-series="hourWAUSeries"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时MAU（月活跃玩家数量）</td>
                     <td>统计所选时期内，当日往前推30日（当日计入天数）期间内，登陆过游戏的玩家总数量，按照玩家ID排重。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourMAUBar" class="chart chart-bar"
+                                chart-data="hourMAUData" chart-labels="hourMAULabels" chart-series="hourMAUSeries"></canvas>
+                    </td>
                 </tr>
                 <tr>
-                    <td>小时DAU/MAU</td>
+                    <td>小时DAU/MAU</td>小时设备激活
                     <td>统计所选时期内，当日活跃玩家数量与当月活跃玩家数量的比例。此比例越趋近于1，说明游戏玩家的活跃度越高。</td>
                     <td></td>
                 </tr>
@@ -44,7 +53,7 @@
                 <tr>
                     <td>小时活跃玩家等级</td>
                     <td>统计所选时期内，活跃玩家在所选日期最后一次退出游戏时的等级分布情况（未排重）。</td>
-                    <td></td>
+                    <td><strong>没有数据</strong></td>
                 </tr>
                 <tr>
                     <td>小时活跃玩家地区/国家</td>
@@ -54,12 +63,18 @@
                 <tr>
                     <td>小时活跃玩家性别</td>
                     <td>统计所选时期内，活跃玩家注册信息中性别分布情况（未排重）。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="activeUserSexPie" class="chart chart-pie"
+                                chart-data="activeUserSexPieData" chart-labels="activeUserSexPieLabels" chart-options="options"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时活跃玩家年龄</td>
                     <td>统计所选时期内，活跃玩家注册信息中年龄分布情况（未排重）。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="activeUserAgePie" class="chart chart-pie"
+                                chart-data="activeUserAgePieData" chart-labels="activeUserAgePieLabels" chart-options="options"></canvas>
+                    </td>
                 </tr>
             </tbody>
         </table>

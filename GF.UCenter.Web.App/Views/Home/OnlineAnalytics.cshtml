@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>OnlineAnalytics</h2>
+<h2>在线分析</h2>
 
 <div ng-controller="onlineAnalyticsController">
     <div class="table-responsive">
@@ -29,27 +29,47 @@
                 <tr>
                     <td>小时ACU</td>
                     <td>Average Concurrent Users平均同时在线人数，统计所选时期内，每日各时间点的玩家在线数量进行平均后的数量。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourACULine" class="chart chart-line" chart-data="hourACUData"
+                                chart-labels="hourACULabels" chart-series="hourACUSeries" chart-options="hourACUOptions"
+                                chart-dataset-override="hourACUDatasetOverride" chart-click="hourACUOnClick"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时平均ACU</td>
                     <td>所选时间内每日ACU总和除以所选日期总天数。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourAveACULine" class="chart chart-line" chart-data="hourAveACUData"
+                                chart-labels="hourAveACULabels" chart-series="hourAveACUSeries" chart-options="hourAveACUOptions"
+                                chart-dataset-override="hourAveACUDatasetOverride" chart-click="hourAveACUOnClick"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时MAXACU</td>
                     <td>统计所选时期内，平均同时在线数量最高的玩家数量。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourMaxACULine" class="chart chart-line" chart-data="hourMaxACUData"
+                                chart-labels="hourMaxACULabels" chart-series="hourMaxACUSeries" chart-options="hourMaxACUOptions"
+                                chart-dataset-override="hourMaxACUDatasetOverride" chart-click="hourMaxACUOnClick"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时PCU</td>
                     <td>Peak concurrent users最高同时在线玩家人数，统计所选时期内，在一个瞬间极点上达到的同时在线的玩家总数。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourPCULine" class="chart chart-line" chart-data="hourPCUData"
+                                chart-labels="hourPCULabels" chart-series="hourPCUSeries" chart-options="hourPCUOptions"
+                                chart-dataset-override="hourPCUDatasetOverride" chart-click="hourPCUOnClick"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时ACU/PCU</td>
                     <td>通常称为在线平高比，比值越大则每日在线越平稳，玩家活跃时间更长，游戏服务器也更有效率，ACU/PCU的预警值是0.5，低于0.5说明游戏存在较大问题。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourACUPCULine" class="chart chart-line" chart-data="hourACUPCUData"
+                                chart-labels="hourACUPCULabels" chart-series="hourACUPCUSeries" chart-options="hourACUPCUOptions"
+                                chart-dataset-override="hourACUPCUDatasetOverride" chart-click="hourACUPCUOnClick"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时启动次数时段分布</td>

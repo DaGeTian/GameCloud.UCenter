@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>NewUsers</h2>
+<h2>新增玩家</h2>
 <div ng-controller="newUsersController">
     <div class="table-responsive">
         <table class="table">
@@ -20,8 +20,8 @@
                     <td>小时设备激活</td>
                     <td>统计所选时期内，每日新增的玩家安装游戏客户端，并运行游戏的可连接网络设备的数量，每台设备只计算一次。</td>
                     <td>
-                        <canvas id="hourNewDeviceBar" class="chart chart-bar"
-                                chart-data="hourNewDeviceData" chart-labels="hourNewDeviceLabels" chart-series="hourNewDeviceSeries"></canvas>
+                        <canvas id="hourActiveDeviceBar" class="chart chart-bar"
+                                chart-data="hourActiveDeviceData" chart-labels="hourActiveDeviceLabels" chart-series="hourActiveDeviceSeries"></canvas>
                     </td>
                 </tr>
                 <tr>
@@ -35,7 +35,10 @@
                 <tr>
                     <td>小时新增设备</td>
                     <td>统计所选时期内，每日玩家激活游戏后，进行了自动或者手动注册有ID信息或者账户信息的玩家设备数量，每台设备只计算一次。</td>
-                    <td></td>
+                    <td>
+                        <canvas id="hourNewDeviceBar" class="chart chart-bar"
+                                chart-data="hourNewDeviceData" chart-labels="hourNewDeviceLabels" chart-series="hourNewDeviceSeries"></canvas>
+                    </td>
                 </tr>
                 <tr>
                     <td>小时玩家转化率</td>
@@ -59,16 +62,16 @@
                     <td>小时新增玩家性别</td>
                     <td>统计所选时期内，新增玩家注册信息中性别分布情况。</td>
                     <td>
-                        <canvas id="sexPie" class="chart chart-pie"
-                                chart-data="sexPieData" chart-labels="sexPieLabels" chart-options="options"></canvas>
+                        <canvas id="newUserSexPie" class="chart chart-pie"
+                                chart-data="newUserSexPieData" chart-labels="newUserSexPieLabels" chart-options="options"></canvas>
                     </td>
                 </tr>
                 <tr>
                     <td>小时新增玩家年龄</td>
                     <td>统计所选时期内，新增玩家注册信息中年龄分布情况。</td>
                     <td>
-                        <canvas id="agePie" class="chart chart-pie"
-                                chart-data="agePieData" chart-labels="agePieLabels" chart-options="options"></canvas>
+                        <canvas id="newUserAgePie" class="chart chart-pie"
+                                chart-data="newUserAgePieData" chart-labels="newUserAgePieLabels" chart-options="options"></canvas>
                     </td>
                 </tr>
             </tbody>
