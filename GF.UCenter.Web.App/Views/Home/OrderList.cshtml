@@ -3,16 +3,18 @@
     ViewBag.Title = "订单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@if (ViewBag.AccountName != null)
+{
+    <h2 class="page-header">订单列表 <small>-用户:@ViewBag.AccountName</small> </h2>
+}
+else
+{
+    <h2 class="page-header">订单列表</h2>
+}
+
 <div>
     <div ng-controller="ordersController">
-        @if (ViewBag.AccountName != null)
-        {
-            <h2 class="page-header">订单列表 <small>-用户:@ViewBag.AccountName</small> </h2>
-        }
-        else
-        {
-            <h2 class="page-header">订单列表</h2>
-        }
         <div ng-init="params.accountId='@ViewBag.AccountId'"></div>
         @Html.Partial("Partial/_ListPageHeadBar")
         <table class="table table-bordered table-striped table-condensed" ng-open="">
