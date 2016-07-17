@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - UCenter</title>
+    <title>@ViewBag.Title - GF.Manager.UCenter</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -21,8 +21,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("玩家", "UserList", "Home")</li>
-                    <li>@Html.ActionLink("订单", "OrderList", "Home")</li>
+                    <li>@Html.ActionLink("账号管理", "UserList", "Home")</li>
+                    <li>@Html.ActionLink("订单管理", "OrderList", "Home")</li>
+                    <li>@Html.ActionLink("App配置", "UserList", "Home")</li>
                     <li class="dropdown">@Html.ActionLink("实时概况", "RealtimeGlance", "Home")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">玩家分析 <b class="caret"></b></a>
