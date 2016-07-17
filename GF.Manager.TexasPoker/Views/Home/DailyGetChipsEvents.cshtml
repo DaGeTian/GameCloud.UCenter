@@ -4,5 +4,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-header">事件记录</h2>
+<h2 class="page-header">每日领取筹码</h2>
 
+<div>
+    <div ng-controller="usersController">
+        @Html.Partial("Partial/_ListPageHeadBar")
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>玩家EtGuid</th>
+                    <th>获取筹码数</th>
+                    <th>获取后筹码总数</th>
+                    <th>事件时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in raws">
+                    <td>{{row.BuyPlayerEtGuid}}</td>
+                    <td>{{row.GetChipsNum}}</td>
+                    <td>{{row.AfterGetChipsNum}}</td>
+                    <td>{{row.EventTm}}</td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Partial("Partial/_ListPageFootBar")
+    </div>
+</div>

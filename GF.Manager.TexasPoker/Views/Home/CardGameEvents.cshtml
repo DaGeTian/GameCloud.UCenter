@@ -4,5 +4,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-header">事件记录</h2>
+<h2 class="page-header">牌局</h2>
 
+<div>
+    <div ng-controller="usersController">
+        @Html.Partial("Partial/_ListPageHeadBar")
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>牌桌类型</th>
+                    <th>系统抽水百分比</th>
+                    <th>桌子座位数</th>
+                    <th>桌子TbId</th>
+                    <th>Mega底注大小</th>
+                    <th>桌子EtGuid</th>
+                    <th>玩家座位信息</th>
+                    <th>首轮押注信息</th>
+                    <th>FlopInfo</th>
+                    <th>TurnInfo</th>
+                    <th>RiverInfo</th>
+                    <th>TurnInfo</th>
+                    <th>ShowDownInfo</th>
+                    <th>EndInfo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in raws">
+                    <td>{{row.CardGameType}}</td>
+                    <td>{{row.SysPumpingPersent}}</td>
+                    <td>{{row.SeatNum}}</td>
+                    <td>{{row.GameSpeed}}</td>
+                    <td>{{row.DesktopTbId}}</td>
+                    <td>{{row.MegaBetNum}}</td>
+                    <td>{{row.DesktopEtGuid}}</td>
+                    <td>{{row.PlayerCommonInfo}}</td>
+                    <td>{{row.PreflopInfo}}</td>
+                    <td>{{row.FlopInfo}}</td>
+                    <td>{{row.TurnInfo}}</td>
+                    <td>{{row.RiverInfo}}</td>
+                    <td>{{row.ShowDownInfo}}</td>
+                    <td>{{row.EndInfo}}</td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Partial("Partial/_ListPageFootBar")
+    </div>
+</div>
