@@ -252,8 +252,9 @@
     <Content Include="Views\Home\CardGameEvents.cshtml" />
     <Content Include="Views\Home\BuyCoinsEvents.cshtml" />
     <Content Include="Views\Home\ClubList.cshtml" />
+    <Content Include="Views\Home\ActivityList.cshtml" />
+    <Content Include="Views\Home\PlatformChargeRate.cshtml" />
     <None Include="Views\Home\UserList.cshtml" />
-    <Content Include="Views\Home\Events.cshtml" />
     <Content Include="Views\Home\EventReport.cshtml" />
     <Content Include="Views\Home\Analytics.cshtml" />
     <Content Include="Views\Home\AppConfig.cshtml" />

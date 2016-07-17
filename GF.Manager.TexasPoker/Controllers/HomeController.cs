@@ -46,6 +46,16 @@ namespace GF.Manager.TexasPoker.Controllers
             return View();
         }
 
+        public ActionResult PlatformChargeRate()
+        {
+            return View();
+        }
+
+        public ActionResult ActivityList()
+        {
+            return View();
+        }
+
         public ActionResult AppConfig()
         {
             return View();
