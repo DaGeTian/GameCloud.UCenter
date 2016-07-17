@@ -10,8 +10,6 @@ namespace GF.Manager.TexasPoker.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
             return View();
         }
     }
