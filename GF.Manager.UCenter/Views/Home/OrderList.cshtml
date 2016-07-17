@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "订单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.AccountName != null)
+{
+    <h2 class="page-header">订单列表 <small>-用户:@ViewBag.AccountName</small> </h2>
+}
+else
+{
+    <h2 class="page-header">订单列表</h2>
+}
+
+<div>
+    <div ng-controller="ordersController">
+        <div ng-init="params.accountId='@ViewBag.AccountId'"></div>
+        @Html.Partial("Partial/_ListPageHeadBar")
+        <table class="table table-bordered table-striped table-condensed" ng-open="">
+            <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>账号</th>
+                    <th>App</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>完成时间</th>
+                    <th>详情</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in raws">
+                    <td>{{row.Id}}</td>
+                    <td>{{row.AccountName}}</td>
+                    <td>{{row.AppName}}</td>
+                    <td>{{row.State|enums:'orderState'}}</td>
+                    <td>{{row.CreatedTime | date:'yyyy/MM/dd HH:mm'}}</td>
+                    <td>{{row.CompletedTime|date:'yyyy/MM/dd HH:mm'}}</td>
+                    <td><a href="/home/singleorder?id={{row.Id}}">详情</>详情</a></td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Partial("Partial/_ListPageFootBar")
+        <div ng-init="fetch()"></div>
+    </div>
+</div>

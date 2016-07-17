@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "OnlineBehaviour";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-header">在线习惯</h2>
+
+<div ng-controller="onlineBehaviourController">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-md-2">指标</th>
+                    <th class="col-md-4 hidden-xs">描述</th>
+                    <th class="col-md-6">数值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>小时周月每日/每周/每月平均游戏时长</td>
+                    <td class="hidden-xs">统计所选时期内，每日/每自然周/每自然月中，新增玩家/活跃玩家/付费玩家中，每玩家的游戏时长。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时周月每日/每周/每月平均游戏次数</td>
+                    <td class="hidden-xs">统计所选时期内，每日/每自然周/每自然月中，新增玩家/活跃玩家/付费玩家中，每玩家的游戏次数。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时日游戏次数</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家/活跃玩家/付费玩家每日游戏天数区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>周周游戏次数</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家/活跃玩家/付费玩家中，所处游戏次数区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>周周游戏天数</td>
+                    <td class="hidden-xs">统计所选时期所处自然周中，新增玩家/活跃玩家/付费玩家中，所处游戏天数区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>月月游戏天数</td>
+                    <td class="hidden-xs">统计所选时期所处自然月中，新增玩家/活跃玩家/付费玩家中，所处游戏天数区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>游戏时长</td>
+                    <td class="hidden-xs">指玩家在游戏内的累计游戏时长，按照不同时长将玩家划入不同的分布区间。对周使用时长将按照您所选日期自动扩充完整一周来计算单用户时长，跨多周的查询会先计算单周的分布数据，再组合各个区间的数据后求和进行展示。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时每日游戏时长</td>
+                    <td class="hidden-xs">统计所选时期内，每日登陆游戏的新增玩家/活跃玩家/付费玩家中，当日累计进行游戏的时间区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>周周游戏时长</td>
+                    <td class="hidden-xs">统计所选时期内，每个自然周登陆游戏的新增玩家/活跃玩家/付费玩家中，每周进行游戏时间区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时单次游戏时长</td>
+                    <td class="hidden-xs">统计所选时期内，每日登陆游戏的新增玩家/活跃玩家/付费玩家中，每次进行游戏时间区间的玩家数量分布。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时游戏时段</td>
+                    <td class="hidden-xs">统计所选时期内，各小时段中新增玩家/活跃玩家/付费玩家的游戏次数分布情况。</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
