@@ -6,3 +6,31 @@
 
 <h2 class="page-header">俱乐部管理</h2>
 
+<div>
+    <div ng-controller="ordersController">
+        <div ng-init="params.accountId='@ViewBag.AccountId'"></div>
+        @Html.Partial("Partial/_ListPageHeadBar")
+        <table class="table table-bordered table-striped table-condensed" ng-open="">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>详情</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in raws">
+                    <td>{{row.ClubName}}</td>
+                    <td>{{row.ClubDescription}}</td>
+                    <td>{{row.State}}</td>
+                    <td>{{row.CreatedTime | date:'yyyy/MM/dd HH:mm'}}</td>
+                    <td><a href="/home/singleorder?id={{row.Id}}">详情</a></td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Partial("Partial/_ListPageFootBar")
+        <div ng-init="fetch()"></div>
+    </div>
+</div>
