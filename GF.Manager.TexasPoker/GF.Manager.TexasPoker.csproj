@@ -218,8 +218,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -241,6 +239,25 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\BuyChipsEvents.cshtml" />
+    <Content Include="Views\Home\ChipBuyGiftEvents.cshtml" />
+    <Content Include="Views\Home\ChipBuyItemEvents.cshtml" />
+    <Content Include="Views\Home\DailyGetChipsEvents.cshtml" />
+    <Content Include="Views\Home\LostAllSendChipsEvents.cshtml" />
+    <Content Include="Views\Home\PlayerSendOtherChipsEvents.cshtml" />
+    <Content Include="Views\Home\PlayerGetChipsFromOtherEvents.cshtml" />
+    <Content Include="Views\Home\CoinBuyGiftEvents.cshtml" />
+    <Content Include="Views\Home\CoinBuyItemEvents.cshtml" />
+    <Content Include="Views\Home\BuyVIPEvents.cshtml" />
+    <Content Include="Views\Home\CardGameEvents.cshtml" />
+    <Content Include="Views\Home\BuyCoinsEvents.cshtml" />
+    <None Include="Views\Home\UserList.cshtml" />
+    <Content Include="Views\Home\Events.cshtml" />
+    <Content Include="Views\Home\EventReport.cshtml" />
+    <Content Include="Views\Home\Analytics.cshtml" />
+    <Content Include="Views\Home\AppConfig.cshtml" />
+    <Content Include="Views\Home\ClubManagement.cshtml" />
+    <None Include="Views\Home\RoboList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
