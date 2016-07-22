@@ -249,11 +249,12 @@
     <Content Include="Views\Home\CoinBuyGiftEvents.cshtml" />
     <Content Include="Views\Home\CoinBuyItemEvents.cshtml" />
     <Content Include="Views\Home\BuyVIPEvents.cshtml" />
-    <Content Include="Views\Home\CardGameEvents.cshtml" />
+    <Content Include="Views\Home\TexasPokerEvents.cshtml" />
     <Content Include="Views\Home\BuyCoinsEvents.cshtml" />
     <Content Include="Views\Home\ClubList.cshtml" />
     <Content Include="Views\Home\ActivityList.cshtml" />
     <Content Include="Views\Home\PlatformChargeRate.cshtml" />
+    <Content Include="Views\Home\PlayerReportEvents.cshtml" />
     <None Include="Views\Home\UserList.cshtml" />
     <Content Include="Views\Home\EventReport.cshtml" />
     <Content Include="Views\Home\Analytics.cshtml" />

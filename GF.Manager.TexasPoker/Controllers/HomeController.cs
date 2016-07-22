@@ -34,7 +34,8 @@ namespace GF.Manager.TexasPoker.Controllers
         public ActionResult CoinBuyGiftEvents() { return View(); }
         public ActionResult CoinBuyItemEvents() { return View(); }
         public ActionResult BuyVIPEvents() { return View(); }
-        public ActionResult CardGameEvents() { return View(); }
+        public ActionResult TexasPokerEvents() { return View(); }
+        public ActionResult PlayerReportEvents() { return View(); }
 
         public ActionResult EventReport()
         {
