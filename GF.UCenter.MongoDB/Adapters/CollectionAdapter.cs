@@ -51,11 +51,10 @@
         {
             var filter = new BsonDocument("name", this.collectionName);
             var collections = await this.context.Database.ListCollectionsAsync(
-                new ListCollectionsOptions
+                new ListCollectionsOptions()
                 {
                     Filter = filter
-                },
-                token);
+                }, token);
 
             if (!collections.Any())
             {

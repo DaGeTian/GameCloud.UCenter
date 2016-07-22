@@ -64,8 +64,10 @@
     <Compile Include="Adapters\CollectionAdapterExtensions.cs" />
     <Compile Include="Adapters\ICollectionAdapter.cs" />
     <Compile Include="Attributes\CollectionNameAttribute.cs" />
+    <Compile Include="DatabaseConfig.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DatabaseContextSettings.cs" />
+    <Compile Include="DatabaseType.cs" />
     <Compile Include="Entity\AppAccountDataEntity.cs" />
     <Compile Include="Entity\AppConfigurationEntity.cs" />
     <Compile Include="Entity\AppEntity.cs" />
@@ -76,9 +78,7 @@
     <Compile Include="Entity\OrderEntity.cs" />
     <Compile Include="Entity\OrderState.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
-    <Compile Include="Exceptions\InvalidVersionException.cs" />
     <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Exceptions\ModelLockedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
