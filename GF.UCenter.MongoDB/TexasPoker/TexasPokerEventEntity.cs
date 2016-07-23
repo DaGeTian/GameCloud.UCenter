@@ -1,12 +1,12 @@
-﻿namespace GF.UCenter.MongoDB.Entity
+﻿namespace GF.UCenter.MongoDB.TexasPoker
 {
     using System.Collections.Generic;
     using Attributes;
+    using Entity;
 
-    [CollectionName("Event")]
-    public class EventEntity : EntityBase
+    [CollectionName("TexasPokerEvent")]
+    public class TexasPokerEventEntity : EntityBase
     {
-        //public string _id { get; set; }
         public string CardGameType { get; set; }
         public int SysPumpingPersent { get; set; }
         public int SeatNum { get; set; }

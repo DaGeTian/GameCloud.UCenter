@@ -7,20 +7,20 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using GF.UCenter.Common.Settings;
-    using GF.UCenter.MongoDB;
-    using GF.UCenter.MongoDB.Adapters;
-    using GF.UCenter.MongoDB.Entity;
-    using GF.UCenter.Web.Common.Modes;
+    using UCenter.Common.Settings;
+    using UCenter.MongoDB;
+    using UCenter.MongoDB.Adapters;
+    using UCenter.Web.Common.Modes;
     using MongoDB.Driver;
+    using UCenter.MongoDB.TexasPoker;
 
     /// <summary>
-    /// Provide a controller for users.
+    /// Provide a controller for events.
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [RoutePrefix("api/events")]
-    public class EventsController : ApiControllerBase
+    public class PlayerGetChipsFromOtherEventsController : ApiControllerBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EventsController" /> class.
@@ -28,11 +28,12 @@
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public EventsController(DatabaseContext database, Settings settings)
+        public PlayerGetChipsFromOtherEventsController(DatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }
 
+        [Route("PlayerGetChipsFromOther")]
         /// <summary>
         /// Get event list.
         /// </summary>
@@ -42,37 +43,36 @@
         /// <param name="page">Indicating the page number.</param>
         /// <param name="count">Indicating the count.</param>
         /// <returns>Async return event list.</returns>
-        public async Task<PaginationResponse<EventEntity>> Get(
+        public async Task<PaginationResponse<PlayerGetChipsFromOtherEventEntity>> Get(
             CancellationToken token,
-            [FromUri]string keyword = null,
+            [FromUri] string keyword = null,
             [FromUri] string orderby = null,
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
         {
-            Expression<Func<EventEntity, bool>> filter = null;
+            Expression<Func<PlayerGetChipsFromOtherEventEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = a => a.GameSpeed.Contains(keyword);
-
+                //filter = a => a.GameSpeed.Contains(keyword);
             }
 
-            var total = await this.Database.Events.CountAsync(filter, token);
+            var total = await this.Database.PlayerGetChipsFromOtherEvents.CountAsync(filter, token);
 
-            IQueryable<EventEntity> queryable = this.Database.Events.Collection.AsQueryable();
+            IQueryable<PlayerGetChipsFromOtherEventEntity> queryable = this.Database.PlayerGetChipsFromOtherEvents.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
             }
 
-            var events = queryable.Skip((page - 1) * count).Take(count).ToList();
+            var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PaginationResponse<EventEntity>
+            var model = new PaginationResponse<PlayerGetChipsFromOtherEventEntity>
             {
                 Page = page,
                 PageSize = count,
-                Raws = events,
+                Raws = result,
                 Total = total
             };
 
@@ -85,9 +85,9 @@
         /// <param name="id">Indicating the user id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user details.</returns>
-        public async Task<EventEntity> Get(string id, CancellationToken token)
+        public async Task<PlayerGetChipsFromOtherEventEntity> Get(string id, CancellationToken token)
         {
-            var result = await this.Database.Events.GetSingleAsync(id, token);
+            var result = await this.Database.PlayerGetChipsFromOtherEvents.GetSingleAsync(id, token);
 
             return result;
         }

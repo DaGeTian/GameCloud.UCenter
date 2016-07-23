@@ -180,7 +180,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
-    <Compile Include="ApiControllers\EventsController.cs" />
+    <Compile Include="ApiControllers\BuyVIPEventsController.cs" />
+    <Compile Include="ApiControllers\ChipBuyGiftEventsController.cs" />
+    <Compile Include="ApiControllers\ChipBuyItemEventsController.cs" />
+    <Compile Include="ApiControllers\CoinBuyGiftEventsController.cs" />
+    <Compile Include="ApiControllers\CoinBuyItemEventsController.cs" />
+    <Compile Include="ApiControllers\DailyGetChipsEventsController.cs" />
+    <Compile Include="ApiControllers\LostAllSendChipsEventsController.cs" />
+    <Compile Include="ApiControllers\PlayerGetChipsFromOtherEventsController.cs" />
+    <Compile Include="ApiControllers\PlayerReportEventsController.cs" />
+    <Compile Include="ApiControllers\PlayerSendOtherChipsEventsController.cs" />
+    <Compile Include="ApiControllers\TexasPokerEventsController.cs" />
+    <Compile Include="ApiControllers\BuyCoinsEventsController.cs" />
+    <Compile Include="ApiControllers\PlayersController.cs" />
+    <Compile Include="ApiControllers\BuyChipsEventsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />

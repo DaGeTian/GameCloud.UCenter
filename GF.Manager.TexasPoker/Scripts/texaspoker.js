@@ -65,7 +65,7 @@
     ]).controller('texaspokerEventsController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
             $controller('listController', { $scope: $scope });
-            $scope.url = "/api/events";
+            $scope.url = "/api/events/texaspoker";
             $scope.fetch();
         }
     ]);

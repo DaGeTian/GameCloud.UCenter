@@ -5,6 +5,7 @@
     using Adapters;
     using Entity;
     using global::MongoDB.Driver;
+    using TexasPoker;
 
     /// <summary>
     /// Provide a class for database context.
@@ -117,15 +118,32 @@
         }
 
         /// <summary>
-        /// Gets the envity.
+        /// Gets the player.
         /// </summary>
-        public ICollectionAdapter<EventEntity> Events
+        public ICollectionAdapter<PlayerEntity> Players
         {
             get
             {
-                return this.GetAdapter<EventEntity>();
+                return this.GetAdapter<PlayerEntity>();
             }
         }
+
+        /// <summary>
+        /// Gets the event.
+        /// </summary>
+        public ICollectionAdapter<BuyChipsEventEntity> BuyChipsEvents{ get { return this.GetAdapter<BuyChipsEventEntity>(); } }
+        public ICollectionAdapter<BuyCoinsEventEntity> BuyCoinsEvents { get { return this.GetAdapter<BuyCoinsEventEntity>(); } }
+        public ICollectionAdapter<BuyVIPEventEntity> BuyVIPEvents { get { return this.GetAdapter<BuyVIPEventEntity>(); } }
+        public ICollectionAdapter<ChipBuyGiftEventEntity> ChipBuyGiftEvents { get { return this.GetAdapter<ChipBuyGiftEventEntity>(); } }
+        public ICollectionAdapter<ChipBuyItemEventEntity> ChipBuyItemEvents { get { return this.GetAdapter<ChipBuyItemEventEntity>(); } }
+        public ICollectionAdapter<CoinBuyGiftEventEntity> CoinBuyGiftEvents { get { return this.GetAdapter<CoinBuyGiftEventEntity>(); } }
+        public ICollectionAdapter<CoinBuyItemEventEntity> CoinBuyItemEvents { get { return this.GetAdapter<CoinBuyItemEventEntity>(); } }
+        public ICollectionAdapter<DailyGetChipsEventEntity> DailyGetChipsEvents { get { return this.GetAdapter<DailyGetChipsEventEntity>(); } }
+        public ICollectionAdapter<LostAllSendChipsEventEntity> LostAllSendChipsEvents { get { return this.GetAdapter<LostAllSendChipsEventEntity>(); } }
+        public ICollectionAdapter<PlayerGetChipsFromOtherEventEntity> PlayerGetChipsFromOtherEvents { get { return this.GetAdapter<PlayerGetChipsFromOtherEventEntity>(); } }
+        public ICollectionAdapter<PlayerReportEventEntity> PlayerReportEvents { get { return this.GetAdapter<PlayerReportEventEntity>(); } }
+        public ICollectionAdapter<PlayerSendOtherChipsEventEntity> PlayerSendOtherChipsEvents { get { return this.GetAdapter<PlayerSendOtherChipsEventEntity>(); } }
+        public ICollectionAdapter<TexasPokerEventEntity> TexasPokerEvents { get { return this.GetAdapter<TexasPokerEventEntity>(); } }
 
         private ICollectionAdapter<TEntity> GetAdapter<TEntity>()
             where TEntity : EntityBase
