@@ -5,6 +5,7 @@
     using UCenter.Common.Settings;
     using UCenter.MongoDB;
     using UCenter.Web.Common;
+
     /// <summary>
     /// Provide an API controller base class.
     /// </summary>

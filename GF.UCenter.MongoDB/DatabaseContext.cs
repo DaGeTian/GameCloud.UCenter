@@ -116,6 +116,17 @@
             }
         }
 
+        /// <summary>
+        /// Gets the envity.
+        /// </summary>
+        public ICollectionAdapter<EventEntity> Events
+        {
+            get
+            {
+                return this.GetAdapter<EventEntity>();
+            }
+        }
+
         private ICollectionAdapter<TEntity> GetAdapter<TEntity>()
             where TEntity : EntityBase
         {

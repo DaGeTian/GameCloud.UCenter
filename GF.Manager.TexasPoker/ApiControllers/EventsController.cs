@@ -13,6 +13,7 @@
     using GF.UCenter.MongoDB.Entity;
     using GF.UCenter.Web.Common.Modes;
     using MongoDB.Driver;
+
     /// <summary>
     /// Provide a controller for users.
     /// </summary>
@@ -33,14 +34,14 @@
         }
 
         /// <summary>
-        /// Get resouece list.
+        /// Get event list.
         /// </summary>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <param name="keyword">Indicating the keyword.</param>
         /// <param name="orderby">Indicating the order by name.</param>
         /// <param name="page">Indicating the page number.</param>
         /// <param name="count">Indicating the count.</param>
-        /// <returns>Async return resouece list.</returns>
+        /// <returns>Async return event list.</returns>
         public async Task<PaginationResponse<EventEntity>> Get(
             CancellationToken token,
             [FromUri]string keyword = null,

@@ -72,6 +72,7 @@
     <Compile Include="Entity\AppConfigurationEntity.cs" />
     <Compile Include="Entity\AppEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />
+    <Compile Include="Entity\EventEntity.cs" />
     <Compile Include="Entity\KeyPlaceholderEntity.cs" />
     <Compile Include="Entity\KeyType.cs" />
     <Compile Include="Entity\LoginRecordEntity.cs" />
