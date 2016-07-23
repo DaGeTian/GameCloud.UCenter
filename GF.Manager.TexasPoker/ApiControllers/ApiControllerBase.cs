@@ -1,11 +1,10 @@
-﻿namespace GF.Manager.UCenter.ApiControllers
+﻿namespace GF.Manager.TexasPoker.ApiControllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
-    using GF.UCenter.Common.Settings;
-    using GF.UCenter.MongoDB;
-    using GF.UCenter.Web.Common;
-
+    using UCenter.Common.Settings;
+    using UCenter.MongoDB;
+    using UCenter.Web.Common;
     /// <summary>
     /// Provide an API controller base class.
     /// </summary>

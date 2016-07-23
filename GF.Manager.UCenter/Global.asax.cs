@@ -1,16 +1,16 @@
 ﻿namespace GF.Manager.UCenter
 {
-    using GF.UCenter.Common;
-    using GF.UCenter.Common.Settings;
-    using GF.UCenter.Web.Common;
     using System.ComponentModel.Composition.Hosting;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using GF.UCenter.Common;
+    using GF.UCenter.Common.Settings;
+    using GF.UCenter.Web.Common;
 
     /// <summary>
-    /// MVC Application
+    /// Web MVC Application
     /// </summary>
     public class MvcApplication : System.Web.HttpApplication
     {

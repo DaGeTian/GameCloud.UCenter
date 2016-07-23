@@ -7,6 +7,10 @@ namespace GF.Manager.TexasPoker
 {
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Register http configuration
+        /// </summary>
+        /// <param name="config">The http configuration.</param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services

@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-
-namespace GF.Manager.TexasPoker
+﻿namespace GF.Manager.TexasPoker
 {
+    using System.ComponentModel.Composition.Hosting;
+    using System.Web.Http;
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+    using UCenter.Common;
+    using UCenter.Common.Settings;
+    using UCenter.Web.Common;
+
+    /// <summary>
+    /// Web MVC Application
+    /// </summary>
     public class MvcApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Function for application start.
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +24,14 @@ namespace GF.Manager.TexasPoker
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ExportProvider exportProvider = CompositionContainerFactory.Create();
+
+            WebApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
+            SettingsInitializer.Initialize<Settings>(
+                exportProvider,
+                SettingsDefaultValueProvider<Settings>.Default,
+                AppConfigurationValueProvider.Default);
         }
     }
 }

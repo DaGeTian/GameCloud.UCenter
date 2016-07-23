@@ -1,13 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿
 
 namespace GF.Manager.TexasPoker.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    /// <summary>
+    /// Provide a class for home controller.
+    /// </summary>
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : Controller
     {
+        private readonly DatabaseContext database;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeController" /> class.
+        /// </summary>
+        /// <param name="database">Indicating the database context</param>
+        [ImportingConstructor]
+        public HomeController(DatabaseContext database)
+        {
+            this.database = database;
+        }
+
+        /// <summary>
+        /// Get the index page.
+        /// </summary>
+        /// <returns>action result.</returns>
         public ActionResult Index()
         {
             return View();
@@ -36,6 +58,7 @@ namespace GF.Manager.TexasPoker.Controllers
         public ActionResult BuyVIPEvents() { return View(); }
         public ActionResult TexasPokerEvents() { return View(); }
         public ActionResult PlayerReportEvents() { return View(); }
+        
 
         public ActionResult EventReport()
         {
