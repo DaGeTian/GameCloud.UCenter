@@ -62,6 +62,12 @@
                 $scope.url = url;
             };
         }
+    ]).controller('playerController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/players";
+            $scope.fetch();
+        }
     ]).controller('texaspokerEventsController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
             $controller('listController', { $scope: $scope });

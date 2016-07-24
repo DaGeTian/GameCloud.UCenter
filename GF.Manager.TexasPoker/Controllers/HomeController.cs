@@ -32,7 +32,7 @@
             return View();
         }
 
-        public ActionResult UserList()
+        public ActionResult PlayerList()
         {
             return View();
         }
@@ -41,21 +41,6 @@
         {
             return View();
         }
-
-        public ActionResult BuyChipsEvents() { return View(); }
-        public ActionResult ChipBuyGiftEvents() { return View(); }
-        public ActionResult ChipBuyItemEvents() { return View(); }
-        public ActionResult DailyGetChipsEvents() { return View(); }
-        public ActionResult LostAllSendChipsEvents() { return View(); }
-        public ActionResult PlayerSendOtherChipsEvents() { return View(); }
-        public ActionResult PlayerGetChipsFromOtherEvents() { return View(); }
-        public ActionResult BuyCoinsEvents() { return View(); }
-        public ActionResult CoinBuyGiftEvents() { return View(); }
-        public ActionResult CoinBuyItemEvents() { return View(); }
-        public ActionResult BuyVIPEvents() { return View(); }
-        public ActionResult TexasPokerEvents() { return View(); }
-        public ActionResult PlayerReportEvents() { return View(); }
-        
 
         public ActionResult EventReport()
         {

@@ -7,13 +7,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using MongoDB.Driver;
     using UCenter.Common.Settings;
     using UCenter.MongoDB;
     using UCenter.MongoDB.Adapters;
-    using UCenter.MongoDB.Entity;
+    using UCenter.MongoDB.TexasPoker;
     using UCenter.Web.Common.Modes;
-    using MongoDB.Driver;
-    using MongoDB.Driver.Linq;
 
     /// <summary>
     /// Provide a controller for players

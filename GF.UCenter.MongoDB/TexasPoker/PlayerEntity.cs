@@ -1,6 +1,7 @@
-﻿namespace GF.UCenter.MongoDB.Entity
+﻿namespace GF.UCenter.MongoDB.TexasPoker
 {
     using Attributes;
+    using Entity;
 
     public class DefActor
     {
@@ -77,7 +78,6 @@
     [CollectionName("EtPlayer")]
     public class PlayerEntity : EntityBase
     {
-        public string _id { get; set; }
         public object entity_children { get; set; }
         public string entity_guid { get; set; }
         public string entity_type { get; set; }
