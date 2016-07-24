@@ -12,7 +12,7 @@
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         private readonly DatabaseContext database;
 

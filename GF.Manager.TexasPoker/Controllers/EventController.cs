@@ -9,7 +9,7 @@
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class EventController : Controller
+    public class EventController : ControllerBase
     {
         private readonly DatabaseContext database;
 
