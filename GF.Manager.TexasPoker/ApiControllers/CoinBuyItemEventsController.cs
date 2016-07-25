@@ -33,7 +33,6 @@
         {
         }
 
-        [Route("CoinBuyItem")]
         /// <summary>
         /// Get event list.
         /// </summary>
@@ -43,6 +42,7 @@
         /// <param name="page">Indicating the page number.</param>
         /// <param name="count">Indicating the count.</param>
         /// <returns>Async return event list.</returns>
+        [Route("CoinBuyItem")]
         public async Task<PaginationResponse<CoinBuyItemEventEntity>> Get(
             CancellationToken token,
             [FromUri] string keyword = null,

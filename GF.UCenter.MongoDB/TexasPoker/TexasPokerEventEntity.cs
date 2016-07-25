@@ -4,27 +4,6 @@
     using Attributes;
     using Entity;
 
-    [CollectionName("TexasPokerEvent")]
-    public class TexasPokerEventEntity : EntityBase
-    {
-        public string CardGameType { get; set; }
-        public int SysPumpingPersent { get; set; }
-        public int SeatNum { get; set; }
-        public string GameSpeed { get; set; }
-        public int DesktopTbId { get; set; }
-        public int MegaBetNum { get; set; }
-        public string DesktopEtGuid { get; set; }
-        public List<PlayerCommonInfo> PlayerCommonInfo { get; set; }
-        public List<PreflopInfo> PreflopInfo { get; set; }
-        public object FlopInfo { get; set; }
-        public object TurnInfo { get; set; }
-        public object RiverInfo { get; set; }
-        public object ShowDownInfo { get; set; }
-        public List<EndInfo> EndInfo { get; set; }
-        public string EventType { get; set; }
-        public string EventTm { get; set; }
-    }
-
     public class FirstCard
     {
         public string CardType { get; set; }
@@ -56,5 +35,27 @@
     {
         public string PlayerEtGuid { get; set; }
         public int BeforeSysGetWinChips { get; set; }
+    }
+
+    [CollectionName("TexasPokerEvent")]
+    public class TexasPokerEventEntity : EntityBase
+    {
+        //public string _id { get; set; }
+        public string CardGameType { get; set; }
+        public double SysPumpingPersent { get; set; }
+        public int SeatNum { get; set; }
+        public string GameSpeed { get; set; }
+        public int DesktopTbId { get; set; }
+        public int MegaBetNum { get; set; }
+        public string DesktopEtGuid { get; set; }
+        public List<PlayerCommonInfo> PlayerCommonInfo { get; set; }
+        public List<PreflopInfo> PreflopInfo { get; set; }
+        public object FlopInfo { get; set; }
+        public object TurnInfo { get; set; }
+        public object RiverInfo { get; set; }
+        public object ShowDownInfo { get; set; }
+        public List<EndInfo> EndInfo { get; set; }
+        public string EventType { get; set; }
+        public string EventTm { get; set; }
     }
 }

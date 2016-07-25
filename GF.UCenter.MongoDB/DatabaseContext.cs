@@ -136,6 +136,7 @@
         public ICollectionAdapter<BuyVIPEventEntity> BuyVIPEvents { get { return this.GetAdapter<BuyVIPEventEntity>(); } }
         public ICollectionAdapter<ChipBuyGiftEventEntity> ChipBuyGiftEvents { get { return this.GetAdapter<ChipBuyGiftEventEntity>(); } }
         public ICollectionAdapter<ChipBuyItemEventEntity> ChipBuyItemEvents { get { return this.GetAdapter<ChipBuyItemEventEntity>(); } }
+        public ICollectionAdapter<ChipsChangeByManagerEventEntity> ChipsChangeByManagerEvents { get { return this.GetAdapter<ChipsChangeByManagerEventEntity>(); } }
         public ICollectionAdapter<CoinBuyGiftEventEntity> CoinBuyGiftEvents { get { return this.GetAdapter<CoinBuyGiftEventEntity>(); } }
         public ICollectionAdapter<CoinBuyItemEventEntity> CoinBuyItemEvents { get { return this.GetAdapter<CoinBuyItemEventEntity>(); } }
         public ICollectionAdapter<DailyGetChipsEventEntity> DailyGetChipsEvents { get { return this.GetAdapter<DailyGetChipsEventEntity>(); } }

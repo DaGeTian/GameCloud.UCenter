@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div ng-controller="eventsController">
+<div ng-controller="DailyGetChipsEventsController">
     <h2 class="page-header">每日领取筹码</h2>
     @Html.Partial("Partial/_ListPageHeadBar")
     <table class="table table-bordered table-striped table-condensed">
@@ -18,10 +18,10 @@
         </thead>
         <tbody>
             <tr ng-repeat="row in raws">
-                <td>{{row.BuyPlayerEtGuid}}</td>
+                <td>{{row.GetPlayerEtGuid}}</td>
                 <td>{{row.GetChipsNum}}</td>
                 <td>{{row.AfterGetChipsNum}}</td>
-                <td>{{row.EventTm}}</td>
+                <td>{{row.EventTm|date:'yyyy/MM/dd HH:mm'}}</td>
             </tr>
         </tbody>
     </table>

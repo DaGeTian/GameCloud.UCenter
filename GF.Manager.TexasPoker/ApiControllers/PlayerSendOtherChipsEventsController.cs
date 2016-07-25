@@ -33,7 +33,6 @@
         {
         }
 
-        [Route("PlayerSendOtherChips")]
         /// <summary>
         /// Get event list.
         /// </summary>
@@ -43,6 +42,7 @@
         /// <param name="page">Indicating the page number.</param>
         /// <param name="count">Indicating the count.</param>
         /// <returns>Async return event list.</returns>
+        [Route("PlayerSendOtherChips")]
         public async Task<PaginationResponse<PlayerSendOtherChipsEventEntity>> Get(
             CancellationToken token,
             [FromUri] string keyword = null,

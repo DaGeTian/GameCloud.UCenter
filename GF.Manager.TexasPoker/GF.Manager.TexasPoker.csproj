@@ -182,6 +182,7 @@
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
     <Compile Include="ApiControllers\BuyVIPEventsController.cs" />
     <Compile Include="ApiControllers\ChipBuyGiftEventsController.cs" />
+    <Compile Include="ApiControllers\ChipsChangeByManagerEventsController.cs" />
     <Compile Include="ApiControllers\ChipBuyItemEventsController.cs" />
     <Compile Include="ApiControllers\CoinBuyGiftEventsController.cs" />
     <Compile Include="ApiControllers\CoinBuyItemEventsController.cs" />
@@ -305,6 +306,7 @@
     <Content Include="Views\Home\ActivityList.cshtml" />
     <Content Include="Views\Home\PlatformChargeRate.cshtml" />
     <Content Include="Views\Event\PlayerReportEvents.cshtml" />
+    <Content Include="Views\Event\ChipsChangeByManagerEvents.cshtml" />
     <None Include="Views\Home\PlayerList.cshtml" />
     <Content Include="Views\Home\EventReport.cshtml" />
     <Content Include="Views\Home\Analytics.cshtml" />

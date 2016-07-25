@@ -68,10 +68,88 @@
             $scope.url = "/api/players";
             $scope.fetch();
         }
-    ]).controller('texaspokerEventsController', ['$scope', '$http', '$templateCache', '$controller',
+    ]).controller('BuyChipsEventsController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
             $controller('listController', { $scope: $scope });
-            $scope.url = "/api/events/texaspoker";
+            $scope.url = "/api/events/BuyChips";
+            $scope.fetch();
+        }
+    ]).controller('BuyCoinsEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/BuyCoins";
+            $scope.fetch();
+        }
+    ]).controller('BuyVIPEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/BuyVIP";
+            $scope.fetch();
+        }
+    ]).controller('ChipBuyGiftEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/ChipBuyGift";
+            $scope.fetch();
+        }
+    ]).controller('ChipBuyItemEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/ChipBuyItem";
+            $scope.fetch();
+        }
+    ]).controller('ChipsChangeByManagerEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/ChipsChangeByManager";
+            $scope.fetch();
+        }
+    ]).controller('CoinBuyGiftEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/CoinBuyGift";
+            $scope.fetch();
+        }
+    ]).controller('CoinBuyItemEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/CoinBuyItem";
+            $scope.fetch();
+        }
+    ]).controller('DailyGetChipsEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/DailyGetChips";
+            $scope.fetch();
+        }
+    ]).controller('LostAllSendChipsEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/LostAllSendChips";
+            $scope.fetch();
+        }
+    ]).controller('PlayerGetChipsFromOtherEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/PlayerGetChipsFromOther";
+            $scope.fetch();
+        }
+    ]).controller('PlayerReportEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/PlayerReport";
+            $scope.fetch();
+        }
+    ]).controller('PlayerSendOtherChipsEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/PlayerSendOtherChips";
+            $scope.fetch();
+        }
+    ]).controller('TexasPokerEventsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/events/TexasPoker";
             $scope.fetch();
         }
     ]);

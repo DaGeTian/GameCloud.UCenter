@@ -73,6 +73,7 @@
     <Compile Include="Entity\AppEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />
     <Compile Include="TexasPoker\ChipBuyItemEventEntity.cs" />
+    <Compile Include="TexasPoker\ChipsChangeByManagerEventEntity.cs" />
     <Compile Include="TexasPoker\DailyGetChipsEventEntity.cs" />
     <Compile Include="TexasPoker\LostAllSendChipsEventEntity.cs" />
     <Compile Include="TexasPoker\PlayerSendOtherChipsEventEntity.cs" />

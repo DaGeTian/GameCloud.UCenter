@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div ng-controller="eventsController">
+<div ng-controller="PlayerSendOtherChipsEventsController">
     <h2 class="page-header">玩家赠送筹码</h2>
     @Html.Partial("Partial/_ListPageHeadBar")
     <table class="table table-bordered table-striped table-condensed">
@@ -23,7 +23,7 @@
                 <td>{{row.TargetPlayerEtGuid}}</td>
                 <td>{{row.SendChipsNum}}</td>
                 <td>{{row.AfterSendChipsNum}}</td>
-                <td>{{row.EventTm}}</td>
+                <td>{{row.EventTm|date:'yyyy/MM/dd HH:mm'}}</td>
             </tr>
         </tbody>
     </table>

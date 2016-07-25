@@ -4,8 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div ng-controller="eventsController">
+<div ng-controller="PlayerReportEventsController">
     <h2 class="page-header">牌局</h2>
     @Html.Partial("Partial/_ListPageHeadBar")
     <table class="table table-bordered table-striped table-condensed">
@@ -22,7 +21,7 @@
                 <td>{{row.EventTm}}</td>
                 <td>{{row.ReportPlayer}}</td>
                 <td>{{row.BeingReportedPlayer}}</td>
-                <td>{{row.ReportType}}</td>
+                <td>{{row.ReportType|date:'yyyy/MM/dd HH:mm'}}</td>
             </tr>
         </tbody>
     </table>
