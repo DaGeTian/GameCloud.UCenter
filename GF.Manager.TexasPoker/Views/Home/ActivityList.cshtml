@@ -4,39 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-header">活动管理</h2>
-
-<div>
-    <div ng-controller="ordersController">
-        <div ng-init="params.accountId='@ViewBag.AccountId'"></div>
-        @Html.Partial("Partial/_ListPageHeadBar")
-        <table class="table table-bordered table-striped table-condensed" ng-open="">
-            <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>描述</th>
-                    <th>状态</th>
-                    <th>开始时间</th>
-                    <th>结束时间</th>
-                    <th>是否促销</th>
-                    <th>促销详情</th>
-                    <th>促销详情</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="row in raws">
-                    <td>{{row.ActivityName}}</td>
-                    <td>{{row.ActivityDescription}}</td>
-                    <td>{{row.State}}</td>
-                    <td>{{row.StartTime | date:'yyyy/MM/dd HH:mm'}}</td>
-                    <td>{{row.StartTime | date:'yyyy/MM/dd HH:mm'}}</td>
-                    <td>{{row}}</td>
-                    <td>{{row}}</td>
-                    <td>{{row}}</td>
-                </tr>
-            </tbody>
-        </table>
-        @Html.Partial("Partial/_ListPageFootBar")
-        <div ng-init="fetch()"></div>
-    </div>
+<div ng-controller="playerController">
+    <h2 class="page-header">活动管理</h2>
+    <div ng-init="params.accountId='@ViewBag.AccountId'"></div>
+    @Html.Partial("Partial/_ListPageHeadBar")
+    <table class="table table-bordered table-striped table-condensed" ng-open="">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>描述</th>
+                <th>状态</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>是否促销</th>
+                <th>促销详情</th>
+                <th>促销详情</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in raws">
+                <td>{{row.ActivityName}}</td>
+                <td>{{row.ActivityDescription}}</td>
+                <td>{{row.State}}</td>
+                <td>{{row.StartTime | date:'yyyy/MM/dd HH:mm'}}</td>
+                <td>{{row.StartTime | date:'yyyy/MM/dd HH:mm'}}</td>
+                <td>{{row}}</td>
+                <td>{{row}}</td>
+                <td>{{row}}</td>
+            </tr>
+        </tbody>
+    </table>
+    @Html.Partial("Partial/_ListPageFootBar")
+    <div ng-init="fetch()"></div>
 </div>

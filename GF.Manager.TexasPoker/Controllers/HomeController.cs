@@ -29,7 +29,7 @@
         /// <returns>action result.</returns>
         public ActionResult Index()
         {
-            return View();
+            return View("PlayerList");
         }
 
         public ActionResult PlayerList()

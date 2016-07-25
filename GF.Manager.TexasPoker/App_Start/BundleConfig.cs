@@ -14,14 +14,10 @@ namespace GF.Manager.TexasPoker
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/metisMenu.js",
+                      "~/Scripts/sb-admin-2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/texaspoker").Include(
                       "~/Scripts/common.js",
@@ -29,6 +25,8 @@ namespace GF.Manager.TexasPoker
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/metisMenu.css",
+                      "~/Content/sb-admin-2.css",
                       "~/Content/angular-chart.css",
                       "~/Content/site.css"));
 

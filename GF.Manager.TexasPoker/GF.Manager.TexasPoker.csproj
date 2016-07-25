@@ -219,6 +219,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\metisMenu.css" />
+    <Content Include="Scripts\metisMenu.js" />
+    <Content Include="Content\sb-admin-2.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -251,6 +254,7 @@
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\texaspoker.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

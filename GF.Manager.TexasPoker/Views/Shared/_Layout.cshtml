@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - GF.Manager.TexasPoker</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -18,58 +17,67 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("GF.Manager.TexasPoker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a class="navbar-brand" href="~/">GF.Manager.TexasPoker</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">玩家管理 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("玩家查询", "PlayerList", "Home")</li>
-                            <li>@Html.ActionLink("机器人查询", "RoboList", "Home")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">事件记录 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("购买筹码", "BuyChipsEvents", "Event")</li>
-                            <li>@Html.ActionLink("筹码购买礼物", "ChipBuyGiftEvents", "Event")</li>
-                            <li>@Html.ActionLink("筹码购买道具", "ChipBuyItemEvents", "Event")</li>
-                            <li>@Html.ActionLink("每日领取筹码", "DailyGetChipsEvents", "Event")</li>
-                            <li>@Html.ActionLink("输光赠送筹码", "LostAllSendChipsEvents", "Event")</li>
-                            <li>@Html.ActionLink("玩家赠送筹码", "PlayerSendOtherChipsEvents", "Event")</li>
-                            <li>@Html.ActionLink("玩家接收筹码", "PlayerGetChipsFromOtherEvents", "Event")</li>
-                            <li>@Html.ActionLink("购买金币", "BuyCoinsEvents", "Event")</li>
-                            <li>@Html.ActionLink("金币购买礼物", "ChipBuyGiftEvents", "Event")</li>
-                            <li>@Html.ActionLink("金币购买道具", "CoinBuyItemEvents", "Event")</li>
-                            <li>@Html.ActionLink("购买会员", "BuyVIPEvents", "Event")</li>
-                            <li>@Html.ActionLink("牌局", "TexasPokerEvents", "Event")</li>
-                            <li>@Html.ActionLink("玩家举报", "PlayerReportEvents", "Event")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("事件流报表", "PlayerList", "Home")</li>
-                    <li>@Html.ActionLink("整体统计", "Analytics", "Home")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">游戏配置 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("抽水率", "PlatformChargeRate", "Home")</li>
-                            <li>@Html.ActionLink("活动", "ActivityList", "Home")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("俱乐部管理", "ClubList", "Home")</li>
-                </ul>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
                 @Html.Partial("_LoginPartial")
+            </ul>
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">玩家管理 <b class="caret"></b></a>
+                            <ul class="nav nav-second-level">
+                                <li>@Html.ActionLink("玩家查询", "PlayerList", "Home")</li>
+                                <li>@Html.ActionLink("机器人查询", "RoboList", "Home")</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">事件记录 <b class="caret"></b></a>
+                            <ul class="nav nav-second-level">
+                                <li>@Html.ActionLink("购买筹码", "BuyChipsEvents", "Event")</li>
+                                <li>@Html.ActionLink("筹码购买礼物", "ChipBuyGiftEvents", "Event")</li>
+                                <li>@Html.ActionLink("筹码购买道具", "ChipBuyItemEvents", "Event")</li>
+                                <li>@Html.ActionLink("每日领取筹码", "DailyGetChipsEvents", "Event")</li>
+                                <li>@Html.ActionLink("输光赠送筹码", "LostAllSendChipsEvents", "Event")</li>
+                                <li>@Html.ActionLink("玩家赠送筹码", "PlayerSendOtherChipsEvents", "Event")</li>
+                                <li>@Html.ActionLink("玩家接收筹码", "PlayerGetChipsFromOtherEvents", "Event")</li>
+                                <li>@Html.ActionLink("购买金币", "BuyCoinsEvents", "Event")</li>
+                                <li>@Html.ActionLink("金币购买礼物", "ChipBuyGiftEvents", "Event")</li>
+                                <li>@Html.ActionLink("金币购买道具", "CoinBuyItemEvents", "Event")</li>
+                                <li>@Html.ActionLink("购买会员", "BuyVIPEvents", "Event")</li>
+                                <li>@Html.ActionLink("牌局", "TexasPokerEvents", "Event")</li>
+                                <li>@Html.ActionLink("玩家举报", "PlayerReportEvents", "Event")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("事件流报表", "PlayerList", "Home")</li>
+                        <li>@Html.ActionLink("整体统计", "Analytics", "Home")</li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">游戏配置 <b class="caret"></b></a>
+                            <ul class="nav nav-second-level">
+                                <li>@Html.ActionLink("抽水率", "PlatformChargeRate", "Home")</li>
+                                <li>@Html.ActionLink("活动", "ActivityList", "Home")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("俱乐部管理", "ClubList", "Home")</li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                @RenderBody()
             </div>
         </div>
+        <div class="footer">
+            <footer class="footer"></footer>
+        </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - GF.Manager.TexasPoker</p>
-        </footer>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angular")
