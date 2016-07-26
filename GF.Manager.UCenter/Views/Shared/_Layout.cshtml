@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - GF.Manager.UCenter</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div id="wrapper">
@@ -28,24 +27,24 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>@Html.ActionLink("账号管理", "UserList", "Home")</li>
-                        <li>@Html.ActionLink("订单管理", "OrderList", "Home")</li>
-                        <li>@Html.ActionLink("App配置", "UserList", "Home")</li>
-                        <li>@Html.ActionLink("实时概况", "RealtimeGlance", "Home")</li>
+                        <li><a href="~/Home/UserList"><i class="fa fa-gamepad"></i> 账号管理</a></li>
+                        <li><a href="~/Home/OrderList"><i class="fa fa-gamepad"></i> 订单管理</a></li>
+                        <li><a href="~/Home/UserList"><i class="fa fa-gamepad"></i> App配置</a></li>
+                        <li><a href="~/Home/RealtimeGlance"><i class="fa fa-gamepad"></i> 实时概况</a></li>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">玩家分析 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> 玩家分析 <b class="caret"></b></a>
                             <ul class="nav nav-second-level">
-                                <li>@Html.ActionLink("新增玩家", "NewUsers", "Home")</li>
-                                <li>@Html.ActionLink("活跃玩家", "ActiveUsers", "Home")</li>
-                                <li>@Html.ActionLink("留存统计", "Stay", "Home")</li>
-                                <li>@Html.ActionLink("流失统计", "Lost", "Home")</li>
+                                <li><a href="~/Home/NewUsers"> 新增玩家</a></li>
+                                <li><a href="~/Home/ActiveUsers"> 活跃玩家</a></li>
+                                <li><a href="~/Home/Stay"> 留存统计</a></li>
+                                <li><a href="~/Home/Lost"> 流失统计</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">在线分析 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> 在线分析 <b class="caret"></b></a>
                             <ul class="nav nav-second-level">
-                                <li>@Html.ActionLink("在线分析", "OnlineAnalytics", "Home")</li>
-                                <li>@Html.ActionLink("在线习惯", "OnlineBehaviour", "Home")</li>
+                                <li><a href="~/Home/OnlineAnalytics"> 在线分析</a></li>
+                                <li><a href="~/Home/OnlineBehaviour"> 在线习惯</a></li>
                             </ul>
                         </li>
                     </ul>
