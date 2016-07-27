@@ -66,14 +66,14 @@
                 queryable = queryable.Where(filter);
             }
 
-            var accounts = queryable.Skip((page - 1) * count).Take(count).ToList();
+            var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
             var model = new PaginationResponse<AccountEntity>
             {
                 Page = page,
                 PageSize = count,
-                Raws = accounts,
+                Raws = result,
                 Total = total
             };
 

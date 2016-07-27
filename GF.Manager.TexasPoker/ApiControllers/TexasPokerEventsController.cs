@@ -54,7 +54,7 @@
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                //filter = a => a.GameSpeed.Contains(keyword);
+                filter = e => e.DesktopEtGuid == keyword;
             }
 
             var total = await this.Database.TexasPokerEvents.CountAsync(filter, token);

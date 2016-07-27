@@ -54,7 +54,8 @@
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                //filter = a => a.GameSpeed.Contains(keyword);
+                filter = e => e.SendPlayerEtGuid == keyword
+                    || e.TargetPlayerEtGuid == keyword;
             }
 
             var total = await this.Database.PlayerSendOtherChipsEvents.CountAsync(filter, token);

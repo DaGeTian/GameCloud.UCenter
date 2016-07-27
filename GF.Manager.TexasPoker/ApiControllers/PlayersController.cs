@@ -53,7 +53,8 @@
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                //filter = p => p..Contains(keyword);  
+                filter = p => p.map_component.DefActor.AccountId == keyword
+                    || p.map_component.DefActor.NickName.Contains(keyword);
             }
 
             var total = await this.Database.Players.CountAsync(filter, token);
