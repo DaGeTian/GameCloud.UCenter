@@ -6,6 +6,7 @@
     public class DefActor
     {
         public string IsBot { get; set; }
+        public string IsChipTrader { get; set; }
         public string AccountId { get; set; }
         public string ActorId { get; set; }
         public string NickName { get; set; }
