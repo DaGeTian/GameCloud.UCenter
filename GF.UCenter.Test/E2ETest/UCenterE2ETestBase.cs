@@ -48,7 +48,7 @@
                     IdentityNum = $"id.{GenerateRandomString()}",
                     PhoneNum = $"phone.{GenerateRandomString()}",
                     Email = $"{GenerateRandomString()}@test.com",
-                    Sex = Sex.Female
+                    Gender = Gender.Female
                 };
             }
 
@@ -59,7 +59,7 @@
             Assert.AreEqual(registerResponse.Name, info.Name);
             Assert.AreEqual(registerResponse.PhoneNum, info.PhoneNum);
             Assert.AreEqual(registerResponse.Email, info.Email);
-            Assert.AreEqual(registerResponse.Sex, info.Sex);
+            Assert.AreEqual(registerResponse.Gender, info.Gender);
             Assert.IsNotNull(registerResponse.ProfileImage);
             Assert.IsNotNull(registerResponse.ProfileThumbnail);
 

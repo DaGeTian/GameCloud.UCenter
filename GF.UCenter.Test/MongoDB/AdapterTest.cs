@@ -28,7 +28,7 @@
                 CreatedTime = DateTime.UtcNow,
                 Email = "abc@ab.com",
                 PhoneNum = "12345678",
-                Sex = Sex.Male,
+                Gender = Gender.Male,
                 IsGuest = false
             };
 
@@ -61,7 +61,7 @@
             Assert.AreEqual(entity1.CreatedTime.ToString("s"), entity2.CreatedTime.ToString("s"));
             Assert.AreEqual(entity1.Email, entity2.Email);
             Assert.AreEqual(entity1.PhoneNum, entity2.PhoneNum);
-            Assert.AreEqual(entity1.Sex, entity2.Sex);
+            Assert.AreEqual(entity1.Gender, entity2.Gender);
             Assert.AreEqual(entity1.IsGuest, entity2.IsGuest);
         }
     }

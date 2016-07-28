@@ -89,7 +89,7 @@
                     Password = EncryptHashManager.ComputeHash(info.Password),
                     SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword),
                     PhoneNum = info.PhoneNum,
-                    Sex = info.Sex
+                    Gender = info.Gender
                 };
 
                 var placeholders = new[]
@@ -110,12 +110,12 @@
 
                 // set the default profiles
                 account.ProfileImage = await this.storageContext.CopyBlobAsync(
-                    account.Sex == Sex.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
+                    account.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
                     this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(account.Id),
                     token);
 
                 account.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
-                    account.Sex == Sex.Female
+                    account.Gender == Gender.Female
                         ? this.settings.DefaultProfileThumbnailForFemaleBlobName
                         : this.settings.DefaultProfileThumbnailForMaleBlobName,
                     this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(account.Id),
@@ -272,7 +272,7 @@
             account.SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword);
             account.PhoneNum = info.PhoneNum;
             account.Email = info.Email;
-            account.Sex = info.Sex;
+            account.Gender = info.Gender;
             await this.Database.Accounts.UpsertAsync(account, token);
 
             await this.RecordLogin(account, UCenterErrorCode.Success, "Account converted successfully.", token);
@@ -411,7 +411,7 @@
                 Name = entity.Name,
                 ProfileImage = entity.ProfileImage,
                 ProfileThumbnail = entity.ProfileThumbnail,
-                Sex = entity.Sex,
+                Gender = entity.Gender,
                 IdentityNum = entity.IdentityNum,
                 PhoneNum = entity.PhoneNum,
                 Email = entity.Email

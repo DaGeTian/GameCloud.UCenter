@@ -56,9 +56,9 @@
         public string ProfileThumbnail { get; set; }
 
         /// <summary>
-        /// Gets or sets the sex.
+        /// Gets or sets the gender.
         /// </summary>
-        public Sex Sex { get; set; }
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// Gets or sets the identity number.

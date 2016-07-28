@@ -34,7 +34,7 @@
         public string ProfileThumbnail { get; set; }
 
         [DataMember]
-        public Sex Sex { get; set; }
+        public Gender Gender { get; set; }
 
         [DataMember]
         public string IdentityNum { get; set; }

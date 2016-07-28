@@ -30,7 +30,7 @@
             Assert.AreEqual(loginResponse.Name, registerResponse.Name);
             Assert.AreEqual(loginResponse.PhoneNum, registerResponse.PhoneNum);
             Assert.AreEqual(loginResponse.Email, registerResponse.Email);
-            Assert.AreEqual(loginResponse.Sex, registerResponse.Sex);
+            Assert.AreEqual(loginResponse.Gender, registerResponse.Gender);
             Assert.IsNotNull(loginResponse.ProfileImage);
             Assert.IsNotNull(loginResponse.ProfileThumbnail);
             Assert.IsNotNull(loginResponse.LastLoginDateTime);
@@ -53,7 +53,7 @@
                         Email = random,
                         IdentityNum = random,
                         PhoneNum = random,
-                        Sex = Sex.Female
+                        Gender = Gender.Female
                     };
                     await this.CreateTestAccount(info);
                 }));
@@ -85,7 +85,7 @@
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
-                Sex = Sex.Female
+                Gender = Gender.Female
             };
 
             // TOOD: Change ErrorCode in next client refresh
@@ -110,7 +110,7 @@
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
-                Sex = Sex.Female
+                Gender = Gender.Female
             };
 
             await acClient.AccountRegisterAsync(info);
@@ -140,7 +140,7 @@
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString(),
                 IdentityNum = GenerateRandomString(),
-                Sex = Sex.Female
+                Gender = Gender.Female
             };
 
             var convertResponse = await acClient.AccountConvertAsync(convertInfo);
@@ -152,7 +152,7 @@
             Assert.AreEqual(convertResponse.Name, convertInfo.Name);
             Assert.AreEqual(convertResponse.PhoneNum, convertInfo.PhoneNum);
             Assert.AreEqual(convertResponse.Email, convertInfo.Email);
-            Assert.AreEqual(convertResponse.Sex, convertInfo.Sex);
+            Assert.AreEqual(convertResponse.Gender, convertInfo.Gender);
         }
 
         [TestMethod]
@@ -195,7 +195,7 @@
             Assert.AreEqual(registerResponse.IdentityNum, uploadProfileResponse.IdentityNum);
             Assert.AreEqual(registerResponse.Name, uploadProfileResponse.Name);
             Assert.AreEqual(registerResponse.PhoneNum, uploadProfileResponse.PhoneNum);
-            Assert.AreEqual(registerResponse.Sex, uploadProfileResponse.Sex);
+            Assert.AreEqual(registerResponse.Gender, uploadProfileResponse.Gender);
             Assert.IsNotNull(uploadProfileResponse.ProfileImage);
         }
 
@@ -215,7 +215,7 @@
                 Assert.AreEqual(registerResponse.IdentityNum, uploadProfileResponse.IdentityNum);
                 Assert.AreEqual(registerResponse.Name, uploadProfileResponse.Name);
                 Assert.AreEqual(registerResponse.PhoneNum, uploadProfileResponse.PhoneNum);
-                Assert.AreEqual(registerResponse.Sex, uploadProfileResponse.Sex);
+                Assert.AreEqual(registerResponse.Gender, uploadProfileResponse.Gender);
                 Assert.IsNotNull(uploadProfileResponse.ProfileImage);
             }
         }
