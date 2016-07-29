@@ -314,6 +314,7 @@
     <None Include="Views\Home\RoboList.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageFootBar.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageHeadBar.cshtml" />
+    <Content Include="Views\Shared\_AccountLayout.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
