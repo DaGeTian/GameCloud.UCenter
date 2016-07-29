@@ -65,6 +65,8 @@
                 queryable = queryable.Where(filter);
             }
 
+            queryable.OrderByDescending(p => p.map_component.DefActor.Gold);
+
             var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.

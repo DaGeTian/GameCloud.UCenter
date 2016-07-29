@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace GF.Manager.UCenter
 {
@@ -16,6 +15,14 @@ namespace GF.Manager.UCenter
                       "~/Scripts/metisMenu.js",
                       "~/Scripts/sb-admin-2.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                      "~/Scripts/Chart.js",
+                      "~/Scripts/angular.js",
+                      "~/Scripts/angular-route.js",
+                      "~/Scripts/angular-chart.js",
+                      "~/Scripts/angular-ui/ui-bootstrap.js",
+                      "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/ucenter").Include(
                       "~/Scripts/common.js",
                       "~/Scripts/ucenter.js"));
@@ -27,14 +34,6 @@ namespace GF.Manager.UCenter
                       "~/Content/sb-admin-2.css",
                       "~/Content/angular-chart.css",
                       "~/Content/site.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                      "~/Scripts/Chart.js",
-                      "~/Scripts/angular.js",
-                      "~/Scripts/angular-route.js",
-                      "~/Scripts/angular-chart.js",
-                      "~/Scripts/angular-ui/ui-bootstrap.js",
-                      "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
         }
     }
 }
