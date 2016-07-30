@@ -8,12 +8,12 @@
 
     enums.orderState = orderState;
 
-    var sex = {};
-    sex[sex['Male'] = 0] = '男';
-    sex[sex['Female'] = 1] = '女';
-    sex[sex['Unknown'] = 2] = '未知';
+    var gender = {};
+    gender[gender['Male'] = 0] = '男';
+    gender[gender['Female'] = 1] = '女';
+    gender[gender['DeclineToState'] = 2] = '拒绝透漏';
 
-    enums.sex = sex;
+    enums.gender = gender;
 })(enums || (enums = {}));
 
 var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
