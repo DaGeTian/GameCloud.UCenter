@@ -5,7 +5,7 @@
 }
 
 <div ng-controller="playerController">
-    <h2>玩家查询</h2>
+    <h2 class="page-header">玩家查询</h2>
     <div >
         @Html.Partial("Partial/_ListPageHeadBar")
         <table class="table table-bordered table-striped table-condensed">
@@ -16,9 +16,9 @@
                     <th>性别</th>
                     <th>等级</th>
                     <th>经验值</th>
-                    <th>筹码账号</th>
-                    <th>筹码银行</th>
-                    <th>筹码</th>
+                    <th>账户筹码</th>
+                    <th>银行筹码</th>
+                    <th>金币</th>
                     <th>会员</th>
                     <th>会员加入时间</th>
                     <th>会员点数</th>
@@ -27,7 +27,7 @@
                     <th>加入时间</th>
                     <th>最后登录时间</th>
                     <th>最后登出时间</th>
-                    <th>SendChipsTm</th>
+                    <th>当日发送筹码次数</th>
                 </tr>
             </thead>
             <tbody>

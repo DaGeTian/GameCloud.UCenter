@@ -57,17 +57,7 @@
             return View();
         }
 
-        public ActionResult ActivityList()
-        {
-            return View();
-        }
-
         public ActionResult AppConfig()
-        {
-            return View();
-        }
-
-        public ActionResult ClubList()
         {
             return View();
         }
