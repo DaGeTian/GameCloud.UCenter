@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "用户列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="appsController">
+    <h2 class="page-header">App列表</h2>
+    @Html.Partial("Partial/_ListPageHeadBar")
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>App名称</th>
+                <th>秘钥</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in raws">
+                <td>{{row.Name}}</td>
+                <td>{{row.AppSecret}}</td>
+                <td>{{row.CreatedTime | date:'yyyy/MM/dd'}}</td>
+                <td><a href="/home/singleappconfiguration?id={{row.Id}}">详情</a></td>
+            </tr>
+        </tbody>
+    </table>
+    @Html.Partial("Partial/_ListPageFootBar")
+</div>
+

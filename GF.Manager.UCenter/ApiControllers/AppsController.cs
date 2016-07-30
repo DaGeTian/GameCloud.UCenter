@@ -19,16 +19,16 @@
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/users")]
-    public class UsersController : ApiControllerBase
+    [RoutePrefix("api/apps")]
+    public class AppsController : ApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersController" /> class.
+        /// Initializes a new instance of the <see cref="AppsController" /> class.
         /// </summary>
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public UsersController(DatabaseContext database, Settings settings)
+        public AppsController(DatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }
@@ -42,25 +42,23 @@
         /// <param name="page">Indicating the page number.</param>
         /// <param name="count">Indicating the count.</param>
         /// <returns>Async return user list.</returns>
-        public async Task<PaginationResponse<AccountEntity>> Get(
+        public async Task<PaginationResponse<AppEntity>> Get(
             CancellationToken token,
             [FromUri] string keyword = null,
             [FromUri] string orderby = null,
             [FromUri] int page = 1,
             [FromUri] int count = 1000)
         {
-            Expression<Func<AccountEntity, bool>> filter = null;
+            Expression<Func<AppEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = a => a.AccountName.Contains(keyword)
-                    || a.Email.Contains(keyword)
-                    || a.PhoneNum.Contains(keyword);
+                filter = a => a.Name.Contains(keyword);
             }
 
-            var total = await this.Database.Accounts.CountAsync(filter, token);
+            var total = await this.Database.Apps.CountAsync(filter, token);
 
-            IQueryable<AccountEntity> queryable = this.Database.Accounts.Collection.AsQueryable();
+            IQueryable<AppEntity> queryable = this.Database.Apps.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
@@ -69,7 +67,7 @@
             var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PaginationResponse<AccountEntity>
+            var model = new PaginationResponse<AppEntity>
             {
                 Page = page,
                 PageSize = count,
@@ -86,9 +84,9 @@
         /// <param name="id">Indicating the user id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user details.</returns>
-        public async Task<AccountEntity> Get(string id, CancellationToken token)
+        public async Task<AppEntity> Get(string id, CancellationToken token)
         {
-            var result = await this.Database.Accounts.GetSingleAsync(id, token);
+            var result = await this.Database.Apps.GetSingleAsync(id, token);
 
             return result;
         }

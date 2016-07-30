@@ -83,9 +83,9 @@
         /// <returns>Async task.</returns>
         public async Task<OrderEntity> Get(string id, CancellationToken token)
         {
-            var order = await this.Database.Orders.GetSingleAsync(id, token);
+            var result = await this.Database.Orders.GetSingleAsync(id, token);
 
-            return order;
+            return result;
         }
     }
 }

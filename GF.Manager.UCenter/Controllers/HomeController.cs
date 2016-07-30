@@ -36,6 +36,26 @@
         }
 
         /// <summary>
+        /// Get the app list page.
+        /// </summary>
+        /// <returns>action result.</returns>
+        public ActionResult AppList()
+        {
+            return this.View();
+        }
+
+        /// <summary>
+        /// Gets the single order page.
+        /// </summary>
+        /// <param name="id">indicating the order id.</param>
+        /// <returns>action result.</returns>
+        public ActionResult SingleAppConfiguration(string id)
+        {
+            ViewBag.AppId = id;
+            return this.View();
+        }
+
+        /// <summary>
         /// Get the user list page.
         /// </summary>
         /// <returns>action result.</returns>
@@ -61,7 +81,7 @@
 
             return this.View();
         }
-
+        
         /// <summary>
         /// Gets the single order page.
         /// </summary>

@@ -303,8 +303,6 @@
     <Content Include="Views\Event\BuyVIPEvents.cshtml" />
     <Content Include="Views\Event\TexasPokerEvents.cshtml" />
     <Content Include="Views\Event\BuyCoinsEvents.cshtml" />
-    <Content Include="Views\Home\ClubList.cshtml" />
-    <Content Include="Views\Home\ActivityList.cshtml" />
     <Content Include="Views\Home\PlatformChargeRate.cshtml" />
     <Content Include="Views\Event\PlayerReportEvents.cshtml" />
     <Content Include="Views\Event\ChipsChangeByManagerEvents.cshtml" />

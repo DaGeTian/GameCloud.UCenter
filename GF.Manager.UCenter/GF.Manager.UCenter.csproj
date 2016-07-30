@@ -180,7 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
+    <Compile Include="ApiControllers\AppConfigurationsController.cs" />
     <Compile Include="ApiControllers\OrdersController.cs" />
+    <Compile Include="ApiControllers\AppsController.cs" />
     <Compile Include="ApiControllers\UsersController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -297,6 +299,8 @@
     <Content Include="Views\Shared\Partial\_ListPageFootBar.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageHeadBar.cshtml" />
     <Content Include="Views\Shared\_AccountLayout.cshtml" />
+    <Content Include="Views\Home\AppList.cshtml" />
+    <Content Include="Views\Home\SingleAppConfiguration.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

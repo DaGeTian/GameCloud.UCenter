@@ -80,6 +80,31 @@ var app = angular.module("ucenter", ['ui.bootstrap', 'chart.js'])
                 $scope.url = url;
             };
         }
+    ]).controller('appsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/apps";
+            $scope.fetch();
+        }
+    ]).controller('appConfigurationsController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/appconfigurations";
+            $scope.fetch = function () {
+                $http.get(
+                    '/api/appconfigurations?id=' + $scope.id,
+                    {
+                        responseType: 'json'
+                    }).
+                    then(function (response) {
+                        $scope.status = response.status;
+                        $scope.data = response.data;
+                    }, function (response) {
+                        $scope.data = response.data || "Request failed";
+                        $scope.status = response.status;
+                    });
+            };
+        }
     ]).controller('usersController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
             $controller('listController', { $scope: $scope });
