@@ -19,16 +19,16 @@
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/players")]
-    public class PlayersController : ApiControllerBase
+    [RoutePrefix("api/bots")]
+    public class BotsController : ApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlayersController" /> class.
+        /// Initializes a new instance of the <see cref="BotsController" /> class.
         /// </summary>
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public PlayersController(DatabaseContext database, Settings settings)
+        public BotsController(DatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }
@@ -53,13 +53,13 @@
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = p => p.map_component.DefActor.IsBot == "false"
+                filter = p => p.map_component.DefActor.IsBot == "true"
                     || p.map_component.DefActor.AccountId == keyword
                     || p.map_component.DefActor.NickName.Contains(keyword);
             }
             else
             {
-                filter = p => p.map_component.DefActor.IsBot == "false";
+                filter = p => p.map_component.DefActor.IsBot == "true";
             }
 
             var total = await this.Database.Players.CountAsync(filter, token);

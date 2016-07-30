@@ -4,14 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div ng-controller="playerController">
+<div ng-controller="botController">
     <h2 class="page-header">机器人查询</h2>
     <div>
         @Html.Partial("Partial/_ListPageHeadBar")
         <table class="table table-bordered table-striped table-condensed">
             <thead>
                 <tr>
-                    <th>机器人</th>
                     <th>名称</th>
                     <th>Ip</th>
                     <th>性别</th>
@@ -20,7 +19,6 @@
                     <th>筹码账号</th>
                     <th>筹码银行</th>
                     <th>金</th>
-                    @*<th>ProfileSkinTableId</th>*@
                     <th>会员</th>
                     <th>会员加入时间</th>
                     <th>会员点数</th>
@@ -34,7 +32,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="row in raws">
-                    <td>{{row.map_component.DefActor.IsBot|yesNo}}</td>
                     <td>{{row.map_component.DefActor.NickName}}</td>
                     <td>{{row.map_component.DefActor.IpAddress}}</td>
                     <td>{{row.map_component.DefActor.Gender}}</td>
@@ -43,7 +40,6 @@
                     <td>{{row.map_component.DefActor.ChipAcc}}</td>
                     <td>{{row.map_component.DefActor.ChipBank}}</td>
                     <td>{{row.map_component.DefActor.Gold}}</td>
-                    @*<td>{{row.map_component.DefActor.ProfileSkinTableId}}</td>*@
                     <td>{{row.map_component.DefActor.IsVIP|yesNo}}</td>
                     <td>{{row.map_component.DefActor.VIPDataTime | date:'yyyy/MM/dd'}}</td>
                     <td>{{row.map_component.DefActor.VIPPoint}}</td>

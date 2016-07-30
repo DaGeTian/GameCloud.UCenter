@@ -37,7 +37,7 @@
             return View();
         }
 
-        public ActionResult RoboList()
+        public ActionResult BotList()
         {
             return View();
         }

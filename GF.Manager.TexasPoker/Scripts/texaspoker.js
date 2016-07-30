@@ -68,6 +68,12 @@
             $scope.url = "/api/players";
             $scope.fetch();
         }
+    ]).controller('botController', ['$scope', '$http', '$templateCache', '$controller',
+        function ($scope, $http, $templateCache, $controller) {
+            $controller('listController', { $scope: $scope });
+            $scope.url = "/api/bots";
+            $scope.fetch();
+        }
     ]).controller('BuyChipsEventsController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
             $controller('listController', { $scope: $scope });

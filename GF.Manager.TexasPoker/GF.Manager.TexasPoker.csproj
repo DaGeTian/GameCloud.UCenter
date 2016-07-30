@@ -190,6 +190,7 @@
     <Compile Include="ApiControllers\LostAllSendChipsEventsController.cs" />
     <Compile Include="ApiControllers\PlayerGetChipsFromOtherEventsController.cs" />
     <Compile Include="ApiControllers\PlayerReportEventsController.cs" />
+    <Compile Include="ApiControllers\BotsController.cs" />
     <Compile Include="ApiControllers\PlayerSendOtherChipsEventsController.cs" />
     <Compile Include="ApiControllers\TexasPokerEventsController.cs" />
     <Compile Include="ApiControllers\BuyCoinsEventsController.cs" />
@@ -311,7 +312,7 @@
     <Content Include="Views\Home\EventReport.cshtml" />
     <Content Include="Views\Home\Analytics.cshtml" />
     <Content Include="Views\Home\AppConfig.cshtml" />
-    <None Include="Views\Home\RoboList.cshtml" />
+    <None Include="Views\Home\BotList.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageFootBar.cshtml" />
     <Content Include="Views\Shared\Partial\_ListPageHeadBar.cshtml" />
     <Content Include="Views\Shared\_AccountLayout.cshtml" />
