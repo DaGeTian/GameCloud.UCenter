@@ -34,7 +34,7 @@
                 <tr ng-repeat="row in raws">
                     <td>{{row.map_component.DefActor.NickName}}</td>
                     <td>{{row.map_component.DefActor.IpAddress}}</td>
-                    <td>{{row.map_component.DefActor.Gender}}</td>
+                    <td>{{row.map_component.DefActor.Gender|enums:'gender'}}</td>
                     <td>{{row.map_component.DefActor.Level}}</td>
                     <td>{{row.map_component.DefActor.Experience}}</td>
                     <td>{{row.map_component.DefActor.ChipAcc}}</td>

@@ -1,4 +1,15 @@
-﻿var app = angular.module("texaspoker", ['ui.bootstrap', 'chart.js'])
+﻿var enums = null;
+(function (enums) {
+
+    var gender = {};
+    gender[gender['Male'] = 0] = '男';
+    gender[gender['Female'] = 1] = '女';
+    gender[gender['DeclineToState'] = 2] = '拒绝透漏';
+
+    enums.gender = gender;
+})(enums || (enums = {}));
+
+var app = angular.module("texaspoker", ['ui.bootstrap', 'chart.js'])
     .filter('enums', function () {
         return function (input, enumName) {
             var items = enums[enumName];
