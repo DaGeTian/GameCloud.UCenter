@@ -214,8 +214,8 @@
             var r = new Random();
             string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
             string accountName = $"uc_{DateTime.Now.ToString("yyyyMMddHHmmssffff")}_{accountNamePostfix}";
-            string accountToken = EncryptHashManager.GenerateToken();
             string password = Guid.NewGuid().ToString();
+            string accountToken = EncryptHashManager.GenerateToken();
 
             var account = new AccountEntity
             {

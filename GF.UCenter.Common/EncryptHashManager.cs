@@ -1,13 +1,15 @@
 ﻿namespace GF.UCenter.Common
 {
     using System;
+    using System.Globalization;
     using System.Security.Cryptography;
     using System.Text;
-
+    using System.Text.RegularExpressions;
     public static class EncryptHashManager
     {
         private const int MinSaltSize = 32;
         private const int MaxSaltSize = 128;
+        private const string DateTimeFormat = @"yyyy'-'MM'-'dd'T'HH':'mmK";
 
         // This is based on the algorithm choosed, please do not change it.
         private const int HashSizeInBits = 512;
@@ -62,6 +64,40 @@
         {
             var salt1 = GenerateSalt();
             return ComputeHash(Convert.ToBase64String(salt1), GenerateSalt());
+        }
+
+        public static string GenerateToken(string password, DateTime startTime, DateTime endTime)
+        {
+            var st = startTime.ToString(DateTimeFormat);
+            var se = endTime.ToString(DateTimeFormat);
+            var strs = new string[] { st, password, se };
+            var hash = ComputeHash(string.Join("\n", strs), null);
+            return "st={0}#sig={1}#se={2}".FormatInvariant(st, hash, se);
+        }
+
+        public static bool VerifyToken(string token, string password)
+        {
+            Regex regex = new Regex(@"^st=(?<st>\d+)#sig=(?<sig>[^#]+)#se=(?<se>\d_)$");
+            if (!regex.IsMatch(token))
+            {
+                throw new InvalidCastException("Invalid token format.");
+            }
+            else
+            {
+                var match = regex.Match(token);
+                var st = match.Groups["st"].Value;
+                var se = match.Groups["se"].Value;
+                DateTime endTime;
+                DateTime.TryParseExact(se, DateTimeFormat, null, DateTimeStyles.AdjustToUniversal, out endTime);
+                if (DateTime.UtcNow > endTime)
+                {
+                    // the token expired.
+                    return false;
+                }
+
+                var txt = string.Join("\n", new string[] { st, password, se });
+                return VerifyHash(txt, token);
+            }
         }
 
         private static byte[] GenerateSalt(int minSize = MinSaltSize, int maxSize = MaxSaltSize)

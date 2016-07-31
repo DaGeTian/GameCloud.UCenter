@@ -195,6 +195,7 @@
             CancellationToken token)
         {
             var account = await this.GetAndVerifyAccount(accountId, token);
+            
             if (account.Token != accountToken)
             {
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedTokenNotMatch);
