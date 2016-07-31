@@ -1,4 +1,7 @@
-﻿namespace GF.UCenter.Web.Api.ApiControllers
+﻿using GF.MongoDB.Adapters;
+using GF.UCenter.Entity;
+
+namespace GF.UCenter.Web.Api.ApiControllers
 {
     using System.ComponentModel.Composition;
     using System.Threading;
@@ -6,15 +9,13 @@
     using System.Web.Http;
     using Common;
     using Common.Logger;
-    using MongoDB;
-    using MongoDB.Adapters;
-    using MongoDB.Entity;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;
     using UCenter.Common.Portable.Models.AppClient;
     using UCenter.Common.Settings;
+    using MongoDB;
 
     /// <summary>
     /// UCenter account API controller

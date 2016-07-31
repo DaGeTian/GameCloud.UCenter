@@ -1,8 +1,10 @@
-﻿namespace GF.Manager.TexasPoker.Controllers
+﻿
+
+namespace GF.Manager.TexasPoker.Controllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Mvc;
-    using UCenter.MongoDB;
+    using GF.MongoDB;
 
     /// <summary>
     /// Provide a class for home controller.

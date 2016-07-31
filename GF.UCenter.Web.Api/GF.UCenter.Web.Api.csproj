@@ -195,6 +195,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GF.MongoDB.Common\GF.MongoDB.Common.csproj">
+      <Project>{167d19ed-6e33-4372-b266-88856891c90c}</Project>
+      <Name>GF.MongoDB.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
+      <Project>{0DC39016-EA83-4AE7-97AB-FE1C8E86B97C}</Project>
+      <Name>GF.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GF.UCenter.Common.Portable</Name>
@@ -203,9 +211,9 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
-      <Project>{42EAA17F-1352-4E80-88F1-BF4F3AF2645D}</Project>
-      <Name>GF.UCenter.MongoDB</Name>
+    <ProjectReference Include="..\GF.UCenter.Entity\GF.UCenter.Entity.csproj">
+      <Project>{16f0334e-935d-4b86-a51b-52842f5f11a7}</Project>
+      <Name>GF.UCenter.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>

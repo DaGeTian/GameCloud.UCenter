@@ -302,12 +302,22 @@
     <Content Include="Views\Home\AppList.cshtml" />
     <Content Include="Views\Home\SingleAppConfiguration.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GF.MongoDB.Common\GF.MongoDB.Common.csproj">
+      <Project>{167d19ed-6e33-4372-b266-88856891c90c}</Project>
+      <Name>GF.MongoDB.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
+      <Project>{0DC39016-EA83-4AE7-97AB-FE1C8E86B97C}</Project>
+      <Name>GF.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GF.UCenter.Common.Portable</Name>
@@ -316,9 +326,9 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
-      <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
-      <Name>GF.UCenter.MongoDB</Name>
+    <ProjectReference Include="..\GF.UCenter.Entity\GF.UCenter.Entity.csproj">
+      <Project>{16F0334E-935D-4B86-A51B-52842F5F11A7}</Project>
+      <Name>GF.UCenter.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>

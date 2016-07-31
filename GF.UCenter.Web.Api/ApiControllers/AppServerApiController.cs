@@ -1,4 +1,7 @@
-﻿namespace GF.UCenter.Web.Api.ApiControllers
+﻿using GF.MongoDB.Adapters;
+using GF.UCenter.Entity;
+
+namespace GF.UCenter.Web.Api.ApiControllers
 {
     using System;
     using System.ComponentModel.Composition;
@@ -7,8 +10,6 @@
     using System.Web.Http;
     using Common.Logger;
     using MongoDB;
-    using MongoDB.Adapters;
-    using MongoDB.Entity;
     using UCenter.Common;
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;

@@ -6,6 +6,7 @@
     using MongoDB;
     using UCenter.Common.Portable.Contracts;
 
+
     /// <summary>
     /// API controller base class
     /// </summary>

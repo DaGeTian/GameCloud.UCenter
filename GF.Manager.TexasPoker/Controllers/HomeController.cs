@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.Composition;
     using System.Web.Mvc;
-    using UCenter.MongoDB;
+    using MongoDB;
 
     /// <summary>
     /// Provide a class for home controller.

@@ -210,13 +210,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GF.MongoDB.Common\GF.MongoDB.Common.csproj">
+      <Project>{167D19ED-6E33-4372-B266-88856891C90C}</Project>
+      <Name>GF.MongoDB.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
+      <Project>{0dc39016-ea83-4ae7-97ab-fe1c8e86b97c}</Project>
+      <Name>GF.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Common\GF.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
-      <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
-      <Name>GF.UCenter.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>

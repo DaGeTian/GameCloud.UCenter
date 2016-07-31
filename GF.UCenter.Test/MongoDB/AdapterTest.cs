@@ -1,13 +1,14 @@
-﻿namespace GF.UCenter.Test.MongoDB
+﻿using System.Linq;
+
+namespace GF.UCenter.Test.MongoDB
 {
     using System;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Common.Portable.Models.AppClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using UCenter.MongoDB.Adapters;
-    using UCenter.MongoDB.Entity;
+    using GF.MongoDB.Adapters;
+    using Entity;
 
     [TestClass]
     public class AdapterTest : UCenterTestBase

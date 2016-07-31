@@ -9,10 +9,10 @@ namespace TexasPoker.Manager.Grain
         float rate = 0.0f;
         Dictionary<int, int> seatFees = new Dictionary<int, int>()
         {
-            { 1,10 },
-            { 2,20 },
-            { 3,20 },
-            { 4,10 },
+            { 1, 10 },
+            { 2, 20 },
+            { 3, 20 },
+            { 4, 10 },
         };
 
         Task<float> ITexasPokerManager.GetPumpingRate()

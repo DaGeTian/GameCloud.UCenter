@@ -1,4 +1,8 @@
-﻿namespace GF.UCenter.Web.Api.ApiControllers
+﻿using GF.MongoDB;
+using GF.MongoDB.Adapters;
+using GF.UCenter.Entity;
+
+namespace GF.UCenter.Web.Api.ApiControllers
 {
     using System;
     using System.Collections.Generic;
@@ -11,9 +15,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Logger;
-    using MongoDB;
-    using MongoDB.Adapters;
-    using MongoDB.Entity;
+    using global::MongoDB;
     using Newtonsoft.Json.Linq;
     using Pingpp;
     using UCenter.Common;

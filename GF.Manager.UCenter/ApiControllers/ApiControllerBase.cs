@@ -1,9 +1,10 @@
-﻿namespace GF.Manager.UCenter.ApiControllers
+﻿using GF.MongoDB;
+
+namespace GF.Manager.UCenter.ApiControllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
     using GF.UCenter.Common.Settings;
-    using GF.UCenter.MongoDB;
     using GF.UCenter.Web.Common;
 
     /// <summary>

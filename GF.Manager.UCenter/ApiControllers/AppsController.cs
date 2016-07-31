@@ -1,4 +1,8 @@
-﻿namespace GF.Manager.UCenter.ApiControllers
+﻿using GF.MongoDB;
+using GF.MongoDB.Adapters;
+using GF.UCenter.Entity;
+
+namespace GF.Manager.UCenter.ApiControllers
 {
     using System;
     using System.ComponentModel.Composition;
@@ -8,10 +12,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using global::MongoDB.Driver;
-    using GF.UCenter.MongoDB;
-    using GF.UCenter.MongoDB.Entity;
     using GF.UCenter.Web.Common.Modes;
-    using GF.UCenter.MongoDB.Adapters;
     using GF.UCenter.Common.Settings;
 
     /// <summary>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Web;
-using GF.UCenter.MongoDB.Attributes;
+using GF.MongoDB.Common.Attributes;
 
 namespace GF.Manager.Models
 {
@@ -23,5 +21,9 @@ namespace GF.Manager.Models
         public HttpMethod Method { get; set; }
 
         public IReadOnlyList<PluginItem> Items { get; set; }
+
+        //private class CollectionNameAttribute : Attribute
+        //{
+        //}
     }
 }

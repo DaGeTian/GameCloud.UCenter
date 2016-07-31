@@ -1,4 +1,6 @@
-﻿namespace GF.UCenter.Test
+﻿using GF.MongoDB;
+
+namespace GF.UCenter.Test
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +12,6 @@
     using Common;
     using Common.Settings;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using UCenter.MongoDB;
     using Web.Common;
     using Web.Common.Logger;
 

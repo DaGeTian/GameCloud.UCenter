@@ -5,9 +5,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using GF.Manager.Models;
-using GF.UCenter.MongoDB;
+using GF.MongoDB;
 using Newtonsoft.Json;
 
 namespace GF.Manager.Handlers

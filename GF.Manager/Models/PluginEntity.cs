@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GF.UCenter.MongoDB.Attributes;
-using GF.UCenter.MongoDB.Entity;
+﻿using GF.MongoDB.Common;
+using GF.MongoDB.Common.Attributes;
 
 namespace GF.Manager.Models
 {

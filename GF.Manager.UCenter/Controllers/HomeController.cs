@@ -1,11 +1,12 @@
-﻿namespace GF.Manager.UCenter.Controllers
+﻿using GF.MongoDB;
+using GF.MongoDB.Adapters;
+
+namespace GF.Manager.UCenter.Controllers
 {
     using System.ComponentModel.Composition;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Mvc;
-    using GF.UCenter.MongoDB;
-    using GF.UCenter.MongoDB.Adapters;
 
     /// <summary>
     /// Provide a class for home controller.

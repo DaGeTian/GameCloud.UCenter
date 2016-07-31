@@ -1,4 +1,9 @@
-﻿namespace GF.Manager.TexasPoker.ApiControllers
+﻿using GF.MongoDB;
+using GF.MongoDB.Adapters;
+using MongoDB.Driver;
+using TexasPoker.Entity;
+
+namespace GF.Manager.TexasPoker.ApiControllers
 {
     using System;
     using System.ComponentModel.Composition;
@@ -7,11 +12,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using MongoDB.Driver;
     using UCenter.Common.Settings;
-    using UCenter.MongoDB;
-    using UCenter.MongoDB.Adapters;
-    using UCenter.MongoDB.TexasPoker;
     using UCenter.Web.Common.Modes;
 
     /// <summary>

@@ -122,6 +122,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
+      <Project>{0dc39016-ea83-4ae7-97ab-fe1c8e86b97c}</Project>
+      <Name>GF.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GF.UCenter.Common.Portable</Name>
@@ -129,10 +133,6 @@
     <ProjectReference Include="..\GF.UCenter.Common\GF.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GF.UCenter.MongoDB\GF.UCenter.MongoDB.csproj">
-      <Project>{42eaa17f-1352-4e80-88f1-bf4f3af2645d}</Project>
-      <Name>GF.UCenter.MongoDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
