@@ -131,7 +131,7 @@
         /// <summary>
         /// Gets the event.
         /// </summary>
-        public ICollectionAdapter<BuyChipsEventEntity> BuyChipsEvents{ get { return this.GetAdapter<BuyChipsEventEntity>(); } }
+        public ICollectionAdapter<BuyChipsEventEntity> BuyChipsEvents { get { return this.GetAdapter<BuyChipsEventEntity>(); } }
         public ICollectionAdapter<BuyCoinsEventEntity> BuyCoinsEvents { get { return this.GetAdapter<BuyCoinsEventEntity>(); } }
         public ICollectionAdapter<BuyVIPEventEntity> BuyVIPEvents { get { return this.GetAdapter<BuyVIPEventEntity>(); } }
         public ICollectionAdapter<ChipBuyGiftEventEntity> ChipBuyGiftEvents { get { return this.GetAdapter<ChipBuyGiftEventEntity>(); } }
@@ -146,7 +146,7 @@
         public ICollectionAdapter<PlayerSendOtherChipsEventEntity> PlayerSendOtherChipsEvents { get { return this.GetAdapter<PlayerSendOtherChipsEventEntity>(); } }
         public ICollectionAdapter<TexasPokerEventEntity> TexasPokerEvents { get { return this.GetAdapter<TexasPokerEventEntity>(); } }
 
-        private ICollectionAdapter<TEntity> GetAdapter<TEntity>()
+        public ICollectionAdapter<TEntity> GetAdapter<TEntity>()
             where TEntity : EntityBase
         {
             return this.exportProvider.GetExportedValue<ICollectionAdapter<TEntity>>();

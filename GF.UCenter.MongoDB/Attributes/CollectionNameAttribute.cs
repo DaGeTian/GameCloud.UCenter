@@ -6,7 +6,7 @@
     /// Provide an attribute to mark collection name.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    internal class CollectionNameAttribute : Attribute
+    public class CollectionNameAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionNameAttribute" /> class.
