@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TexasPoker", "TexasPoker", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasPoker.Manager.Grain", "TexasPoker.Manager.Grain\TexasPoker.Manager.Grain.csproj", "{BC69AACB-7B11-48A2-B02E-AB13FF6B756B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasPoker.Manager.Test", "TexasPoker.Manager.Test\TexasPoker.Manager.Test.csproj", "{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{BC69AACB-7B11-48A2-B02E-AB13FF6B756B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC69AACB-7B11-48A2-B02E-AB13FF6B756B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC69AACB-7B11-48A2-B02E-AB13FF6B756B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +140,6 @@ Global
 		{F379A5D5-8A92-4498-9C08-B1C9112C92DB} = {9C361350-C45E-4CC0-BF06-2AA6C908054E}
 		{88B04910-564C-4076-9F3A-F70DF3EA33D6} = {9C361350-C45E-4CC0-BF06-2AA6C908054E}
 		{BC69AACB-7B11-48A2-B02E-AB13FF6B756B} = {88B04910-564C-4076-9F3A-F70DF3EA33D6}
+		{090E8E1F-E7DB-49C5-A845-BF4B9F713BA2} = {3739162B-9473-44C4-9DDE-76824D893C67}
 	EndGlobalSection
 EndGlobal
