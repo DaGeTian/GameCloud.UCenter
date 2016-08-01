@@ -1,4 +1,6 @@
-﻿namespace GF.Manager.TexasPoker.Controllers
+﻿using GF.Database;
+
+namespace GF.Manager.TexasPoker.Controllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Mvc;

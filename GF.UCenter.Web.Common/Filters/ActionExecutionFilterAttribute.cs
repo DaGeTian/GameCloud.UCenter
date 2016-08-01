@@ -10,7 +10,7 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
     using Logger;
-    using global::MongoDB.Driver;
+    using MongoDB.Driver;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;

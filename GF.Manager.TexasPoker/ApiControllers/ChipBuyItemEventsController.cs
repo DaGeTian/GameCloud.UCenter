@@ -1,5 +1,5 @@
-﻿using GF.MongoDB;
-using GF.MongoDB.Adapters;
+﻿using GF.Database;
+using GF.Database.Adapters;
 using MongoDB.Driver;
 using TexasPoker.Entity;
 

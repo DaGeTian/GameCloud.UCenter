@@ -1,7 +1,6 @@
-﻿using GF.MongoDB;
-
-namespace GF.Manager.TexasPoker.ApiControllers
+﻿namespace GF.Manager.TexasPoker.ApiControllers
 {
+    using Database;
     using System.ComponentModel.Composition;
     using System.Web.Http;
     using UCenter.Common.Settings;

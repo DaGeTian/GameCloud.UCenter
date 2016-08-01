@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using GF.MongoDB.Common.Attributes;
+using GF.Database.Entity.Common.Attributes;
 
 namespace GF.Manager.Models
 {

@@ -122,6 +122,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GF.Database\GF.Database.csproj">
+      <Project>{205BF64D-9B8A-4674-8C19-BD4B978D51DF}</Project>
+      <Name>GF.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
       <Project>{0dc39016-ea83-4ae7-97ab-fe1c8e86b97c}</Project>
       <Name>GF.MongoDB</Name>

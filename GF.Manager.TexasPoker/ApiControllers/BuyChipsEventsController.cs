@@ -1,12 +1,9 @@
-﻿
-
-
-
+﻿using GF.Database;
+using GF.Database.Adapters;
 using MongoDB.Driver;
 
 namespace GF.Manager.TexasPoker.ApiControllers
 {
-    using MongoDB;
     using System;
     using System.ComponentModel.Composition;
     using System.Linq;
@@ -17,7 +14,6 @@ namespace GF.Manager.TexasPoker.ApiControllers
     using UCenter.Common.Settings;
     using UCenter.Web.Common.Modes;
     using global::TexasPoker.Entity;
-using GF.MongoDB.Adapters;
 
     /// <summary>
     /// Provide a controller for events.

@@ -1,5 +1,6 @@
-﻿using GF.MongoDB.Adapters;
-using GF.UCenter.Entity;
+﻿using GF.Database;
+using GF.Database.Adapters;
+using GF.Database.Entity.UCenter;
 
 namespace GF.UCenter.Web.Api.ApiControllers
 {
@@ -15,7 +16,6 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using UCenter.Common.Portable.Exceptions;
     using UCenter.Common.Portable.Models.AppClient;
     using UCenter.Common.Settings;
-    using MongoDB;
 
     /// <summary>
     /// UCenter account API controller

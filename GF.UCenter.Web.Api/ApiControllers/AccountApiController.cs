@@ -1,4 +1,7 @@
-﻿using GF.UCenter.Entity;
+﻿using GF.Database;
+using GF.Database.Adapters;
+using GF.Database.Entity.UCenter;
+using MongoDB.Driver;
 
 namespace GF.UCenter.Web.Api.ApiControllers
 {
@@ -14,9 +17,6 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using System.Web.Http;
     using Common;
     using Common.Logger;
-    using MongoDB;
-    using MongoDB.Adapters;
-    using global::MongoDB.Driver;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;

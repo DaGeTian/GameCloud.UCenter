@@ -1,5 +1,5 @@
-﻿using GF.MongoDB.Common;
-using GF.MongoDB.Common.Attributes;
+﻿using GF.Database.Entity.Common;
+using GF.Database.Entity.Common.Attributes;
 
 namespace TexasPoker.Entity
 {

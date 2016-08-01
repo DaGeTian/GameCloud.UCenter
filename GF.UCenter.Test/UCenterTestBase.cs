@@ -1,4 +1,4 @@
-﻿using GF.MongoDB;
+﻿using GF.Database;
 
 namespace GF.UCenter.Test
 {

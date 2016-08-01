@@ -1,7 +1,7 @@
-﻿using GF.MongoDB;
-using GF.MongoDB.Adapters;
+﻿using GF.Database;
 using MongoDB.Driver;
 using TexasPoker.Entity;
+using GF.Database.Adapters;
 
 namespace GF.Manager.TexasPoker.ApiControllers
 {

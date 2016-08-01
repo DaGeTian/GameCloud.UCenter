@@ -1,10 +1,13 @@
-﻿namespace GF.UCenter.Web.Common
+﻿
+
+namespace GF.UCenter.Web.Common
 {
     using System.ComponentModel.Composition.Hosting;
     using System.Web.Http;
     using System.Web.Mvc;
     using MongoDB;
     using UCenter.Common.Settings;
+    using Database;
 
     /// <summary>
     /// Provide a class to manage web application.

@@ -1,6 +1,6 @@
-﻿using GF.MongoDB;
-using GF.MongoDB.Adapters;
+﻿using GF.Database;
 using MongoDB.Driver;
+using GF.Database.Adapters;
 using TexasPoker.Entity;
 
 namespace GF.Manager.TexasPoker.ApiControllers

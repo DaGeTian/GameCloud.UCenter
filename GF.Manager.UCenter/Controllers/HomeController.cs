@@ -1,11 +1,11 @@
-﻿using GF.MongoDB;
-using GF.MongoDB.Adapters;
+﻿using GF.Database;
 
 namespace GF.Manager.UCenter.Controllers
 {
     using System.ComponentModel.Composition;
     using System.Threading;
     using System.Threading.Tasks;
+using GF.Database.Adapters;
     using System.Web.Mvc;
 
     /// <summary>

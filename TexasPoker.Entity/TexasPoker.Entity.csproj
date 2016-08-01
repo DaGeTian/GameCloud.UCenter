@@ -58,11 +58,10 @@
     <Compile Include="PlayerSendOtherChipsEventEntity.cs" />
     <Compile Include="TexasPokerEventEntity.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\GF.MongoDB.Common\GF.MongoDB.Common.csproj">
-      <Project>{167d19ed-6e33-4372-b266-88856891c90c}</Project>
-      <Name>GF.MongoDB.Common</Name>
+    <ProjectReference Include="..\GF.Database.Entity.Common\GF.Database.Entity.Common.csproj">
+      <Project>{d573f452-cace-4712-a846-e63c7d7583a2}</Project>
+      <Name>GF.Database.Entity.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

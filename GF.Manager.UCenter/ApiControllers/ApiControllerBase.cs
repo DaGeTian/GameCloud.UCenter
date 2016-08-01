@@ -1,11 +1,10 @@
-﻿using GF.MongoDB;
-
-namespace GF.Manager.UCenter.ApiControllers
+﻿namespace GF.Manager.UCenter.ApiControllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
     using GF.UCenter.Common.Settings;
     using GF.UCenter.Web.Common;
+    using Database;
 
     /// <summary>
     /// Provide an API controller base class.
