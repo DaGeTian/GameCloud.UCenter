@@ -25,11 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.UCenter.Web.Api", "GF.UC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager", "Manager", "{9C361350-C45E-4CC0-BF06-2AA6C908054E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager.UCenter", "GF.Manager.UCenter\GF.Manager.UCenter.csproj", "{6BF79926-20FD-4713-9F7F-EC63E83762EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.UCenter.Manager", "GF.UCenter.Manager\GF.UCenter.Manager.csproj", "{6BF79926-20FD-4713-9F7F-EC63E83762EC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{79E61C49-8C08-4D78-97F0-B45DCB1B0887}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager.TexasPoker", "GF.Manager.TexasPoker\GF.Manager.TexasPoker.csproj", "{DDB20A32-BCF3-45AE-A03E-F7F1211C9043}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasPoker.Manager", "TexasPoker.Manager\TexasPoker.Manager.csproj", "{DDB20A32-BCF3-45AE-A03E-F7F1211C9043}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager", "GF.Manager\GF.Manager.csproj", "{02ACADF2-A4EB-495B-A208-9F39676E71FA}"
 EndProject
