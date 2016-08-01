@@ -1,6 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
-using GF.Database.Entity.UCenter;
+﻿using GF.Database.Adapters;
 
 namespace GF.UCenter.Web.Api.ApiControllers
 {
@@ -10,6 +8,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Logger;
+    using Database;
     using UCenter.Common;
     using UCenter.Common.Portable.Contracts;
     using UCenter.Common.Portable.Exceptions;
@@ -27,7 +26,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// </summary>
         /// <param name="database">The database context.</param>
         [ImportingConstructor]
-        public AppServerApiController(DatabaseContext database)
+        public AppServerApiController(UCenterDatabaseContext database)
             : base(database)
         {
         }

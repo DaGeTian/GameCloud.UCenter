@@ -1,6 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
-using GF.Database.Entity.UCenter;
+﻿using GF.Database.Adapters;
 using MongoDB.Driver;
 
 namespace GF.UCenter.Web.Api.ApiControllers
@@ -11,12 +9,13 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using System.Drawing;
     using System.Globalization;
     using System.IO;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Text.RegularExpressions;
     using System.Web.Http;
     using Common;
     using Common.Logger;
+    using Database;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;
@@ -24,7 +23,6 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using UCenter.Common.Portable.Models.AppClient;
     using UCenter.Common.Portable.Models.Ip;
     using UCenter.Common.Settings;
-
     /// <summary>
     /// UCenter account API controller
     /// </summary>
@@ -43,7 +41,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// <param name="settings">The UCenter settings.</param>
         /// <param name="storageContext">The storage account context.</param>
         [ImportingConstructor]
-        public AccountApiController(DatabaseContext database, Settings settings, StorageAccountContext storageContext)
+        public AccountApiController(UCenterDatabaseContext database, Settings settings, StorageAccountContext storageContext)
             : base(database)
         {
             this.settings = settings;

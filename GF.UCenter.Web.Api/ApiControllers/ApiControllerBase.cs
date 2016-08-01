@@ -1,10 +1,9 @@
-﻿using GF.Database;
-
-namespace GF.UCenter.Web.Api.ApiControllers
+﻿namespace GF.UCenter.Web.Api.ApiControllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Http;
     using Common;
+    using Database;
     using UCenter.Common.Portable.Contracts;
 
 
@@ -20,7 +19,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// </summary>
         /// <param name="database">The database context</param>
         [ImportingConstructor]
-        public ApiControllerBase(DatabaseContext database)
+        public ApiControllerBase(UCenterDatabaseContext database)
         {
             this.Database = database;
         }
@@ -28,7 +27,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// <summary>
         /// Gets the database context.
         /// </summary>
-        public DatabaseContext Database { get; private set; }
+        public UCenterDatabaseContext Database { get; private set; }
 
         /// <summary>
         /// Create success result

@@ -57,28 +57,16 @@
     <Compile Include="Adapters\CollectionAdapter.cs" />
     <Compile Include="Adapters\CollectionAdapterExtensions.cs" />
     <Compile Include="Adapters\ICollectionAdapter.cs" />
+    <Compile Include="Attributes\CollectionNameAttribute.cs" />
     <Compile Include="DatabaseConfig.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DatabaseContextSettings.cs" />
     <Compile Include="DatabaseType.cs" />
+    <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GF.Database.Entity.Common\GF.Database.Entity.Common.csproj">
-      <Project>{d573f452-cace-4712-a846-e63c7d7583a2}</Project>
-      <Name>GF.Database.Entity.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GF.Database.Entity.UCenter\GF.Database.Entity.UCenter.csproj">
-      <Project>{2096a781-348a-4a2f-bf43-1fc4435b3569}</Project>
-      <Name>GF.Database.Entity.UCenter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TexasPoker.Entity\TexasPoker.Entity.csproj">
-      <Project>{c690a222-4459-43f2-a46c-f4f320bc45fc}</Project>
-      <Name>TexasPoker.Entity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

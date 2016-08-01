@@ -321,10 +321,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GF.Database.Entity.Common\GF.Database.Entity.Common.csproj">
-      <Project>{d573f452-cace-4712-a846-e63c7d7583a2}</Project>
-      <Name>GF.Database.Entity.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.Database\GF.Database.csproj">
       <Project>{205BF64D-9B8A-4674-8C19-BD4B978D51DF}</Project>
       <Name>GF.Database</Name>
@@ -337,9 +333,9 @@
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>
       <Name>GF.UCenter.Web.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TexasPoker.Entity\TexasPoker.Entity.csproj">
-      <Project>{c690a222-4459-43f2-a46c-f4f320bc45fc}</Project>
-      <Name>TexasPoker.Entity</Name>
+    <ProjectReference Include="..\TexasPoker.Database\TexasPoker.Database.csproj">
+      <Project>{15b8e7a5-0c39-4fea-9df2-f91a2258ee09}</Project>
+      <Name>TexasPoker.Database</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

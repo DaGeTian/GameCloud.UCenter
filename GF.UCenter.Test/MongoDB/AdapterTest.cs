@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using GF.Database.Entity.UCenter;
 
 namespace GF.UCenter.Test.MongoDB
 {
@@ -7,9 +6,9 @@ namespace GF.UCenter.Test.MongoDB
     using System.Threading;
     using System.Threading.Tasks;
     using Common.Portable.Models.AppClient;
+    using Database;
+    using GF.Database.Adapters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Database.Adapters;
-
     [TestClass]
     public class AdapterTest : UCenterTestBase
     {

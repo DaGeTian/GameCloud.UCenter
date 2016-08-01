@@ -5,9 +5,9 @@ namespace GF.Manager.UCenter.Controllers
     using System.ComponentModel.Composition;
     using System.Threading;
     using System.Threading.Tasks;
-using GF.Database.Adapters;
+    using GF.Database.Adapters;
     using System.Web.Mvc;
-
+    using GF.UCenter.Database;
     /// <summary>
     /// Provide a class for home controller.
     /// </summary>
@@ -15,14 +15,14 @@ using GF.Database.Adapters;
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : ControllerBase
     {
-        private readonly DatabaseContext database;
+        private readonly UCenterDatabaseContext database;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController" /> class.
         /// </summary>
         /// <param name="database">Indicating the database context</param>
         [ImportingConstructor]
-        public HomeController(DatabaseContext database)
+        public HomeController(UCenterDatabaseContext database)
         {
             this.database = database;
         }

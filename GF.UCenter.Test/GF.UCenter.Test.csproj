@@ -86,14 +86,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GF.Database.Entity.Common\GF.Database.Entity.Common.csproj">
-      <Project>{d573f452-cace-4712-a846-e63c7d7583a2}</Project>
-      <Name>GF.Database.Entity.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GF.Database.Entity.UCenter\GF.Database.Entity.UCenter.csproj">
-      <Project>{2096a781-348a-4a2f-bf43-1fc4435b3569}</Project>
-      <Name>GF.Database.Entity.UCenter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.Database\GF.Database.csproj">
       <Project>{205BF64D-9B8A-4674-8C19-BD4B978D51DF}</Project>
       <Name>GF.Database</Name>
@@ -105,6 +97,10 @@
     <ProjectReference Include="..\GF.UCenter.Common\GF.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.Database\GF.UCenter.Database.csproj">
+      <Project>{463E22CB-446A-4B7F-A8BB-19282313D56F}</Project>
+      <Name>GF.UCenter.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.SDK.AppClient\GF.UCenter.SDK.AppClient.csproj">
       <Project>{4367dcaa-97af-4710-a12f-8139c48dd9e6}</Project>

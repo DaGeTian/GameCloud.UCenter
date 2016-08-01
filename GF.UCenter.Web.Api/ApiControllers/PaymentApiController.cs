@@ -1,6 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
-using GF.Database.Entity.UCenter;
+﻿using GF.Database.Adapters;
 
 namespace GF.UCenter.Web.Api.ApiControllers
 {
@@ -15,6 +13,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using System.Threading.Tasks;
     using System.Web.Http;
     using Common.Logger;
+    using Database;
     using Newtonsoft.Json.Linq;
     using Pingpp;
     using UCenter.Common;
@@ -35,7 +34,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// </summary>
         /// <param name="database">The database context.</param>
         [ImportingConstructor]
-        public PaymentApiController(DatabaseContext database)
+        public PaymentApiController(UCenterDatabaseContext database)
             : base(database)
         {
         }

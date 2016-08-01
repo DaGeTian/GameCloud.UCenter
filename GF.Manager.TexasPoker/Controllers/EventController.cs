@@ -6,6 +6,7 @@ namespace GF.Manager.TexasPoker.Controllers
 {
     using System.ComponentModel.Composition;
     using System.Web.Mvc;
+    using global::TexasPoker.Database;
 
     /// <summary>
     /// Provide a class for home controller.
@@ -14,14 +15,14 @@ namespace GF.Manager.TexasPoker.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class EventController : ControllerBase
     {
-        private readonly DatabaseContext database;
+        private readonly TexasPokerDatabaseContext database;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController" /> class.
         /// </summary>
         /// <param name="database">Indicating the database context</param>
         [ImportingConstructor]
-        public EventController(DatabaseContext database)
+        public EventController(TexasPokerDatabaseContext database)
         {
             this.database = database;
         }

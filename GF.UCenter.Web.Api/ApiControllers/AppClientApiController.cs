@@ -1,6 +1,5 @@
 ﻿using GF.Database;
 using GF.Database.Adapters;
-using GF.Database.Entity.UCenter;
 
 namespace GF.UCenter.Web.Api.ApiControllers
 {
@@ -10,6 +9,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
     using System.Web.Http;
     using Common;
     using Common.Logger;
+    using Database;
     using UCenter.Common;
     using UCenter.Common.IP;
     using UCenter.Common.Portable.Contracts;
@@ -34,7 +34,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
         /// <param name="settings">The UCenter settings.</param>
         /// <param name="storageContext">The storage account context.</param>
         [ImportingConstructor]
-        public AppClientApiController(DatabaseContext database, Settings settings, StorageAccountContext storageContext)
+        public AppClientApiController(UCenterDatabaseContext database, Settings settings, StorageAccountContext storageContext)
             : base(database)
         {
             this.storageContext = storageContext;

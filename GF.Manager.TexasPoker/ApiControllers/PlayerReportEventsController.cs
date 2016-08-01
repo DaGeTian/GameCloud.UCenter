@@ -1,7 +1,5 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
+﻿using GF.Database.Adapters;
 using MongoDB.Driver;
-using TexasPoker.Entity;
 
 namespace GF.Manager.TexasPoker.ApiControllers
 {
@@ -12,6 +10,7 @@ namespace GF.Manager.TexasPoker.ApiControllers
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using global::TexasPoker.Database;
     using UCenter.Common.Settings;
     using UCenter.Web.Common.Modes;
 
@@ -29,7 +28,7 @@ namespace GF.Manager.TexasPoker.ApiControllers
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public PlayerReportEventsController(DatabaseContext database, Settings settings)
+        public PlayerReportEventsController(TexasPokerDatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }

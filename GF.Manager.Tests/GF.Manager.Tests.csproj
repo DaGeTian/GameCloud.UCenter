@@ -92,10 +92,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GF.Database.Entity.UCenter\GF.Database.Entity.UCenter.csproj">
-      <Project>{2096a781-348a-4a2f-bf43-1fc4435b3569}</Project>
-      <Name>GF.Database.Entity.UCenter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.Database\GF.Database.csproj">
       <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
       <Name>GF.Database</Name>

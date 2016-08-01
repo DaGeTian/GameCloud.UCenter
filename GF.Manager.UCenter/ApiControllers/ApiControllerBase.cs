@@ -5,7 +5,7 @@
     using GF.UCenter.Common.Settings;
     using GF.UCenter.Web.Common;
     using Database;
-
+    using GF.UCenter.Database;
     /// <summary>
     /// Provide an API controller base class.
     /// </summary>
@@ -19,7 +19,7 @@
         /// <param name="database">Indicating the database.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public ApiControllerBase(DatabaseContext database, Settings settings)
+        public ApiControllerBase(UCenterDatabaseContext database, Settings settings)
         {
             this.Database = database;
             this.Settings = settings;
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets the database context.
         /// </summary>
-        protected DatabaseContext Database { get; private set; }
+        protected UCenterDatabaseContext Database { get; private set; }
 
         /// <summary>
         /// Gets the settings.

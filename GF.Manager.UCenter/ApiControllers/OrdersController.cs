@@ -1,5 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
+﻿using GF.Database.Adapters;
 using MongoDB.Driver;
 
 namespace GF.Manager.UCenter.ApiControllers
@@ -9,10 +8,9 @@ namespace GF.Manager.UCenter.ApiControllers
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using GF.UCenter.Web.Common.Modes;
     using GF.UCenter.Common.Settings;
-    using Database.Entity.UCenter;
-
+    using GF.UCenter.Database;
+    using GF.UCenter.Web.Common.Modes;
     /// <summary>
     /// Provide an order controller.
     /// </summary>
@@ -26,7 +24,7 @@ namespace GF.Manager.UCenter.ApiControllers
         /// <param name="db">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public OrdersController(DatabaseContext db, Settings settings)
+        public OrdersController(UCenterDatabaseContext db, Settings settings)
             : base(db, settings)
         {
         }

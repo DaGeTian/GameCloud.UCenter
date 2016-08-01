@@ -5,6 +5,7 @@
     using System.Web.Http;
     using UCenter.Common.Settings;
     using UCenter.Web.Common;
+    using global::TexasPoker.Database;
 
     /// <summary>
     /// Provide an API controller base class.
@@ -19,7 +20,7 @@
         /// <param name="database">Indicating the database.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public ApiControllerBase(DatabaseContext database, Settings settings)
+        public ApiControllerBase(TexasPokerDatabaseContext database, Settings settings)
         {
             this.Database = database;
             this.Settings = settings;
@@ -28,7 +29,7 @@
         /// <summary>
         /// Gets the database context.
         /// </summary>
-        protected DatabaseContext Database { get; private set; }
+        protected TexasPokerDatabaseContext Database { get; private set; }
 
         /// <summary>
         /// Gets the settings.

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using GF.Database.Entity.Common.Attributes;
 
 namespace GF.Manager.Models
 {
-    [CollectionName("PluginItem")]
     public class PluginItem
     {
         public Guid Id { get; set; }

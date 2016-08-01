@@ -1,5 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
+﻿using GF.Database.Adapters;
 using MongoDB.Driver;
 
 namespace GF.Manager.TexasPoker.ApiControllers
@@ -11,9 +10,9 @@ namespace GF.Manager.TexasPoker.ApiControllers
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using global::TexasPoker.Database;
     using UCenter.Common.Settings;
     using UCenter.Web.Common.Modes;
-    using global::TexasPoker.Entity;
 
     /// <summary>
     /// Provide a controller for events.
@@ -29,7 +28,7 @@ namespace GF.Manager.TexasPoker.ApiControllers
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public BuyChipsEventsController(DatabaseContext database, Settings settings)
+        public BuyChipsEventsController(TexasPokerDatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }

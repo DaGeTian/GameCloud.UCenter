@@ -1,5 +1,5 @@
-﻿using GF.Database.Entity.Common;
-using GF.Database.Entity.Common.Attributes;
+﻿using GF.Database;
+using GF.Database.Attributes;
 
 namespace GF.Manager.Models
 {

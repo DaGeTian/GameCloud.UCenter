@@ -126,10 +126,6 @@
       <Project>{205BF64D-9B8A-4674-8C19-BD4B978D51DF}</Project>
       <Name>GF.Database</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GF.MongoDB\GF.MongoDB.csproj">
-      <Project>{0dc39016-ea83-4ae7-97ab-fe1c8e86b97c}</Project>
-      <Name>GF.MongoDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Common.Portable\GF.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GF.UCenter.Common.Portable</Name>

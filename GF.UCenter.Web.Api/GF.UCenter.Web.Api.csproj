@@ -195,14 +195,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GF.Database.Entity.Common\GF.Database.Entity.Common.csproj">
-      <Project>{d573f452-cace-4712-a846-e63c7d7583a2}</Project>
-      <Name>GF.Database.Entity.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GF.Database.Entity.UCenter\GF.Database.Entity.UCenter.csproj">
-      <Project>{2096a781-348a-4a2f-bf43-1fc4435b3569}</Project>
-      <Name>GF.Database.Entity.UCenter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GF.Database\GF.Database.csproj">
       <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
       <Name>GF.Database</Name>
@@ -214,6 +206,10 @@
     <ProjectReference Include="..\GF.UCenter.Common\GF.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GF.UCenter.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.Database\GF.UCenter.Database.csproj">
+      <Project>{463e22cb-446a-4b7f-a8bb-19282313d56f}</Project>
+      <Name>GF.UCenter.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\GF.UCenter.Web.Common\GF.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>

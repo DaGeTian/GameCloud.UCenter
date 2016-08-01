@@ -1,6 +1,4 @@
-﻿using GF.Database;
-using GF.Database.Adapters;
-using GF.Database.Entity.UCenter;
+﻿using GF.Database.Adapters;
 
 namespace GF.Manager.UCenter.ApiControllers
 {
@@ -12,6 +10,7 @@ namespace GF.Manager.UCenter.ApiControllers
     using System.Threading.Tasks;
     using System.Web.Http;
     using GF.UCenter.Common.Settings;
+    using GF.UCenter.Database;
     using GF.UCenter.Web.Common.Modes;
     using MongoDB.Driver;
 
@@ -29,7 +28,7 @@ namespace GF.Manager.UCenter.ApiControllers
         /// <param name="database">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public UsersController(DatabaseContext database, Settings settings)
+        public UsersController(UCenterDatabaseContext database, Settings settings)
             : base(database, settings)
         {
         }
