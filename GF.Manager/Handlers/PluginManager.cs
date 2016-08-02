@@ -17,7 +17,7 @@ namespace GF.Manager.Handlers
         private List<Plugin> plugins = new List<Plugin>();
         private DateTime lastUpdateTime = DateTime.MinValue;
         private TimeSpan updateInterval = TimeSpan.FromMinutes(10);
-        private readonly ConcurrentDictionary<Guid, PluginHandler> handlers = new ConcurrentDictionary<Guid, PluginHandler>();
+        private readonly ConcurrentDictionary<string, PluginHandler> handlers = new ConcurrentDictionary<string, PluginHandler>();
 
         private readonly DatabaseContext context;
 
@@ -30,7 +30,7 @@ namespace GF.Manager.Handlers
         public PluginHandler GetHandler(Plugin plugin, PluginItem item)
         {
             return this.handlers.GetOrAdd(
-                item.Id,
+                item.Name,
                 key => new PluginHandler(plugin, item));
         }
 
@@ -42,12 +42,12 @@ namespace GF.Manager.Handlers
             return this.plugins;
         }
 
-        public async Task<Plugin> GetPlugin(string userName, Guid pluginId, CancellationToken token)
+        public async Task<Plugin> GetPlugin(string userName, string pluginName, CancellationToken token)
         {
             await this.TryToSyncPlugins(token);
 
             //todo: validate the user have right to manage the plugin.
-            return this.plugins.Where(p => p.Id == pluginId).Single();
+            return this.plugins.Where(p => p.Name == pluginName).Single();
         }
 
         public PluginHandler GetHandler(Guid id)

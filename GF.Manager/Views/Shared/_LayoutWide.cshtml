@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="texaspoker">
+<html ng-app="pluginApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +9,19 @@
 <body>
     <div id="wrapper">
         @RenderBody()
-    </div>
-
-    <div class="footer">
-        <footer class="footer"></footer>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div ng-view></div>
+            </div>
+        </div>
+        <div class="footer">
+            <footer class="footer"></footer>
+        </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/texaspoker")
+    @Scripts.Render("~/bundles/site")
     @RenderSection("scripts", false)
 </body>
 </html>

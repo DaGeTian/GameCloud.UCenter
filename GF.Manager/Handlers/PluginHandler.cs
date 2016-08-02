@@ -34,7 +34,7 @@ namespace GF.Manager.Handlers
                 httpContent = new ObjectContent<TContent>(content, new JsonMediaTypeFormatter());
             }
 
-            var url = $"{this.plugin.ServerUrl}/{this.pluginItem.ControllerName}/{this.pluginItem.ActionName}/?{parameters}";
+            var url = $"{this.plugin.ServerUrl}/{this.pluginItem.Url}/?{parameters}";
 
             return this.SendAsync<object>(this.pluginItem.Method, url, httpContent);
         }

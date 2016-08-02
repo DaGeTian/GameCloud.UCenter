@@ -11,7 +11,7 @@ using GF.Manager.Models;
 
 namespace GF.Manager.Controllers
 {
-    [Export]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class HomeController : Controller
     {
         private readonly PluginManager manager;
@@ -46,10 +46,11 @@ namespace GF.Manager.Controllers
             return View(plugins);
         }
 
-        public async Task<ActionResult> Plugin(Guid id, CancellationToken token)
+        [HttpGet]
+        public ActionResult Plugin()
         {
-            var plugin = await this.manager.GetPlugin(this.CurrentUser.Name, id, token);
-            return View(plugin);
+            // var plugin = await this.manager.GetPlugin(this.CurrentUser.Name, name, token);
+            return View();
         }
 
         [HttpGet]

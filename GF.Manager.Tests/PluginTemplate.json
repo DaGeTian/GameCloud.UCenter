@@ -1,0 +1,53 @@
+﻿{
+  "Name": "Test",
+  "Description": "test manager",
+  "ServerUrl": "http://bing.com",
+  "Items": [
+    {
+      "Name": "Item1",
+      "DisplayName": "Item1",
+      "Description": "Item 1 description",
+      "Url": "item1",
+      "Method": "Get",
+      "Items": [
+        {
+          "Name": "1",
+          "DisplayName": "1",
+          "Description": "Item 1.1 description",
+          "Url": "1",
+          "Method": "Get"
+        },
+        {
+          "Name": "2",
+          "DisplayName": "2",
+          "Description": "Item 1.2 description",
+          "Url": "2",
+          "Method": "Get"
+        }
+      ]
+    },
+    {
+      "Name": "Item2",
+      "DisplayName": "Item2",
+      "Description": "Item 2 description",
+      "Url": "item2",
+      "Method": "Get",
+      "Items": [
+        {
+          "Name": "1",
+          "DisplayName": "1",
+          "Description": "Item 2.1 description",
+          "Url": "1",
+          "Method": "Get"
+        },
+        {
+          "Name": "2",
+          "DisplayName": "2",
+          "Description": "Item 2.2 description",
+          "Url": "2",
+          "Method": "Get"
+        }
+      ]
+    }
+  ]
+}
