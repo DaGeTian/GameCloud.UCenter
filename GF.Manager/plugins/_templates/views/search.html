@@ -1,5 +1,12 @@
 ﻿<div>
-    <h3>{{item.displayName}}</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>{{item.displayName}} <small>{{item.name}}</small></h1>
+                <p>{{item.description}}</p>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-offset-8 col-sm-4">
             <form ng-submit="fetch()">
@@ -14,14 +21,14 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div ng-include="item.view"></div>
+            <div ng-include="'/plugins/'+plugin.name+'/views/'+item.view"></div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-8">
             <uib-pagination total-items="data.Total"
                             items-per-page="data.PageSize"
-                            ng-model="page"
+                            ng-model="params.page"
                             max-size="maxShowPages"
                             ng-change="onPageChange()"
                             class="pagination"
@@ -36,10 +43,9 @@
             <ul class="pagination">
                 <li class="disabled"><a href="#">页长</a></li>
                 <li ng-repeat="size in pageSizeList" ng-class="{active:size==pageSize}">
-                    <a href="#" ng-click="onPageSizeChange(size)">{{size}}</a>
+                    <a ng-click="onPageSizeChange(size)">{{size}}</a>
                 </li>
             </ul>
         </div>
     </div>
-
 </div>

@@ -3,3 +3,14 @@
     <p>{{collection.description}}</p>
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 </div>
+<div class="row">
+    <div ng-repeat="item in collection.items" class="col-sm-3">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3>{{item.displayName}}</h3>
+                <p>{{item.description}}</p>
+                <p><a href="#{{plugin.name+'/'+collection.name+'/'+item.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+</div>

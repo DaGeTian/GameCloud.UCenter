@@ -10,8 +10,9 @@
 })(enums || (enums = {}));
 var plugins = [
     {
-        displayName: "德州扑克管理",
         name: "texaspoker",
+        displayName: "德州扑克管理",
+        url: "http://localhost:3578/api",
         description: "texaspoker manager",
         collections: [
             {
@@ -22,13 +23,17 @@ var plugins = [
                         name: "player-search",
                         displayName: "玩家查询",
                         view: "player-search.html",
-                        type: 'search'
+                        type: 'search',
+                        url: 'players',
+                        method: 'GET'
                     },
                     {
                         name: "bot-search",
                         displayName: "机器人查询",
                         view: "bot-search.html",
-                        type: 'search'
+                        type: 'search',
+                        url: 'bots',
+                        method: 'GET'
                     }
                 ]
             }
@@ -98,35 +103,46 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
             pluginService.collection = c;
         };
 
-        $scope.setItem = function (i) {
-            pluginService.item = i;
+        $scope.setItem = function (item) {
+            pluginService.item = item;
         }
-    }]).controller('pluginController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
+    }]).controller('baseController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
+        $scope.plugins = pluginService.plugins;
         $scope.plugin = pluginService.plugin;
-    }]).controller('collectionController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
         $scope.collection = pluginService.collection;
-    }]).controller('searchController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
         $scope.item = pluginService.item;
-        $scope.maxShowPages = 7;
-        $scope.page = 1;
-        $scope.pageSize = 10;
-        $scope.pageSizeList = [5, 10, 20, 50];
+    }]).controller('pluginController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $controller('baseController', { $scope: $scope });
+    }]).controller('collectionController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $controller('baseController', { $scope: $scope });
+    }]).controller('apiController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $controller('baseController', { $scope: $scope });
         $scope.params = {};
         $scope.beforeFetch = function () { };
         $scope.fetch = function () {
             $scope.code = null;
             $scope.response = null;
-            var params = { page: $scope.page, count: $scope.pageSize };
-            for (p in $scope.params) {
-                if ($scope.params[p]) {
-                    params[p] = $scope.params[p];
+            var url = $scope.plugin.url + "/" + $scope.item.url;
+            var params = [];
+            for (var n in $scope.params) {
+                if ($scope.params[n]) {
+                    params.push(n + "=" + $scope.params[n]);
                 }
             }
 
-            $http.get(
-                $scope.url,
+            if (params.length > 0) {
+                url += "?" + params.join('&');
+            }
+
+
+            $http.post(
+                '/getdata',
                 {
-                    params: params,
+                    url: url,
+                    content: '',
+                    method: $scope.item.method
+                },
+                {
                     responseType: 'json',
                     cache: $templateCache
                 }).
@@ -139,13 +155,19 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
                     $scope.status = response.status;
                 });
         };
+    }]).controller('searchController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $controller('apiController', { $scope: $scope });
+        $scope.maxShowPages = 7;
+        $scope.params.count = 10;
+        $scope.pageSizeList = [5, 10, 20, 50];
+        $scope.beforeFetch = function () { };
 
         $scope.onPageChange = function () {
             $scope.fetch();
         }
 
         $scope.onPageSizeChange = function (size) {
-            $scope.pageSize = size;
+            $scope.params.count = size;
             $scope.fetch();
         }
 
@@ -153,6 +175,8 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
             $scope.method = method;
             $scope.url = url;
         };
+
+        $scope.fetch();
     }
     ]).controller('playerController', ['$scope', '$http', '$templateCache', '$controller',
         function ($scope, $http, $templateCache, $controller) {
