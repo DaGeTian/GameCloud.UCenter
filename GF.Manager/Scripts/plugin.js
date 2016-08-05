@@ -18,10 +18,12 @@ var plugins = [
             {
                 name: "player-manager",
                 displayName: "玩家管理",
+                description: "Manage the players here.",
                 items: [
                     {
                         name: "player-search",
                         displayName: "玩家查询",
+                        description: "Manage player list here.",
                         view: "player-search.html",
                         type: 'search',
                         url: 'players',
@@ -30,6 +32,7 @@ var plugins = [
                     {
                         name: "bot-search",
                         displayName: "机器人查询",
+                        description: "Manager bot list here.",
                         view: "bot-search.html",
                         type: 'search',
                         url: 'bots',
@@ -54,7 +57,31 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
         return function (input) {
             return input ? '是' : '否';
         }
-    }).config(['$routeProvider', function ($routeProvider) {
+    }).service('pluginService', ['$http', function ($http) {
+        this.plugins = plugins;
+        this.plugin = plugins[0];
+
+
+        var find = function (items, name) {
+            for (var i = items.length - 1; i >= 0; i--) {
+                if (items[i].name == name) {
+                    return items[i];
+                }
+            }
+
+            return null;
+        }
+
+        this.setCurrent = function (pluginName, collectionName, itemName) {
+            this.plugin = find(this.plugins, pluginName);
+            this.collection = find(this.plugin.collections, collectionName);
+            if (this.collection) {
+                this.item = find(this.collection.items, itemName);
+            } else {
+                this.item = find(this.plugin.items, itemName);
+            }
+        };
+    }]).config(['$routeProvider', function ($routeProvider) {
         if (plugins) {
             plugins.forEach(function (p) {
                 $routeProvider.when('/' + p.name, {
@@ -91,11 +118,8 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
             });
             $routeProvider.otherwise({
                 templateUrl: '/plugins/_templates/views/error.html'
-            })
+            });
         }
-    }]).service('pluginService', ['$http', function ($http) {
-        this.plugins = plugins;
-        this.plugin = plugins[0];
     }]).controller('navController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
         $scope.plugins = pluginService.plugins;
         $scope.plugin = pluginService.plugin;
@@ -106,6 +130,15 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
         $scope.setItem = function (item) {
             pluginService.item = item;
         }
+    }]).run(['$rootScope', 'pluginService', function ($rootScope, pluginService) {
+        $rootScope.$on('$routeChangeStart', function (next, current) {
+            console.log("next:", next, "current", current);
+            var path = current.$$route.originalPath;
+            if (path) {
+                var paths = path.split('/');
+                pluginService.setCurrent(paths[1], paths[2], paths[3]);
+            }
+        });
     }]).controller('baseController', ['$scope', '$http', '$templateCache', 'pluginService', function ($scope, $http, $templateCache, pluginService) {
         $scope.plugins = pluginService.plugins;
         $scope.plugin = pluginService.plugin;
@@ -133,7 +166,6 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
             if (params.length > 0) {
                 url += "?" + params.join('&');
             }
-
 
             $http.post(
                 '/getdata',
@@ -178,10 +210,4 @@ var app = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
 
         $scope.fetch();
     }
-    ]).controller('playerController', ['$scope', '$http', '$templateCache', '$controller',
-        function ($scope, $http, $templateCache, $controller) {
-            $controller('listController', { $scope: $scope });
-            $scope.url = "/api/players";
-            $scope.fetch();
-        }
     ]);
