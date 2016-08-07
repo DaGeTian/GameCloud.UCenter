@@ -8,7 +8,7 @@ namespace GF.UCenter.Web.Common
     using MongoDB;
     using UCenter.Common.Settings;
     using Database;
-
+    using System;
     /// <summary>
     /// Provide a class to manage web application.
     /// </summary>
@@ -19,13 +19,22 @@ namespace GF.UCenter.Web.Common
         /// </summary>
         /// <param name="configuration">The http configuration</param>
         /// <param name="exportProvider">The export provider</param>
-        public static void InitializeApplication(HttpConfiguration configuration, ExportProvider exportProvider)
+        /// <param name="callback">The callback function.</param>
+        public static void InitializeApplication(
+            HttpConfiguration configuration,
+            ExportProvider exportProvider,
+            Action<HttpConfiguration, ExportProvider> callback = null)
         {
             configuration.Filters.Add(new ActionExecutionFilterAttribute());
             RegisterMefDepencency(configuration, exportProvider);
             var controllerFactory = exportProvider.GetExportedValue<MefControllerFactory>();
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
             InitializeSettings(exportProvider);
+
+            if (callback != null)
+            {
+                callback(configuration, exportProvider);
+            }
         }
 
         private static void InitializeSettings(ExportProvider exportProvider)

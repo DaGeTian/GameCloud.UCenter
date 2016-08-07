@@ -21,7 +21,7 @@
         public string ProfileThumbnail { get; set; }
 
         [DataMember]
-        public Sex Sex { get; set; }
+        public Gender Gender { get; set; }
 
         [DataMember]
         public string IdentityNum { get; set; }
@@ -39,7 +39,7 @@
             this.Name = account.Name;
             this.ProfileImage = account.ProfileImage;
             this.ProfileThumbnail = account.ProfileThumbnail;
-            this.Sex = account.Sex;
+            this.Gender = account.Gender;
             this.IdentityNum = account.IdentityNum;
             this.PhoneNum = account.PhoneNum;
             this.Email = account.Email;

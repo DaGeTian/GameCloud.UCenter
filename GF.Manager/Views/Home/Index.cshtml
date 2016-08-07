@@ -2,22 +2,9 @@
 @model List<Plugin>
 @{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutWide.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>GF管理平台</h1>
-    <p class="lead">请选择以下管理平台进行操作</p>
-</div>
-
-<div class="row">
-    @foreach (var p in Model)
-    {
-        <div class="col-md-4">
-            <h2>@p.Name</h2>
-            <p>
-                @p.Description
-            </p>
-            <p><a class="btn btn-default" href="~/home/plugin?id=@p.Name">管理 &raquo;</a></p>
-        </div>
-    }
+<div ng-controller="pluginsController">
+    <div ng-include="'/plugins/_templates/views/plugins.html'"></div>
 </div>

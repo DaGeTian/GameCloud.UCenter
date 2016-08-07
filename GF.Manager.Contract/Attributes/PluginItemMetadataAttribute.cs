@@ -8,10 +8,12 @@ namespace GF.Manager.Contract
 {
     public class PluginItemMetadataAttribute : MetadataBaseAttribute
     {
-        public string Collection { get; set; }
+        public string Category { get; set; }
 
         public string View { get; set; }
 
         public PluginItemType Type { get; set; }
+
+        public string Controller { get; set; }
     }
 }

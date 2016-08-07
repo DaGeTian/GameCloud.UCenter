@@ -8,7 +8,9 @@ namespace GF.Manager.Contract
 {
     public enum PluginItemType
     {
-        Search,
+        List,
+        Report,
+        Update,
         Custom
     }
 }

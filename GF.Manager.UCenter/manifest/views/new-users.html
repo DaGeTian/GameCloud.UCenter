@@ -1,0 +1,74 @@
+﻿<div>
+    <h2 class="page-header">新增玩家</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-md-2">指标</th>
+                    <th class="col-md-4 hidden-xs">描述</th>
+                    <th class="col-md-6">数值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>小时设备激活</td>
+                    <td class="hidden-xs">统计所选时期内，每日新增的玩家安装游戏客户端，并运行游戏的可连接网络设备的数量，每台设备只计算一次。</td>
+                    <td>
+                        <canvas id="hourActiveDeviceBar" class="chart chart-bar"
+                                chart-data="data.hourActiveDevices.datas" chart-labels="data.hourActiveDevices.labels" chart-series="data.hourActiveDevices.series"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小时新增帐户</td>
+                    <td class="hidden-xs">统计所选时期内，每日玩家激活游戏后，进行了自动或者手动注册有ID信息或者账户信息的玩家账户数量。</td>
+                    <td>
+                        <canvas id="hourNewUserBar" class="chart chart-bar"
+                                chart-data="data.hourNewUsers.datas" chart-labels="data.hourNewUsers.labels" chart-series="data.hourNewUsers.series"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小时新增设备</td>
+                    <td class="hidden-xs">统计所选时期内，每日玩家激活游戏后，进行了自动或者手动注册有ID信息或者账户信息的玩家设备数量，每台设备只计算一次。</td>
+                    <td>
+                        <canvas id="hourNewDeviceBar" class="chart chart-bar"
+                                chart-data="data.hourNewDevices.datas" chart-labels="data.hourNewDevices.labels" chart-series="data.hourNewDevices.series"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小时玩家转化率</td>
+                    <td class="hidden-xs">统计所选时期内，每日玩家激活游戏后，进行了自动或者手动注册有ID信息或者账户信息的玩家设备数量，单设备中多个帐号只计算一次成功转化。
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时首次游戏时长</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家首次进行游戏的游戏时间区间分布</td>
+                    <td>
+                        <canvas id="firstPlayTimePie" class="chart chart-pie"
+                                chart-data="data.firstPlay.datas" chart-labels="data.firstPlay.labels" chart-options="options"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小时新增玩家地区/国家</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家注册信息中地区和国家分布情况</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小时新增玩家性别</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家注册信息中性别分布情况。</td>
+                    <td>
+                        <canvas id="newUserSexPie" class="chart chart-pie"
+                                chart-data="data.newUserSex.datas" chart-labels="data.newUserSex.labels" chart-options="options"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小时新增玩家年龄</td>
+                    <td class="hidden-xs">统计所选时期内，新增玩家注册信息中年龄分布情况。</td>
+                    <td>
+                        <canvas id="newUserAgePie" class="chart chart-pie"
+                                chart-data="data.newUserAge.datas" chart-labels="data.newUserAge.labels" chart-options="options"></canvas>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

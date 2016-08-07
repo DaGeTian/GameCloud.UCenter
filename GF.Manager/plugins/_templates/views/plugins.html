@@ -1,0 +1,15 @@
+﻿<div class="jumbotron">
+    <h1>GF管理平台</h1>
+    <p>Manage all of your app here.</p>
+</div>
+<div ng-repeat="g in plugins |group:4" class="row">
+    <div ng-repeat="plugin in g" class="col-sm-3">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3>{{plugin.displayName}}</h3>
+                <p>{{plugin.description}}</p>
+                <p><a href="/Home/Plugin/#p:{{plugin.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+</div>

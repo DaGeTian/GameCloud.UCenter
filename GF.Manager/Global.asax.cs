@@ -25,7 +25,10 @@ namespace GF.Manager
 
             ExportProvider exportProvider = CompositionContainerFactory.Create();
 
-            WebApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
+            WebApplicationManager.InitializeApplication(
+                GlobalConfiguration.Configuration,
+                exportProvider);
+
             SettingsInitializer.Initialize<Settings>(
                 exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,

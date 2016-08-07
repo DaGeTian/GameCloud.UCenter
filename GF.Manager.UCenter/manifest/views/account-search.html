@@ -1,0 +1,30 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>账号</th>
+            <th>姓名</th>
+            <th>头像</th>
+            <th>性别</th>
+            <th>游客？</th>
+            <th>邮箱</th>
+            <th>手机</th>
+            <th>注册日期</th>
+            <th>最近登录日期</th>
+            <th>订单</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.AccountName}}</td>
+            <td>{{row.Name}}</td>
+            <td><img src="{{row.ProfileThumbnail}}" width="50" /></td>
+            <td>{{row.Gender|enums:'gender'}}</td>
+            <td>{{row.IsGuest|yesNo}}</td>
+            <td>{{row.Email}}</td>
+            <td>{{row.PhoneNum}}</td>
+            <td>{{row.CreatedTime | date:'yyyy/MM/dd'}}</td>
+            <td>{{row.LastLoginDateTime| date:'yyyy/MM/dd HH:mm'}}</td>
+            <td><a href="/home/orderlist?accountId={{row.Id}}">订单</a></td>
+        </tr>
+    </tbody>
+</table>

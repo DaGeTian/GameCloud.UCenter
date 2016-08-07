@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GF.Manager.UCenter</RootNamespace>
+    <AssemblyName>GF.Manager.UCenter</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\UCenterStatisticsInfo.cs" />
+    <Compile Include="Models\StatisticsData.cs" />
+    <Compile Include="UCenterPluginEntryPoint.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GF.Database\GF.Database.csproj">
+      <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
+      <Name>GF.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.Manager.Contract\GF.Manager.Contract.csproj">
+      <Project>{f7dc340f-5b02-4c74-96b5-43db95112678}</Project>
+      <Name>GF.Manager.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.Common\GF.UCenter.Common.csproj">
+      <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
+      <Name>GF.UCenter.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GF.UCenter.Database\GF.UCenter.Database.csproj">
+      <Project>{463e22cb-446a-4b7f-a8bb-19282313d56f}</Project>
+      <Name>GF.UCenter.Database</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="manifest\config.xml" />
+    <EmbeddedResource Include="manifest\views\account-search.html" />
+    <EmbeddedResource Include="manifest\views\active-users.html" />
+    <EmbeddedResource Include="manifest\views\app-search.html" />
+    <EmbeddedResource Include="manifest\views\lost-statistics.html" />
+    <EmbeddedResource Include="manifest\views\new-users.html" />
+    <EmbeddedResource Include="manifest\views\online-behaviour.html" />
+    <EmbeddedResource Include="manifest\views\order-search.html" />
+    <EmbeddedResource Include="manifest\views\realtime-glance.html" />
+    <EmbeddedResource Include="manifest\views\stay-statistics.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

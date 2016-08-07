@@ -3,32 +3,43 @@
     Layout = "~/Views/Shared/_LayoutWide.cshtml";
 }
 
-<!-- Navigation -->
-<nav ng-controller="navController" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#{{plugin.name}}">{{plugin.displayName}}</a>
-    </div>
-    <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-                <li ng-repeat="c in plugin.collections">
-                    <a href="#{{plugin.name+'/'+c.name}}" ng-click="setCollection(c)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{c.displayName}} <b class="caret"></b></a>
-                    <ul class="nav nav-second-level">
-                        <li ng-repeat="item in c.items">
-                            <a href="#{{plugin.name+'/'+c.name+'/'+item.name}}" ng-click="setItem(item)" >{{item.displayName}}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- /#side-menu -->
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav ng-controller="navController" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="#{{'p:'+plugin.name}}">{{plugin.displayName}}</a>
         </div>
-        <!-- /.sidebar-collapse -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li ng-repeat="c in plugin.categories">
+                        <a href="#{{'p:'+plugin.name+'/c:'+c.name}}" ng-click="setCategory(c)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{c.displayName}} <b class="caret"></b></a>
+                        <ul class="nav nav-second-level">
+                            <li ng-repeat="item in c.items">
+                                <a href="#p:{{plugin.name+'/c:'+c.name+'/i:'+item.name}}" ng-click="setItem(item)">{{item.displayName}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-repeat="i in plugin.items">
+                        <a href="#p:{{plugin.name+'/i:'+i.name}}" ng-click="setItem(c)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{i.displayName}} </a>
+                    </li>
+                </ul>
+                <!-- /#side-menu -->
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div ng-view></div>
+        </div>
     </div>
-    <!-- /.navbar-static-side -->
-</nav>
+</div>

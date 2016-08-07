@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager.Contract", "GF.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager.PluginDemo", "GF.Manager.PluginDemo\GF.Manager.PluginDemo.csproj", "{A6287399-6385-4B10-9206-1496556A487D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Manager.UCenter", "GF.Manager.UCenter\GF.Manager.UCenter.csproj", "{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{A6287399-6385-4B10-9206-1496556A487D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6287399-6385-4B10-9206-1496556A487D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6287399-6385-4B10-9206-1496556A487D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657D7FF6-B2FE-4333-A581-A8258E5D3C8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,5 +165,6 @@ Global
 		{15B8E7A5-0C39-4FEA-9DF2-F91A2258EE09} = {88B04910-564C-4076-9F3A-F70DF3EA33D6}
 		{F7DC340F-5B02-4C74-96B5-43DB95112678} = {9C361350-C45E-4CC0-BF06-2AA6C908054E}
 		{A6287399-6385-4B10-9206-1496556A487D} = {9C361350-C45E-4CC0-BF06-2AA6C908054E}
+		{657D7FF6-B2FE-4333-A581-A8258E5D3C8A} = {9C361350-C45E-4CC0-BF06-2AA6C908054E}
 	EndGlobalSection
 EndGlobal

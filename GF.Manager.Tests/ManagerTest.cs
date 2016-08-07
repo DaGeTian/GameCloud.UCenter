@@ -38,19 +38,5 @@ namespace GF.Manager.Tests
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
         }
-
-        [TestClass]
-        public void InitData()
-        {
-            var plugin = JsonConvert.DeserializeObject<Plugin>;
-            Plugin plugin = new Plugin()
-            {
-                Name = "UCenter",
-                Description = "UCenter management",
-                ServerUrl = "http://abc"
-            };
-
-
-        }
     }
 }

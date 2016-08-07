@@ -1,0 +1,15 @@
+﻿<div class="jumbotron">
+    <h1>{{category.displayName}}</h1>
+    <p>{{category.description}}</p>
+</div>
+<div ng-repeat="g in category.items |group:4" class="row">
+    <div ng-repeat="item in g" class="col-sm-3">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3>{{item.displayName}}</h3>
+                <p>{{item.description}}</p>
+                <p><a href="#p:{{plugin.name+'/c:'+category.name+'/i:'+item.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+</div>

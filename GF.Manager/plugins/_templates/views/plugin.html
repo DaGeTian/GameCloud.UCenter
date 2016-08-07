@@ -2,22 +2,24 @@
     <h1>{{plugin.displayName}}</h1>
     <p>{{plugin.description}}</p>
 </div>
-<div class="row">
-    <div ng-repeat="collection in plugin.collections" class="col-sm-3">
-        <div class="thumbnail">
+<div ng-repeat="g in plugin.categories | group:4" class="row">
+    <div ng-repeat="category in g" class="col-sm-3">
+        <div class="thumbnail container">
             <div class="caption">
-                <h3>{{collection.displayName}}</h3>
-                <p>{{collection.description}}</p>
-                <p><a href="#{{plugin.name+'/'+collection.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+                <h3>{{category.displayName}}</h3>
+                <p>{{category.description}}</p>
+                <p><a href="#p:{{plugin.name+'/c:'+category.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
             </div>
         </div>
     </div>
-    <div ng-repeat="item in plugin.items" class="col-sm-3">
-        <div class="thumbnail">
+</div>
+<div ng-repeat="g in plugin.items | group:4" class="row">
+    <div ng-repeat="item in g" class="col-sm-3">
+        <div class="thumbnail container">
             <div class="caption">
                 <h3>{{item.displayName}}</h3>
                 <p>{{item.description}}</p>
-                <p><a href="#{{plugin.name+'/'+item.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+                <p><a href="#p:{{plugin.name+'/i:'+item.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
             </div>
         </div>
     </div>

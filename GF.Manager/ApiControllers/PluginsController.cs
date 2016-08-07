@@ -6,8 +6,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using GF.Manager.Contract;
+using GF.Manager.Handlers;
 using GF.Manager.Models;
+using GF.UCenter.Web.Common.Logger;
 
 namespace GF.Manager.ApiControllers
 {
@@ -15,34 +19,46 @@ namespace GF.Manager.ApiControllers
     public class PluginsController : ApiController
     {
         private readonly HttpClient client = new HttpClient();
+        private readonly PluginManager manager;
 
-        public async Task<IReadOnlyList<Plugin>> Get(CancellationToken token)
+        [ImportingConstructor]
+        public PluginsController(PluginManager manager)
         {
-            throw new NotImplementedException();
+            this.manager = manager;
         }
 
-        public async Task<Plugin> Get(string name)
+        public IReadOnlyList<Plugin> Get(CancellationToken token)
         {
-            throw new NotImplementedException();
+            return this.manager.Plugins;
         }
 
         [HttpPost]
-        [Route("getdata")]
-        public async Task<HttpResponseMessage> GetData([FromBody]PluginRequest request, CancellationToken token)
+        [Route("pluginrequest")]
+        public async Task<object> DoWork([FromBody]PluginRequest request, CancellationToken token)
         {
-            var req = new HttpRequestMessage(new HttpMethod(request.Method), new Uri(request.Url));
-            req.Headers.Clear();
-            req.Headers.ExpectContinue = false;
-            if (!string.IsNullOrEmpty(request.Content))
+            var plugin = this.manager.Plugins.Where(p => p.Name == request.PluginName).First();
+            var item = plugin.GetItem(request.Item);
+
+            var parameters = request.Content
+                .Select(kv => new PluginRequestParameter() { Name = kv.Key, Value = kv.Value })
+                .ToList();
+            var requestInfo = new PluginRequestInfo(request.Method, parameters);
+            try
             {
-                req.Content = new StringContent(request.Content);
+                var result = item.EntryMethod.Invoke(plugin.EntryPoint, new object[] { requestInfo });
+                if (result != null && result.GetType().IsSubclassOf(typeof(Task)))
+                {
+                    var task = result as Task;
+                    return await (dynamic)task;
+                }
+
+                return result;
             }
-
-            var response = await this.client.SendAsync(req);
-
-            response.EnsureSuccessStatusCode();
-
-            return response;
+            catch (Exception ex)
+            {
+                CustomTrace.TraceError(ex, "Execute plugin action error: Plugin:{0}, Item: {2}", plugin.Name, item.Name);
+                return null;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,18 +9,18 @@ using System.Web;
 using System.Web.Mvc;
 using GF.Manager.Handlers;
 using GF.Manager.Models;
+using GF.UCenter.Web.Common.Logger;
+using Newtonsoft.Json;
 
 namespace GF.Manager.Controllers
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly PluginManager manager;
-
         [ImportingConstructor]
         public HomeController(PluginManager manager)
+            : base(manager)
         {
-            this.manager = manager;
         }
 
         public AccountEntity CurrentUser
@@ -34,16 +35,10 @@ namespace GF.Manager.Controllers
             }
         }
 
-        private Task<object> Post(Guid pluginId, string parameters, string body)
+        [HttpGet]
+        public ActionResult Index(CancellationToken token)
         {
-            var hander = manager.GetHandler(pluginId);
-            return hander.SendAsync(parameters, body);
-        }
-
-        public async Task<ActionResult> Index(CancellationToken token)
-        {
-            var plugins = await this.manager.GetPlugins(this.CurrentUser.Name, token);
-            return View(plugins);
+            return View();
         }
 
         [HttpGet]
@@ -53,7 +48,6 @@ namespace GF.Manager.Controllers
             return View();
         }
 
-        [HttpGet]
         public ActionResult Login()
         {
             return View();
@@ -90,6 +84,27 @@ namespace GF.Manager.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            try
+            {
+                var actionName = filterContext.ActionDescriptor.ActionName.ToLower();
+                if (actionName.Contains("plugin") || actionName == "index")
+                {
+                    this.ViewBag.StartupScript =
+                            string.Format(CultureInfo.InvariantCulture,
+                            "var $plugins={0};",
+                            JsonConvert.SerializeObject(this.Manager.Plugins));
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomTrace.TraceError(ex, "Inject plugin json failed");
+            }
+
+            base.OnActionExecuted(filterContext);
         }
     }
 }
