@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoEnumType.cs" />
     <Compile Include="DemoPluginEntryPoint.cs" />
     <Compile Include="DemoPluginRawData.cs" />
     <Compile Include="DemoPluginSettings.cs" />
@@ -56,9 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="manifest\config.xml" />
-    <EmbeddedResource Include="manifest\scripts\demo.js" />
+    <EmbeddedResource Include="manifest\scripts\demo-script.js" />
     <EmbeddedResource Include="manifest\views\demo-report.html" />
     <EmbeddedResource Include="manifest\views\demo-update.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="manifest\styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

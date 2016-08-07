@@ -16,8 +16,7 @@ namespace GF.Manager.Contract
 
         public PluginEntryPoint()
         {
-            string configFile = Path.Combine(HttpRuntime.AppDomainAppPath, "plugins", this.PluginName, "config.xml");
-            this.Configuration = new PluginConfiguration(configFile);
+            this.Configuration = new PluginConfiguration(this.PluginName);
         }
 
         public string PluginName

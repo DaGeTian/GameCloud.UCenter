@@ -8,7 +8,7 @@ using GF.Manager.Contract.Responses;
 
 namespace GF.Manager.PluginDemo
 {
-    [PluginMetadata(Name = "demoplugin", DisplayName = "Demo plugin", Description = "示例插件，包括列表，报表，更新数据")]
+    [PluginMetadata(Name = "demoplugin", DisplayName = "Demo插件", Description = "示例插件，包括列表，报表，更新数据")]
     [PluginCategoryMetadata(Name = "list", DisplayName = "分类-LIST", Description = "分类示例1")]
     [PluginCategoryMetadata(Name = "report", DisplayName = "分类-REPORT", Description = "分类示例2")]
     [PluginCategoryMetadata(Name = "update", DisplayName = "分类-UPDATE", Description = "分类示例3")]
@@ -20,7 +20,7 @@ namespace GF.Manager.PluginDemo
         public PluginPaginationResponse<DemoPluginRawData> GetDataForDemoList(PluginRequestInfo request)
         {
             var list = ParallelEnumerable.Range(0, 1000)
-                .Select(i => new DemoPluginRawData() { Id = i, Name = "demo data " + i.ToString() })
+                .Select(i => new DemoPluginRawData() { Id = i, Name = "demo data " + i.ToString(), Type = (DemoEnumType)(i % 3) })
                 .ToList();
 
             var keyword = request.GetParameterValue<string>("keyword");

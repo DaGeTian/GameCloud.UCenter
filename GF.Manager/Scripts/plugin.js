@@ -1,4 +1,4 @@
-﻿var $enums = null;
+﻿var $enums = $enums || {};
 (function (enums) {
 
     var gender = {};
@@ -15,6 +15,10 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
     .filter('enums', function () {
         return function (input, enumName) {
             var items = $enums[enumName];
+            if (!items) {
+                return input;
+            }
+
             if (typeof (input) === 'number') {
                 return items[input];
             } else {

@@ -32,5 +32,11 @@ namespace GF.Manager.Models
 
             return this.Items.FirstOrDefault(i => i.Name == itemName);
         }
+
+        [DataMember(Name = "scripts")]
+        public List<string> Scripts { get; set; }
+
+        [DataMember(Name = "styles")]
+        public List<string> Styles { get; set; }
     }
 }

@@ -42,10 +42,18 @@ namespace GF.Manager.Controllers
         }
 
         [HttpGet]
-        public ActionResult Plugin()
+        public ActionResult Plugin(string name)
         {
+            Plugin plugin = null;
+            if (!string.IsNullOrEmpty(name))
+            {
+                plugin = this.Manager.Plugins.FirstOrDefault(p => p.Name.ToLowerInvariant() == name);
+            }
+
+            ViewBag.PluginName = name;
+
             // var plugin = await this.manager.GetPlugin(this.CurrentUser.Name, name, token);
-            return View();
+            return View(plugin);
         }
 
         public ActionResult Login()

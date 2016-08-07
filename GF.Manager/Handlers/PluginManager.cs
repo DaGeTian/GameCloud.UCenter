@@ -22,9 +22,10 @@ namespace GF.Manager.Handlers
     {
         private IReadOnlyList<Plugin> plugins;
         private DateTime lastUpdateTime = DateTime.MinValue;
-        private TimeSpan updateInterval = TimeSpan.FromMinutes(10);
+        private TimeSpan updateInterval = TimeSpan.FromMinutes(1);
+        private readonly object locker = new object();
         private readonly ConcurrentDictionary<string, PluginHandler> handlers = new ConcurrentDictionary<string, PluginHandler>();
-        private readonly Regex manifestRegex = new Regex(@"manifest\.((?<path>views|scripts)\.)?(?<file>[^.]+\.[^.]+)$");
+        private readonly Regex manifestRegex = new Regex(@"manifest\.((?<path>views|scripts|styles)\.)?(?<file>[^.]+\.[^.]+)$");
         private readonly DatabaseContext context;
 
         [ImportingConstructor]
@@ -37,9 +38,16 @@ namespace GF.Manager.Handlers
         {
             get
             {
-                if (this.plugins == null)
+                if (this.plugins == null || (DateTime.UtcNow - this.lastUpdateTime) > this.updateInterval)
                 {
-                    this.plugins = this.LoadPlugins();
+                    lock (locker)
+                    {
+                        if (this.plugins == null || (DateTime.UtcNow - this.lastUpdateTime) > this.updateInterval)
+                        {
+                            this.plugins = this.LoadPlugins();
+                            this.lastUpdateTime = DateTime.UtcNow;
+                        }
+                    }
                 }
 
                 return this.plugins;
@@ -81,6 +89,10 @@ namespace GF.Manager.Handlers
 
                     return null;
                 }
+                else if (entryPoints.Count == 0)
+                {
+                    return null;
+                }
 
                 var entryPoint = entryPoints[0];
 
@@ -91,15 +103,16 @@ namespace GF.Manager.Handlers
                     return null;
                 }
 
-                this.InitPluginManifest(pluginAttribute.Name, manifestPath, assembly);
-
                 Plugin plugin = new Plugin();
-                plugin.EntryPoint = Activator.CreateInstance(entryPoint) as PluginEntryPoint;
+                plugin.Scripts = new List<string>();
+                plugin.Styles = new List<string>();
                 plugin.Name = pluginAttribute.Name;
                 plugin.DisplayName = pluginAttribute.DisplayName;
                 plugin.Description = pluginAttribute.Description;
                 plugin.Items = new List<PluginItem>();
                 plugin.Categories = new List<PluginCategory>();
+                this.InitPluginManifest(plugin, manifestPath, assembly);
+                plugin.EntryPoint = Activator.CreateInstance(entryPoint) as PluginEntryPoint;
 
                 var categoryAttributes = entryPoint.GetCustomAttributes<PluginCategoryMetadataAttribute>();
 
@@ -160,12 +173,12 @@ namespace GF.Manager.Handlers
             }
         }
 
-        private void InitPluginManifest(string pluginName, string manifestPath, Assembly assembly)
+        private void InitPluginManifest(Plugin plugin, string manifestPath, Assembly assembly)
         {
             var resources = assembly.GetManifestResourceNames();
             var assemblyName = assembly.GetName().Name;
 
-            var manifestFolder = Path.Combine(manifestPath, pluginName);
+            var manifestFolder = Path.Combine(manifestPath, plugin.Name);
             foreach (var resource in resources)
             {
                 if (!manifestRegex.IsMatch(resource))
@@ -174,9 +187,20 @@ namespace GF.Manager.Handlers
                 }
 
                 var match = manifestRegex.Match(resource);
-                var path = Path.Combine(manifestFolder, match.Groups["path"].Value);
+                var path = match.Groups["path"].Value;
+                var file = match.Groups["file"].Value;
+                if (path == "scripts")
+                {
+                    plugin.Scripts.Add(file);
+                }
+                else if (path == "styles")
+                {
+                    plugin.Styles.Add(file);
+                }
+
+                path = Path.Combine(manifestFolder, path);
                 Directory.CreateDirectory(path);
-                var filePath = Path.Combine(path, match.Groups["file"].Value);
+                var filePath = Path.Combine(path, file);
                 using (Stream stream = assembly.GetManifestResourceStream(resource))
                 using (StreamReader reader = new StreamReader(stream))
                 {

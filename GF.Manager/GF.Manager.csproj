@@ -178,6 +178,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="plugins\global-config.xml" />
     <Content Include="plugins\texaspoker\views\bot-search.html" />
     <Content Include="plugins\texaspoker\views\player-search.html" />
     <Content Include="plugins\_templates\views\category.html" />

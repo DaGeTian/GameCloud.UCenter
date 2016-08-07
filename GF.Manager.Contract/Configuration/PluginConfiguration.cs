@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,16 @@ namespace GF.Manager.Contract.Configuration
 {
     public class PluginConfiguration
     {
-        private readonly string configFile;
+        private readonly string defaultConfigFile;
+        private readonly string gloablConfigFile;
+        private readonly string pluginName;
 
-        public PluginConfiguration(string configFile)
+        public PluginConfiguration(string pluginName)
         {
-            this.configFile = configFile;
+            string rootPath = Path.Combine(HttpRuntime.AppDomainAppPath, "plugins");
+            this.defaultConfigFile = Path.Combine(rootPath, pluginName, "config.xml");
+            this.gloablConfigFile = Path.Combine(rootPath, "global-config.xml");
+            this.pluginName = pluginName;
             this.Init();
         }
 
@@ -41,25 +47,37 @@ namespace GF.Manager.Contract.Configuration
 
         private void Init()
         {
-            var settings = new List<PluginSetting>();
-            if (File.Exists(this.configFile))
-            {
-                XDocument doc = XDocument.Load(this.configFile);
-                doc.XPathSelectElements("configuration/settings/setting")
-                    .ToList()
-                    .ForEach(e =>
-                {
-                    var setting = new PluginSetting()
-                    {
-                        Key = e.Attribute("key").Value,
-                        Value = e.Attribute("value").Value
-                    };
+            var defaultSettings = this.GetSettings(this.defaultConfigFile, @"configuration/settings/setting");
+            var globalSettings = this.GetSettings(this.gloablConfigFile, string.Format(CultureInfo.InvariantCulture, @"plugins/plugin[@name='{0}']/settings/setting", this.pluginName));
 
-                    settings.Add(setting);
-                });
-            }
+            var settings = globalSettings
+                .Concat(defaultSettings.Where(s => !globalSettings.Any(gs => gs.Key == s.Key)))
+                .ToList();
 
             this.Settings = settings;
+        }
+
+        private IReadOnlyList<PluginSetting> GetSettings(string filePath, string xpath)
+        {
+            var settings = new List<PluginSetting>();
+            if (File.Exists(filePath))
+            {
+                XDocument doc = XDocument.Load(filePath);
+                doc.XPathSelectElements(xpath)
+                    .ToList()
+                    .ForEach(e =>
+                    {
+                        var setting = new PluginSetting()
+                        {
+                            Key = e.Attribute("key").Value,
+                            Value = e.Attribute("value").Value
+                        };
+
+                        settings.Add(setting);
+                    });
+            }
+
+            return settings;
         }
     }
 }

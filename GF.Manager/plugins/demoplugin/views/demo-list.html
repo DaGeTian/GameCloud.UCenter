@@ -1,15 +1,16 @@
-<h1>{{data.Description}}</h1>
 <table class="table table-bordered table-striped table-condensed">
     <thead>
         <tr>
             <th>ID</th>
             <th>名称</th>
+            <th>类型</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="row in data.raws">
             <td>{{row.Id}}</td>
             <td>{{row.Name}}</td>
+            <td>{{row.Type|enums:'demoTypeEnum'}}</td>
         </tr>
     </tbody>
 </table>

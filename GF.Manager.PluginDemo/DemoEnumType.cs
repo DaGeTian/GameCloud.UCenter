@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GF.Manager.PluginDemo
 {
-    public class DemoPluginRawData
+    public enum DemoEnumType
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DemoEnumType Type { get; set; }
+        Type1,
+        Type2,
+        Type3
     }
 }
