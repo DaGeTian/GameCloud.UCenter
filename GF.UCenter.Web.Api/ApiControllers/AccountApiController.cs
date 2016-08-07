@@ -81,6 +81,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     AccountName = info.AccountName,
+                    AccountStatus = AccountStatus.Active,
                     IsGuest = false,
                     Name = info.Name,
                     Email = info.Email,
@@ -178,6 +179,10 @@ namespace GF.UCenter.Web.Api.ApiControllers
             {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
+            if (account.AccountStatus == AccountStatus.Disabled)
+            {
+                throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
+            }
 
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
             {
@@ -220,6 +225,7 @@ namespace GF.UCenter.Web.Api.ApiControllers
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = accountName,
+                AccountStatus = AccountStatus.Active,
                 IsGuest = true,
                 Password = EncryptHashManager.ComputeHash(password),
                 Token = EncryptHashManager.GenerateToken()

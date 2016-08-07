@@ -13,6 +13,9 @@
         public string AccountName { get; set; }
 
         [DataMember]
+        public AccountStatus AccountStatus { get; set; }
+
+        [DataMember]
         public string Password { get; set; }
 
         [DataMember]

@@ -17,6 +17,11 @@ namespace GF.UCenter.Database
         public string AccountName { get; set; }
 
         /// <summary>
+        /// Gets or sets the status
+        /// </summary>
+        public AccountStatus AccountStatus { get; set; }
+
+        /// <summary>
         /// Gets or sets the password.
         /// </summary>
         public string Password { get; set; }

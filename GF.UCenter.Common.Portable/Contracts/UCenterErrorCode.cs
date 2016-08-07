@@ -39,6 +39,11 @@
         /// </summary>
         AccountLoginFailedTokenNotMatch,
 
+        /// <summary>
+        /// 登陆，账号已禁用
+        /// </summary>
+        AccountLoginFailedDisabled,
+
         AppNotExit = 3000,
 
         /// <summary>

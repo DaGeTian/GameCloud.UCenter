@@ -12,6 +12,9 @@
         public string AccountName { get; set; }
 
         [DataMember]
+        public AccountStatus AccountStatus { get; set; }
+
+        [DataMember]
         public string Name { get; set; }
 
         [DataMember]
@@ -36,6 +39,7 @@
         {
             this.AccountId = account.AccountId;
             this.AccountName = account.AccountName;
+            this.AccountStatus = account.AccountStatus;
             this.Name = account.Name;
             this.ProfileImage = account.ProfileImage;
             this.ProfileThumbnail = account.ProfileThumbnail;
