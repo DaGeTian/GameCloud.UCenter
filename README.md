@@ -4,17 +4,19 @@
 [![forks badge]][forks]
 [![issues badge]][issues]
 
-GF（Game Framework）是基于Unity3D，Orleans，Couchbase的全球大服，全球同服手游整体解决方案。
+GameCloud专注于提供手游PaaS解决方案，推动游戏项目的闪电开发和智能运营。
 
-## GF项目地址
-- https://github.com/CragonGame/GF.Core
-- https://github.com/CragonGame/GF.UCenter
+## GameCloud项目地址
+- https://github.com/CragonGame/GF.Unity 
+- https://github.com/CragonGame/GF.Orleans 
+- https://github.com/CragonGame/GF.IM 
+- https://github.com/CragonGame/GF.UCenter 
+- https://github.com/CragonGame/GF.Manager 
 
 ## GF第三方依赖
 - http://unity3d.com
 - http://dotnet.github.io/orleans
-- http://www.couchbase.com
-- https://azure.microsoft.com/zh-cn/
+- https://www.mongodb.com/
 
 ## License
 [MIT](/LICENSE)
