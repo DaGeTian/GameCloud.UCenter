@@ -79,7 +79,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>robocopy $(ProjectDir) $(SolutionDir)GF.UCenter.SDK.Unity3D\Assets\GF.Unity.UCenter\Common\  /mir /xd bin /xd obj /xd Properties /xf GF.UCenter.Common.Portable.csproj
+    <PostBuildEvent>robocopy $(ProjectDir) $(SolutionDir)GameCloud.UCenter.SDK.Unity3D\Assets\GameCloud.Unity.UCenter\Common\  /mir /xd bin /xd obj /xd Properties /xf GameCloud.UCenter.Common.Portable.csproj
 exit 0</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
