@@ -1,6 +1,6 @@
-﻿
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GF.UCenter.SDK.Sample
+namespace GameCloud.UCenter.SDK.Sample
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace GF.UCenter.SDK.Sample
 
     public class EtSampleApp : EntityDef
     {
-        //-------------------------------------------------------------------------
+        //----------------------------------------------------------------------
         public override void declareAllComponent(byte node_type)
         {
             declareComponent<DefSampleApp>();

@@ -1,6 +1,6 @@
-﻿
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GF.UCenter.SDK.Sample
+namespace GameCloud.UCenter.SDK.Sample
 {
     using System;
     using System.Collections.Generic;
@@ -8,10 +8,10 @@ namespace GF.UCenter.SDK.Sample
     using System.Text;
     using UnityEngine;
     using GF.Unity.Common;
-    using GF.UCenter.Common.Portable.Contracts;
-    using GF.UCenter.Common.Portable.Models.AppClient;
-    using GF.UCenter.Common.Portable.Models.Ip;
-    using GF.UCenter.SDK.Unity;
+    using GameCloud.UCenter.Common.Portable.Contracts;
+    using GameCloud.UCenter.Common.Portable.Models.AppClient;
+    using GameCloud.UCenter.Common.Portable.Models.Ip;
+    using GameCloud.UCenter.SDK.Unity;
 
     public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, new()
     {
@@ -57,7 +57,7 @@ namespace GF.UCenter.SDK.Sample
             convert_info.OldPassword = "";
             convert_info.Password = "";
             convert_info.SuperPassword = "";
-            convert_info.Sex = Sex.Unknown;
+            convert_info.Gender = Gender.DeclineToState;
             convert_info.Name = "";
             convert_info.IdentityNum = "";
             convert_info.PhoneNum = "";

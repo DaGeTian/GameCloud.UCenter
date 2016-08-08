@@ -1,6 +1,6 @@
-﻿
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GF.UCenter.SDK.Sample
+namespace GameCloud.UCenter.SDK.Sample
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace GF.UCenter.SDK.Sample
 
     public class DefSampleApp : ComponentDef
     {
-        //-------------------------------------------------------------------------
+        //---------------------------------------------------------------------
         public override void defAllProp(Dictionary<string, string> map_param)
         {
         }
