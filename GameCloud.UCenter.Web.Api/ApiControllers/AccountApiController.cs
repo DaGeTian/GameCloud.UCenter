@@ -65,7 +65,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             if (!ValidateAccountName(info.AccountName))
             {
-                // TODO: Change to AccountRegisterFailedInvalidName in next client refresh
                 throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
             }
 
@@ -77,6 +76,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 if (account != null)
                 {
+                    await this.TraceUCenterErrorAsync(
+                         account,
+                         UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+                         "The account name is already registered",
+                         token);
+
                     throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
                 }
 
@@ -180,17 +185,30 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             if (account == null)
             {
+                await this.TraceUCenterErrorAsync(
+                     account,
+                     UCenterErrorCode.AccountLoginFailedDisabled,
+                     "The account does not exist",
+                     token);
+
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
             if (account.AccountStatus == AccountStatus.Disabled)
             {
+                await this.TraceUCenterErrorAsync(
+                     account,
+                     UCenterErrorCode.AccountLoginFailedDisabled,
+                     "The account is disabled",
+                     token);
+
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
+
             }
 
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
             {
-                await this.RecordLogin(
+                await this.TraceUCenterErrorAsync(
                     account,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The account name and password do not match",
@@ -202,7 +220,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             account.LastLoginDateTime = DateTime.UtcNow;
             account.Token = EncryptHashManager.GenerateToken();
             await this.Database.Accounts.UpsertAsync(account, token);
-            await this.RecordLogin(account, UCenterErrorCode.Success, token: token);
+            this.TraceAccountEventAsync(account, "Login", token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(account));
         }
@@ -236,6 +254,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             };
 
             await this.Database.Accounts.InsertAsync(account, token);
+            await this.TraceAccountEventAsync(account, "GuestLogin", token: token);
 
             var response = new AccountGuestLoginResponse
             {
@@ -256,7 +275,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("convert")]
-        public async Task<IHttpActionResult> Convert([FromBody] AccountConvertInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> GuestConvert([FromBody] AccountConvertInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
 
@@ -264,7 +283,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             if (!EncryptHashManager.VerifyHash(info.OldPassword, account.Password))
             {
-                await this.RecordLogin(
+                await this.TraceUCenterErrorAsync(
                     account,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The account name and password do not match",
@@ -283,8 +302,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             account.Email = info.Email;
             account.Gender = info.Gender;
             await this.Database.Accounts.UpsertAsync(account, token);
+            await this.TraceAccountEventAsync(account, "GuestConvert", token: token);
 
-            await this.RecordLogin(account, UCenterErrorCode.Success, "Account converted successfully.", token);
             return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
         }
 
@@ -308,7 +327,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             if (!EncryptHashManager.VerifyHash(info.SuperPassword, account.SuperPassword))
             {
-                await this.RecordLogin(
+                await this.TraceUCenterErrorAsync(
                     account,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The super password provided is incorrect",
@@ -319,7 +338,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             account.Password = EncryptHashManager.ComputeHash(info.Password);
             await this.Database.Accounts.UpsertAsync(account, token);
-            await this.RecordLogin(account, UCenterErrorCode.Success, "Reset password successfully.", token);
+            await this.TraceAccountEventAsync(account, "ResetPassword", token: token);
+
             return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(account));
         }
 
@@ -352,16 +372,16 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
                 await this.Database.Accounts.UpsertAsync(account, token);
-                await this.RecordLogin(account, UCenterErrorCode.Success, "Profile image uploaded successfully.", token);
-                return this.CreateSuccessResult(
-                    this.ToResponse<AccountUploadProfileImageResponse>(account));
+                await this.TraceAccountEventAsync(account, "UploadProfileImage", token: token);
+
+                return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
         }
 
-        private async Task RecordLogin(
+        private async Task TraceUCenterErrorAsync(
             AccountEntity account,
             UCenterErrorCode code,
-            string comments = null,
+            string message = null,
             CancellationToken token = default(CancellationToken))
         {
             var clientIp = IPHelper.GetClientIpAddress(Request);
@@ -380,20 +400,55 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 area = string.Empty;
             }
 
-            var record = new LoginRecordEntity
+            var errorEvent = new ErrorEventEntity()
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = account.AccountName,
                 AccountId = account.Id,
                 Code = code,
-                LoginTime = DateTime.UtcNow,
-                UserAgent = Request.Headers.UserAgent.ToString(),
                 ClientIp = clientIp,
                 LoginArea = area,
-                Comments = comments
+                Message = message
             };
 
-            await this.Database.LoginRecords.InsertAsync(record, token);
+            await this.Database.ErrorEvents.InsertAsync(errorEvent, token);
+        }
+
+        private async Task TraceAccountEventAsync(
+            AccountEntity account,
+            string eventName,
+            string message = null,
+            CancellationToken token = default(CancellationToken))
+        {
+            var clientIp = IPHelper.GetClientIpAddress(Request);
+            var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
+            string area;
+            if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
+            {
+                area = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}-{1}",
+                    ipInfoResponse.Content.Country,
+                    ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
+            }
+            else
+            {
+                area = string.Empty;
+            }
+
+            var accountEvent = new AccountEventEntity
+            {
+                Id = Guid.NewGuid().ToString(),
+                AccountName = account.AccountName,
+                AccountId = account.Id,
+                EventName = eventName,
+                ClientIp = clientIp,
+                LoginArea = area,
+                UserAgent = Request.Headers.UserAgent.ToString(),
+                Message = message
+            };
+
+            await this.Database.AccountEvents.InsertAsync(accountEvent, token);
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
@@ -401,6 +456,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
             if (account == null)
             {
+                await this.TraceUCenterErrorAsync(
+                     account,
+                     UCenterErrorCode.AccountNotExist,
+                     "The account does not exist",
+                     token);
+
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 

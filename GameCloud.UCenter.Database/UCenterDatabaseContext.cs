@@ -84,11 +84,22 @@ namespace GameCloud.UCenter.Database
         /// <summary>
         /// Gets the login record adapter.
         /// </summary>
-        public ICollectionAdapter<LoginRecordEntity> LoginRecords
+        public ICollectionAdapter<ErrorEventEntity> ErrorEvents
         {
             get
             {
-                return this.GetAdapter<LoginRecordEntity>();
+                return this.GetAdapter<ErrorEventEntity>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the login record adapter.
+        /// </summary>
+        public ICollectionAdapter<AccountEventEntity> AccountEvents
+        {
+            get
+            {
+                return this.GetAdapter<AccountEventEntity>();
             }
         }
     }
