@@ -18,13 +18,13 @@
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
-    <Id>GF.UCenter.SDK.AppServer</Id>
+    <Id>GameCloud.UCenter.SDK.AppServer</Id>
     <Version>1.00.001</Version>
-    <Title>GF.UCenter.SDK.AppServer</Title>
+    <Title>GameCloud.UCenter.SDK.AppServer</Title>
     <Authors>Cragon</Authors>
     <Owners>Cragon</Owners>
-    <Summary>GF.UCenter.SDK.AppServer</Summary>
-    <Description>GF.UCenter.SDK.AppServer</Description>
+    <Summary>GameCloud.UCenter.SDK.AppServer</Summary>
+    <Description>GameCloud.UCenter.SDK.AppServer</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
@@ -32,13 +32,13 @@
     <LicenseUrl>
     </LicenseUrl>
     <Copyright>Copyright © Cragon</Copyright>
-    <Tags>GF.UCenter.SDK.AppServer</Tags>
+    <Tags>GameCloud.UCenter.SDK.AppServer</Tags>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GF.UCenter.SDK.AppServer\GF.UCenter.SDK.AppServer.csproj" />
+    <ProjectReference Include="..\..\GameCloud.UCenter.SDK.AppServer\GameCloud.UCenter.SDK.AppServer.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
