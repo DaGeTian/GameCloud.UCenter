@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <settings>
-    <setting key="ConnectionString" value="mongodb://42.159.147.100:27017" />
-    <setting key="DatabaseName" value="ucenter_test" />
-  </settings>
-</configuration>

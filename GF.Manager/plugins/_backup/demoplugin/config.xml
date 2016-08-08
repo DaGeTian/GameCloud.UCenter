@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <settings>
-    <setting key="ConnectionString" value="demo-connection-string-value" />
-    <setting key="DatabaseName" value="demo-database-name-value" />
-  </settings>
-</configuration>

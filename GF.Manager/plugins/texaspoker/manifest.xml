@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Root Name="Demo plugin" Description="Manager plugin demo" Url="">
-  <Collections>
-    <Collection Name="player-manager" DisplayName="玩家管理">
-      <Item Name="player-search" DisplayName="玩家查询" Type="List" View="player-search.html"></Item>
-      <Item Name="bot-search" DisplayName="机器人查询" Type="List" View="bot-search.html"></Item>
-    </Collection>
-  </Collections>
-</Root>

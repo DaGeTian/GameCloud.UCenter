@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<plugins>
-  <plugin name="demoplugin">
-    <settings>
-      <setting key="ConnectionString" value="demo plugin connection string in global settings." />
-      <setting key="DatabaseName" value="demo plugin database name in global settings." />
-    </settings>
-  </plugin>
-</plugins>
