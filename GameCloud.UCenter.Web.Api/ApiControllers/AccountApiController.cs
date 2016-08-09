@@ -203,7 +203,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                      token);
 
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
-
             }
 
             if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
@@ -421,20 +420,20 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             CancellationToken token = default(CancellationToken))
         {
             var clientIp = IPHelper.GetClientIpAddress(Request);
-            var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
-            string area;
-            if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
-            {
-                area = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}-{1}",
-                    ipInfoResponse.Content.Country,
-                    ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
-            }
-            else
-            {
-                area = string.Empty;
-            }
+            //var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
+            //string area;
+            //if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
+            //{
+            //    area = string.Format(
+            //        CultureInfo.InvariantCulture,
+            //        "{0}-{1}",
+            //        ipInfoResponse.Content.Country,
+            //        ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
+            //}
+            //else
+            //{
+            //    area = string.Empty;
+            //}
 
             var accountEvent = new AccountEventEntity
             {
@@ -443,7 +442,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 AccountId = account.Id,
                 EventName = eventName,
                 ClientIp = clientIp,
-                LoginArea = area,
+                LoginArea = string.Empty,
                 UserAgent = Request.Headers.UserAgent.ToString(),
                 Message = message
             };

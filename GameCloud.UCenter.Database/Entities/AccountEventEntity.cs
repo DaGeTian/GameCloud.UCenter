@@ -6,7 +6,7 @@ using GameCloud.UCenter.Common.Portable.Contracts;
 namespace GameCloud.UCenter.Database.Entities
 {
     /// <summary>
-    /// Provide a login record class.
+    /// Provide an account event entity class.
     /// </summary>
     [CollectionName("AccountEvent")]
     public class AccountEventEntity : EntityBase

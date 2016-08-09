@@ -6,7 +6,7 @@ using GameCloud.UCenter.Common.Portable.Contracts;
 namespace GameCloud.UCenter.Database.Entities
 {
     /// <summary>
-    /// Provide a login record class.
+    /// Provide an error event entity class
     /// </summary>
     [CollectionName("ErrorEvent")]
     public class ErrorEventEntity : EntityBase

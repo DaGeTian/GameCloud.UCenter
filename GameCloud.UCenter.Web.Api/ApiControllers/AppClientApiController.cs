@@ -44,7 +44,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// </summary>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [HttpPost]
+        [HttpGet]
         [Route("ip")]
         public async Task<IHttpActionResult> GetClientIpArea(CancellationToken token)
         {
