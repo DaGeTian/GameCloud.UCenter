@@ -4,7 +4,7 @@ namespace GameCloud.UCenter.SDK.Unity
 {
     using System;
     using System.Collections.Generic;
-    using GF.Unity.Common;
+    using GameCloud.Unity.Common;
 
     public class EtUCenterSDK : EntityDef
     {

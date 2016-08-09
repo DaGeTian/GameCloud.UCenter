@@ -7,7 +7,7 @@ namespace GameCloud.UCenter.SDK.Sample
     using System.IO;
     using System.Text;
     using UnityEngine;
-    using GF.Unity.Common;
+    using GameCloud.Unity.Common;
     using GameCloud.UCenter.Common.Portable.Contracts;
     using GameCloud.UCenter.Common.Portable.Models.AppClient;
     using GameCloud.UCenter.Common.Portable.Models.Ip;

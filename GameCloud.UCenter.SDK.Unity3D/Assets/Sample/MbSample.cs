@@ -4,7 +4,7 @@ namespace GameCloud.UCenter.SDK.Sample
 {
     using UnityEngine;
     using System.Collections;
-    using GF.Unity.Common;
+    using GameCloud.Unity.Common;
     using GameCloud.UCenter.SDK.Unity;
 
     public class EcSampleListener : IEcEngineListener
