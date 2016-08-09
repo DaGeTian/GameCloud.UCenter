@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3739162B-9473-44C4-9DDE-76824D893C67}"
 EndProject
@@ -30,6 +30,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{5298C047-C9A3-4F5F-B8D8-D83530BC5E6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{EED754DD-5382-4B4D-BAB0-90B9B44EC830}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{CB6B13FA-E010-476C-8A9B-2352F6651949}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "GameCloud.UCenter.SDK.AppServer", "NuGet\GameCloud.UCenter.SDK.AppServer\GameCloud.UCenter.SDK.AppServer.nuproj", "{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +77,10 @@ Global
 		{A0CB1D60-827B-4702-8B50-4CB11889D656}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CB1D60-827B-4702-8B50-4CB11889D656}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CB1D60-827B-4702-8B50-4CB11889D656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +95,6 @@ Global
 		{4367DCAA-97AF-4710-A12F-8139C48DD9E6} = {5298C047-C9A3-4F5F-B8D8-D83530BC5E6F}
 		{004E44F3-934B-47CA-99E5-9CD38AA32EF0} = {5298C047-C9A3-4F5F-B8D8-D83530BC5E6F}
 		{A0CB1D60-827B-4702-8B50-4CB11889D656} = {EED754DD-5382-4B4D-BAB0-90B9B44EC830}
+		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B} = {CB6B13FA-E010-476C-8A9B-2352F6651949}
 	EndGlobalSection
 EndGlobal
