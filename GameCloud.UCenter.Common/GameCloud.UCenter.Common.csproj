@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EncryptHashManager.cs" />
+    <Compile Include="IP\IPHelper.cs" />
     <Compile Include="MEF\CompositionContainerFactory.cs" />
     <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Dumper\DebugWritter.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\RSACryptoServiceProviderExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="IP\IPHelper.cs" />
     <Compile Include="Models\AppClient\AccountRegisterRequestInfo.cs" />
     <Compile Include="Dumper\ObjectDumper.cs" />
     <Compile Include="Models\AppServer\AppConfigurationInfo.cs" />

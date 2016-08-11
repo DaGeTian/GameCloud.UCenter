@@ -16,7 +16,6 @@ using GameCloud.UCenter.Common.Models.AppClient;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
-using GameCloud.UCenter.Common.Portable.Models.Ip;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
@@ -384,20 +383,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             CancellationToken token = default(CancellationToken))
         {
             var clientIp = IPHelper.GetClientIpAddress(Request);
-            var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
-            string area;
-            if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
-            {
-                area = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}-{1}",
-                    ipInfoResponse.Content.Country,
-                    ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
-            }
-            else
-            {
-                area = string.Empty;
-            }
 
             var errorEvent = new ErrorEventEntity()
             {
@@ -406,7 +391,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 AccountId = account.Id,
                 Code = code,
                 ClientIp = clientIp,
-                LoginArea = area,
+                LoginArea = string.Empty,
                 Message = message
             };
 
@@ -420,20 +405,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             CancellationToken token = default(CancellationToken))
         {
             var clientIp = IPHelper.GetClientIpAddress(Request);
-            //var ipInfoResponse = await IPHelper.GetIPInfoAsync(clientIp, CancellationToken.None);
-            //string area;
-            //if (ipInfoResponse != null && ipInfoResponse.Code == IPInfoResponseCode.Success)
-            //{
-            //    area = string.Format(
-            //        CultureInfo.InvariantCulture,
-            //        "{0}-{1}",
-            //        ipInfoResponse.Content.Country,
-            //        ipInfoResponse.Content.City ?? ipInfoResponse.Content.County);
-            //}
-            //else
-            //{
-            //    area = string.Empty;
-            //}
 
             var accountEvent = new AccountEventEntity
             {
