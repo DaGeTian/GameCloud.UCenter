@@ -94,8 +94,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     Name = info.Name,
                     Email = info.Email,
                     IdentityNum = info.IdentityNum,
-                    Password = EncryptHashManager.ComputeHash(info.Password),
-                    SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword),
+                    Password = EncryptHelper.ComputeHash(info.Password),
+                    SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword),
                     PhoneNum = info.PhoneNum,
                     Gender = info.Gender
                 };
@@ -205,7 +205,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
             }
 
-            if (!EncryptHashManager.VerifyHash(info.Password, account.Password))
+            if (!EncryptHelper.VerifyHash(info.Password, account.Password))
             {
                 await this.TraceUCenterErrorAsync(
                     account,
@@ -248,7 +248,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 AccountName = accountName,
                 AccountStatus = AccountStatus.Active,
                 IsGuest = true,
-                Password = EncryptHashManager.ComputeHash(password),
+                Password = EncryptHelper.ComputeHash(password),
                 Token = EncryptHashManager.GenerateToken()
             };
 
@@ -280,7 +280,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
 
-            if (!EncryptHashManager.VerifyHash(info.OldPassword, account.Password))
+            if (!EncryptHelper.VerifyHash(info.OldPassword, account.Password))
             {
                 await this.TraceUCenterErrorAsync(
                     account,
@@ -295,8 +295,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             account.IsGuest = false;
             account.Name = info.Name;
             account.IdentityNum = info.IdentityNum;
-            account.Password = EncryptHashManager.ComputeHash(info.Password);
-            account.SuperPassword = EncryptHashManager.ComputeHash(info.SuperPassword);
+            account.Password = EncryptHelper.ComputeHash(info.Password);
+            account.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
             account.PhoneNum = info.PhoneNum;
             account.Email = info.Email;
             account.Gender = info.Gender;
@@ -324,7 +324,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-            if (!EncryptHashManager.VerifyHash(info.SuperPassword, account.SuperPassword))
+            if (!EncryptHelper.VerifyHash(info.SuperPassword, account.SuperPassword))
             {
                 await this.TraceUCenterErrorAsync(
                     account,
@@ -335,7 +335,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
-            account.Password = EncryptHashManager.ComputeHash(info.Password);
+            account.Password = EncryptHelper.ComputeHash(info.Password);
             await this.Database.Accounts.UpsertAsync(account, token);
             await this.TraceAccountEventAsync(account, "ResetPassword", token: token);
 

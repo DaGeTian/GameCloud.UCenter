@@ -17,10 +17,9 @@ namespace GameCloud.UCenter.Test
         public void TestEncryptAndCompare()
         {
             string password = Guid.NewGuid().ToString();
-            var hash = EncryptHashManager.ComputeHash(password);
-            CustomTrace.TraceInformation("Hash code is: {0}", hash);
-            Assert.IsFalse(EncryptHashManager.VerifyHash(Guid.NewGuid().ToString(), hash));
-            Assert.IsTrue(EncryptHashManager.VerifyHash(password, hash));
+            var hash = EncryptHelper.SHA256(password);
+            Assert.IsTrue(EncryptHelper.VerifyHash(password, hash));
+            Assert.IsFalse(EncryptHelper.VerifyHash(Guid.NewGuid().ToString(), hash));
         }
 
         [TestMethod]

@@ -61,12 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncryptHashManager.cs" />
     <Compile Include="MEF\CompositionContainerFactory.cs" />
     <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Dumper\DebugWritter.cs" />
     <Compile Include="Dumper\DumperToAttribute.cs" />
     <Compile Include="Dumper\ObjectDumperExtension.cs" />
-    <Compile Include="EncryptHashManager.cs" />
     <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\RSACryptoServiceProviderExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -86,6 +86,7 @@
     <Compile Include="Models\AppServer\AccountLoginAppInfo.cs" />
     <Compile Include="Models\AppServer\AccountLoginAppResponse.cs" />
     <Compile Include="SDK\UCenterHttpClient.cs" />
+    <Compile Include="EncryptHelper.cs" />
     <Compile Include="Settings\AppConfigurationValueProvider.cs" />
     <Compile Include="Settings\ISettingsValueProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
