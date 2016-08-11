@@ -10,5 +10,8 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 
         [DataMember]
         public string Password { get; set; }
+
+        [DataMember]
+        public DeviceInfo Device { get; set; }
     }
 }
