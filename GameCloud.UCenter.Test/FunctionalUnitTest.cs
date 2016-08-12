@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common;
+using GameCloud.UCenter.Common.IP;
 using GameCloud.UCenter.Test.E2ETest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

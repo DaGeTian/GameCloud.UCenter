@@ -1,10 +1,11 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System.ComponentModel.Composition;
+using System.Web.Http;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Web.Common.Filters;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Api.ApiControllers
 {
-    using System.ComponentModel.Composition;
-    using System.Web.Http;
-
     /// <summary>
     /// API controller base class
     /// </summary>

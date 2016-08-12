@@ -1,11 +1,9 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System;
+using GameCloud.Database;
+using GameCloud.Database.Attributes;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Database.Entities
 {
-    using System;
-    using GameCloud.Database;
-    using GameCloud.Database.Attributes;
-
     /// <summary>
     /// Provide an order entity.
     /// </summary>

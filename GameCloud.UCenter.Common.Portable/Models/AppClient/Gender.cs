@@ -1,6 +1,4 @@
-﻿// Copyright(c) Cragon.All rights reserved.
-
-namespace GameCloud.UCenter
+﻿namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
     public enum Gender
     {

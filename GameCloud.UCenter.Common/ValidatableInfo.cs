@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common
 {
     // todo: 由于无法跨平台，所以暂时移除
     public abstract class ValidatableInfo

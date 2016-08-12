@@ -3,9 +3,9 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.Extensions;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common
 {
     public static class EncryptHashManager
     {

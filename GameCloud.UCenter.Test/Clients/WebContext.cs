@@ -3,7 +3,9 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.MEF;
+using GameCloud.UCenter.Web.Common;
+using GameCloud.UCenter.Web.Common.Logger;
 
 namespace GameCloud.UCenter.Test.Clients
 {

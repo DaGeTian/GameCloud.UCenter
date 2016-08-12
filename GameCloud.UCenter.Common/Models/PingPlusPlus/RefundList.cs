@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.PingPlusPlus
 {
     public class RefundList
     {

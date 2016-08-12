@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using GameCloud.UCenter.Dumper;
+using GameCloud.UCenter.Common.Dumper;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.AppServer
 {
     [DataContract]
     public class AppInfo

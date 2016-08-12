@@ -1,10 +1,11 @@
 ﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.SDK.Sample
 {
     using UnityEngine;
     using System.Collections;
     using GameCloud.Unity.Common;
+    using GameCloud.UCenter.SDK.Unity;
 
     public class EcSampleListener : IEcEngineListener
     {

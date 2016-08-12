@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.Models.AppServer;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
+using GameCloud.UCenter.SDK.AppClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test.E2ETest
@@ -15,15 +17,15 @@ namespace GameCloud.UCenter.Test.E2ETest
         protected const string InValidAccountPassword = "";
         protected const string InValidAccountToken = "";
 
-        protected UCenterClientSDK acClient;
-        protected UCenterServerSDK asClient;
+        protected SDK.AppClient.UCenterClient acClient;
+        protected SDK.AppServer.UCenterClient asClient;
 
         public UCenterE2ETestBase()
         {
             var settings = ExportProvider.GetExportedValue<Settings>();
             string host = $"http://{settings.ServerHost}:{settings.ServerPort}";
-            this.acClient = new UCenterClientSDK(host);
-            this.asClient = new UCenterServerSDK(host);
+            this.acClient = new UCenterClient(host);
+            this.asClient = new SDK.AppServer.UCenterClient(host);
         }
 
         [TestInitialize]

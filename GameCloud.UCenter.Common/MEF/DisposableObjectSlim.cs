@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.MEF
 {
     public abstract class DisposableObjectSlim : IDisposable
     {

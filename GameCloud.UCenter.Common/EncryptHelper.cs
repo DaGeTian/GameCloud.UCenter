@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common
 {
     /// <summary>
     /// This class is responsible for encryption and decryption.

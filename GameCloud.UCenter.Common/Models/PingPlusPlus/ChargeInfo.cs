@@ -1,9 +1,7 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System.Runtime.Serialization;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.PingPlusPlus
 {
-    using System.Runtime.Serialization;
-
     [DataContract]
     public class ChargeInfo
     {

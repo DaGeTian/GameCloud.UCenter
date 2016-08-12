@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Logger
 {
     /// <summary>
     /// Provide a class for console log adapter.

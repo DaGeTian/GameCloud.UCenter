@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using GameCloud.UCenter.Dumper;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.Dumper;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.AppClient
 {
     [DataContract]
     public class AccountRegisterRequestInfo : AccountRegisterInfo

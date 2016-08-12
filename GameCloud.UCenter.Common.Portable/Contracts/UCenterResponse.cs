@@ -1,10 +1,8 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Portable.Contracts
 {
-    using System.Runtime.Serialization;
-
-    using Newtonsoft.Json;
     [DataContract]
     public class UCenterResponse<TResult> : UCenterResponse
     {

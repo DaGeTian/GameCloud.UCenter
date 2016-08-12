@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Common.Portable.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test.Common

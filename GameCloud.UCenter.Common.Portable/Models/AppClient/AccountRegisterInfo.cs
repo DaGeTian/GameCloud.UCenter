@@ -1,9 +1,7 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System.Runtime.Serialization;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
-    using System.Runtime.Serialization;
-
     [DataContract]
     public class AccountRegisterInfo
     {

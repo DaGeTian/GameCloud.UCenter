@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Extensions
 {
     /// <summary>Extension method for initializing a RSACryptoServiceProvider from PEM data string.</summary>
     public static class RSACryptoServiceProviderExtension

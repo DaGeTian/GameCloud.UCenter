@@ -1,11 +1,9 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.PingPlusPlus
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using Newtonsoft.Json;
-
     [DataContract]
     public class ChargeList
     {

@@ -3,10 +3,11 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using GameCloud.UCenter.Common.Settings;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Storage
 {
     /// <summary>
     /// Provide a class for storage account context.

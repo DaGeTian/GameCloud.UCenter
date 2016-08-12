@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Settings
 {
     [Export]
     public class Settings

@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition.Hosting;
 using System.Globalization;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Logger
 {
     /// <summary>
     /// Provide a class used for custom trace.

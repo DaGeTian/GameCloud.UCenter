@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using GameCloud.UCenter;
+using GameCloud.UCenter.Common.Models.AppServer;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;

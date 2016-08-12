@@ -2,7 +2,7 @@
 
 using System;
 
-namespace GameCloud.UCenter.Dumper
+namespace GameCloud.UCenter.Common.Dumper
 {
     [AttributeUsage(AttributeTargets.All)]
     public class DumperToAttribute : Attribute

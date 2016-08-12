@@ -3,8 +3,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GameCloud.Database.Adapters;
+using GameCloud.UCenter.Common.IP;
+using GameCloud.UCenter.Common.Models.AppServer;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Common.Portable.Exceptions;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
+using GameCloud.UCenter.Common.Settings;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Database.Entities;
+using GameCloud.UCenter.Web.Common.Logger;
+using GameCloud.UCenter.Web.Common.Storage;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Api.ApiControllers
 {
     /// <summary>
     /// UCenter account API controller

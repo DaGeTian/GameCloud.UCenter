@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using NLog;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Logger
 {
     /// <summary>
     /// Provide a log adapter for NLog.

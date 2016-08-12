@@ -6,7 +6,7 @@ using System.Threading;
 using System.Web.Configuration;
 using System.Web.Hosting;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Settings
 {
     public class AppConfigurationValueProvider : ISettingsValueProvider
     {

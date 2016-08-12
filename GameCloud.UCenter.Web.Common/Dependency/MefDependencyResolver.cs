@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Web.Http.Dependencies;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Dependency
 {
     /// <summary>
     /// The MEF dependency resolver

@@ -1,14 +1,18 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
+using GameCloud.Database.Adapters;
+using GameCloud.UCenter.Common.Models.AppServer;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Common.Portable.Exceptions;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Database.Entities;
+using GameCloud.UCenter.Web.Common.Logger;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Api.ApiControllers
 {
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Web.Http;
-    using GameCloud.Database.Adapters;
-
     /// <summary>
     /// UCenter app API controller
     /// </summary>
@@ -190,7 +194,7 @@ namespace GameCloud.UCenter
             CancellationToken token)
         {
             var account = await this.GetAndVerifyAccount(accountId, token);
-
+            
             if (account.Token != accountToken)
             {
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedTokenNotMatch);

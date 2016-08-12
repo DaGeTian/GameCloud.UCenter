@@ -4,7 +4,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Web.Common.Dependency
 {
     /// <summary>
     /// Provide a class for MEF support MVC controller.

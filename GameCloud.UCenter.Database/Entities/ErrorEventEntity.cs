@@ -1,11 +1,10 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using System;
+using GameCloud.Database;
+using GameCloud.Database.Attributes;
+using GameCloud.UCenter.Common.Portable.Contracts;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Database.Entities
 {
-    using System;
-    using GameCloud.Database;
-    using GameCloud.Database.Attributes;
-
     /// <summary>
     /// Provide an error event entity class
     /// </summary>

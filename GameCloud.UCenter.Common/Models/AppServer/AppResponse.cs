@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Common.Models.AppServer
 {
     [DataContract]
     public class AppResponse

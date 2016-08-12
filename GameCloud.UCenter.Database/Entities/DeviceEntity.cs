@@ -1,10 +1,8 @@
-﻿// Copyright(c) Cragon.All rights reserved.
+﻿using GameCloud.Database;
+using GameCloud.Database.Attributes;
 
-namespace GameCloud.UCenter
+namespace GameCloud.UCenter.Database.Entities
 {
-    using GameCloud.Database;
-    using GameCloud.Database.Attributes;
-
     /// <summary>
     /// Provide a class for account document.
     /// </summary>
