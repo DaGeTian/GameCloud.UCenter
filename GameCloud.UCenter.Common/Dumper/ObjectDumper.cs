@@ -9,7 +9,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Serialization;
 using System.Security.Principal;
 
-namespace GameCloud.UCenter.Common.Dumper
+namespace GameCloud.UCenter.Dumper
 {
     ////////////////////////////////////////////////////////////////
     ///

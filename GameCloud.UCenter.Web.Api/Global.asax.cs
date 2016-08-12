@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.Web;
 using System.Web.Http;
-using GameCloud.UCenter.Common.MEF;
-using GameCloud.UCenter.Common.Settings;
-using GameCloud.UCenter.Web.Common;
+using GameCloud.UCenter;
+using GameCloud.UCenter;
+using GameCloud.UCenter;
 
-namespace GameCloud.UCenter.Web.Api
+namespace GameCloud.UCenter
 {
     /// <summary>
     /// MVC Application

@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Common.Extensions;
-using GameCloud.UCenter.Common.Models.PingPlusPlus;
-using GameCloud.UCenter.Common.Portable.Contracts;
-using GameCloud.UCenter.Common.Portable.Exceptions;
-using GameCloud.UCenter.Database;
-using GameCloud.UCenter.Database.Entities;
-using GameCloud.UCenter.Web.Common.Logger;
-using Newtonsoft.Json.Linq;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Web.Api.ApiControllers
+namespace GameCloud.UCenter
 {
-    using Charge = Pingpp.Models.Charge;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using Newtonsoft.Json.Linq;
+    using GameCloud.Database.Adapters;
+    using Charge1 = Pingpp.Models.Charge;
 
     /// <summary>
     /// UCenter payment API controller
@@ -96,7 +90,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     { "app", new Dictionary<string, string> { { "id", appId } } }
                 };
 
-                var charge = Charge.Create(chargeParams);
+                var charge = Charge1.Create(chargeParams);
 
                 return this.CreateSuccessResult(charge);
             }

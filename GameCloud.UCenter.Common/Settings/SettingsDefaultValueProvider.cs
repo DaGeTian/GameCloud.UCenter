@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
-namespace GameCloud.UCenter.Common.Settings
+namespace GameCloud.UCenter
 {
     public class SettingsDefaultValueProvider<TSettings> : ISettingsValueProvider
     {

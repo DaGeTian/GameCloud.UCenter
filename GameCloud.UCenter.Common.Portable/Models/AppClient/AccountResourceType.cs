@@ -1,4 +1,6 @@
-﻿namespace GameCloud.UCenter.Common.Portable.Models.AppClient
+﻿// Copyright(c) Cragon.All rights reserved.
+
+namespace GameCloud.UCenter
 {
     public enum AccountResourceType
     {

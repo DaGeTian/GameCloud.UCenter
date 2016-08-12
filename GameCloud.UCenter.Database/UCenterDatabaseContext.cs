@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using GameCloud.Database;
-using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Database.Entities;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Database
+namespace GameCloud.UCenter
 {
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
+    using GameCloud.Database;
+    using GameCloud.Database.Adapters;
+
     [Export]
     public class UCenterDatabaseContext : DatabaseContext
     {

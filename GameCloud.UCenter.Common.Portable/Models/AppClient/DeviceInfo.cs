@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Common.Portable.Models.AppClient
+namespace GameCloud.UCenter
 {
     public class DeviceInfo
     {

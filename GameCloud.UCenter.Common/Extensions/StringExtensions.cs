@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace GameCloud.UCenter.Common.Extensions
+namespace GameCloud.UCenter
 {
     public static class StringExtensions
     {

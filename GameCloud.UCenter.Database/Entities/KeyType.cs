@@ -1,4 +1,6 @@
-﻿namespace GameCloud.UCenter.Database.Entities
+﻿// Copyright(c) Cragon.All rights reserved.
+
+namespace GameCloud.UCenter
 {
     /// <summary>
     /// provide a Enum for the key placeholder type.

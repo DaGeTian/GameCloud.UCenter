@@ -1,12 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using GameCloud.UCenter.Common.Models.AppServer;
-using GameCloud.UCenter.Common.Models.PingPlusPlus;
-using GameCloud.UCenter.Common.Portable.Contracts;
-using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Test.Common;
-using GameCloud.UCenter.Web.Api.ApiControllers;
+using GameCloud.UCenter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test.E2ETest

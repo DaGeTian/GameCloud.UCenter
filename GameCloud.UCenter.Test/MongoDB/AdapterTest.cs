@@ -3,8 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Common.Portable.Models.AppClient;
-using GameCloud.UCenter.Database.Entities;
+using GameCloud.UCenter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test.MongoDB

@@ -1,9 +1,9 @@
-﻿using System;
-using GameCloud.UCenter.Common.Portable.Contracts;
-using GameCloud.UCenter.Common.Portable.Resource;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Common.Portable.Exceptions
+namespace GameCloud.UCenter
 {
+    using System;
+
     public class UCenterException : ApplicationException
     {
         public UCenterException(UCenterErrorCode errorCode, string message, Exception innerException = null)

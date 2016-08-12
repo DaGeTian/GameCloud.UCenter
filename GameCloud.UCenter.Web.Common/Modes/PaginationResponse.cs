@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCloud.UCenter.Web.Common.Modes
+namespace GameCloud.UCenter
 {
     /// <summary>
     /// Provide a class for pagination response.

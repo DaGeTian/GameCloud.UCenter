@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GameCloud.UCenter.Common.Models.AppServer
+namespace GameCloud.UCenter
 {
     [DataContract]
     public class AppConfigurationInfo

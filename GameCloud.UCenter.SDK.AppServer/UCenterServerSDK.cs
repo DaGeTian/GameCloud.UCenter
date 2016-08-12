@@ -1,15 +1,14 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using GameCloud.UCenter.Common.Models.AppServer;
-using GameCloud.UCenter.Common.Models.PingPlusPlus;
-using GameCloud.UCenter.Common.SDK;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.SDK.AppServer
+namespace GameCloud.UCenter
 {
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Provide a client class for UCenter.
     /// </summary>
-    public class UCenterClient
+    public class UCenterServerSDK
     {
         private readonly string host;
         private readonly UCenterHttpClient httpClient;
@@ -18,7 +17,7 @@ namespace GameCloud.UCenter.SDK.AppServer
         /// Initializes a new instance of the <see cref="UCenterClient" /> class.
         /// </summary>
         /// <param name="host">Indicating the host address.</param>
-        public UCenterClient(string host)
+        public UCenterServerSDK(string host)
         {
             this.host = host;
             this.httpClient = new UCenterHttpClient();

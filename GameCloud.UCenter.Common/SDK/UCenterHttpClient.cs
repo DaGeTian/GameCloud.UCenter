@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Threading.Tasks;
-using GameCloud.UCenter.Common.Portable.Contracts;
-using GameCloud.UCenter.Common.Portable.Exceptions;
+﻿
 
-namespace GameCloud.UCenter.Common.SDK
+namespace GameCloud.UCenter
 {
+    using System;
+    using System.Net.Http;
+    using System.Net.Http.Formatting;
+    using System.Threading.Tasks;
+
     public class UCenterHttpClient
     {
         HttpClient httpClient = null;
@@ -69,16 +69,13 @@ namespace GameCloud.UCenter.Common.SDK
             throw new UCenterException(UCenterErrorCode.Failed, "Error occurred when sending http request");
         }
 
-        //HttpClient CreateHttpClient()
-        //{
-        //    var handler = new HttpClientHandler();
-        //    handler.UseDefaultCredentials = true;
-        //    handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-
-        //    var httpClient = new HttpClient(handler);
-        //    httpClient.Timeout = TimeSpan.FromSeconds(30);
-
-        //    return httpClient;
-        //}
+        public void Close()
+        {
+            if (this.httpClient != null)
+            {
+                this.httpClient.Dispose();
+                this.httpClient = null;
+            }
+        }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Common.Models.PingPlusPlus
+namespace GameCloud.UCenter
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     public class Charge
     {
         [JsonProperty("id")]

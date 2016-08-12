@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCloud.UCenter.Common.Settings
+namespace GameCloud.UCenter
 {
     public interface ISettingsValueProvider
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameCloud.UCenter.Common.Extensions
+namespace GameCloud.UCenter
 {
     public static class DisposableExtensions
     {

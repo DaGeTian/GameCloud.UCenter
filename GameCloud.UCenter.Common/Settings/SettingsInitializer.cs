@@ -3,7 +3,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
 
-namespace GameCloud.UCenter.Common.Settings
+namespace GameCloud.UCenter
 {
     public static class SettingsInitializer
     {

@@ -1,10 +1,11 @@
-﻿using System;
-using GameCloud.Database;
-using GameCloud.Database.Attributes;
-using GameCloud.UCenter.Common.Portable.Contracts;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Database.Entities
+namespace GameCloud.UCenter
 {
+    using System;
+    using GameCloud.Database;
+    using GameCloud.Database.Attributes;
+
     /// <summary>
     /// Provide an account event entity class.
     /// </summary>

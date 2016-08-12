@@ -1,6 +1,6 @@
 ﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.SDK.Unity
+namespace GameCloud.UCenter
 {
     using System;
     using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 //// set of attributes. Change these attribute values to modify the information
 //// associated with an assembly.
 
-[assembly: AssemblyTitle("GameCloud.UCenter.SDK.AppClient")]
+[assembly: AssemblyTitle("GameCloud.UCenter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cragon")]

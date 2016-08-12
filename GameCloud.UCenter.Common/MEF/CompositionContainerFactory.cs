@@ -6,9 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Hosting;
-using GameCloud.UCenter.Common.Extensions;
 
-namespace GameCloud.UCenter.Common.MEF
+namespace GameCloud.UCenter
 {
     public static class CompositionContainerFactory
     {

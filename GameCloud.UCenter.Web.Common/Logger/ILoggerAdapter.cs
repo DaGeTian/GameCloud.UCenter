@@ -1,4 +1,4 @@
-﻿namespace GameCloud.UCenter.Web.Common.Logger
+﻿namespace GameCloud.UCenter
 {
     /// <summary>
     /// Provide an interface for log adapter.

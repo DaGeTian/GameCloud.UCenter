@@ -7,15 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using GameCloud.UCenter.Common.Dumper;
-using GameCloud.UCenter.Common.Extensions;
-using GameCloud.UCenter.Common.IP;
-using GameCloud.UCenter.Common.Portable.Contracts;
-using GameCloud.UCenter.Common.Portable.Exceptions;
-using GameCloud.UCenter.Web.Common.Logger;
+using GameCloud.UCenter.Dumper;
+using GameCloud.UCenter;
+using GameCloud.UCenter;
 using MongoDB.Driver;
 
-namespace GameCloud.UCenter.Web.Common.Filters
+namespace GameCloud.UCenter
 {
     /// <summary>
     /// Provide a class for action execution filter.

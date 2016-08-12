@@ -2,7 +2,7 @@
 using System.ServiceModel.Channels;
 using System.Web;
 
-namespace GameCloud.UCenter.Common.IP
+namespace GameCloud.UCenter
 {
     public static class IPHelper
     {

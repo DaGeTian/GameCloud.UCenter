@@ -1,4 +1,6 @@
-﻿namespace GameCloud.UCenter.Database.Entities
+﻿// Copyright(c) Cragon.All rights reserved.
+
+namespace GameCloud.UCenter
 {
     /// <summary>
     /// Provide an Enum for order state.

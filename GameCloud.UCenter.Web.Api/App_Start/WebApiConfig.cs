@@ -1,7 +1,9 @@
-﻿using System.Web.Http;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Web.Api
+namespace GameCloud.UCenter
 {
+    using System.Web.Http;
+
     /// <summary>
     /// The web API configuration
     /// </summary>
@@ -18,7 +20,7 @@ namespace GameCloud.UCenter.Web.Api
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                "DefaultApi", 
+                "DefaultApi",
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
         }

@@ -1,4 +1,4 @@
-﻿namespace GameCloud.UCenter.Common.Settings
+﻿namespace GameCloud.UCenter
 {
     public class SettingsValuePair
     {

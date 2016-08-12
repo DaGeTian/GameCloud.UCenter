@@ -1,8 +1,10 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Common.Portable.Models.AppClient
+namespace GameCloud.UCenter
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [DataContract]
     public class AccountResponse
     {

@@ -6,11 +6,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database;
-using GameCloud.UCenter.Common.MEF;
-using GameCloud.UCenter.Common.Settings;
+using GameCloud.UCenter;
 using GameCloud.UCenter.Test.Clients;
-using GameCloud.UCenter.Web.Common.Logger;
-using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test
@@ -75,14 +72,14 @@ namespace GameCloud.UCenter.Test
         {
             ExportProvider = CompositionContainerFactory.Create();
 
-            SettingsInitializer.Initialize<Settings>(
+            SettingsInitializer.Initialize<GameCloud.UCenter.Settings>(
                 ExportProvider,
-                SettingsDefaultValueProvider<Settings>.Default,
+                SettingsDefaultValueProvider<GameCloud.UCenter.Settings>.Default,
                 AppConfigurationValueProvider.Default);
 
-            SettingsInitializer.Initialize<UCenter.Common.Settings.Settings>(
+            SettingsInitializer.Initialize<GameCloud.UCenter.Settings>(
                 ExportProvider,
-                SettingsDefaultValueProvider<UCenter.Common.Settings.Settings>.Default,
+                SettingsDefaultValueProvider<GameCloud.UCenter.Settings>.Default,
                 AppConfigurationValueProvider.Default);
 
             SettingsInitializer.Initialize<DatabaseContextSettings>(
@@ -90,7 +87,7 @@ namespace GameCloud.UCenter.Test
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
 
-            var settings = ExportProvider.GetExportedValue<UCenter.Common.Settings.Settings>();
+            var settings = ExportProvider.GetExportedValue<GameCloud.UCenter.Settings>();
 
             await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
             await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
@@ -102,7 +99,7 @@ namespace GameCloud.UCenter.Test
         {
             using (var fileStream = File.OpenRead(@"TestData\github.png"))
             {
-                var settings = ExportProvider.GetExportedValue<UCenter.Common.Settings.Settings>();
+                var settings = ExportProvider.GetExportedValue<GameCloud.UCenter.Settings>();
                 var blobContext = new StorageAccountContext(settings);
                 await blobContext.UploadBlobAsync(blobName, fileStream, CancellationToken.None);
             }

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using GameCloud.UCenter.Common.Portable.Contracts;
+﻿// Copyright(c) Cragon.All rights reserved.
 
-namespace GameCloud.UCenter.Common.Portable.Resource
+namespace GameCloud.UCenter
 {
+    using System.Collections.Generic;
+
     internal static class UCenterResourceManager
     {
         private const string GeneralErrorMessage = "Internal server error.";
