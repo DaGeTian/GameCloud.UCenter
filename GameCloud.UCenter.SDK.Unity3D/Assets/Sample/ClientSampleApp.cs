@@ -10,7 +10,7 @@ namespace GameCloud.UCenter.SDK.Sample
     using GameCloud.Unity.Common;
     using GameCloud.UCenter.Common.Portable.Contracts;
     using GameCloud.UCenter.Common.Portable.Models.AppClient;
-    using GameCloud.UCenter.Common.Portable.Models.Ip;
+    //using GameCloud.UCenter.Common.Portable.Models.Ip;
     using GameCloud.UCenter.SDK.Unity;
 
     public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, new()
@@ -94,25 +94,25 @@ namespace GameCloud.UCenter.SDK.Sample
         }
 
         //-------------------------------------------------------------------------
-        void _onUCenterGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error)
-        {
-            EbLog.Note("ClientSampleApp._onUCenterGetIpAddress() UCenterResult=" + status);
+        //void _onUCenterGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error)
+        //{
+        //    EbLog.Note("ClientSampleApp._onUCenterGetIpAddress() UCenterResult=" + status);
 
-            if (error != null)
-            {
-                EbLog.Note("ErrorCode=" + error.ErrorCode);
-                EbLog.Note("ErrorMessage=" + error.Message);
-            }
-            else if (status == UCenterResponseStatus.Success)
-            {
-                EbLog.Note("Code=" + response.Code);
-                EbLog.Note("Area=" + response.Content.Area);
-                EbLog.Note("City=" + response.Content.City);
-                EbLog.Note("Country=" + response.Content.Country);
-                EbLog.Note("Region=" + response.Content.Region);
-                EbLog.Note("IP=" + response.Content.IP);
-            }
-        }
+        //    if (error != null)
+        //    {
+        //        EbLog.Note("ErrorCode=" + error.ErrorCode);
+        //        EbLog.Note("ErrorMessage=" + error.Message);
+        //    }
+        //    else if (status == UCenterResponseStatus.Success)
+        //    {
+        //        EbLog.Note("Code=" + response.Code);
+        //        EbLog.Note("Area=" + response.Content.Area);
+        //        EbLog.Note("City=" + response.Content.City);
+        //        EbLog.Note("Country=" + response.Content.Country);
+        //        EbLog.Note("Region=" + response.Content.Region);
+        //        EbLog.Note("IP=" + response.Content.IP);
+        //    }
+        //}
 
         //-------------------------------------------------------------------------
         void _onUCenterGetAppConfig(UCenterResponseStatus status, AppConfigurationResponse response, UCenterError error)

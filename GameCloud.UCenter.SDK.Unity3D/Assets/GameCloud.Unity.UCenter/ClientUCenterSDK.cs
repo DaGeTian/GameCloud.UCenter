@@ -10,7 +10,7 @@ namespace GameCloud.UCenter.SDK.Unity
     using GameCloud.Unity.Common;
     using GameCloud.UCenter.Common.Portable.Contracts;
     using GameCloud.UCenter.Common.Portable.Models.AppClient;
-    using GameCloud.UCenter.Common.Portable.Models.Ip;
+    //using GameCloud.UCenter.Common.Portable.Models.Ip;
 
     public delegate void OnUCenterRegister(UCenterResponseStatus status, AccountRegisterResponse response, UCenterError error);
     public delegate void OnUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
@@ -19,7 +19,7 @@ namespace GameCloud.UCenter.SDK.Unity
     public delegate void OnUCenterResetPassword(UCenterResponseStatus status, AccountResetPasswordResponse response, UCenterError error);
     public delegate void OnUCenterUploadProfileImage(UCenterResponseStatus status, AccountUploadProfileImageResponse response, UCenterError error);
     public delegate void OnGetAppConfig(UCenterResponseStatus status, AppConfigurationResponse response, UCenterError error);
-    public delegate void OnGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error);
+    //public delegate void OnGetIpAddress(UCenterResponseStatus status, IPInfoResponse response, UCenterError error);
 
     public class ClientUCenterSDK<TDef> : Component<TDef> where TDef : DefUCenterSDK, new()
     {
@@ -40,7 +40,7 @@ namespace GameCloud.UCenter.SDK.Unity
         Action<UCenterResponseStatus, AccountResetPasswordResponse, UCenterError> ResetPasswordHandler { get; set; }
         Action<UCenterResponseStatus, AccountUploadProfileImageResponse, UCenterError> UploadProfileImageHandler { get; set; }
         Action<UCenterResponseStatus, AppConfigurationResponse, UCenterError> GetAppConfigHandler { get; set; }
-        Action<UCenterResponseStatus, IPInfoResponse, UCenterError> GetIpAddressHandler { get; set; }
+        //Action<UCenterResponseStatus, IPInfoResponse, UCenterError> GetIpAddressHandler { get; set; }
 
         //-------------------------------------------------------------------------
         public override void init()
@@ -99,11 +99,11 @@ namespace GameCloud.UCenter.SDK.Unity
                 GetAppConfigHandler = null;
             }
 
-            if (_checkResponse<IPInfoResponse>(WWWGetIpAddress, GetIpAddressHandler))
-            {
-                WWWGetIpAddress = null;
-                GetIpAddressHandler = null;
-            }
+            //if (_checkResponse<IPInfoResponse>(WWWGetIpAddress, GetIpAddressHandler))
+            //{
+            //    WWWGetIpAddress = null;
+            //    GetIpAddressHandler = null;
+            //}
         }
 
         //-------------------------------------------------------------------------
@@ -264,34 +264,34 @@ namespace GameCloud.UCenter.SDK.Unity
         }
 
         //-------------------------------------------------------------------------
-        public void getIpAddress(OnGetIpAddress handler)
-        {
-            if (WWWGetIpAddress != null)
-            {
-                return;
-            }
+        //public void getIpAddress(OnGetIpAddress handler)
+        //{
+        //    if (WWWGetIpAddress != null)
+        //    {
+        //        return;
+        //    }
 
-            GetIpAddressHandler = new Action<UCenterResponseStatus, IPInfoResponse, UCenterError>(handler);
+        //    GetIpAddressHandler = new Action<UCenterResponseStatus, IPInfoResponse, UCenterError>(handler);
 
-            string http_url = null;
-            if (UCenterDomain.EndsWith("/"))
-            {
-                http_url = string.Format("{0}api/appclient/ip", UCenterDomain);
-            }
-            else
-            {
-                http_url = string.Format("{0}/api/appclient/ip", UCenterDomain);
-            }
+        //    string http_url = null;
+        //    if (UCenterDomain.EndsWith("/"))
+        //    {
+        //        http_url = string.Format("{0}api/appclient/ip", UCenterDomain);
+        //    }
+        //    else
+        //    {
+        //        http_url = string.Format("{0}/api/appclient/ip", UCenterDomain);
+        //    }
 
-            WWWForm form = new WWWForm();
-            form.AddField("Accept", "application/x-www-form-urlencoded");
-            form.AddField("Content-Type", "application/json; charset=utf-8");
-            form.AddField("Content-Length", 0);
-            form.AddField("Host", _getHostName());
-            form.AddField("User-Agent", "");
+        //    WWWForm form = new WWWForm();
+        //    form.AddField("Accept", "application/x-www-form-urlencoded");
+        //    form.AddField("Content-Type", "application/json; charset=utf-8");
+        //    form.AddField("Content-Length", 0);
+        //    form.AddField("Host", _getHostName());
+        //    form.AddField("User-Agent", "");
 
-            WWWGetIpAddress = new WWW(http_url, form);
-        }
+        //    WWWGetIpAddress = new WWW(http_url, form);
+        //}
 
         //-------------------------------------------------------------------------
         Dictionary<string, string> _genHeader(int content_len)

@@ -19,7 +19,7 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>GameCloud.UCenter.SDK.AppServer</Id>
-    <Version>1.00.003</Version>
+    <Version>1.00.005</Version>
     <Title>GameCloud.UCenter.SDK.AppServer</Title>
     <Authors>Cragon</Authors>
     <Owners>Cragon</Owners>
