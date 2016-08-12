@@ -9,6 +9,18 @@ namespace GameCloud.UCenter.Common.SDK
 {
     public class UCenterHttpClient
     {
+        HttpClient httpClient = null;
+
+        public UCenterHttpClient()
+        {
+            var handler = new HttpClientHandler();
+            handler.UseDefaultCredentials = true;
+            handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
+
+            this.httpClient = new HttpClient(handler);
+            this.httpClient.Timeout = TimeSpan.FromSeconds(30);
+        }
+
         public Task<TResponse> SendAsync<TContent, TResponse>(HttpMethod method, string url, TContent content)
         {
             HttpContent httpContent = null;
@@ -26,19 +38,18 @@ namespace GameCloud.UCenter.Common.SDK
 
         public async Task<TResponse> SentAsync<TResponse>(HttpMethod method, string url, HttpContent content)
         {
-            using (var httpClient = CreateHttpClient())
-            {
-                var request = new HttpRequestMessage(method, new Uri(url));
-                request.Headers.Clear();
-                request.Headers.ExpectContinue = false;
-                request.Content = content;
+            //using (var httpClient = CreateHttpClient())
 
-                var response = await httpClient.SendAsync(request);
+            var request = new HttpRequestMessage(method, new Uri(url));
+            request.Headers.Clear();
+            request.Headers.ExpectContinue = false;
+            request.Content = content;
 
-                response.EnsureSuccessStatusCode();
+            var response = await this.httpClient.SendAsync(request);
 
-                return await response.Content.ReadAsAsync<TResponse>();
-            }
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsAsync<TResponse>();
         }
 
         public async Task<TResult> SendAsyncWithException<TContent, TResult>(HttpMethod method, string url,
@@ -58,16 +69,16 @@ namespace GameCloud.UCenter.Common.SDK
             throw new UCenterException(UCenterErrorCode.Failed, "Error occurred when sending http request");
         }
 
-        public HttpClient CreateHttpClient()
-        {
-            var handler = new HttpClientHandler();
-            handler.UseDefaultCredentials = true;
-            handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
+        //HttpClient CreateHttpClient()
+        //{
+        //    var handler = new HttpClientHandler();
+        //    handler.UseDefaultCredentials = true;
+        //    handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
 
-            var httpClient = new HttpClient(handler);
-            httpClient.Timeout = TimeSpan.FromSeconds(90);
+        //    var httpClient = new HttpClient(handler);
+        //    httpClient.Timeout = TimeSpan.FromSeconds(30);
 
-            return httpClient;
-        }
+        //    return httpClient;
+        //}
     }
 }

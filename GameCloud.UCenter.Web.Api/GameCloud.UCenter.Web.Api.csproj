@@ -182,7 +182,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\cragonucenter - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\tp-ucenter - Web Deploy.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
