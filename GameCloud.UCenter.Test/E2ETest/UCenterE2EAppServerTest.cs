@@ -22,7 +22,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var accountLoginAppInfo = new AccountLoginAppInfo
@@ -63,7 +64,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var accountLoginAppInfo = new AccountLoginAppInfo
@@ -86,7 +88,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var accountLoginAppInfo = new AccountLoginAppInfo
@@ -109,7 +112,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var accountLoginAppInfo = new AccountLoginAppInfo
@@ -132,7 +136,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var data = @"{ 'id': 1, 'name': 'abc'}";
@@ -161,7 +166,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var accountData = new AppAccountDataInfo
@@ -183,7 +189,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var data = @"{ 'id': 1, 'name': 'abc'}";
@@ -207,7 +214,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             var chargeInfo = new ChargeInfo

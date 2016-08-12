@@ -82,6 +82,17 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
+        /// Gets the device record adapter.
+        /// </summary>
+        public ICollectionAdapter<DeviceEntity> Devices
+        {
+            get
+            {
+                return this.GetAdapter<DeviceEntity>();
+            }
+        }
+
+        /// <summary>
         /// Gets the login record adapter.
         /// </summary>
         public ICollectionAdapter<ErrorEventEntity> ErrorEvents

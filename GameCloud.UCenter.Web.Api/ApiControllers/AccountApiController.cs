@@ -61,10 +61,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
-            if (!ValidateAccountName(info.AccountName))
-            {
-                throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
-            }
+            EnsureDeviceInfo(info.Device);
+            LogDeviceInfoAsync(info.Device, token);
 
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
@@ -179,6 +177,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             CustomTrace.TraceInformation($"Account.Login AccountName={info.AccountName}");
 
+            EnsureDeviceInfo(info.Device);
+
             var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
             if (account == null)
@@ -233,6 +233,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
+
+            EnsureDeviceInfo(info.Device);
 
             var r = new Random();
             string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
@@ -418,6 +420,31 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             };
 
             await this.Database.AccountEvents.InsertAsync(accountEvent, token);
+        }
+
+        private void EnsureDeviceInfo(DeviceInfo device)
+        {
+            if (device == null)
+            {
+                throw new UCenterException(UCenterErrorCode.AccountLoginFailedMissingDeviceInfo);
+            }
+        }
+
+        private async Task LogDeviceInfoAsync(DeviceInfo device, CancellationToken token)
+        {
+            var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
+            if (deviceEntity == null)
+            {
+                deviceEntity = new DeviceEntity()
+                {
+                    Id = device.Id,
+                    Name = device.Name,
+                    Type = device.Type,
+                    Model = device.Model,
+                    OperationSystem = device.OperationSystem
+                };
+                await this.Database.Devices.InsertAsync(deviceEntity, token);
+            }
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)

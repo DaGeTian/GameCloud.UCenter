@@ -20,8 +20,8 @@ namespace GameCloud.UCenter.SDK.AppServer
         /// <param name="host">Indicating the host address.</param>
         public UCenterClient(string host)
         {
-            this.host = host;
             this.httpClient = new UCenterHttpClient();
+            this.host = host;
         }
 
         /// <summary>
@@ -44,9 +44,7 @@ namespace GameCloud.UCenter.SDK.AppServer
         public async Task<AppResponse> CreateAppConfigurationAsync(AppConfigurationInfo info)
         {
             string url = this.GenerateApiEndpoint("appclient", "createconf");
-
             var response = await this.httpClient.SendAsyncWithException<AppConfigurationInfo, AppResponse>(HttpMethod.Post, url, info);
-
             return response;
         }
 
@@ -58,9 +56,10 @@ namespace GameCloud.UCenter.SDK.AppServer
         public async Task<AccountLoginAppResponse> AccountLoginAppAsync(AccountLoginAppInfo info)
         {
             string url = this.GenerateApiEndpoint("app", "accountlogin");
-
             var response = await this.httpClient.SendAsyncWithException<AccountLoginAppInfo, AccountLoginAppResponse>(
-                        HttpMethod.Post, url, info);
+                        HttpMethod.Post,
+                        url,
+                        info);
 
             return response;
         }
@@ -73,9 +72,10 @@ namespace GameCloud.UCenter.SDK.AppServer
         public async Task<AppAccountDataResponse> AppReadAccountDataAsync(AppAccountDataInfo info)
         {
             string url = this.GenerateApiEndpoint("app", "readdata");
-
             var response = await this.httpClient.SendAsyncWithException<AppAccountDataInfo, AppAccountDataResponse>(
-                    HttpMethod.Post, url, info);
+                    HttpMethod.Post,
+                    url,
+                    info);
 
             return response;
         }
@@ -88,9 +88,10 @@ namespace GameCloud.UCenter.SDK.AppServer
         public async Task<AppAccountDataResponse> AppWriteAccountDataAsync(AppAccountDataInfo info)
         {
             string url = this.GenerateApiEndpoint("app", "writedata");
-
             var response = await this.httpClient.SendAsyncWithException<AppAccountDataInfo, AppAccountDataResponse>(
-                    HttpMethod.Post, url, info);
+                    HttpMethod.Post,
+                    url,
+                    info);
 
             return response;
         }
@@ -103,9 +104,10 @@ namespace GameCloud.UCenter.SDK.AppServer
         public async Task<Charge> CreateChargeAsync(ChargeInfo info)
         {
             string url = this.GenerateApiEndpoint("payment", "charge");
-
             var response = await this.httpClient.SendAsyncWithException<ChargeInfo, Charge>(
-                HttpMethod.Post, url, info);
+                HttpMethod.Post,
+                url,
+                info);
 
             return response;
         }

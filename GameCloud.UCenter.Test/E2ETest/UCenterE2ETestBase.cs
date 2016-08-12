@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.SDK.AppClient;
@@ -48,7 +49,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                     IdentityNum = $"id.{GenerateRandomString()}",
                     PhoneNum = $"phone.{GenerateRandomString()}",
                     Email = $"{GenerateRandomString()}@test.com",
-                    Gender = Gender.Female
+                    Gender = Gender.Female,
+                    Device = TestDevice
                 };
             }
 
@@ -66,6 +68,15 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             return registerResponse;
         }
+
+        protected DeviceInfo TestDevice => new DeviceInfo
+        {
+            Id = "UnitTestDeviceId",
+            Name = "UnitTestDeviceName",
+            Type = "UnitTestDeviceType",
+            Model = "UnitTestDeviceType",
+            OperationSystem = "UnitTestDeviceOS"
+        };
 
         private async Task InitializeAsync()
         {

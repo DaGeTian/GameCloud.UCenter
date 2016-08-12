@@ -22,7 +22,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             });
 
             Assert.IsNotNull(loginResponse.AccountId);
@@ -54,7 +55,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                         Email = random,
                         IdentityNum = random,
                         PhoneNum = random,
-                        Gender = Gender.Female
+                        Gender = Gender.Female,
+                        Device = TestDevice
                     };
                     await this.CreateTestAccount(info);
                 }));
@@ -70,7 +72,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                  await acClient.AccountLoginAsync(new AccountLoginInfo
                  {
                      AccountName = registerResponse.AccountName,
-                     Password = InValidAccountPassword
+                     Password = InValidAccountPassword,
+                     Device = TestDevice
                  });
              });
         }
@@ -86,7 +89,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
-                Gender = Gender.Female
+                Gender = Gender.Female,
+                Device = TestDevice
             };
 
             // TOOD: Change ErrorCode in next client refresh
@@ -111,7 +115,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 IdentityNum = GenerateRandomString(),
                 PhoneNum = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
-                Gender = Gender.Female
+                Gender = Gender.Female,
+                Device = TestDevice
             };
 
             await acClient.AccountRegisterAsync(info);
@@ -175,7 +180,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             var loginInfo = new AccountLoginInfo
             {
                 AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword
+                Password = ValidAccountPassword,
+                Device = TestDevice
             };
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,

@@ -44,6 +44,11 @@
         /// </summary>
         AccountLoginFailedDisabled,
 
+        /// <summary>
+        /// 登陆，设备信息缺失
+        /// </summary>
+        AccountLoginFailedMissingDeviceInfo,
+
         AppNotExit = 3000,
 
         /// <summary>

@@ -123,6 +123,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="NLog.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="TestData\charge.succeeded.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
