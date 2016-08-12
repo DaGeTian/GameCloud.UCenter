@@ -27,6 +27,11 @@ namespace GameCloud.UCenter.Database.Entities
         public string EventName { get; set; }
 
         /// <summary>
+        /// Gets or sets the device id.
+        /// </summary>
+        public string DeviceId { get; set; }
+
+        /// <summary>
         /// Gets or sets the client IP.
         /// </summary>
         public string ClientIp { get; set; }
