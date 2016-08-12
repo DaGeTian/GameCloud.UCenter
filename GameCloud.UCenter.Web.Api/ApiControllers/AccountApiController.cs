@@ -18,7 +18,6 @@ namespace GameCloud.UCenter
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/account")]
     public class AccountApiController : ApiControllerBase
     {
         private readonly Settings settings;
@@ -45,7 +44,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("register")]
+        [Route("api/account/register")]
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
@@ -163,7 +162,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("login")]
+        [Route("api/account/login")]
         public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Login AccountName={info.AccountName}");
@@ -218,7 +217,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("guest")]
+        [Route("api/account/guest")]
         public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
@@ -260,7 +259,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("convert")]
+        [Route("api/account/convert")]
         public async Task<IHttpActionResult> GuestConvert([FromBody] AccountConvertInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
@@ -300,7 +299,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("resetpassword")]
+        [Route("api/account/resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
@@ -336,7 +335,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("upload/{accountId}")]
+        [Route("api/account/upload/{accountId}")]
         public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
         {
             CustomTrace.TraceInformation($"Account.UploadProfileImage AccountId={accountId}");

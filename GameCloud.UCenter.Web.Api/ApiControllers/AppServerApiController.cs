@@ -14,7 +14,6 @@ namespace GameCloud.UCenter
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/app")]
     public class AppServerApiController : ApiControllerBase
     {
         /// <summary>
@@ -34,7 +33,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("create")]
+        [Route("api/app/create")]
         public async Task<IHttpActionResult> CreateApp([FromBody] AppInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("[CreateApp] AppId={0}", info.AppId);
@@ -69,7 +68,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("accountlogin")]
+        [Route("api/app/accountlogin")]
         public async Task<IHttpActionResult> AccountLoginApp(AccountLoginAppInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"App.VerifyAccount AppId={info.AppId} AccountId={info.AccountId}");
@@ -94,7 +93,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("readdata")]
+        [Route("api/app/readdata")]
         public async Task<IHttpActionResult> ReadAppAccountData(AppAccountDataInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"App.ReadAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
@@ -122,7 +121,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("writedata")]
+        [Route("api/app/writedata")]
         public async Task<IHttpActionResult> WriteAppAccountData(AppAccountDataInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"App.WriteAppAccountData AppId={info.AppId} AccountId={info.AccountId}");

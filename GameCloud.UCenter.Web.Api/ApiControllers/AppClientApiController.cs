@@ -11,7 +11,6 @@ namespace GameCloud.UCenter
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/appclient")]
     public class AppClientApiController : ApiControllerBase
     {
         private readonly StorageAccountContext storageContext;
@@ -35,7 +34,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpGet]
-        [Route("ip")]
+        [Route("api/appclient/ip")]
         public IHttpActionResult GetClientIpArea(CancellationToken token)
         {
             CustomTrace.TraceInformation("AppClient.GetClientIpArea");
@@ -51,7 +50,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("createconf")]
+        [Route("api/appclient/createconf")]
         public async Task<IHttpActionResult> CreateAppConfiguration([FromBody] AppConfigurationInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("[CreateAppConfiguration] AppId={0}", info.AppId);
@@ -88,7 +87,7 @@ namespace GameCloud.UCenter
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("conf")]
+        [Route("api/appclient/conf")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
         {
             CustomTrace.TraceInformation($"AppClient.GetAppConfiguration AppId={appId}");
