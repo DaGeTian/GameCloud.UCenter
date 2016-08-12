@@ -9,16 +9,11 @@ namespace GameCloud.UCenter.Common.SDK
 {
     public class UCenterHttpClient
     {
-        HttpClient httpClient = null;
+        private readonly HttpClient httpClient = null;
 
         public UCenterHttpClient()
         {
-            var handler = new HttpClientHandler();
-            handler.UseDefaultCredentials = true;
-            handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-
-            this.httpClient = new HttpClient(handler);
-            this.httpClient.Timeout = TimeSpan.FromSeconds(30);
+            httpClient = CreateHttpClient();
         }
 
         public Task<TResponse> SendAsync<TContent, TResponse>(HttpMethod method, string url, TContent content)
@@ -38,8 +33,6 @@ namespace GameCloud.UCenter.Common.SDK
 
         public async Task<TResponse> SentAsync<TResponse>(HttpMethod method, string url, HttpContent content)
         {
-            //using (var httpClient = CreateHttpClient())
-
             var request = new HttpRequestMessage(method, new Uri(url));
             request.Headers.Clear();
             request.Headers.ExpectContinue = false;
@@ -69,16 +62,16 @@ namespace GameCloud.UCenter.Common.SDK
             throw new UCenterException(UCenterErrorCode.Failed, "Error occurred when sending http request");
         }
 
-        //HttpClient CreateHttpClient()
-        //{
-        //    var handler = new HttpClientHandler();
-        //    handler.UseDefaultCredentials = true;
-        //    handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
+        private HttpClient CreateHttpClient()
+        {
+            var handler = new HttpClientHandler();
+            handler.UseDefaultCredentials = true;
+            handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
 
-        //    var httpClient = new HttpClient(handler);
-        //    httpClient.Timeout = TimeSpan.FromSeconds(30);
+            var httpClient = new HttpClient(handler);
+            httpClient.Timeout = TimeSpan.FromSeconds(30);
 
-        //    return httpClient;
-        //}
+            return httpClient;
+        }
     }
 }
