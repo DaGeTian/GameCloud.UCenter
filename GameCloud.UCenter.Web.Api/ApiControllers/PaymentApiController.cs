@@ -27,7 +27,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [RoutePrefix("api/payment")]
     public class PaymentApiController : ApiControllerBase
     {
         /// <summary>
@@ -46,7 +45,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="info">Indicating the charge information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [Route("charge")]
+        [Route("api/payment/charge")]
         public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
@@ -113,7 +112,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("webhook")]
+        [Route("api/payment/webhook")]
         public async Task<IHttpActionResult> PingPlusPlusWebHook(CancellationToken token)
         {
             CustomTrace.TraceInformation("AppServer.PingPlusPlusWebHook");
