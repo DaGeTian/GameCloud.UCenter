@@ -128,7 +128,7 @@ namespace GameCloud.UCenter.Test.E2ETest
         [TestMethod]
         public async Task E2E_AppClient_Guest_Login_And_Convert_Test()
         {
-            var loginResponse = await acClient.AccountGuestLoginAsync();
+            var loginResponse = await acClient.AccountGuestLoginAsync(TestDevice);
 
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.IsNotNull(loginResponse.AccountName);

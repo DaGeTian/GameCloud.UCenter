@@ -230,34 +230,37 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/account/guest")]
-        public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> GuestLogin([FromBody] DeviceInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
 
-            EnsureDeviceInfo(info.Device);
+            EnsureDeviceInfo(info);
 
-            var r = new Random();
-            string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
-            string accountName = $"uc_{DateTime.Now.ToString("yyyyMMddHHmmssffff")}_{accountNamePostfix}";
+            string accountName = $"g_{info.Id}";
             string password = Guid.NewGuid().ToString();
             string accountToken = EncryptHashManager.GenerateToken();
 
-            var account = new AccountEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                AccountName = accountName,
-                AccountStatus = AccountStatus.Active,
-                IsGuest = true,
-                Password = EncryptHelper.ComputeHash(password),
-                Token = EncryptHashManager.GenerateToken()
-            };
+            var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == accountName, token);
 
-            await this.Database.Accounts.InsertAsync(account, token);
-            await this.TraceAccountEventAsync(account, "GuestLogin", token: token);
+            if (accountEntity == null)
+            {
+                accountEntity = new AccountEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AccountName = accountName,
+                    AccountStatus = AccountStatus.Active,
+                    IsGuest = true,
+                    Password = EncryptHelper.ComputeHash(password),
+                    Token = EncryptHashManager.GenerateToken()
+                };
+                await this.Database.Accounts.InsertAsync(accountEntity, token);
+            }
+
+            await this.TraceAccountEventAsync(accountEntity, "GuestLogin", token: token);
 
             var response = new AccountGuestLoginResponse
             {
-                AccountId = account.Id,
+                AccountId = accountEntity.Id,
                 AccountName = accountName,
                 Token = accountToken,
                 Password = password
