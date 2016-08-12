@@ -62,7 +62,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
             EnsureDeviceInfo(info.Device);
-            LogDeviceInfoAsync(info.Device, token);
+            LogDeviceInfo(info.Device, token);
 
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
@@ -127,7 +127,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 await this.Database.Accounts.InsertAsync(accountEntity, token);
 
-                TraceAccountEventAsync(accountEntity, "Register", info.Device, token: token);
+                TraceAccountEvent(accountEntity, "Register", info.Device, token: token);
 
                 return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
             }
@@ -219,7 +219,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             accountEntity.LastLoginDateTime = DateTime.UtcNow;
             accountEntity.Token = EncryptHashManager.GenerateToken();
             await this.Database.Accounts.UpsertAsync(accountEntity, token);
-            this.TraceAccountEventAsync(accountEntity, "Login", info.Device, token: token);
+            this.TraceAccountEvent(accountEntity, "Login", info.Device, token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
         }
@@ -258,7 +258,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 await this.Database.Accounts.InsertAsync(accountEntity, token);
             }
 
-            this.TraceAccountEventAsync(accountEntity, "GuestLogin", info, token: token);
+            this.TraceAccountEvent(accountEntity, "GuestLogin", info, token: token);
 
             var response = new AccountGuestLoginResponse
             {
@@ -306,7 +306,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             accountEntity.Email = info.Email;
             accountEntity.Gender = info.Gender;
             await this.Database.Accounts.UpsertAsync(accountEntity, token);
-            this.TraceAccountEventAsync(accountEntity, "GuestConvert", token: token);
+            this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
         }
@@ -342,7 +342,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
             await this.Database.Accounts.UpsertAsync(accountEntity, token);
-            this.TraceAccountEventAsync(accountEntity, "ResetPassword", token: token);
+            this.TraceAccountEvent(accountEntity, "ResetPassword", token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(accountEntity));
         }
@@ -376,7 +376,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
                 await this.Database.Accounts.UpsertAsync(account, token);
-                this.TraceAccountEventAsync(account, "UploadProfileImage", token: token);
+                this.TraceAccountEvent(account, "UploadProfileImage", token: token);
 
                 return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
@@ -404,32 +404,35 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             await this.Database.ErrorEvents.InsertAsync(errorEvent, token);
         }
 
-        private async Task TraceAccountEventAsync(
+        private Task TraceAccountEvent(
             AccountEntity account,
             string eventName,
             DeviceInfo device = null,
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = IPHelper.GetClientIpAddress(Request);
-
-            var accountEventEntity = new AccountEventEntity
+            return Task.Run(async () =>
             {
-                Id = Guid.NewGuid().ToString(),
-                AccountName = account.AccountName,
-                AccountId = account.Id,
-                EventName = eventName,
-                ClientIp = clientIp,
-                LoginArea = string.Empty,
-                UserAgent = Request.Headers.UserAgent.ToString(),
-                Message = message
-            };
-            if (device != null)
-            {
-                accountEventEntity.DeviceId = device.Id;
-            }
+                var clientIp = IPHelper.GetClientIpAddress(Request);
 
-            await this.Database.AccountEvents.InsertAsync(accountEventEntity, token);
+                var accountEventEntity = new AccountEventEntity
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AccountName = account.AccountName,
+                    AccountId = account.Id,
+                    EventName = eventName,
+                    ClientIp = clientIp,
+                    LoginArea = string.Empty,
+                    UserAgent = Request.Headers.UserAgent.ToString(),
+                    Message = message
+                };
+                if (device != null)
+                {
+                    accountEventEntity.DeviceId = device.Id;
+                }
+
+                await this.Database.AccountEvents.InsertAsync(accountEventEntity, token);
+            });
         }
 
         private void EnsureDeviceInfo(DeviceInfo device)
@@ -440,21 +443,24 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             }
         }
 
-        private async Task LogDeviceInfoAsync(DeviceInfo device, CancellationToken token)
+        private Task LogDeviceInfo(DeviceInfo device, CancellationToken token)
         {
-            var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
-            if (deviceEntity == null)
+            return Task.Run(async () =>
             {
-                deviceEntity = new DeviceEntity()
+                var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
+                if (deviceEntity == null)
                 {
-                    Id = device.Id,
-                    Name = device.Name,
-                    Type = device.Type,
-                    Model = device.Model,
-                    OperationSystem = device.OperationSystem
-                };
-                await this.Database.Devices.InsertAsync(deviceEntity, token);
-            }
+                    deviceEntity = new DeviceEntity()
+                    {
+                        Id = device.Id,
+                        Name = device.Name,
+                        Type = device.Type,
+                        Model = device.Model,
+                        OperationSystem = device.OperationSystem
+                    };
+                    await this.Database.Devices.InsertAsync(deviceEntity, token);
+                }
+            });
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
