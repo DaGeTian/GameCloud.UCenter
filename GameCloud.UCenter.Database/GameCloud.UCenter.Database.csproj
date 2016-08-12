@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DeviceEntity.cs" />
     <Compile Include="Entities\ErrorEventEntity.cs" />
     <Compile Include="Entities\AccountEventEntity.cs" />
     <Compile Include="UCenterDatabaseContext.cs" />

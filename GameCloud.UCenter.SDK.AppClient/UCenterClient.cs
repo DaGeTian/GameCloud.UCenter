@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
-using GameCloud.UCenter.Common.Portable.Models.Ip;
 using GameCloud.UCenter.Common.SDK;
 
 namespace GameCloud.UCenter.SDK.AppClient
@@ -143,21 +142,6 @@ namespace GameCloud.UCenter.SDK.AppClient
                 HttpMethod.Post,
                 url,
                 content);
-        }
-
-        /// <summary>
-        /// Get client IP information.
-        /// </summary>
-        /// <returns>Async response.</returns>
-        public async Task<IPInfoResponse> GetClientIpInfoAsync()
-        {
-            var url = this.GenerateApiEndpoint("appclient", "ip");
-            var response = await this.httpClient.SendAsyncWithException<string, IPInfoResponse>(
-                HttpMethod.Post,
-                url,
-                null);
-
-            return response;
         }
 
         /// <summary>

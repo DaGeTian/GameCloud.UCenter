@@ -46,13 +46,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpGet]
         [Route("ip")]
-        public async Task<IHttpActionResult> GetClientIpArea(CancellationToken token)
+        public IHttpActionResult GetClientIpArea(CancellationToken token)
         {
             CustomTrace.TraceInformation("AppClient.GetClientIpArea");
 
             string ipAddress = IPHelper.GetClientIpAddress(Request);
-            var response = await IPHelper.GetIPInfoAsync(ipAddress, token);
-            return this.CreateSuccessResult(response);
+            return this.CreateSuccessResult(ipAddress);
         }
 
         /// <summary>

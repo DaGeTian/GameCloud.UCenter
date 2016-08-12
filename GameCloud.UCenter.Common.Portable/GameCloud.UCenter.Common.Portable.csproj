@@ -61,14 +61,12 @@
     <Compile Include="Models\AppClient\AccountResponse.cs" />
     <Compile Include="Models\AppClient\AppConfigurationResponse.cs" />
     <Compile Include="Models\AppClient\AccountStatus.cs" />
+    <Compile Include="Models\AppClient\DeviceInfo.cs" />
     <Compile Include="Models\AppClient\Gender.cs" />
     <Compile Include="Contracts\UCenterError.cs" />
     <Compile Include="Contracts\UCenterErrorCode.cs" />
     <Compile Include="Exceptions\UCenterException.cs" />
     <Compile Include="Contracts\UCenterModelRules.cs" />
-    <Compile Include="Models\Ip\IPInfoResponseContent.cs" />
-    <Compile Include="Models\Ip\IPInfoResponse.cs" />
-    <Compile Include="Models\Ip\IPInfoResponseCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contracts\UCenterResponse.cs" />
     <Compile Include="Contracts\UCenterResponseStatus.cs" />
