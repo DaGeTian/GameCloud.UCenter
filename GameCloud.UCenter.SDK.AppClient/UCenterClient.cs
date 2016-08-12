@@ -61,13 +61,13 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// Login guest account.
         /// </summary>
         /// <returns>Async response.</returns>
-        public async Task<AccountGuestLoginResponse> AccountGuestLoginAsync()
+        public async Task<AccountGuestLoginResponse> AccountGuestLoginAsync(DeviceInfo device)
         {
             var url = this.GenerateApiEndpoint("account", "guest");
-            var response = await this.httpClient.SendAsyncWithException<AccountLoginInfo, AccountGuestLoginResponse>(
+            var response = await this.httpClient.SendAsyncWithException<DeviceInfo, AccountGuestLoginResponse>(
                 HttpMethod.Post,
                 url,
-                null);
+                device);
 
             return response;
         }

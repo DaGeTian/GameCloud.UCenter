@@ -62,18 +62,18 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
 
             EnsureDeviceInfo(info.Device);
-            LogDeviceInfoAsync(info.Device, token);
+            LogDeviceInfo(info.Device, token);
 
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
             try
             {
-                var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
+                var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
-                if (account != null)
+                if (accountEntity != null)
                 {
                     await this.TraceUCenterErrorAsync(
-                         account,
+                         accountEntity,
                          UCenterErrorCode.AccountRegisterFailedAlreadyExist,
                          "The account name is already registered",
                          token);
@@ -81,7 +81,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist);
                 }
 
-                account = new AccountEntity
+                accountEntity = new AccountEntity
                 {
                     Id = Guid.NewGuid().ToString(),
                     AccountName = info.AccountName,
@@ -98,9 +98,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 var placeholders = new[]
                 {
-                    this.GenerateKeyPlaceholder(account.AccountName, KeyType.Name, account.Id, account.AccountName),
-                    this.GenerateKeyPlaceholder(account.PhoneNum, KeyType.Phone, account.Id, account.AccountName),
-                    this.GenerateKeyPlaceholder(account.Email, KeyType.Email, account.Id, account.AccountName)
+                    this.GenerateKeyPlaceholder(accountEntity.AccountName, KeyType.Name, accountEntity.Id, accountEntity.AccountName),
+                    this.GenerateKeyPlaceholder(accountEntity.PhoneNum, KeyType.Phone, accountEntity.Id, accountEntity.AccountName),
+                    this.GenerateKeyPlaceholder(accountEntity.Email, KeyType.Email, accountEntity.Id, accountEntity.AccountName)
                 };
 
                 foreach (var placeholder in placeholders)
@@ -113,21 +113,23 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 }
 
                 // set the default profiles
-                account.ProfileImage = await this.storageContext.CopyBlobAsync(
-                    account.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
-                    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(account.Id),
+                accountEntity.ProfileImage = await this.storageContext.CopyBlobAsync(
+                    accountEntity.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
+                    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountEntity.Id),
                     token);
 
-                account.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
-                    account.Gender == Gender.Female
+                accountEntity.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
+                    accountEntity.Gender == Gender.Female
                         ? this.settings.DefaultProfileThumbnailForFemaleBlobName
                         : this.settings.DefaultProfileThumbnailForMaleBlobName,
-                    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(account.Id),
+                    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountEntity.Id),
                     token);
 
-                await this.Database.Accounts.InsertAsync(account, token);
+                await this.Database.Accounts.InsertAsync(accountEntity, token);
 
-                return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
+                TraceAccountEvent(accountEntity, "Register", info.Device, token: token);
+
+                return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
             }
             catch (Exception ex)
             {
@@ -179,12 +181,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             EnsureDeviceInfo(info.Device);
 
-            var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
+            var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
-            if (account == null)
+            if (accountEntity == null)
             {
                 await this.TraceUCenterErrorAsync(
-                     account,
+                     accountEntity,
                      UCenterErrorCode.AccountLoginFailedDisabled,
                      "The account does not exist",
                      token);
@@ -192,10 +194,10 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-            if (account.AccountStatus == AccountStatus.Disabled)
+            if (accountEntity.AccountStatus == AccountStatus.Disabled)
             {
                 await this.TraceUCenterErrorAsync(
-                     account,
+                     accountEntity,
                      UCenterErrorCode.AccountLoginFailedDisabled,
                      "The account is disabled",
                      token);
@@ -203,10 +205,10 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
             }
 
-            if (!EncryptHelper.VerifyHash(info.Password, account.Password))
+            if (!EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
             {
                 await this.TraceUCenterErrorAsync(
-                    account,
+                    accountEntity,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The account name and password do not match",
                     token);
@@ -214,12 +216,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
-            account.LastLoginDateTime = DateTime.UtcNow;
-            account.Token = EncryptHashManager.GenerateToken();
-            await this.Database.Accounts.UpsertAsync(account, token);
-            this.TraceAccountEventAsync(account, "Login", token: token);
+            accountEntity.LastLoginDateTime = DateTime.UtcNow;
+            accountEntity.Token = EncryptHashManager.GenerateToken();
+            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+            this.TraceAccountEvent(accountEntity, "Login", info.Device, token: token);
 
-            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
         }
 
         /// <summary>
@@ -230,34 +232,37 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/account/guest")]
-        public async Task<IHttpActionResult> GuestLogin([FromBody] AccountLoginInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> GuestLogin([FromBody] DeviceInfo info, CancellationToken token)
         {
             CustomTrace.TraceInformation("Account.GuestLogin");
 
-            EnsureDeviceInfo(info.Device);
+            EnsureDeviceInfo(info);
 
-            var r = new Random();
-            string accountNamePostfix = r.Next(0, 1000000).ToString("D6");
-            string accountName = $"uc_{DateTime.Now.ToString("yyyyMMddHHmmssffff")}_{accountNamePostfix}";
+            string accountName = $"g_{info.Id}";
             string password = Guid.NewGuid().ToString();
             string accountToken = EncryptHashManager.GenerateToken();
 
-            var account = new AccountEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                AccountName = accountName,
-                AccountStatus = AccountStatus.Active,
-                IsGuest = true,
-                Password = EncryptHelper.ComputeHash(password),
-                Token = EncryptHashManager.GenerateToken()
-            };
+            var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == accountName, token);
 
-            await this.Database.Accounts.InsertAsync(account, token);
-            await this.TraceAccountEventAsync(account, "GuestLogin", token: token);
+            if (accountEntity == null)
+            {
+                accountEntity = new AccountEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AccountName = accountName,
+                    AccountStatus = AccountStatus.Active,
+                    IsGuest = true,
+                    Password = EncryptHelper.ComputeHash(password),
+                    Token = EncryptHashManager.GenerateToken()
+                };
+                await this.Database.Accounts.InsertAsync(accountEntity, token);
+            }
+
+            this.TraceAccountEvent(accountEntity, "GuestLogin", info, token: token);
 
             var response = new AccountGuestLoginResponse
             {
-                AccountId = account.Id,
+                AccountId = accountEntity.Id,
                 AccountName = accountName,
                 Token = accountToken,
                 Password = password
@@ -278,12 +283,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
 
-            var account = await this.GetAndVerifyAccount(info.AccountId, token);
+            var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
-            if (!EncryptHelper.VerifyHash(info.OldPassword, account.Password))
+            if (!EncryptHelper.VerifyHash(info.OldPassword, accountEntity.Password))
             {
                 await this.TraceUCenterErrorAsync(
-                    account,
+                    accountEntity,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The account name and password do not match",
                     token);
@@ -291,19 +296,19 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
-            account.AccountName = info.AccountName;
-            account.IsGuest = false;
-            account.Name = info.Name;
-            account.IdentityNum = info.IdentityNum;
-            account.Password = EncryptHelper.ComputeHash(info.Password);
-            account.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
-            account.PhoneNum = info.PhoneNum;
-            account.Email = info.Email;
-            account.Gender = info.Gender;
-            await this.Database.Accounts.UpsertAsync(account, token);
-            await this.TraceAccountEventAsync(account, "GuestConvert", token: token);
+            accountEntity.AccountName = info.AccountName;
+            accountEntity.IsGuest = false;
+            accountEntity.Name = info.Name;
+            accountEntity.IdentityNum = info.IdentityNum;
+            accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
+            accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
+            accountEntity.PhoneNum = info.PhoneNum;
+            accountEntity.Email = info.Email;
+            accountEntity.Gender = info.Gender;
+            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+            this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
 
-            return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
         }
 
         /// <summary>
@@ -318,16 +323,16 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
 
-            var account = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
-            if (account == null)
+            var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
+            if (accountEntity == null)
             {
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-            if (!EncryptHelper.VerifyHash(info.SuperPassword, account.SuperPassword))
+            if (!EncryptHelper.VerifyHash(info.SuperPassword, accountEntity.SuperPassword))
             {
                 await this.TraceUCenterErrorAsync(
-                    account,
+                    accountEntity,
                     UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
                     "The super password provided is incorrect",
                     token);
@@ -335,11 +340,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
             }
 
-            account.Password = EncryptHelper.ComputeHash(info.Password);
-            await this.Database.Accounts.UpsertAsync(account, token);
-            await this.TraceAccountEventAsync(account, "ResetPassword", token: token);
+            accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
+            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+            this.TraceAccountEvent(accountEntity, "ResetPassword", token: token);
 
-            return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(account));
+            return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(accountEntity));
         }
 
         /// <summary>
@@ -371,7 +376,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
                 await this.Database.Accounts.UpsertAsync(account, token);
-                await this.TraceAccountEventAsync(account, "UploadProfileImage", token: token);
+                this.TraceAccountEvent(account, "UploadProfileImage", token: token);
 
                 return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
@@ -399,27 +404,35 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             await this.Database.ErrorEvents.InsertAsync(errorEvent, token);
         }
 
-        private async Task TraceAccountEventAsync(
+        private Task TraceAccountEvent(
             AccountEntity account,
             string eventName,
+            DeviceInfo device = null,
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = IPHelper.GetClientIpAddress(Request);
-
-            var accountEvent = new AccountEventEntity
+            return Task.Run(async () =>
             {
-                Id = Guid.NewGuid().ToString(),
-                AccountName = account.AccountName,
-                AccountId = account.Id,
-                EventName = eventName,
-                ClientIp = clientIp,
-                LoginArea = string.Empty,
-                UserAgent = Request.Headers.UserAgent.ToString(),
-                Message = message
-            };
+                var clientIp = IPHelper.GetClientIpAddress(Request);
 
-            await this.Database.AccountEvents.InsertAsync(accountEvent, token);
+                var accountEventEntity = new AccountEventEntity
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AccountName = account.AccountName,
+                    AccountId = account.Id,
+                    EventName = eventName,
+                    ClientIp = clientIp,
+                    LoginArea = string.Empty,
+                    UserAgent = Request.Headers.UserAgent.ToString(),
+                    Message = message
+                };
+                if (device != null)
+                {
+                    accountEventEntity.DeviceId = device.Id;
+                }
+
+                await this.Database.AccountEvents.InsertAsync(accountEventEntity, token);
+            });
         }
 
         private void EnsureDeviceInfo(DeviceInfo device)
@@ -430,21 +443,24 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             }
         }
 
-        private async Task LogDeviceInfoAsync(DeviceInfo device, CancellationToken token)
+        private Task LogDeviceInfo(DeviceInfo device, CancellationToken token)
         {
-            var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
-            if (deviceEntity == null)
+            return Task.Run(async () =>
             {
-                deviceEntity = new DeviceEntity()
+                var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
+                if (deviceEntity == null)
                 {
-                    Id = device.Id,
-                    Name = device.Name,
-                    Type = device.Type,
-                    Model = device.Model,
-                    OperationSystem = device.OperationSystem
-                };
-                await this.Database.Devices.InsertAsync(deviceEntity, token);
-            }
+                    deviceEntity = new DeviceEntity()
+                    {
+                        Id = device.Id,
+                        Name = device.Name,
+                        Type = device.Type,
+                        Model = device.Model,
+                        OperationSystem = device.OperationSystem
+                    };
+                    await this.Database.Devices.InsertAsync(deviceEntity, token);
+                }
+            });
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
