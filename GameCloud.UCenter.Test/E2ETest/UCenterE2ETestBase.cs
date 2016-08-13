@@ -23,8 +23,8 @@ namespace GameCloud.UCenter.Test.E2ETest
 
         public UCenterE2ETestBase()
         {
-            var settings = ExportProvider.GetExportedValue<Settings>();
-            string host = $"http://{settings.ServerHost}:{settings.ServerPort}";
+            var settings = ExportProvider.GetExportedValue<UCenterTestSettings>();
+            string host = $"http://{settings.UCenterServerHost}:{settings.UCenterServerPort}";
             this.acClient = new UCenterClient(host);
             this.asClient = new SDK.AppServer.UCenterClient(host);
         }
@@ -86,7 +86,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AppSecret = TestAppSecret
             };
 
-            await asClient.CreateAppAsync(appInfo);
+            //await asClient.CreateAppAsync(appInfo);
         }
     }
 }
