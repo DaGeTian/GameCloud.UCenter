@@ -93,10 +93,10 @@ namespace GameCloud.UCenter.Test
             var settings = ExportProvider.GetExportedValue<Settings>();
 
             // TODO: This will break distributed unit test!
-            //await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
-            //await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
-            //await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForFemaleBlobName);
-            //await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForMaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForFemaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForMaleBlobName);
         }
 
         private static async Task InitProfileImageBlobsAsync(string blobName)
