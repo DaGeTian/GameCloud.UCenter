@@ -40,8 +40,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/app/create")]
         public async Task<IHttpActionResult> CreateApp([FromBody] AppInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation("[CreateApp] AppId={0}", info.AppId);
-
             var app = await this.Database.Apps.GetSingleAsync(info.AppId, token);
 
             if (app == null)
@@ -75,8 +73,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/app/accountlogin")]
         public async Task<IHttpActionResult> AccountLoginApp(AccountLoginAppInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"App.VerifyAccount AppId={info.AppId} AccountId={info.AccountId}");
-
             await this.VerifyApp(info.AppId, info.AppSecret, token);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
 
@@ -100,8 +96,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/app/readdata")]
         public async Task<IHttpActionResult> ReadAppAccountData(AppAccountDataInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"App.ReadAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
-
             await this.VerifyApp(info.AppId, info.AppSecret, token);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
@@ -128,8 +122,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/app/writedata")]
         public async Task<IHttpActionResult> WriteAppAccountData(AppAccountDataInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"App.WriteAppAccountData AppId={info.AppId} AccountId={info.AccountId}");
-
             await this.VerifyApp(info.AppId, info.AppSecret, token);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);

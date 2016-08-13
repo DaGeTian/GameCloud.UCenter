@@ -4,6 +4,7 @@ using System.Web.Http;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Web.Common;
+using GameCloud.UCenter.Web.Common.Logger;
 
 namespace GameCloud.UCenter.Web.Api
 {
@@ -26,6 +27,7 @@ namespace GameCloud.UCenter.Web.Api
                 exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,
                 AppConfigurationValueProvider.Default);
+            CustomTrace.Initialize(exportProvider, "Trace.NLog");
         }
     }
 }

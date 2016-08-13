@@ -59,8 +59,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/register")]
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"Account.Register AccountName={info.AccountName}");
-
             EnsureDeviceInfo(info.Device);
             LogDeviceInfo(info.Device, token);
 
@@ -177,8 +175,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/login")]
         public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"Account.Login AccountName={info.AccountName}");
-
             EnsureDeviceInfo(info.Device);
 
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
@@ -234,8 +230,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/guest")]
         public async Task<IHttpActionResult> GuestLogin([FromBody] DeviceInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation("Account.GuestLogin");
-
             EnsureDeviceInfo(info);
 
             string accountName = $"g_{info.Id}";
@@ -281,8 +275,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/convert")]
         public async Task<IHttpActionResult> GuestConvert([FromBody] AccountConvertInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"Account.Convert AccountName={info.AccountName}");
-
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
             if (!EncryptHelper.VerifyHash(info.OldPassword, accountEntity.Password))
@@ -321,8 +313,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"Account.ResetPassword AccountName={info.AccountName}");
-
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
             {
@@ -357,8 +347,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/account/upload/{accountId}")]
         public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"Account.UploadProfileImage AccountId={accountId}");
-
             var account = await this.GetAndVerifyAccount(accountId, token);
 
             using (var stream = await this.Request.Content.ReadAsStreamAsync())

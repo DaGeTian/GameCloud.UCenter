@@ -48,8 +48,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/payment/charge")]
         public async Task<IHttpActionResult> CreateCharge([FromBody] ChargeInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"AppServer.CreateCharge\nAppId={info.AppId}\nAccountId={info.AccountId}");
-
             try
             {
                 var account = await this.Database.Accounts.GetSingleAsync(info.AccountId, token);
@@ -115,8 +113,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/payment/webhook")]
         public async Task<IHttpActionResult> PingPlusPlusWebHook(CancellationToken token)
         {
-            CustomTrace.TraceInformation("AppServer.PingPlusPlusWebHook");
-
             // 获取 post 的 event对象
             var inputData = Request.Content.ReadAsStringAsync().Result;
             CustomTrace.TraceInformation("Received event\n" + inputData);
