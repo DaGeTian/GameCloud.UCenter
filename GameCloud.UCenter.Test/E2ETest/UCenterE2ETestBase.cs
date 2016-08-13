@@ -23,11 +23,20 @@ namespace GameCloud.UCenter.Test.E2ETest
 
         public UCenterE2ETestBase()
         {
-            var settings = ExportProvider.GetExportedValue<Settings>();
-            string host = $"http://{settings.ServerHost}:{settings.ServerPort}";
+            var settings = ExportProvider.GetExportedValue<UCenterTestSettings>();
+            string host = $"http://{settings.UCenterServerHost}:{settings.UCenterServerPort}";
             this.acClient = new UCenterClient(host);
             this.asClient = new SDK.AppServer.UCenterClient(host);
         }
+
+        protected DeviceInfo TestDevice => new DeviceInfo
+        {
+            Id = "UnitTestDeviceId",
+            Name = "UnitTestDeviceName",
+            Type = "UnitTestDeviceType",
+            Model = "UnitTestDeviceType",
+            OperationSystem = "UnitTestDeviceOS"
+        };
 
         [TestInitialize]
         public void Initialize()
@@ -68,16 +77,7 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             return registerResponse;
         }
-
-        protected DeviceInfo TestDevice => new DeviceInfo
-        {
-            Id = "UnitTestDeviceId",
-            Name = "UnitTestDeviceName",
-            Type = "UnitTestDeviceType",
-            Model = "UnitTestDeviceType",
-            OperationSystem = "UnitTestDeviceOS"
-        };
-
+        
         private async Task InitializeAsync()
         {
             var appInfo = new AppInfo

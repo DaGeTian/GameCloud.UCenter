@@ -47,8 +47,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/appclient/ip")]
         public IHttpActionResult GetClientIpArea(CancellationToken token)
         {
-            CustomTrace.TraceInformation("AppClient.GetClientIpArea");
-
             string ipAddress = IPHelper.GetClientIpAddress(Request);
             return this.CreateSuccessResult(ipAddress);
         }
@@ -63,8 +61,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/appclient/createconf")]
         public async Task<IHttpActionResult> CreateAppConfiguration([FromBody] AppConfigurationInfo info, CancellationToken token)
         {
-            CustomTrace.TraceInformation("[CreateAppConfiguration] AppId={0}", info.AppId);
-
             var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(info.AppId, token);
 
             if (appConfiguration == null)
@@ -100,8 +96,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/appclient/conf")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
         {
-            CustomTrace.TraceInformation($"AppClient.GetAppConfiguration AppId={appId}");
-
             var app = await this.Database.Apps.GetSingleAsync(appId, token);
             if (app == null)
             {

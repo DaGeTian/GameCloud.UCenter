@@ -73,12 +73,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\TestExpector.cs" />
+    <Compile Include="E2ETest\UCenterLoadTest.cs" />
     <Compile Include="MongoDB\AdapterTest.cs" />
     <Compile Include="E2ETest\UCenterE2EAppServerTest.cs" />
     <Compile Include="E2ETest\UCenterE2EAppClientTest.cs" />
     <Compile Include="E2ETest\UCenterE2ETestBase.cs" />
     <Compile Include="FunctionalUnitTest.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="UCenterTestSettings.cs" />
     <Compile Include="Clients\TenantEnvironment.cs" />
     <Compile Include="Clients\WebContext.cs" />
     <Compile Include="TestAppConfiguration.cs" />

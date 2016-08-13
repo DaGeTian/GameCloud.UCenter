@@ -14,13 +14,13 @@ namespace GameCloud.UCenter.Test.Clients
     {
         private readonly HttpSelfHostConfiguration configuration;
         private readonly HttpSelfHostServer server;
-        private readonly Settings settings;
+        private readonly UCenterTestSettings settings;
 
         [ImportingConstructor]
-        public WebContext(ExportProvider exportProvider, Settings settings)
+        public WebContext(ExportProvider exportProvider, UCenterTestSettings settings)
         {
             this.settings = settings;
-            this.BaseAddress = $"http://{this.settings.ServerHost}:{this.settings.ServerPort}";
+            this.BaseAddress = $"http://{this.settings.UCenterServerHost}:{this.settings.UCenterServerPort}";
 
             if (UseSelfHost())
             {

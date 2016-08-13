@@ -30,7 +30,9 @@ namespace GameCloud.UCenter.Web.Common.Filters
         /// <returns>Async task.</returns>
         public override async Task OnActionExecutingAsync(HttpActionContext context, CancellationToken token)
         {
+#if DEBUG
             this.LogInboundRequest(context);
+#endif
 
             if (!context.ModelState.IsValid)
             {

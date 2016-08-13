@@ -4,12 +4,12 @@ using System.ComponentModel.Composition;
 namespace GameCloud.UCenter.Test
 {
     [Export]
-    public class Settings
+    public class UCenterTestSettings
     {
         [DefaultValue("localhost")]
-        public string ServerHost { get; set; }
+        public string UCenterServerHost { get; set; }
 
         [DefaultValue(8888)]
-        public int ServerPort { get; set; }
+        public int UCenterServerPort { get; set; }
     }
 }

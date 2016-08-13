@@ -58,7 +58,7 @@ namespace GameCloud.UCenter.Test
 
         protected string GenerateRandomString(int length = 8)
         {
-            var random = new Random();
+            var random = new Random(Guid.NewGuid().GetHashCode());
             var result = new List<char>();
             var maxIdx = CharsPool.Value.Count;
             result.Add(CharsPool.Value.ElementAt(random.Next(11, maxIdx)));
@@ -75,14 +75,14 @@ namespace GameCloud.UCenter.Test
         {
             ExportProvider = CompositionContainerFactory.Create();
 
+            SettingsInitializer.Initialize<UCenterTestSettings>(
+                ExportProvider,
+                SettingsDefaultValueProvider<UCenterTestSettings>.Default,
+                AppConfigurationValueProvider.Default);
+
             SettingsInitializer.Initialize<Settings>(
                 ExportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,
-                AppConfigurationValueProvider.Default);
-
-            SettingsInitializer.Initialize<UCenter.Common.Settings.Settings>(
-                ExportProvider,
-                SettingsDefaultValueProvider<UCenter.Common.Settings.Settings>.Default,
                 AppConfigurationValueProvider.Default);
 
             SettingsInitializer.Initialize<DatabaseContextSettings>(
@@ -90,19 +90,20 @@ namespace GameCloud.UCenter.Test
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
 
-            var settings = ExportProvider.GetExportedValue<UCenter.Common.Settings.Settings>();
+            var settings = ExportProvider.GetExportedValue<Settings>();
 
-            await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
-            await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
-            await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForFemaleBlobName);
-            await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForMaleBlobName);
+            // TODO: This will break distributed unit test!
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForFemaleBlobName);
+            // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForMaleBlobName);
         }
 
         private static async Task InitProfileImageBlobsAsync(string blobName)
         {
             using (var fileStream = File.OpenRead(@"TestData\github.png"))
             {
-                var settings = ExportProvider.GetExportedValue<UCenter.Common.Settings.Settings>();
+                var settings = ExportProvider.GetExportedValue<Settings>();
                 var blobContext = new StorageAccountContext(settings);
                 await blobContext.UploadBlobAsync(blobName, fileStream, CancellationToken.None);
             }
