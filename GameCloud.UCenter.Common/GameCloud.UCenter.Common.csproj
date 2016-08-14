@@ -74,11 +74,6 @@
     <Compile Include="Models\AppClient\AccountRegisterRequestInfo.cs" />
     <Compile Include="Dumper\ObjectDumper.cs" />
     <Compile Include="Models\AppServer\AppConfigurationInfo.cs" />
-    <Compile Include="Models\PingPlusPlus\Charge.cs" />
-    <Compile Include="Models\PingPlusPlus\ChargeInfo.cs" />
-    <Compile Include="Models\PingPlusPlus\ChargeList.cs" />
-    <Compile Include="Models\PingPlusPlus\Refund.cs" />
-    <Compile Include="Models\PingPlusPlus\RefundList.cs" />
     <Compile Include="Models\AppServer\AppAccountDataInfo.cs" />
     <Compile Include="Models\AppServer\AppAccountDataResponse.cs" />
     <Compile Include="Models\AppServer\AppInfo.cs" />

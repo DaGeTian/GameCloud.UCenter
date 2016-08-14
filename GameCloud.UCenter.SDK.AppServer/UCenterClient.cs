@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Models.AppServer;
-using GameCloud.UCenter.Common.Models.PingPlusPlus;
 using GameCloud.UCenter.Common.SDK;
 
 namespace GameCloud.UCenter.SDK.AppServer
@@ -92,22 +91,6 @@ namespace GameCloud.UCenter.SDK.AppServer
                     HttpMethod.Post,
                     url,
                     info);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Create charge.
-        /// </summary>
-        /// <param name="info">Indicating the charge information.</param>
-        /// <returns>Async response.</returns>
-        public async Task<Charge> CreateChargeAsync(ChargeInfo info)
-        {
-            string url = this.GenerateApiEndpoint("payment", "charge");
-            var response = await this.httpClient.SendAsyncWithException<ChargeInfo, Charge>(
-                HttpMethod.Post,
-                url,
-                info);
 
             return response;
         }

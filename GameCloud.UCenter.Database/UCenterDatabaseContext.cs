@@ -60,17 +60,6 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the order adapter.
-        /// </summary>
-        public ICollectionAdapter<OrderEntity> Orders
-        {
-            get
-            {
-                return this.GetAdapter<OrderEntity>();
-            }
-        }
-
-        /// <summary>
         /// Gets the key placeholder adapter.
         /// </summary>
         public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders

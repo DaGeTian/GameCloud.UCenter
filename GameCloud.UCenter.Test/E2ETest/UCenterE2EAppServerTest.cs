@@ -2,11 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Models.AppServer;
-using GameCloud.UCenter.Common.Models.PingPlusPlus;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Test.Common;
-using GameCloud.UCenter.Web.Api.ApiControllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameCloud.UCenter.Test.E2ETest
@@ -204,48 +202,6 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
                async () => { await asClient.AppWriteAccountDataAsync(accountData); });
-        }
-
-        [TestMethod]
-        public async Task E2E_AppServer_Create_Order_Test()
-        {
-            var registerResponse = await CreateTestAccount();
-
-            var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo
-            {
-                AccountName = registerResponse.AccountName,
-                Password = ValidAccountPassword,
-                Device = TestDevice
-            });
-
-            var chargeInfo = new ChargeInfo
-            {
-                AppId = TestAppId,
-                AppSecret = TestAppSecret,
-                AccountId = loginResponse.AccountId,
-                Amount = 100,
-                Subject = "Super Axe",
-                Body = "Test body",
-                ClientIp = "1.2.3.4",
-                Description = "This is a test order created by unit test"
-            };
-
-            var result = await asClient.CreateChargeAsync(chargeInfo);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Amount, chargeInfo.Amount);
-            Assert.AreEqual(result.Subject, chargeInfo.Subject);
-            Assert.AreEqual(result.Body, chargeInfo.Body);
-            //// Assert.AreEqual(result.Description, chargeInfo.Description);
-            Assert.IsNotNull(result.OrderNo);
-            //// Assert.IsNotNull(result.TransactionNo);
-        }
-
-        [TestMethod]
-        public async Task E2E_AppServer_Complete_Order_Test()
-        {
-            var controller = ExportProvider.GetExportedValue<PaymentApiController>();
-            string orderData = File.ReadAllText(@"TestData\charge.succeeded.json");
-            await controller.ProcessOrderAsync(orderData, CancellationToken.None);
         }
     }
 }

@@ -51,8 +51,6 @@
     <Compile Include="Entities\AppEntity.cs" />
     <Compile Include="Entities\KeyPlaceholderEntity.cs" />
     <Compile Include="Entities\KeyType.cs" />
-    <Compile Include="Entities\OrderEntity.cs" />
-    <Compile Include="Entities\OrderState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

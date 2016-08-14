@@ -86,10 +86,6 @@
       <HintPath>..\packages\NLog.4.3.4\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="pingpp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\pingpp.1.1.0\lib\pingpp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -163,7 +159,6 @@
     <Compile Include="ApiControllers\ApiControllerBase.cs" />
     <Compile Include="ApiControllers\AppServerApiController.cs" />
     <Compile Include="ApiControllers\AccountApiController.cs" />
-    <Compile Include="ApiControllers\PaymentApiController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -175,12 +170,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Data\rsa_public_key.pem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\rsa_private_key.pem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\CragonDev-LocalDeploy.pubxml" />
     <Content Include="Web.config">
