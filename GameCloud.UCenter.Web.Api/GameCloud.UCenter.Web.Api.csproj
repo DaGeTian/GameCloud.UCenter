@@ -182,9 +182,7 @@
     <Content Include="App_Data\rsa_private_key.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\cragonucenter - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\local.pubxml" />
-    <None Include="Properties\PublishProfiles\tp-ucenter - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\CragonDev-LocalDeploy.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -241,7 +239,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>24865</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
