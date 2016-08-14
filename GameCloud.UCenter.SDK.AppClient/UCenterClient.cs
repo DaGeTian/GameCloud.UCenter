@@ -32,7 +32,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<AccountRegisterResponse> AccountRegisterAsync(AccountRegisterInfo info)
         {
-            var url = this.GenerateApiEndpoint("account", "register");
+            var url = this.GenerateApiEndpoint("accounts", "register");
             var response = await this.httpClient.SendAsyncWithException<AccountRegisterInfo, AccountRegisterResponse>(
                 HttpMethod.Post,
                 url,
@@ -48,7 +48,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<AccountLoginResponse> AccountLoginAsync(AccountLoginInfo info)
         {
-            var url = this.GenerateApiEndpoint("account", "login");
+            var url = this.GenerateApiEndpoint("accounts", "login");
             var response = await this.httpClient.SendAsyncWithException<AccountLoginInfo, AccountLoginResponse>(
                 HttpMethod.Post,
                 url,
@@ -64,7 +64,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<GuestAccessResponse> AccountGuestAccessAsync(DeviceInfo device)
         {
-            var url = this.GenerateApiEndpoint("account", "guest");
+            var url = this.GenerateApiEndpoint("accounts", "guestaccess");
             var response = await this.httpClient.SendAsyncWithException<DeviceInfo, GuestAccessResponse>(
                 HttpMethod.Post,
                 url,
@@ -80,7 +80,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<AccountConvertResponse> AccountConvertAsync(GuestConvertInfo info)
         {
-            var url = this.GenerateApiEndpoint("account", "convert");
+            var url = this.GenerateApiEndpoint("accounts", "guestconvert");
             var response = await this.httpClient.SendAsyncWithException<GuestConvertInfo, AccountConvertResponse>(
                 HttpMethod.Post,
                 url,
@@ -96,7 +96,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<AccountResetPasswordResponse> AccountResetPasswordAsync(AccountResetPasswordInfo info)
         {
-            var url = this.GenerateApiEndpoint("account", "resetpassword");
+            var url = this.GenerateApiEndpoint("accounts", "resetpassword");
             return await this.httpClient.SendAsyncWithException<AccountResetPasswordInfo, AccountResetPasswordResponse>(
                 HttpMethod.Post,
                 url,
@@ -136,7 +136,7 @@ namespace GameCloud.UCenter.SDK.AppClient
             string accountId,
             Stream imageStream)
         {
-            var url = this.GenerateApiEndpoint("account", $"upload/{accountId}");
+            var url = this.GenerateApiEndpoint("accounts", $"{accountId}/upload");
             var content = new StreamContent(imageStream);
             content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
             return await this.httpClient.SendAsyncWithException<HttpContent, AccountUploadProfileImageResponse>(
@@ -152,7 +152,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <returns>Async response.</returns>
         public async Task<AppConfigurationResponse> GetAppConfigurationAsync(string appId)
         {
-            var url = this.GenerateApiEndpoint("appclient", $"conf?appId={appId}");
+            var url = this.GenerateApiEndpoint("apps", $"{appId}/configurations");
             var response = await this.httpClient.SendAsyncWithException<string, AppConfigurationResponse>(
                 HttpMethod.Post,
                 url,

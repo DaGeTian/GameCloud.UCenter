@@ -33,8 +33,6 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.AreEqual(loginResponse.Phone, registerResponse.Phone);
             Assert.AreEqual(loginResponse.Email, registerResponse.Email);
             Assert.AreEqual(loginResponse.Gender, registerResponse.Gender);
-            Assert.IsNotNull(loginResponse.ProfileImage);
-            Assert.IsNotNull(loginResponse.ProfileThumbnail);
             Assert.IsNotNull(loginResponse.LastLoginDateTime);
             Assert.IsNotNull(loginResponse.Token);
         }

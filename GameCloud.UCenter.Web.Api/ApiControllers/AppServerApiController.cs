@@ -7,6 +7,7 @@ using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 
@@ -36,7 +37,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/app/create")]
+        [Route("api/apps")]
         public async Task<IHttpActionResult> CreateApp([FromBody] AppInfo info, CancellationToken token)
         {
             var app = await this.Database.Apps.GetSingleAsync(info.AppId, token);
@@ -63,16 +64,78 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         }
 
         /// <summary>
+        /// Create application configuration
+        /// </summary>
+        /// <param name="info">Indicating the application information.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        [HttpPost]
+        [Route("api/apps/configurations")]
+        public async Task<IHttpActionResult> CreateAppConfiguration([FromBody] AppConfigurationInfo info, CancellationToken token)
+        {
+            var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(info.AppId, token);
+
+            if (appConfiguration == null)
+            {
+                appConfiguration = new AppConfigurationEntity
+                {
+                    Id = info.AppId,
+                    Configuration = info.Configuration,
+                };
+
+                await this.Database.AppConfigurations.InsertAsync(appConfiguration, token);
+            }
+            else
+            {
+                await this.Database.AppConfigurations.UpsertAsync(appConfiguration, token);
+            }
+
+            var response = new AppConfigurationResponse
+            {
+                AppId = info.AppId,
+                Configuration = info.Configuration
+            };
+            return this.CreateSuccessResult(response);
+        }
+
+        /// <summary>
+        /// Get the APP configuration.
+        /// </summary>
+        /// <param name="appId">Indicating the App id.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        [HttpPost]
+        [Route("api/apps/{appId}/configurations")]
+        public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
+        {
+            var app = await this.Database.Apps.GetSingleAsync(appId, token);
+            if (app == null)
+            {
+                throw new UCenterException(UCenterErrorCode.AppNotExists);
+            }
+
+            var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(appId, token);
+
+            var response = new AppConfigurationResponse
+            {
+                AppId = app.Id,
+                Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
+            };
+
+            return this.CreateSuccessResult(response);
+        }
+
+        /// <summary>
         /// Verify the account.
         /// </summary>
         /// <param name="info">Indicating the account information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/app/accountlogin")]
-        public async Task<IHttpActionResult> AccountLoginApp(AccountLoginAppInfo info, CancellationToken token)
+        [Route("api/apps/{appId}/accountlogin")]
+        public async Task<IHttpActionResult> AccountLogin(string appId, AccountLoginAppInfo info, CancellationToken token)
         {
-            await this.VerifyApp(info.AppId, info.AppSecret, token);
+            await this.VerifyApp(appId, info.AppSecret, token);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
 
             var result = new AccountLoginAppResponse();
@@ -92,10 +155,10 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/app/readdata")]
-        public async Task<IHttpActionResult> ReadAppAccountData(AppAccountDataInfo info, CancellationToken token)
+        [Route("api/apps/{appId}/readdata")]
+        public async Task<IHttpActionResult> ReadAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
         {
-            await this.VerifyApp(info.AppId, info.AppSecret, token);
+            await this.VerifyApp(appId, info.AppSecret, token);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
             var dataId = this.CreateAppAccountDataId(info.AppId, info.AccountId);
@@ -118,10 +181,10 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/app/writedata")]
-        public async Task<IHttpActionResult> WriteAppAccountData(AppAccountDataInfo info, CancellationToken token)
+        [Route("api/apps/{appId}/writedata")]
+        public async Task<IHttpActionResult> WriteAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
         {
-            await this.VerifyApp(info.AppId, info.AppSecret, token);
+            await this.VerifyApp(appId, info.AppSecret, token);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
 

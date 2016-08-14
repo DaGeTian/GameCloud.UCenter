@@ -252,11 +252,11 @@ namespace GameCloud.UCenter.SDK.Unity
             string http_url = null;
             if (UCenterDomain.EndsWith("/"))
             {
-                http_url = string.Format("{0}api/appclient/conf?appId={1}", UCenterDomain, app_id);
+                http_url = string.Format("{0}api/apps/{1}/configurations", UCenterDomain, app_id);
             }
             else
             {
-                http_url = string.Format("{0}/api/appclient/conf?appId={1}", UCenterDomain, app_id);
+                http_url = string.Format("{0}/api/apps/{1}/configurations", UCenterDomain, app_id);
             }
 
             WWWForm form = new WWWForm();

@@ -72,8 +72,6 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.AreEqual(registerResponse.Phone, info.Phone);
             Assert.AreEqual(registerResponse.Email, info.Email);
             Assert.AreEqual(registerResponse.Gender, info.Gender);
-            Assert.IsNotNull(registerResponse.ProfileImage);
-            Assert.IsNotNull(registerResponse.ProfileThumbnail);
 
             return registerResponse;
         }

@@ -13,6 +13,7 @@ using GameCloud.UCenter.Common;
 using GameCloud.UCenter.Common.Extensions;
 using GameCloud.UCenter.Common.IP;
 using GameCloud.UCenter.Common.Models.AppClient;
+using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
@@ -56,7 +57,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/register")]
+        [Route("api/accounts/register")]
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
             try
@@ -78,18 +79,19 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     Gender = info.Gender
                 };
 
-                // set the default profiles
-                accountEntity.ProfileImage = await this.storageContext.CopyBlobAsync(
-                    accountEntity.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
-                    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountEntity.Id),
-                    token);
+                // Remove this from UCenter for performance concern
+                // If user does not have default profile icon, app client should use local default one
+                // accountEntity.ProfileImage = await this.storageContext.CopyBlobAsync(
+                //    accountEntity.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
+                //    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountEntity.Id),
+                //    token);
 
-                accountEntity.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
-                    accountEntity.Gender == Gender.Female
-                        ? this.settings.DefaultProfileThumbnailForFemaleBlobName
-                        : this.settings.DefaultProfileThumbnailForMaleBlobName,
-                    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountEntity.Id),
-                    token);
+                // accountEntity.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
+                //    accountEntity.Gender == Gender.Female
+                //        ? this.settings.DefaultProfileThumbnailForFemaleBlobName
+                //        : this.settings.DefaultProfileThumbnailForMaleBlobName,
+                //    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountEntity.Id),
+                //    token);
 
                 await this.Database.Accounts.InsertAsync(accountEntity, token);
 
@@ -122,7 +124,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/login")]
+        [Route("api/accounts/login")]
         public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
@@ -181,7 +183,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/guest")]
+        [Route("api/accounts/guestaccess")]
         public async Task<IHttpActionResult> GuestAccess([FromBody] DeviceInfo info, CancellationToken token)
         {
             EnsureDeviceInfo(info);
@@ -225,7 +227,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/convert")]
+        [Route("api/accounts/guestconvert")]
         public async Task<IHttpActionResult> GuestConvert([FromBody] GuestConvertInfo info, CancellationToken token)
         {
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
@@ -252,7 +254,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/resetpassword")]
+        [Route("api/accounts/resetpassword")]
         public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
@@ -286,7 +288,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
         [HttpPost]
-        [Route("api/account/upload/{accountId}")]
+        [Route("api/accounts/{accountId}/upload")]
         public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
         {
             var account = await this.GetAndVerifyAccount(accountId, token);
@@ -310,6 +312,19 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
+        }
+
+        /// <summary>
+        /// Get client IP area.
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        [HttpGet]
+        [Route("api/accounts/ip")]
+        public IHttpActionResult GetClientIp(CancellationToken token)
+        {
+            string ipAddress = IPHelper.GetClientIpAddress(Request);
+            return this.CreateSuccessResult(ipAddress);
         }
 
         private async Task TraceUCenterErrorAsync(
