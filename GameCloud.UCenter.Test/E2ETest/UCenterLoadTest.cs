@@ -14,7 +14,9 @@ namespace GameCloud.UCenter.Test.E2ETest
     [TestClass]
     public class UCenterLoadTest : UCenterE2ETestBase
     {
-        [TestMethod]
+        // Test in this class is only for loading test
+
+        // [TestMethod]
         public async Task LoadTest_GetAppConfiguration()
         {
             var result = await acClient.GetAppConfigurationAsync(TestAppId);
@@ -22,7 +24,7 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.AreEqual(result.AppId, TestAppId);
         }
 
-        [TestMethod]
+        // [TestMethod]
         public async Task LoadTest_Login()
         {
             var loginResponse = await acClient.AccountLoginAsync(new AccountLoginInfo

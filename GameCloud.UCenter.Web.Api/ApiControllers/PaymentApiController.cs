@@ -100,7 +100,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             catch (Exception ex)
             {
                 CustomTrace.TraceError(ex, "Failed to create charge");
-                throw new UCenterException(UCenterErrorCode.PaymentCreateChargeFailed, ex.Message);
+                throw new UCenterException(UCenterErrorCode.InternalHttpServerError, ex.Message);
             }
         }
 

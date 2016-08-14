@@ -160,12 +160,12 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             var app = await this.Database.Apps.GetSingleAsync(appId, token);
             if (app == null)
             {
-                throw new UCenterException(UCenterErrorCode.AppNotExit);
+                throw new UCenterException(UCenterErrorCode.AppNotExists);
             }
 
             if (appSecret != app.AppSecret)
             {
-                throw new UCenterException(UCenterErrorCode.AppAuthFailedSecretNotMatch);
+                throw new UCenterException(UCenterErrorCode.AppTokenUnauthorized);
             }
         }
 
@@ -189,7 +189,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             if (account.Token != accountToken)
             {
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedTokenNotMatch);
+                throw new UCenterException(UCenterErrorCode.AccountTokenUnauthorized);
             }
 
             return account;

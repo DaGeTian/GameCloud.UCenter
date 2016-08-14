@@ -40,7 +40,7 @@ namespace GameCloud.UCenter.Web.Common.Filters
                     .Select(e => e.ErrorMessage)
                     .JoinToString("\n", e => e);
 
-                context.Response = this.CreateErrorResponseMessage(UCenterErrorCode.HttpClientError, errorMessage);
+                context.Response = this.CreateErrorResponseMessage(UCenterErrorCode.InternalHttpServerError, errorMessage);
             }
 
             await base.OnActionExecutingAsync(context, token);
@@ -60,7 +60,7 @@ namespace GameCloud.UCenter.Web.Common.Filters
                     context.Request.RequestUri,
                     context.ActionContext.ActionArguments);
 
-                var errorCode = UCenterErrorCode.Failed;
+                var errorCode = UCenterErrorCode.InternalHttpServerError;
 
                 if (context.Exception is UCenterException)
                 {
@@ -68,11 +68,7 @@ namespace GameCloud.UCenter.Web.Common.Filters
                 }
                 else if (context.Exception is MongoException)
                 {
-                    errorCode = UCenterErrorCode.DatabaseError;
-                }
-                else
-                {
-                    errorCode = UCenterErrorCode.Failed;
+                    errorCode = UCenterErrorCode.InternalDatabaseError;
                 }
 
                 string errorMessage = context.Exception.Message;

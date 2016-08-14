@@ -104,7 +104,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
                 {
-                    throw new UCenterException(UCenterErrorCode.AccountRegisterFailedAlreadyExist, mex.Message);
+                    throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
                 }
                 else
                 {
@@ -129,7 +129,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 await this.TraceUCenterErrorAsync(
                      accountEntity,
-                     UCenterErrorCode.AccountLoginFailedDisabled,
+                     UCenterErrorCode.AccountNotExist,
                      "The account does not exist",
                      token);
 
@@ -140,22 +140,22 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 await this.TraceUCenterErrorAsync(
                      accountEntity,
-                     UCenterErrorCode.AccountLoginFailedDisabled,
+                     UCenterErrorCode.AccountDisabled,
                      "The account is disabled",
                      token);
 
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedDisabled);
+                throw new UCenterException(UCenterErrorCode.AccountDisabled);
             }
 
             if (!EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
             {
                 await this.TraceUCenterErrorAsync(
                     accountEntity,
-                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    UCenterErrorCode.AccountPasswordUnauthorized,
                     "The account name and password do not match",
                     token);
 
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
+                throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
 
             accountEntity.LastLoginDateTime = DateTime.UtcNow;
@@ -232,11 +232,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 await this.TraceUCenterErrorAsync(
                     accountEntity,
-                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    UCenterErrorCode.AccountPasswordUnauthorized,
                     "The account name and password do not match",
                     token);
 
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
+                throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
 
             accountEntity.AccountName = info.AccountName;
@@ -274,11 +274,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 await this.TraceUCenterErrorAsync(
                     accountEntity,
-                    UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+                    UCenterErrorCode.AccountPasswordUnauthorized,
                     "The super password provided is incorrect",
                     token);
 
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedPasswordNotMatch);
+                throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
 
             accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
@@ -378,7 +378,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             if (device == null)
             {
-                throw new UCenterException(UCenterErrorCode.AccountLoginFailedMissingDeviceInfo);
+                throw new UCenterException(UCenterErrorCode.DeviceInfoNull);
             }
         }
 

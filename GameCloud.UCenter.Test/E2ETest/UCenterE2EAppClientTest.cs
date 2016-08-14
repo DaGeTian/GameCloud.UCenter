@@ -67,7 +67,7 @@ namespace GameCloud.UCenter.Test.E2ETest
         {
             var registerResponse = await CreateTestAccount();
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch, async () =>
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountPasswordUnauthorized, async () =>
              {
                  await acClient.AccountLoginAsync(new AccountLoginInfo
                  {
@@ -93,13 +93,12 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Device = TestDevice
             };
 
-            // TOOD: Change ErrorCode in next client refresh
-            info.AccountName = "$%^";
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+            info.AccountName = $"{GenerateRandomString()}-%^";
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.InvalidAccountName,
                 async () => { await acClient.AccountRegisterAsync(info); });
 
             info.AccountName = "张无忌";
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.InvalidAccountName,
                 async () => { await acClient.AccountRegisterAsync(info); });
         }
 
@@ -121,7 +120,7 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             await acClient.AccountRegisterAsync(info);
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountRegisterFailedAlreadyExist,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNameAlreadyExist,
                 async () => { await acClient.AccountRegisterAsync(info); });
         }
 
@@ -132,7 +131,6 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.IsNotNull(loginResponse.AccountName);
-            Assert.IsNotNull(loginResponse.Password);
             Assert.IsNotNull(loginResponse.Token);
 
             var convertInfo = new AccountConvertInfo
@@ -184,7 +182,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Device = TestDevice
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedPasswordNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountPasswordUnauthorized,
                 async () => { await acClient.AccountLoginAsync(loginInfo); });
         }
 

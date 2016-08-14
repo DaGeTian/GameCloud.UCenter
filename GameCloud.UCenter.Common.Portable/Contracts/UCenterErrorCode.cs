@@ -1,75 +1,35 @@
 ﻿namespace GameCloud.UCenter.Common.Portable.Contracts
 {
-    public enum UCenterErrorCode : short
+    public enum UCenterErrorCode
     {
-        /// <summary>
-        /// 通用，成功
-        /// </summary>
-        Success = 0,
+        NoError = 0,
 
-        /// <summary>
-        /// 未处理的通用错误
-        /// </summary>
-        Failed = 1000,
-        DatabaseError = 1001,
-        HttpClientError = 1002,
+        // Error sends http request on client side
+        ClientError = 1,
 
-        /// <summary>
-        /// 帐号不存在
-        /// </summary>
-        AccountNotExist = 2000,
+        // BadRequest - 400
+        InvalidAccountName = 400001,
+        DeviceInfoNull = 400002,
 
-        /// <summary>
-        /// 注册，用户名重复
-        /// </summary>
-        AccountRegisterFailedAlreadyExist,
+        // Unauthorized - 401
+        AccountPasswordUnauthorized = 401001,
+        AccountTokenUnauthorized = 401002,
+        AppTokenUnauthorized = 401003,
+        AccountDisabled = 401004,
 
-        /// <summary>
-        /// 注册，用户名包含非法字符
-        /// </summary>
-        AccountRegisterFailedInvalidName,
+        // NotFound - 404
+        AccountNotExist = 404001,
+        AppNotExists = 404002,
 
-        /// <summary>
-        /// 登陆，密码错误
-        /// </summary>
-        AccountLoginFailedPasswordNotMatch,
+        // Conflict - 409
+        AccountNameAlreadyExist = 409001,
+        AppNameAlreadyExist = 409002,
 
-        /// <summary>
-        /// 登陆，Token错误
-        /// </summary>
-        AccountLoginFailedTokenNotMatch,
+        // InternalServerError - 500
+        InternalDatabaseError = 500001,
+        InternalHttpServerError = 500002,
 
-        /// <summary>
-        /// 登陆，账号已禁用
-        /// </summary>
-        AccountLoginFailedDisabled,
-
-        /// <summary>
-        /// 登陆，设备信息缺失
-        /// </summary>
-        AccountLoginFailedMissingDeviceInfo,
-
-        AppNotExit = 3000,
-
-        /// <summary>
-        /// App登陆失败，secret错误
-        /// </summary>
-        AppAuthFailedSecretNotMatch,
-
-        /// <summary>
-        /// App读取AccountData失败
-        /// </summary>
-        AppReadAccountDataFailed,
-
-        /// <summary>
-        /// App写入AccountData失败
-        /// </summary>
-        AppWriteAccountDataFailed,
-
-        /// <summary>
-        /// 创建Charge失败
-        /// </summary>
-        PaymentCreateChargeFailed = 4000,
-        OrderNotFound = 4001
+        // ServiceUnavailable - 503
+        ServiceUnavailable = 503001
     }
 }

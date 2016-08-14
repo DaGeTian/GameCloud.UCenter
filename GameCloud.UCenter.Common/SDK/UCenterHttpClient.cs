@@ -59,7 +59,7 @@ namespace GameCloud.UCenter.Common.SDK
                 throw new UCenterException(response.Error.ErrorCode, response.Error.Message);
             }
 
-            throw new UCenterException(UCenterErrorCode.Failed, "Error occurred when sending http request");
+            throw new UCenterException(UCenterErrorCode.ClientError, "Error occurred when sending http request");
         }
 
         private HttpClient CreateHttpClient()

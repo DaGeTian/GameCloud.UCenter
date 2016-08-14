@@ -60,7 +60,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// <summary>
         /// Login guest account.
         /// </summary>
-        /// <param name="info">Indicating the account device information.</param>
+        /// <param name="device">Indicating the account device information.</param>
         /// <returns>Async response.</returns>
         public async Task<AccountGuestLoginResponse> AccountGuestLoginAsync(DeviceInfo device)
         {

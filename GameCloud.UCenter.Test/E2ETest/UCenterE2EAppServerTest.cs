@@ -76,7 +76,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = loginResponse.Token
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExit,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExists,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -100,7 +100,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = ValidAccountPassword
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -124,7 +124,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = InValidAccountToken
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountLoginFailedTokenNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountTokenUnauthorized,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -177,7 +177,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountId = loginResponse.AccountId
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
                 async () => { await asClient.AppReadAccountDataAsync(accountData); });
         }
 
@@ -202,7 +202,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Data = data
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppAuthFailedSecretNotMatch,
+            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
                async () => { await asClient.AppWriteAccountDataAsync(accountData); });
         }
 

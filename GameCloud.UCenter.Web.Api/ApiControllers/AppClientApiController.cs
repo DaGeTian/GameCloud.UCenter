@@ -99,7 +99,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             var app = await this.Database.Apps.GetSingleAsync(appId, token);
             if (app == null)
             {
-                throw new UCenterException(UCenterErrorCode.AppNotExit);
+                throw new UCenterException(UCenterErrorCode.AppNotExists);
             }
 
             var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(appId, token);
