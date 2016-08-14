@@ -161,7 +161,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
             GuestAccessHandler = new Action<UCenterResponseStatus, GuestAccessResponse, UCenterError>(handler);
 
-            string http_url = _genUrl("guest");
+            string http_url = _genUrl("guestaccess");
 
             string param = EbTool.jsonSerialize(request);
             byte[] bytes = Encoding.UTF8.GetBytes(param);
