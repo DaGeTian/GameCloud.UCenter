@@ -190,7 +190,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
             ConvertHandler = new Action<UCenterResponseStatus, AccountConvertResponse, UCenterError>(handler);
 
-            string http_url = _genUrl("convert");
+            string http_url = _genUrl("guestconvert");
 
             string param = EbTool.jsonSerialize(request);
             byte[] bytes = Encoding.UTF8.GetBytes(param);
