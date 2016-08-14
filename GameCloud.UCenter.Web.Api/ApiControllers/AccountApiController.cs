@@ -461,18 +461,6 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             return stream;
         }
 
-        private KeyPlaceholderEntity GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
-        {
-            return new KeyPlaceholderEntity
-            {
-                Id = $"{type}-{name}",
-                Name = name,
-                Type = type,
-                AccountId = accountId,
-                AccountName = accountName
-            };
-        }
-
         private void ValidateAccount(AccountRegisterRequestInfo account)
         {
             string accountNamePattern = @"^[a-zA-Z0-9.@]*$";

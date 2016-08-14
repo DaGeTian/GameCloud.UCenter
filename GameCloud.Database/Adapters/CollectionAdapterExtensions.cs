@@ -127,5 +127,11 @@ namespace GameCloud.Database.Adapters
         {
             return adapter.GetListAsync(filter, null, token);
         }
+
+        public static Task<string> CreateIndexIfNotExistAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, IndexKeysDefinition<TEntity> keys, CreateIndexOptions options, CancellationToken token)
+           where TEntity : EntityBase
+        {
+            return adapter.CreateIndexIfNotExistAsync(keys, options, token);
+        }
     }
 }

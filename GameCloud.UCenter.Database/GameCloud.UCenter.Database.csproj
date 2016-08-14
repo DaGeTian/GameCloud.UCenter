@@ -49,8 +49,6 @@
     <Compile Include="Entities\AppAccountDataEntity.cs" />
     <Compile Include="Entities\AppConfigurationEntity.cs" />
     <Compile Include="Entities\AppEntity.cs" />
-    <Compile Include="Entities\KeyPlaceholderEntity.cs" />
-    <Compile Include="Entities\KeyType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

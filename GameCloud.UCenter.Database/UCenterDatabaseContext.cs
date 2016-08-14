@@ -60,17 +60,6 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the key placeholder adapter.
-        /// </summary>
-        public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders
-        {
-            get
-            {
-                return this.GetAdapter<KeyPlaceholderEntity>();
-            }
-        }
-
-        /// <summary>
         /// Gets the device record adapter.
         /// </summary>
         public ICollectionAdapter<DeviceEntity> Devices

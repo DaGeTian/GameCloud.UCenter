@@ -164,6 +164,10 @@ namespace GameCloud.UCenter.Test.E2ETest
         [TestMethod]
         public async Task E2E_AppClient_Register_Twice_Test()
         {
+            string accountName = GenerateRandomString();
+            string phone = GenerateRandomString();
+            string email = GenerateRandomString() + "@test.com";
+
             var info = new AccountRegisterInfo
             {
                 AccountName = GenerateRandomString(),
@@ -179,6 +183,16 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             await acClient.AccountRegisterAsync(info);
 
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountNameAlreadyExist,
+                async () => { await acClient.AccountRegisterAsync(info); });
+
+            info.AccountName = GenerateRandomString();
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountNameAlreadyExist,
+                async () => { await acClient.AccountRegisterAsync(info); });
+
+            info.Phone = GenerateRandomString();
             await TestExpector.ExpectUCenterErrorAsync(
                 UCenterErrorCode.AccountNameAlreadyExist,
                 async () => { await acClient.AccountRegisterAsync(info); });

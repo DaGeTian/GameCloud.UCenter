@@ -6,6 +6,8 @@ using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Database.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Test.MongoDB
 {
@@ -18,7 +20,6 @@ namespace GameCloud.UCenter.Test.MongoDB
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
             var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
-            await adapter.CreateIfNotExistsAsync(token);
 
             var account = new AccountEntity
             {

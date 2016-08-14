@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
@@ -43,21 +44,6 @@ namespace GameCloud.Database.Adapters
             get
             {
                 return this.collection;
-            }
-        }
-
-        async Task ICollectionAdapter<TEntity>.CreateIfNotExistsAsync(CancellationToken token)
-        {
-            var filter = new BsonDocument("name", this.collectionName);
-            var collections = await this.context.Database.ListCollectionsAsync(
-                new ListCollectionsOptions()
-                {
-                    Filter = filter
-                }, token);
-
-            if (!collections.Any())
-            {
-                await this.context.Database.CreateCollectionAsync(this.collectionName, null, token);
             }
         }
 
@@ -106,6 +92,20 @@ namespace GameCloud.Database.Adapters
             // todo: add some check logic here.
             // todo: reterive the entity from server side??
             return entity;
+        }
+
+        async Task<string> ICollectionAdapter<TEntity>.CreateIndexIfNotExistAsync(IndexKeysDefinition<TEntity> keys, CreateIndexOptions options, CancellationToken token)
+        {
+            using (var cursor = await this.collection.Indexes.ListAsync(token))
+            {
+                var indexes = await cursor.ToListAsync(token);
+                var index = indexes.FirstOrDefault(i => i["name"] == options.Name);
+                if (index == null)
+                {
+                    return await this.collection.Indexes.CreateOneAsync(keys, options, token);
+                }
+            }
+            return null;
         }
     }
 }

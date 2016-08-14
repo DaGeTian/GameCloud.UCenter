@@ -19,13 +19,6 @@ namespace GameCloud.Database.Adapters
         IMongoCollection<TEntity> Collection { get; }
 
         /// <summary>
-        /// Create collection if not exists.
-        /// </summary>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task</returns>
-        Task CreateIfNotExistsAsync(CancellationToken token);
-
-        /// <summary>
         /// Get document entity list.
         /// </summary>
         /// <param name="filter">Indicating the filter expression.</param>
@@ -76,5 +69,7 @@ namespace GameCloud.Database.Adapters
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task</returns>
         Task<long> CountAsync(Expression<Func<TEntity, bool>> filter, CountOptions options, CancellationToken token);
+
+        Task<string> CreateIndexIfNotExistAsync(IndexKeysDefinition<TEntity> keys, CreateIndexOptions options, CancellationToken token);
     }
 }
