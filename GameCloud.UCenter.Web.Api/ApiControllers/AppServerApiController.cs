@@ -9,7 +9,6 @@ using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
-using GameCloud.UCenter.Web.Common.Logger;
 
 namespace GameCloud.UCenter.Web.Api.ApiControllers
 {

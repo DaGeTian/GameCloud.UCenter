@@ -28,9 +28,9 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.AreEqual(loginResponse.AccountName, registerResponse.AccountName);
-            Assert.AreEqual(loginResponse.IdentityNum, registerResponse.IdentityNum);
+            Assert.AreEqual(loginResponse.Identity, registerResponse.Identity);
             Assert.AreEqual(loginResponse.Name, registerResponse.Name);
-            Assert.AreEqual(loginResponse.PhoneNum, registerResponse.PhoneNum);
+            Assert.AreEqual(loginResponse.Phone, registerResponse.Phone);
             Assert.AreEqual(loginResponse.Email, registerResponse.Email);
             Assert.AreEqual(loginResponse.Gender, registerResponse.Gender);
             Assert.IsNotNull(loginResponse.ProfileImage);
@@ -52,9 +52,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                         Password = ValidAccountPassword,
                         SuperPassword = ValidAccountPassword,
                         Name = random,
-                        Email = random,
-                        IdentityNum = random,
-                        PhoneNum = random,
+                        Identity = random,
+                        Phone = random,
                         Gender = Gender.Female,
                         Device = TestDevice
                     };
@@ -67,38 +66,98 @@ namespace GameCloud.UCenter.Test.E2ETest
         {
             var registerResponse = await CreateTestAccount();
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountPasswordUnauthorized, async () =>
-             {
-                 await acClient.AccountLoginAsync(new AccountLoginInfo
-                 {
-                     AccountName = registerResponse.AccountName,
-                     Password = InValidAccountPassword,
-                     Device = TestDevice
-                 });
-             });
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountPasswordUnauthorized,
+                async () =>
+                {
+                    await acClient.AccountLoginAsync(new AccountLoginInfo
+                    {
+                        AccountName = registerResponse.AccountName,
+                        Password = InValidAccountPassword,
+                        Device = TestDevice
+                    });
+                });
         }
 
         [TestMethod]
-        public async Task E2E_AppClient_Register_WithInvalidChars_Test()
+        public async Task E2E_AppClient_Register_InvalidAccountName_Test()
         {
             var info = new AccountRegisterInfo
             {
+                AccountName = GenerateRandomString(),
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
                 Name = GenerateRandomString(),
-                IdentityNum = GenerateRandomString(),
-                PhoneNum = GenerateRandomString(),
+                Identity = GenerateRandomString(),
+                Phone = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
                 Gender = Gender.Female,
                 Device = TestDevice
             };
 
-            info.AccountName = $"{GenerateRandomString()}-%^";
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.InvalidAccountName,
+            // Account name length < 4 or > 64
+            info.AccountName = "ABC";
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountName,
+                async () => { await acClient.AccountRegisterAsync(info); });
+
+            info.AccountName = $"{GenerateRandomString()}-^$";
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountName,
                 async () => { await acClient.AccountRegisterAsync(info); });
 
             info.AccountName = "张无忌";
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.InvalidAccountName,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountName,
+                async () => { await acClient.AccountRegisterAsync(info); });
+        }
+
+        [TestMethod]
+        public async Task E2E_AppClient_Register_InvalidPassword_Test()
+        {
+            var info = new AccountRegisterInfo
+            {
+                AccountName = GenerateRandomString(),
+                Password = ValidAccountPassword,
+                SuperPassword = ValidAccountPassword,
+                Name = GenerateRandomString(),
+                Identity = GenerateRandomString(),
+                Phone = GenerateRandomString(),
+                Gender = Gender.Female,
+                Device = TestDevice
+            };
+
+            // Account password length < 6 or > 64
+            info.Password = "12345";
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountPassword,
+                async () => { await acClient.AccountRegisterAsync(info); });
+
+            info.Password = "1234567890123456789012345678901234567890123456789012345678901234567890";
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountPassword,
+                async () => { await acClient.AccountRegisterAsync(info); });
+        }
+
+        [TestMethod]
+        public async Task E2E_AppClient_Register_InvalidEmail_Test()
+        {
+            var info = new AccountRegisterInfo
+            {
+                AccountName = GenerateRandomString(),
+                Password = ValidAccountPassword,
+                SuperPassword = ValidAccountPassword,
+                Name = GenerateRandomString(),
+                Identity = GenerateRandomString(),
+                Phone = GenerateRandomString(),
+                Email = GenerateRandomString() + "@test.com",
+                Gender = Gender.Female,
+                Device = TestDevice
+            };
+
+            info.Email = "12345";
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.InvalidAccountEmail,
                 async () => { await acClient.AccountRegisterAsync(info); });
         }
 
@@ -111,8 +170,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
                 Name = $"account.{GenerateRandomString()}",
-                IdentityNum = GenerateRandomString(),
-                PhoneNum = GenerateRandomString(),
+                Identity = GenerateRandomString(),
+                Phone = GenerateRandomString(),
                 Email = GenerateRandomString() + "@test.com",
                 Gender = Gender.Female,
                 Device = TestDevice
@@ -120,30 +179,30 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             await acClient.AccountRegisterAsync(info);
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNameAlreadyExist,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountNameAlreadyExist,
                 async () => { await acClient.AccountRegisterAsync(info); });
         }
 
         [TestMethod]
-        public async Task E2E_AppClient_Guest_Login_And_Convert_Test()
+        public async Task E2E_AppClient_GuestAccess_And_Convert_Test()
         {
-            var loginResponse = await acClient.AccountGuestLoginAsync(TestDevice);
+            var loginResponse = await acClient.AccountGuestAccessAsync(TestDevice);
 
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.IsNotNull(loginResponse.AccountName);
             Assert.IsNotNull(loginResponse.Token);
 
-            var convertInfo = new AccountConvertInfo
+            var convertInfo = new GuestConvertInfo
             {
                 AccountId = loginResponse.AccountId,
-                AccountName = $"guest.{GenerateRandomString()}",
-                OldPassword = loginResponse.Password,
+                AccountName = $"account.{GenerateRandomString()}",
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
                 Name = GenerateRandomString(),
-                PhoneNum = GenerateRandomString(),
+                Phone = GenerateRandomString(),
                 Email = GenerateRandomString(),
-                IdentityNum = GenerateRandomString(),
+                Identity = GenerateRandomString(),
                 Gender = Gender.Female
             };
 
@@ -152,11 +211,27 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.IsNotNull(convertResponse.AccountId);
             Assert.IsNotNull(convertResponse.AccountId, convertInfo.AccountId);
             Assert.AreEqual(convertResponse.AccountName, convertInfo.AccountName);
-            Assert.AreEqual(convertResponse.IdentityNum, convertInfo.IdentityNum);
+            Assert.AreEqual(convertResponse.Identity, convertInfo.Identity);
             Assert.AreEqual(convertResponse.Name, convertInfo.Name);
-            Assert.AreEqual(convertResponse.PhoneNum, convertInfo.PhoneNum);
+            Assert.AreEqual(convertResponse.Phone, convertInfo.Phone);
             Assert.AreEqual(convertResponse.Email, convertInfo.Email);
             Assert.AreEqual(convertResponse.Gender, convertInfo.Gender);
+        }
+
+        [TestMethod]
+        public async Task E2E_AppClient_GuestAccess_DeviceInfoNull_Test()
+        {
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.DeviceInfoNull,
+                async () => await acClient.AccountGuestAccessAsync(null));
+        }
+
+        [TestMethod]
+        public async Task E2E_AppClient_GuestAccess_DeviceIdNull_Test()
+        {
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.DeviceIdNull,
+                async () => await acClient.AccountGuestAccessAsync(new DeviceInfo()));
         }
 
         [TestMethod]
@@ -182,7 +257,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Device = TestDevice
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountPasswordUnauthorized,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountPasswordUnauthorized,
                 async () => { await acClient.AccountLoginAsync(loginInfo); });
         }
 
@@ -197,9 +273,9 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.AreEqual(registerResponse.AccountId, uploadProfileResponse.AccountId);
             Assert.AreEqual(registerResponse.AccountName, uploadProfileResponse.AccountName);
             Assert.AreEqual(registerResponse.Email, uploadProfileResponse.Email);
-            Assert.AreEqual(registerResponse.IdentityNum, uploadProfileResponse.IdentityNum);
+            Assert.AreEqual(registerResponse.Identity, uploadProfileResponse.Identity);
             Assert.AreEqual(registerResponse.Name, uploadProfileResponse.Name);
-            Assert.AreEqual(registerResponse.PhoneNum, uploadProfileResponse.PhoneNum);
+            Assert.AreEqual(registerResponse.Phone, uploadProfileResponse.Phone);
             Assert.AreEqual(registerResponse.Gender, uploadProfileResponse.Gender);
             Assert.IsNotNull(uploadProfileResponse.ProfileImage);
         }
@@ -217,9 +293,9 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Assert.AreEqual(registerResponse.AccountId, uploadProfileResponse.AccountId);
                 Assert.AreEqual(registerResponse.AccountName, uploadProfileResponse.AccountName);
                 Assert.AreEqual(registerResponse.Email, uploadProfileResponse.Email);
-                Assert.AreEqual(registerResponse.IdentityNum, uploadProfileResponse.IdentityNum);
+                Assert.AreEqual(registerResponse.Identity, uploadProfileResponse.Identity);
                 Assert.AreEqual(registerResponse.Name, uploadProfileResponse.Name);
-                Assert.AreEqual(registerResponse.PhoneNum, uploadProfileResponse.PhoneNum);
+                Assert.AreEqual(registerResponse.Phone, uploadProfileResponse.Phone);
                 Assert.AreEqual(registerResponse.Gender, uploadProfileResponse.Gender);
                 Assert.IsNotNull(uploadProfileResponse.ProfileImage);
             }

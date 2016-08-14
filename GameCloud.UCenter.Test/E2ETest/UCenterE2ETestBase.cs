@@ -55,9 +55,9 @@ namespace GameCloud.UCenter.Test.E2ETest
                     Password = ValidAccountPassword,
                     SuperPassword = ValidAccountPassword,
                     Name = $"name.{GenerateRandomString()}",
-                    IdentityNum = $"id.{GenerateRandomString()}",
-                    PhoneNum = $"phone.{GenerateRandomString()}",
-                    Email = $"{GenerateRandomString()}@test.com",
+                    Identity = $"id.{GenerateRandomString()}",
+                    Phone = string.Empty,
+                    Email = GenerateRandomString() + "@test.com",
                     Gender = Gender.Female,
                     Device = TestDevice
                 };
@@ -67,9 +67,9 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.IsNotNull(registerResponse.AccountId);
             Assert.AreEqual(registerResponse.AccountName, info.AccountName);
             Assert.AreEqual(registerResponse.AccountStatus, AccountStatus.Active);
-            Assert.AreEqual(registerResponse.IdentityNum, info.IdentityNum);
+            Assert.AreEqual(registerResponse.Identity, info.Identity);
             Assert.AreEqual(registerResponse.Name, info.Name);
-            Assert.AreEqual(registerResponse.PhoneNum, info.PhoneNum);
+            Assert.AreEqual(registerResponse.Phone, info.Phone);
             Assert.AreEqual(registerResponse.Email, info.Email);
             Assert.AreEqual(registerResponse.Gender, info.Gender);
             Assert.IsNotNull(registerResponse.ProfileImage);

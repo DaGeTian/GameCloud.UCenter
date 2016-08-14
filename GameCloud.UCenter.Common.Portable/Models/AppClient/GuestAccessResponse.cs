@@ -3,7 +3,7 @@
 namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
     [DataContract]
-    public class AccountGuestLoginResponse
+    public class GuestAccessResponse
     {
         [DataMember]
         public string AccountId { get; set; }

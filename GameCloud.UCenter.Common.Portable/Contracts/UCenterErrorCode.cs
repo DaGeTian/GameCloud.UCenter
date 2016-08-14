@@ -9,7 +9,11 @@
 
         // BadRequest - 400
         InvalidAccountName = 400001,
-        DeviceInfoNull = 400002,
+        InvalidAccountPassword = 400002,
+        InvalidAccountEmail = 400003,
+        InvalidAccountPhone = 400004,
+        DeviceInfoNull = 400010,
+        DeviceIdNull = 400011,
 
         // Unauthorized - 401
         AccountPasswordUnauthorized = 401001,

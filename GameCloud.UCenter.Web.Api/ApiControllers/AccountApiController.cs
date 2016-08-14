@@ -61,6 +61,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         {
             try
             {
+                ValidateAccount(info);
+
                 var accountEntity = new AccountEntity
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -69,10 +71,10 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     IsGuest = false,
                     Name = info.Name,
                     Email = info.Email,
-                    IdentityNum = info.IdentityNum,
+                    Identity = info.Identity,
                     Password = EncryptHelper.ComputeHash(info.Password),
                     SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword),
-                    PhoneNum = info.PhoneNum,
+                    Phone = info.Phone,
                     Gender = info.Gender
                 };
 
@@ -206,7 +208,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             this.TraceAccountEvent(accountEntity, "GuestAccess", info, token: token);
 
-            var response = new AccountGuestLoginResponse
+            var response = new GuestAccessResponse
             {
                 AccountId = accountEntity.Id,
                 AccountName = accountName,
@@ -224,28 +226,17 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/account/convert")]
-        public async Task<IHttpActionResult> GuestConvert([FromBody] AccountConvertInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> GuestConvert([FromBody] GuestConvertInfo info, CancellationToken token)
         {
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
-
-            if (!EncryptHelper.VerifyHash(info.OldPassword, accountEntity.Password))
-            {
-                await this.TraceUCenterErrorAsync(
-                    accountEntity,
-                    UCenterErrorCode.AccountPasswordUnauthorized,
-                    "The account name and password do not match",
-                    token);
-
-                throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
-            }
 
             accountEntity.AccountName = info.AccountName;
             accountEntity.IsGuest = false;
             accountEntity.Name = info.Name;
-            accountEntity.IdentityNum = info.IdentityNum;
+            accountEntity.Identity = info.Identity;
             accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
             accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
-            accountEntity.PhoneNum = info.PhoneNum;
+            accountEntity.Phone = info.Phone;
             accountEntity.Email = info.Email;
             accountEntity.Gender = info.Gender;
             await this.Database.Accounts.UpsertAsync(accountEntity, token);
@@ -380,6 +371,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             {
                 throw new UCenterException(UCenterErrorCode.DeviceInfoNull);
             }
+
+            if (string.IsNullOrEmpty(device.Id))
+            {
+                throw new UCenterException(UCenterErrorCode.DeviceIdNull);
+            }
         }
 
         private Task LogDeviceInfo(DeviceInfo device, CancellationToken token)
@@ -429,8 +425,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 ProfileImage = entity.ProfileImage,
                 ProfileThumbnail = entity.ProfileThumbnail,
                 Gender = entity.Gender,
-                IdentityNum = entity.IdentityNum,
-                PhoneNum = entity.PhoneNum,
+                Identity = entity.Identity,
+                Phone = entity.Phone,
                 Email = entity.Email
             };
 
@@ -477,12 +473,36 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             };
         }
 
-        private bool ValidateAccountName(string accountName)
+        private void ValidateAccount(AccountRegisterRequestInfo account)
         {
-            string pattern = @"^[a-zA-Z0-9.@]*$";
-            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            string accountNamePattern = @"^[a-zA-Z0-9.@]*$";
+            var accountNameRegex = new Regex(accountNamePattern, RegexOptions.IgnoreCase);
 
-            return regex.IsMatch(accountName);
+            if (!accountNameRegex.IsMatch(account.AccountName))
+            {
+                throw new UCenterException(UCenterErrorCode.InvalidAccountName);
+            }
+
+            if (account.AccountName.Length < 4 || account.AccountName.Length > 64)
+            {
+                throw new UCenterException(UCenterErrorCode.InvalidAccountName);
+            }
+
+            if (account.Password.Length < 6 || account.Password.Length > 64)
+            {
+                throw new UCenterException(UCenterErrorCode.InvalidAccountPassword);
+            }
+
+            if (!string.IsNullOrEmpty(account.Email))
+            {
+                string emailPattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+                var emailRegex = new Regex(emailPattern, RegexOptions.IgnoreCase);
+
+                if (!emailRegex.IsMatch(account.Email))
+                {
+                    throw new UCenterException(UCenterErrorCode.InvalidAccountEmail);
+                }
+            }
         }
     }
 }

@@ -18,13 +18,13 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public virtual string Name { get; set; }
 
         [DataMember]
-        public virtual string PhoneNum { get; set; }
+        public virtual string Phone { get; set; }
 
         [DataMember]
         public virtual string Email { get; set; }
 
         [DataMember]
-        public string IdentityNum { get; set; }
+        public string Identity { get; set; }
 
         [DataMember]
         public Gender Gender { get; set; }

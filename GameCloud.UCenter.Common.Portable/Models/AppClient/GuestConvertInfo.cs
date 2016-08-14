@@ -3,16 +3,13 @@
 namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
     [DataContract]
-    public class AccountConvertInfo
+    public class GuestConvertInfo
     {
         [DataMember]
         public string AccountId { get; set; }
 
         [DataMember]
         public string AccountName { get; set; }
-
-        [DataMember]
-        public string OldPassword { get; set; }
 
         [DataMember]
         public string Password { get; set; }
@@ -24,13 +21,13 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public string Name { get; set; }
 
         [DataMember]
-        public string PhoneNum { get; set; }
+        public string Phone { get; set; }
 
         [DataMember]
         public string Email { get; set; }
 
         [DataMember]
-        public string IdentityNum { get; set; }
+        public string Identity { get; set; }
 
         [DataMember]
         public Gender Gender { get; set; }

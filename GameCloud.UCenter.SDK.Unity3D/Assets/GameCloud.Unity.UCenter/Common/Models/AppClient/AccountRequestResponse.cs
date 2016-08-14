@@ -27,10 +27,10 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public Gender Gender { get; set; }
 
         [DataMember]
-        public string IdentityNum { get; set; }
+        public string Identity { get; set; }
 
         [DataMember]
-        public string PhoneNum { get; set; }
+        public string Phone { get; set; }
 
         [DataMember]
         public string Email { get; set; }
@@ -44,8 +44,8 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
             this.ProfileImage = account.ProfileImage;
             this.ProfileThumbnail = account.ProfileThumbnail;
             this.Gender = account.Gender;
-            this.IdentityNum = account.IdentityNum;
-            this.PhoneNum = account.PhoneNum;
+            this.Identity = account.Identity;
+            this.Phone = account.Phone;
             this.Email = account.Email;
         }
     }

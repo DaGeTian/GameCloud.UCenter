@@ -40,10 +40,10 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public Gender Gender { get; set; }
 
         [DataMember]
-        public string IdentityNum { get; set; }
+        public string Identity { get; set; }
 
         [DataMember]
-        public string PhoneNum { get; set; }
+        public string Phone { get; set; }
 
         [DataMember]
         public string Email { get; set; }

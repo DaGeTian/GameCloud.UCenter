@@ -69,12 +69,12 @@ namespace GameCloud.UCenter.Database.Entities
         /// <summary>
         /// Gets or sets the identity number.
         /// </summary>
-        public string IdentityNum { get; set; }
+        public string Identity { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number.
         /// </summary>
-        public string PhoneNum { get; set; }
+        public string Phone { get; set; }
 
         /// <summary>
         /// Gets or sets the email address.

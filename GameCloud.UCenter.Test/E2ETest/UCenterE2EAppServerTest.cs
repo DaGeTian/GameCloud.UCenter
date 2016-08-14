@@ -50,7 +50,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = ValidAccountPassword
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountNotExist,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountNotExist,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -74,7 +75,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = loginResponse.Token
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppNotExists,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AppNotExists,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -98,7 +100,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = ValidAccountPassword
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AppTokenUnauthorized,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -122,7 +125,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountToken = InValidAccountToken
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AccountTokenUnauthorized,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AccountTokenUnauthorized,
                 async () => { await asClient.AccountLoginAppAsync(accountLoginAppInfo); });
         }
 
@@ -175,7 +179,8 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AccountId = loginResponse.AccountId
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AppTokenUnauthorized,
                 async () => { await asClient.AppReadAccountDataAsync(accountData); });
         }
 
@@ -200,8 +205,9 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Data = data
             };
 
-            await TestExpector.ExpectUCenterErrorAsync(UCenterErrorCode.AppTokenUnauthorized,
-               async () => { await asClient.AppWriteAccountDataAsync(accountData); });
+            await TestExpector.ExpectUCenterErrorAsync(
+                UCenterErrorCode.AppTokenUnauthorized,
+                async () => { await asClient.AppWriteAccountDataAsync(accountData); });
         }
     }
 }

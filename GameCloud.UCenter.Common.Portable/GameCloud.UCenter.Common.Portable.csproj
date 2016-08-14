@@ -47,13 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AppClient\AccountUploadProfileImageResponse.cs" />
-    <Compile Include="Models\AppClient\AccountConvertInfo.cs" />
+    <Compile Include="Models\AppClient\GuestConvertInfo.cs" />
     <Compile Include="Models\AppClient\AccountLoginInfo.cs" />
     <Compile Include="Models\AppClient\AccountRegisterInfo.cs" />
     <Compile Include="Models\AppClient\AccountConvertResponse.cs" />
     <Compile Include="Models\AppClient\AccountResetPasswordInfo.cs" />
     <Compile Include="Models\AppClient\AccountResourceType.cs" />
-    <Compile Include="Models\AppClient\AccountGuestLoginResponse.cs" />
+    <Compile Include="Models\AppClient\GuestAccessResponse.cs" />
     <Compile Include="Models\AppClient\AccountLoginResponse.cs" />
     <Compile Include="Models\AppClient\AccountRegisterResponse.cs" />
     <Compile Include="Models\AppClient\AccountRequestResponse.cs" />
