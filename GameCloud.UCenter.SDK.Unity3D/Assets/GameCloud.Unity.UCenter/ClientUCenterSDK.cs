@@ -230,7 +230,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
             UploadProfileImageHandler = new Action<UCenterResponseStatus, AccountUploadProfileImageResponse, UCenterError>(handler);
 
-            string http_url = _genUrl("upload/" + account_id);
+            string http_url = _genUrl(account_id + "/upload");
 
             byte[] bytes = stream.ToArray();
 
