@@ -26,6 +26,21 @@ namespace GameCloud.UCenter.SDK.AppClient
         }
 
         /// <summary>
+        /// Get client ip address.
+        /// </summary>
+        /// <returns>Async response.</returns>
+        public async Task<string> GetCleintIpAddressAsync()
+        {
+            var url = this.GenerateApiEndpoint("accounts", "ip");
+            var result = await this.httpClient.SendAsyncWithException<string, string>(
+                HttpMethod.Get,
+                url,
+                null);
+
+            return result;
+        }
+
+        /// <summary>
         /// Register account.
         /// </summary>
         /// <param name="info">Indicating the account information.</param>
@@ -154,7 +169,7 @@ namespace GameCloud.UCenter.SDK.AppClient
         {
             var url = this.GenerateApiEndpoint("apps", $"{appId}/configurations");
             var response = await this.httpClient.SendAsyncWithException<string, AppConfigurationResponse>(
-                HttpMethod.Post,
+                HttpMethod.Get,
                 url,
                 null);
 

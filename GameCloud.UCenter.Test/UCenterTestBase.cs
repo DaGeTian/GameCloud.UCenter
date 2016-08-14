@@ -6,15 +6,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database;
-using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
-using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Test.Clients;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Test
 {

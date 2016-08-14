@@ -104,7 +104,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="appId">Indicating the App id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [HttpPost]
+        [HttpGet]
         [Route("api/apps/{appId}/configurations")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
         {

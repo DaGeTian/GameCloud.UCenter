@@ -36,7 +36,10 @@ namespace GameCloud.UCenter.Common.SDK
             var request = new HttpRequestMessage(method, new Uri(url));
             request.Headers.Clear();
             request.Headers.ExpectContinue = false;
-            request.Content = content;
+            if (method == HttpMethod.Post)
+            {
+                request.Content = content;
+            }
 
             var response = await this.httpClient.SendAsync(request);
 
