@@ -14,7 +14,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
     public delegate void OnUCenterRegister(UCenterResponseStatus status, AccountRegisterResponse response, UCenterError error);
     public delegate void OnUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
-    public delegate void OnUCenterGuestLogin(UCenterResponseStatus status, AccountGuestLoginResponse response, UCenterError error);
+    public delegate void OnUCenterGuestAccess(UCenterResponseStatus status, GuestAccessResponse response, UCenterError error);
     public delegate void OnUCenterConvert(UCenterResponseStatus status, AccountConvertResponse response, UCenterError error);
     public delegate void OnUCenterResetPassword(UCenterResponseStatus status, AccountResetPasswordResponse response, UCenterError error);
     public delegate void OnUCenterUploadProfileImage(UCenterResponseStatus status, AccountUploadProfileImageResponse response, UCenterError error);
@@ -27,7 +27,7 @@ namespace GameCloud.UCenter.SDK.Unity
         public string UCenterDomain { get; set; }
         public WWW WWWRegister { get; private set; }
         public WWW WWWLogin { get; private set; }
-        public WWW WWWGuestLogin { get; private set; }
+        public WWW WWWGuestAccess { get; private set; }
         public WWW WWWConvert { get; private set; }
         public WWW WWWResetPassword { get; private set; }
         public WWW WWWUploadProfileImage { get; private set; }
@@ -35,7 +35,7 @@ namespace GameCloud.UCenter.SDK.Unity
         public WWW WWWGetIpAddress { get; private set; }
         Action<UCenterResponseStatus, AccountRegisterResponse, UCenterError> RegisterHandler { get; set; }
         Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> LoginHandler { get; set; }
-        Action<UCenterResponseStatus, AccountGuestLoginResponse, UCenterError> GuestLoginHandler { get; set; }
+        Action<UCenterResponseStatus, GuestAccessResponse, UCenterError> GuestAccessHandler { get; set; }
         Action<UCenterResponseStatus, AccountConvertResponse, UCenterError> ConvertHandler { get; set; }
         Action<UCenterResponseStatus, AccountResetPasswordResponse, UCenterError> ResetPasswordHandler { get; set; }
         Action<UCenterResponseStatus, AccountUploadProfileImageResponse, UCenterError> UploadProfileImageHandler { get; set; }
@@ -69,10 +69,10 @@ namespace GameCloud.UCenter.SDK.Unity
                 LoginHandler = null;
             }
 
-            if (_checkResponse<AccountGuestLoginResponse>(WWWGuestLogin, GuestLoginHandler))
+            if (_checkResponse<GuestAccessResponse>(WWWGuestAccess, GuestAccessHandler))
             {
-                WWWGuestLogin = null;
-                GuestLoginHandler = null;
+                WWWGuestAccess = null;
+                GuestAccessHandler = null;
             }
 
             if (_checkResponse<AccountConvertResponse>(WWWConvert, ConvertHandler))
@@ -152,29 +152,36 @@ namespace GameCloud.UCenter.SDK.Unity
         }
 
         //-------------------------------------------------------------------------
-        public void guest(OnUCenterGuestLogin handler)
+        public void guestAccess(DeviceInfo request, OnUCenterGuestAccess handler)
         {
-            if (WWWGuestLogin != null)
+            if (WWWGuestAccess != null)
             {
                 return;
             }
 
-            GuestLoginHandler = new Action<UCenterResponseStatus, AccountGuestLoginResponse, UCenterError>(handler);
+            GuestAccessHandler = new Action<UCenterResponseStatus, GuestAccessResponse, UCenterError>(handler);
 
             string http_url = _genUrl("guest");
 
-            WWWForm form = new WWWForm();
-            form.AddField("Accept", "application/x-www-form-urlencoded");
-            form.AddField("Content-Type", "application/json; charset=utf-8");
-            form.AddField("Content-Length", 0);
-            form.AddField("Host", _getHostName());
-            form.AddField("User-Agent", "");
+            string param = EbTool.jsonSerialize(request);
+            byte[] bytes = Encoding.UTF8.GetBytes(param);
 
-            WWWGuestLogin = new WWW(http_url, form);
+            Dictionary<string, string> headers = _genHeader(bytes.Length);
+
+            WWWGuestAccess = new WWW(http_url, bytes, headers);
+
+            //WWWForm form = new WWWForm();
+            //form.AddField("Accept", "application/x-www-form-urlencoded");
+            //form.AddField("Content-Type", "application/json; charset=utf-8");
+            //form.AddField("Content-Length", 0);
+            //form.AddField("Host", _getHostName());
+            //form.AddField("User-Agent", "");
+
+            //WWWGuestLogin = new WWW(http_url, form);
         }
 
         //-------------------------------------------------------------------------
-        public void convert(AccountConvertInfo request, OnUCenterConvert handler)
+        public void guestConvert(GuestConvertInfo request, OnUCenterConvert handler)
         {
             if (WWWConvert != null)
             {
@@ -327,11 +334,11 @@ namespace GameCloud.UCenter.SDK.Unity
             string http_url = null;
             if (UCenterDomain.EndsWith("/"))
             {
-                http_url = string.Format("{0}api/account/{1}", UCenterDomain, api);
+                http_url = string.Format("{0}api/accounts/{1}", UCenterDomain, api);
             }
             else
             {
-                http_url = string.Format("{0}/api/account/{1}", UCenterDomain, api);
+                http_url = string.Format("{0}/api/accounts/{1}", UCenterDomain, api);
             }
 
             return http_url;
@@ -376,7 +383,7 @@ namespace GameCloud.UCenter.SDK.Unity
                         else
                         {
                             var error = new UCenterError();
-                            error.ErrorCode = UCenterErrorCode.Failed;
+                            error.ErrorCode = UCenterErrorCode.ServiceUnavailable;
                             error.Message = "";
                             handler(UCenterResponseStatus.Error, default(TResponse), error);
                         }

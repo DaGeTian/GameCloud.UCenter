@@ -51,16 +51,15 @@ namespace GameCloud.UCenter.SDK.Sample
             //co_ucentersdk.guest(_onUCenterGuestLogin);
 
             // 游客帐号转正
-            AccountConvertInfo convert_info = new AccountConvertInfo();
+            GuestConvertInfo convert_info = new GuestConvertInfo();
             convert_info.AccountId = "01e94810-ce14-4fff-9c06-16a77990e12c";
             convert_info.AccountName = "asdfg";
-            convert_info.OldPassword = "";
             convert_info.Password = "";
             convert_info.SuperPassword = "";
             convert_info.Gender = Gender.DeclineToState;
             convert_info.Name = "";
-            convert_info.IdentityNum = "";
-            convert_info.PhoneNum = "";
+            convert_info.Identity = "";
+            convert_info.Phone = "";
             convert_info.Email = "";
             //co_ucentersdk.convert(convert_info, _onUCenterConvert);
 
@@ -156,7 +155,7 @@ namespace GameCloud.UCenter.SDK.Sample
         }
 
         //-------------------------------------------------------------------------
-        void _onUCenterGuestLogin(UCenterResponseStatus status, AccountGuestLoginResponse response, UCenterError error)
+        void _onUCenterGuestAccess(UCenterResponseStatus status, GuestAccessResponse response, UCenterError error)
         {
             EbLog.Note("ClientSampleApp._onUCenterGuestLogin() UCenterResult=" + status);
 
