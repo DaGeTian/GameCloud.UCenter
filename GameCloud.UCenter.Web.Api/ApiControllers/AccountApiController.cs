@@ -71,8 +71,8 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     AccountName = info.AccountName,
+                    AccountType = AccountType.NormalAccount,
                     AccountStatus = AccountStatus.Active,
-                    IsGuest = false,
                     Name = info.Name,
                     Email = info.Email,
                     Identity = info.Identity,
@@ -225,11 +225,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/guestaccess")]
-        public async Task<IHttpActionResult> GuestAccess([FromBody] DeviceInfo info, CancellationToken token)
+        public async Task<IHttpActionResult> GuestAccess([FromBody] GuestAccessInfo info, CancellationToken token)
         {
-            EnsureDeviceInfo(info);
+            EnsureDeviceInfo(info.Device);
 
-            string accountName = $"uc_g_{info.Id}";
+            string accountName = Guid.NewGuid().ToString();
             string accountToken = EncryptHashManager.GenerateToken();
 
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == accountName, token);
@@ -240,16 +240,30 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     AccountName = accountName,
+                    AccountType = AccountType.Guest,
                     AccountStatus = AccountStatus.Active,
-                    IsGuest = true,
                     Token = EncryptHashManager.GenerateToken()
                 };
                 await this.Database.Accounts.InsertAsync(accountEntity, token);
             }
 
-            LogDeviceInfo(info, token);
+            string guestDeviceId = $"{info.AppId}_{info.Device.Id}";
+            var guestDeviceEntity = await this.Database.GuestDevices.GetSingleAsync(guestDeviceId, token);
+            if (guestDeviceEntity == null)
+            {
+                guestDeviceEntity = new GuestDeviceEntity()
+                {
+                    Id = $"{info.AppId}_{info.Device.Id}",
+                    AccountId = accountEntity.Id,
+                    AppId = info.AppId,
+                    Device = info.Device
+                };
+                await this.Database.GuestDevices.InsertAsync(guestDeviceEntity, token);
+            }
 
-            this.TraceAccountEvent(accountEntity, "GuestAccess", info, token: token);
+            LogDeviceInfo(info.Device, token);
+
+            this.TraceAccountEvent(accountEntity, "GuestAccess", info.Device, token: token);
 
             var response = new GuestAccessResponse
             {
@@ -274,7 +288,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
             accountEntity.AccountName = info.AccountName;
-            accountEntity.IsGuest = false;
+            accountEntity.AccountType = AccountType.Guest;
             accountEntity.Name = info.Name;
             accountEntity.Identity = info.Identity;
             accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
@@ -283,6 +297,18 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             accountEntity.Email = info.Email;
             accountEntity.Gender = info.Gender;
             await this.Database.Accounts.UpsertAsync(accountEntity, token);
+
+            try
+            {
+                await this.Database.GuestDevices.DeleteAsync(
+                    d => d.AppId == info.AppId && d.AccountId == info.AccountId,
+                    token);
+            }
+            catch (Exception ex)
+            {
+                CustomTrace.TraceError(ex, "Error to remove guest device");
+            }
+
             this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));

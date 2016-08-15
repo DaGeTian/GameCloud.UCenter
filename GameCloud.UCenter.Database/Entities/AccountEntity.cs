@@ -17,6 +17,11 @@ namespace GameCloud.UCenter.Database.Entities
         public string AccountName { get; set; }
 
         /// <summary>
+        /// Gets or sets the account type
+        /// </summary>
+        public AccountType AccountType { get; set; }
+
+        /// <summary>
         /// Gets or sets the status
         /// </summary>
         public AccountStatus AccountStatus { get; set; }

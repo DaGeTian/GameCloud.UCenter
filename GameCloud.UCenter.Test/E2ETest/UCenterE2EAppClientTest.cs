@@ -206,14 +206,19 @@ namespace GameCloud.UCenter.Test.E2ETest
         [TestMethod]
         public async Task E2E_AppClient_GuestAccess_And_Convert_Test()
         {
-            var loginResponse = await acClient.AccountGuestAccessAsync(TestDevice);
-
+            var guestAccessInfo = new GuestAccessInfo()
+            {
+                AppId = TestAppId,
+                Device = TestDevice
+            };
+            var loginResponse = await acClient.GuestAccessAsync(guestAccessInfo);
             Assert.IsNotNull(loginResponse.AccountId);
             Assert.IsNotNull(loginResponse.AccountName);
             Assert.IsNotNull(loginResponse.Token);
 
             var convertInfo = new GuestConvertInfo
             {
+                AppId = TestAppId,
                 AccountId = loginResponse.AccountId,
                 AccountName = $"account.{GenerateRandomString()}",
                 Password = ValidAccountPassword,
@@ -225,7 +230,7 @@ namespace GameCloud.UCenter.Test.E2ETest
                 Gender = Gender.Female
             };
 
-            var convertResponse = await acClient.AccountConvertAsync(convertInfo);
+            var convertResponse = await acClient.GuestConvertAsync(convertInfo);
 
             Assert.IsNotNull(convertResponse.AccountId);
             Assert.IsNotNull(convertResponse.AccountId, convertInfo.AccountId);
@@ -242,7 +247,7 @@ namespace GameCloud.UCenter.Test.E2ETest
         {
             await TestExpector.ExpectUCenterErrorAsync(
                 UCenterErrorCode.DeviceInfoNull,
-                async () => await acClient.AccountGuestAccessAsync(null));
+                async () => await acClient.GuestAccessAsync(new GuestAccessInfo()));
         }
 
         [TestMethod]
@@ -250,7 +255,7 @@ namespace GameCloud.UCenter.Test.E2ETest
         {
             await TestExpector.ExpectUCenterErrorAsync(
                 UCenterErrorCode.DeviceIdNull,
-                async () => await acClient.AccountGuestAccessAsync(new DeviceInfo()));
+                async () => await acClient.GuestAccessAsync(new GuestAccessInfo { Device = new DeviceInfo() }));
         }
 
         [TestMethod]

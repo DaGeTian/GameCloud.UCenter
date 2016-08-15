@@ -77,13 +77,13 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// </summary>
         /// <param name="device">Indicating the account device information.</param>
         /// <returns>Async response.</returns>
-        public async Task<GuestAccessResponse> AccountGuestAccessAsync(DeviceInfo device)
+        public async Task<GuestAccessResponse> GuestAccessAsync(GuestAccessInfo info)
         {
             var url = this.GenerateApiEndpoint("accounts", "guestaccess");
-            var response = await this.httpClient.SendAsyncWithException<DeviceInfo, GuestAccessResponse>(
+            var response = await this.httpClient.SendAsyncWithException<GuestAccessInfo, GuestAccessResponse>(
                 HttpMethod.Post,
                 url,
-                device);
+                info);
 
             return response;
         }
@@ -93,10 +93,10 @@ namespace GameCloud.UCenter.SDK.AppClient
         /// </summary>
         /// <param name="info">Indicating the account information.</param>
         /// <returns>Async response.</returns>
-        public async Task<AccountConvertResponse> AccountConvertAsync(GuestConvertInfo info)
+        public async Task<GuestConvertResponse> GuestConvertAsync(GuestConvertInfo info)
         {
             var url = this.GenerateApiEndpoint("accounts", "guestconvert");
-            var response = await this.httpClient.SendAsyncWithException<GuestConvertInfo, AccountConvertResponse>(
+            var response = await this.httpClient.SendAsyncWithException<GuestConvertInfo, GuestConvertResponse>(
                 HttpMethod.Post,
                 url,
                 info);

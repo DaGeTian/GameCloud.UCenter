@@ -3,7 +3,7 @@
 namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
     [DataContract]
-    public class AccountConvertResponse : AccountRequestResponse
+    public class GuestConvertResponse : AccountRequestResponse
     {
         public override void ApplyEntity(AccountResponse account)
         {

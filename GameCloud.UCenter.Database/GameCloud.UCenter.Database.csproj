@@ -44,7 +44,9 @@
     <Compile Include="Entities\DeviceEntity.cs" />
     <Compile Include="Entities\ErrorEventEntity.cs" />
     <Compile Include="Entities\AccountEventEntity.cs" />
+    <Compile Include="Entities\GuestDeviceEntity.cs" />
     <Compile Include="Entities\KeyPlaceholderEntity.cs" />
+    <Compile Include="Entities\AccountType.cs" />
     <Compile Include="Entities\KeyType.cs" />
     <Compile Include="UCenterDatabaseContext.cs" />
     <Compile Include="Entities\AccountEntity.cs" />

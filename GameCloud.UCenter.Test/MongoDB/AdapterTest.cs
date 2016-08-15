@@ -25,12 +25,12 @@ namespace GameCloud.UCenter.Test.MongoDB
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = GenerateRandomString(),
+                AccountType = AccountType.NormalAccount,
                 Name = GenerateRandomString(),
                 CreatedTime = DateTime.UtcNow,
                 Email = "abc@ab.com",
                 Phone = "12345678",
-                Gender = Gender.Male,
-                IsGuest = false
+                Gender = Gender.Male
             };
 
             await adapter.InsertAsync(account, token);
@@ -58,12 +58,18 @@ namespace GameCloud.UCenter.Test.MongoDB
         {
             Assert.AreEqual(entity1.Id, entity2.Id);
             Assert.AreEqual(entity1.AccountName, entity2.AccountName);
+            Assert.AreEqual(entity1.AccountType, entity2.AccountType);
+            Assert.AreEqual(entity1.AccountStatus, entity2.AccountStatus);
+            Assert.AreEqual(entity1.Token, entity2.Token);
+            Assert.AreEqual(entity1.Identity, entity2.Identity);
             Assert.AreEqual(entity1.Name, entity2.Name);
-            Assert.AreEqual(entity1.CreatedTime.ToString("s"), entity2.CreatedTime.ToString("s"));
             Assert.AreEqual(entity1.Email, entity2.Email);
             Assert.AreEqual(entity1.Phone, entity2.Phone);
             Assert.AreEqual(entity1.Gender, entity2.Gender);
-            Assert.AreEqual(entity1.IsGuest, entity2.IsGuest);
+            Assert.AreEqual(entity1.ProfileImage, entity2.ProfileImage);
+            Assert.AreEqual(entity1.ProfileThumbnail, entity2.ProfileThumbnail);
+            Assert.AreEqual(entity1.LastLoginDateTime, entity2.LastLoginDateTime);
+            Assert.AreEqual(entity1.CreatedTime.ToString("s"), entity2.CreatedTime.ToString("s"));
         }
     }
 }

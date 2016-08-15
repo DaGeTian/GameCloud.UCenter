@@ -172,7 +172,7 @@ namespace GameCloud.UCenter.SDK.Sample
         }
 
         //-------------------------------------------------------------------------
-        void _onUCenterConvert(UCenterResponseStatus status, AccountConvertResponse response, UCenterError error)
+        void _onUCenterConvert(UCenterResponseStatus status, GuestConvertResponse response, UCenterError error)
         {
             EbLog.Note("ClientSampleApp._onUCenterConvert() UCenterResult=" + status);
 

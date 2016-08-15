@@ -15,7 +15,7 @@ namespace GameCloud.UCenter.SDK.Unity
     public delegate void OnUCenterRegister(UCenterResponseStatus status, AccountRegisterResponse response, UCenterError error);
     public delegate void OnUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
     public delegate void OnUCenterGuestAccess(UCenterResponseStatus status, GuestAccessResponse response, UCenterError error);
-    public delegate void OnUCenterConvert(UCenterResponseStatus status, AccountConvertResponse response, UCenterError error);
+    public delegate void OnUCenterConvert(UCenterResponseStatus status, GuestConvertResponse response, UCenterError error);
     public delegate void OnUCenterResetPassword(UCenterResponseStatus status, AccountResetPasswordResponse response, UCenterError error);
     public delegate void OnUCenterUploadProfileImage(UCenterResponseStatus status, AccountUploadProfileImageResponse response, UCenterError error);
     public delegate void OnGetAppConfig(UCenterResponseStatus status, AppConfigurationResponse response, UCenterError error);
@@ -36,7 +36,7 @@ namespace GameCloud.UCenter.SDK.Unity
         Action<UCenterResponseStatus, AccountRegisterResponse, UCenterError> RegisterHandler { get; set; }
         Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> LoginHandler { get; set; }
         Action<UCenterResponseStatus, GuestAccessResponse, UCenterError> GuestAccessHandler { get; set; }
-        Action<UCenterResponseStatus, AccountConvertResponse, UCenterError> ConvertHandler { get; set; }
+        Action<UCenterResponseStatus, GuestConvertResponse, UCenterError> GuestConvertHandler { get; set; }
         Action<UCenterResponseStatus, AccountResetPasswordResponse, UCenterError> ResetPasswordHandler { get; set; }
         Action<UCenterResponseStatus, AccountUploadProfileImageResponse, UCenterError> UploadProfileImageHandler { get; set; }
         Action<UCenterResponseStatus, AppConfigurationResponse, UCenterError> GetAppConfigHandler { get; set; }
@@ -75,10 +75,10 @@ namespace GameCloud.UCenter.SDK.Unity
                 GuestAccessHandler = null;
             }
 
-            if (_checkResponse<AccountConvertResponse>(WWWConvert, ConvertHandler))
+            if (_checkResponse<GuestConvertResponse>(WWWConvert, GuestConvertHandler))
             {
                 WWWConvert = null;
-                ConvertHandler = null;
+                GuestConvertHandler = null;
             }
 
             if (_checkResponse<AccountResetPasswordResponse>(WWWResetPassword, ResetPasswordHandler))
@@ -152,7 +152,7 @@ namespace GameCloud.UCenter.SDK.Unity
         }
 
         //-------------------------------------------------------------------------
-        public void guestAccess(DeviceInfo request, OnUCenterGuestAccess handler)
+        public void guestAccess(GuestAccessInfo request, OnUCenterGuestAccess handler)
         {
             if (WWWGuestAccess != null)
             {
@@ -188,7 +188,7 @@ namespace GameCloud.UCenter.SDK.Unity
                 return;
             }
 
-            ConvertHandler = new Action<UCenterResponseStatus, AccountConvertResponse, UCenterError>(handler);
+            GuestConvertHandler = new Action<UCenterResponseStatus, GuestConvertResponse, UCenterError>(handler);
 
             string http_url = _genUrl("guestconvert");
 

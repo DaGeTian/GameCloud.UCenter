@@ -6,6 +6,9 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
     public class GuestConvertInfo
     {
         [DataMember]
+        public string AppId { get; set; }
+
+        [DataMember]
         public string AccountId { get; set; }
 
         [DataMember]
