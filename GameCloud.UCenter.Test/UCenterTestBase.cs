@@ -90,29 +90,11 @@ namespace GameCloud.UCenter.Test
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
 
-
-
             // TODO: This will break distributed unit test!
             // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForFemaleBlobName);
             // await InitProfileImageBlobsAsync(settings.DefaultProfileImageForMaleBlobName);
             // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForFemaleBlobName);
             // await InitProfileImageBlobsAsync(settings.DefaultProfileThumbnailForMaleBlobName);
-
-            //CancellationTokenSource tokenSource = new CancellationTokenSource();
-            //var token = tokenSource.Token;
-            //var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
-            //await adapter.CreateIndexIfNotExistAsync(
-            //    Builders<AccountEntity>.IndexKeys.Ascending("AccountName"),
-            //    new CreateIndexOptions() { Name = "AccountName_UI", Unique = true },
-            //    token);
-            //await adapter.CreateIndexIfNotExistAsync(
-            //    Builders<AccountEntity>.IndexKeys.Ascending("Email"),
-            //    new CreateIndexOptions() { Name = "Email_UI", Unique = true },
-            //    token);
-            //await adapter.CreateIndexIfNotExistAsync(
-            //    Builders<AccountEntity>.IndexKeys.Ascending("Phone"),
-            //    new CreateIndexOptions() { Name = "Phone_UI", Unique = true },
-            //    token);
         }
 
         private static async Task InitProfileImageBlobsAsync(string blobName)

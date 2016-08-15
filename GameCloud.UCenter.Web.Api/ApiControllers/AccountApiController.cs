@@ -60,6 +60,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/accounts/register")]
         public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
+            var removeTempsIfError = new List<KeyPlaceholderEntity>();
+            var error = false;
+
             try
             {
                 ValidateAccount(info);
@@ -78,6 +81,22 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                     Phone = info.Phone,
                     Gender = info.Gender
                 };
+
+                var placeholders = new[]
+                {
+                    this.GenerateKeyPlaceholder(accountEntity.AccountName, KeyType.Name, accountEntity.Id, accountEntity.AccountName),
+                    this.GenerateKeyPlaceholder(accountEntity.Phone, KeyType.Phone, accountEntity.Id, accountEntity.AccountName),
+                    this.GenerateKeyPlaceholder(accountEntity.Email, KeyType.Email, accountEntity.Id, accountEntity.AccountName)
+                };
+
+                foreach (var placeholder in placeholders)
+                {
+                    if (!string.IsNullOrEmpty(placeholder.Name))
+                    {
+                        await this.Database.KeyPlaceholders.InsertAsync(placeholder, token);
+                        removeTempsIfError.Add(placeholder);
+                    }
+                }
 
                 // Remove this from UCenter for performance concern
                 // If user does not have default profile icon, app client should use local default one
@@ -104,15 +123,37 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
             }
-            catch (MongoWriteException mex)
+            catch (Exception ex)
             {
-                if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
+
+                error = true;
+                if (ex is MongoWriteException)
                 {
-                    throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
+                    var mex = ex as MongoWriteException;
+                    if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                    {
+                        throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
+                    }
                 }
-                else
+
+                throw;
+            }
+            finally
+            {
+                if (error)
                 {
-                    throw;
+                    try
+                    {
+                        foreach (var item in removeTempsIfError)
+                        {
+                            this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait(token);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomTrace.TraceError(ex, "Error to remove placeholder");
+                    }
                 }
             }
         }
@@ -474,6 +515,18 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
+        }
+
+        private KeyPlaceholderEntity GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
+        {
+            return new KeyPlaceholderEntity
+            {
+                Id = $"{type}-{name}",
+                Name = name,
+                Type = type,
+                AccountId = accountId,
+                AccountName = accountName
+            };
         }
 
         private void ValidateAccount(AccountRegisterRequestInfo account)

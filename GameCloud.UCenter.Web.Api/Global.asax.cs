@@ -32,6 +32,8 @@ namespace GameCloud.UCenter.Web.Api
                 exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,
                 AppConfigurationValueProvider.Default);
+
+            // Logging
             CustomTrace.Initialize(exportProvider, "Trace.NLog");
 
             // Mongo db index creation
@@ -40,19 +42,20 @@ namespace GameCloud.UCenter.Web.Api
                 var adapter = exportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
                 adapter.CreateIndexIfNotExistAsync(
                     Builders<AccountEntity>.IndexKeys.Ascending("AccountName"),
-                    new CreateIndexOptions() { Name = "AccountName_UI", Unique = true },
+                    new CreateIndexOptions() { Name = "AccountName_IDX" },
                     CancellationToken.None).Wait();
                 adapter.CreateIndexIfNotExistAsync(
                     Builders<AccountEntity>.IndexKeys.Ascending("Email"),
-                    new CreateIndexOptions() { Name = "Email_UI", Unique = true },
+                    new CreateIndexOptions() { Name = "Email_IDX" },
                     CancellationToken.None).Wait();
                 adapter.CreateIndexIfNotExistAsync(
                     Builders<AccountEntity>.IndexKeys.Ascending("Phone"),
-                    new CreateIndexOptions() { Name = "Phone_UI", Unique = true },
+                    new CreateIndexOptions() { Name = "Phone_IDX" },
                     CancellationToken.None).Wait();
             }
             catch (Exception ex)
             {
+                CustomTrace.TraceError(ex);
             }
         }
     }

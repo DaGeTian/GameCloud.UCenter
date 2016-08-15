@@ -14,7 +14,6 @@ namespace GameCloud.UCenter.Test.E2ETest
     [TestClass]
     public class UCenterE2EAppClientTest : UCenterE2ETestBase
     {
-
         [TestMethod]
         public async Task E2E_AppClient_GetIpAddress_Test()
         {
