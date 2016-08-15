@@ -267,7 +267,7 @@ namespace GameCloud.UCenter.SDK.Unity
             form.AddField("Host", _getHostName());
             form.AddField("User-Agent", "");
 
-            WWWGetAppConfig = new WWW(http_url, form);
+            WWWGetAppConfig = new WWW(http_url);
         }
 
         //-------------------------------------------------------------------------

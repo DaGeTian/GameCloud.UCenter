@@ -25,7 +25,7 @@ namespace GameCloud.UCenter.SDK.Sample
             // EtUCenterSDK示例
             var et_ucentersdk = EntityMgr.createEntity<EtUCenterSDK>(null, Entity);
             var co_ucentersdk = et_ucentersdk.getComponent<ClientUCenterSDK<DefUCenterSDK>>();
-            co_ucentersdk.UCenterDomain = "http://cragonucenter.chinacloudsites.cn/";
+            co_ucentersdk.UCenterDomain = "http://tp-uc.chinacloudapp.cn/";
             //co_ucentersdk.UCenterDomain = "http://blair-cs-sh.chinacloudapp.cn/";
 
             // 获取Ip所在地
