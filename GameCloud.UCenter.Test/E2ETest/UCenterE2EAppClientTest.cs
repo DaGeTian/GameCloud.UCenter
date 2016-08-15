@@ -175,13 +175,13 @@ namespace GameCloud.UCenter.Test.E2ETest
 
             var info = new AccountRegisterInfo
             {
-                AccountName = GenerateRandomString(),
+                AccountName = accountName,
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
                 Name = $"account.{GenerateRandomString()}",
                 Identity = GenerateRandomString(),
-                Phone = GenerateRandomString(),
-                Email = GenerateRandomString() + "@test.com",
+                Phone = phone,
+                Email = email,
                 Gender = Gender.Female,
                 Device = TestDevice
             };

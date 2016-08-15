@@ -48,7 +48,7 @@ namespace GameCloud.UCenter.SDK.AppServer
         }
 
         /// <summary>
-        /// verify application account.
+        /// Account login to application.
         /// </summary>
         /// <param name="info">Indicating the application information.</param>
         /// <returns>Async response.</returns>

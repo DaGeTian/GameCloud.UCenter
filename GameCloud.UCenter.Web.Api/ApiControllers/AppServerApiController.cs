@@ -126,8 +126,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         }
 
         /// <summary>
-        /// Verify the account.
+        /// Account logins to app.
         /// </summary>
+        /// <param name="appId">Indicating the application id.</param>
         /// <param name="info">Indicating the account information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
@@ -135,22 +136,28 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/apps/{appId}/accountlogin")]
         public async Task<IHttpActionResult> AccountLogin(string appId, AccountLoginAppInfo info, CancellationToken token)
         {
-            await this.VerifyApp(appId, info.AppSecret, token);
+            await this.CheckAppPermission(appId, info.AppSecret, token);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
-
             var result = new AccountLoginAppResponse();
             result.AccountId = account.Id;
             result.AccountName = account.AccountName;
             result.AccountToken = account.Token;
             result.LastLoginDateTime = account.LastLoginDateTime;
-            result.LastVerifyDateTime = DateTime.UtcNow;
+
+            var dataId = this.GetAppAccountDataId(info.AppId, info.AccountId);
+            var accountData = await this.Database.AppAccountDatas.GetSingleAsync(dataId, token);
+            if (accountData != null)
+            {
+                result.AccountData = accountData.Data;
+            }
 
             return this.CreateSuccessResult(result);
         }
 
         /// <summary>
-        /// Read application account data.
+        /// Application reads account data.
         /// </summary>
+        /// <param name="appId">Indicating the application id.</param>
         /// <param name="info">Indicating the data information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
@@ -158,10 +165,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/apps/{appId}/readdata")]
         public async Task<IHttpActionResult> ReadAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
         {
-            await this.VerifyApp(appId, info.AppSecret, token);
+            await this.CheckAppPermission(appId, info.AppSecret, token);
 
-            var account = await this.GetAndVerifyAccount(info.AccountId, token);
-            var dataId = this.CreateAppAccountDataId(info.AppId, info.AccountId);
+            var dataId = this.GetAppAccountDataId(info.AppId, info.AccountId);
             var accountData = await this.Database.AppAccountDatas.GetSingleAsync(dataId, token);
 
             var response = new AppAccountDataResponse
@@ -175,8 +181,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         }
 
         /// <summary>
-        /// Write application account data.
+        /// Application reads account data.
         /// </summary>
+        /// <param name="appId">Indicating the application id.</param>
         /// <param name="info">Indicating the data information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
@@ -184,11 +191,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/apps/{appId}/writedata")]
         public async Task<IHttpActionResult> WriteAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
         {
-            await this.VerifyApp(appId, info.AppSecret, token);
+            await this.CheckAppPermission(appId, info.AppSecret, token);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
 
-            var dataId = this.CreateAppAccountDataId(info.AppId, info.AccountId);
+            var dataId = this.GetAppAccountDataId(info.AppId, info.AccountId);
             var accountData = await this.Database.AppAccountDatas.GetSingleAsync(dataId, token);
             if (accountData != null)
             {
@@ -217,7 +224,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             return this.CreateSuccessResult(response);
         }
 
-        private async Task VerifyApp(string appId, string appSecret, CancellationToken token)
+        private async Task CheckAppPermission(string appId, string appSecret, CancellationToken token)
         {
             var app = await this.Database.Apps.GetSingleAsync(appId, token);
             if (app == null)
@@ -257,9 +264,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             return account;
         }
 
-        private string CreateAppAccountDataId(string appId, string accountId)
+        private string GetAppAccountDataId(string appId, string accountId)
         {
-            return $"{appId}##{accountId}";
+            return $"{appId}_{accountId}";
         }
     }
 }

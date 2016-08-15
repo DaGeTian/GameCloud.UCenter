@@ -36,7 +36,6 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.IsNotNull(result.AccountName);
             Assert.IsNotNull(result.AccountToken);
             Assert.IsNotNull(result.LastLoginDateTime);
-            Assert.IsNotNull(result.LastVerifyDateTime);
         }
 
         [TestMethod]

@@ -16,9 +16,9 @@ namespace GameCloud.UCenter.Common.Models.AppServer
         public string AccountToken { get; set; }
 
         [DataMember]
-        public DateTime LastLoginDateTime { get; set; }
+        public string AccountData { get; set; }
 
         [DataMember]
-        public DateTime LastVerifyDateTime { get; set; }
+        public DateTime LastLoginDateTime { get; set; }
     }
 }
