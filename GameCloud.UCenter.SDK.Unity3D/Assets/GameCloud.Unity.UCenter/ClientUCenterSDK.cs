@@ -28,11 +28,11 @@ namespace GameCloud.UCenter.SDK.Unity
         public WWW WWWRegister { get; private set; }
         public WWW WWWLogin { get; private set; }
         public WWW WWWGuestAccess { get; private set; }
-        public WWW WWWConvert { get; private set; }
+        public WWW WWWGuestConvert { get; private set; }
         public WWW WWWResetPassword { get; private set; }
         public WWW WWWUploadProfileImage { get; private set; }
         public WWW WWWGetAppConfig { get; private set; }
-        public WWW WWWGetIpAddress { get; private set; }
+        //public WWW WWWGetIpAddress { get; private set; }
         Action<UCenterResponseStatus, AccountRegisterResponse, UCenterError> RegisterHandler { get; set; }
         Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> LoginHandler { get; set; }
         Action<UCenterResponseStatus, GuestAccessResponse, UCenterError> GuestAccessHandler { get; set; }
@@ -75,9 +75,9 @@ namespace GameCloud.UCenter.SDK.Unity
                 GuestAccessHandler = null;
             }
 
-            if (_checkResponse<GuestConvertResponse>(WWWConvert, GuestConvertHandler))
+            if (_checkResponse<GuestConvertResponse>(WWWGuestConvert, GuestConvertHandler))
             {
-                WWWConvert = null;
+                WWWGuestConvert = null;
                 GuestConvertHandler = null;
             }
 
@@ -169,21 +169,12 @@ namespace GameCloud.UCenter.SDK.Unity
             Dictionary<string, string> headers = _genHeader(bytes.Length);
 
             WWWGuestAccess = new WWW(http_url, bytes, headers);
-
-            //WWWForm form = new WWWForm();
-            //form.AddField("Accept", "application/x-www-form-urlencoded");
-            //form.AddField("Content-Type", "application/json; charset=utf-8");
-            //form.AddField("Content-Length", 0);
-            //form.AddField("Host", _getHostName());
-            //form.AddField("User-Agent", "");
-
-            //WWWGuestLogin = new WWW(http_url, form);
         }
 
         //-------------------------------------------------------------------------
         public void guestConvert(GuestConvertInfo request, OnUCenterConvert handler)
         {
-            if (WWWConvert != null)
+            if (WWWGuestConvert != null)
             {
                 return;
             }
@@ -197,7 +188,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
             Dictionary<string, string> headers = _genHeader(bytes.Length);
 
-            WWWConvert = new WWW(http_url, bytes, headers);
+            WWWGuestConvert = new WWW(http_url, bytes, headers);
         }
 
         //-------------------------------------------------------------------------
@@ -283,11 +274,11 @@ namespace GameCloud.UCenter.SDK.Unity
         //    string http_url = null;
         //    if (UCenterDomain.EndsWith("/"))
         //    {
-        //        http_url = string.Format("{0}api/appclient/ip", UCenterDomain);
+        //        http_url = string.Format("{0}api/accounts/ip", UCenterDomain);
         //    }
         //    else
         //    {
-        //        http_url = string.Format("{0}/api/appclient/ip", UCenterDomain);
+        //        http_url = string.Format("{0}/api/accounts/ip", UCenterDomain);
         //    }
 
         //    WWWForm form = new WWWForm();
