@@ -66,6 +66,7 @@ namespace GameCloud.UCenter.Test.E2ETest
             var registerResponse = await acClient.AccountRegisterAsync(info);
             Assert.IsNotNull(registerResponse.AccountId);
             Assert.AreEqual(registerResponse.AccountName, info.AccountName);
+            Assert.AreEqual(registerResponse.AccountType, AccountType.NormalAccount);
             Assert.AreEqual(registerResponse.AccountStatus, AccountStatus.Active);
             Assert.AreEqual(registerResponse.Identity, info.Identity);
             Assert.AreEqual(registerResponse.Name, info.Name);

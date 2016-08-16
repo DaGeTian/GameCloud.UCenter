@@ -1,4 +1,4 @@
-﻿namespace GameCloud.UCenter.Database.Entities
+﻿namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
     /// <summary>
     /// provide a Enum for the key placeholder type.

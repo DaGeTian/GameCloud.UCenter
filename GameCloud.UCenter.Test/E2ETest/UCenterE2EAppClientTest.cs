@@ -211,15 +211,16 @@ namespace GameCloud.UCenter.Test.E2ETest
                 AppId = TestAppId,
                 Device = TestDevice
             };
-            var loginResponse = await acClient.GuestAccessAsync(guestAccessInfo);
-            Assert.IsNotNull(loginResponse.AccountId);
-            Assert.IsNotNull(loginResponse.AccountName);
-            Assert.IsNotNull(loginResponse.Token);
+            var guestAccessResponse = await acClient.GuestAccessAsync(guestAccessInfo);
+            Assert.IsNotNull(guestAccessResponse.AccountId);
+            Assert.IsNotNull(guestAccessResponse.AccountName);
+            Assert.AreEqual(guestAccessResponse.AccountType, AccountType.Guest);
+            Assert.IsNotNull(guestAccessResponse.Token);
 
             var convertInfo = new GuestConvertInfo
             {
                 AppId = TestAppId,
-                AccountId = loginResponse.AccountId,
+                AccountId = guestAccessResponse.AccountId,
                 AccountName = $"account.{GenerateRandomString()}",
                 Password = ValidAccountPassword,
                 SuperPassword = ValidAccountPassword,
@@ -235,6 +236,8 @@ namespace GameCloud.UCenter.Test.E2ETest
             Assert.IsNotNull(convertResponse.AccountId);
             Assert.IsNotNull(convertResponse.AccountId, convertInfo.AccountId);
             Assert.AreEqual(convertResponse.AccountName, convertInfo.AccountName);
+            Assert.AreEqual(convertResponse.AccountType, AccountType.NormalAccount);
+            Assert.AreEqual(convertResponse.AccountStatus, AccountStatus.Active);
             Assert.AreEqual(convertResponse.Identity, convertInfo.Identity);
             Assert.AreEqual(convertResponse.Name, convertInfo.Name);
             Assert.AreEqual(convertResponse.Phone, convertInfo.Phone);

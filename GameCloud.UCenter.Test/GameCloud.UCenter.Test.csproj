@@ -91,6 +91,7 @@
     <Compile Include="E2ETest\UCenterE2EAppClientTest.cs" />
     <Compile Include="E2ETest\UCenterE2ETestBase.cs" />
     <Compile Include="FunctionalUnitTest.cs" />
+    <Compile Include="MongoDB\EventTraceTest.cs" />
     <Compile Include="UCenterTestSettings.cs" />
     <Compile Include="Clients\TenantEnvironment.cs" />
     <Compile Include="Clients\WebContext.cs" />

@@ -30,12 +30,14 @@ namespace GameCloud.Database.Adapters
         /// <param name="context">Indicating the database context.</param>
         [ImportingConstructor]
         private CollectionAdapter(DatabaseContext context)
+            : this(context, typeof(TEntity).GetCustomAttribute<CollectionNameAttribute>().CollectionName)
+        {
+        }
+
+        public CollectionAdapter(DatabaseContext context, string collectionName)
         {
             this.context = context;
-            this.collectionName = typeof(TEntity)
-                .GetCustomAttribute<CollectionNameAttribute>()
-                .CollectionName;
-
+            this.collectionName = collectionName;
             this.collection = this.context.Database.GetCollection<TEntity>(this.collectionName, this.context.Settings.CollectionSettings);
         }
 
@@ -79,6 +81,13 @@ namespace GameCloud.Database.Adapters
 
             // todo: need retrieve the entity from server side?
             return entity;
+        }
+
+        async Task<IReadOnlyList<TEntity>> ICollectionAdapter<TEntity>.InsertManyAsync(IReadOnlyList<TEntity> entities, InsertManyOptions options, CancellationToken token)
+        {
+            await this.collection.InsertManyAsync(entities, options, token);
+
+            return entities;
         }
 
         async Task<TEntity> ICollectionAdapter<TEntity>.UpdateAsync(TEntity entity, UpdateOptions options, CancellationToken token)

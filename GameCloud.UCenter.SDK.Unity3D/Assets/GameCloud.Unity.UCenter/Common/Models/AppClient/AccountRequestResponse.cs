@@ -12,6 +12,9 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public string AccountName { get; set; }
 
         [DataMember]
+        public AccountType AccountType { get; set; }
+
+        [DataMember]
         public AccountStatus AccountStatus { get; set; }
 
         [DataMember]

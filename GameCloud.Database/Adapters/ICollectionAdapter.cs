@@ -45,6 +45,15 @@ namespace GameCloud.Database.Adapters
         Task<TEntity> InsertAsync(TEntity entity, InsertOneOptions options, CancellationToken token);
 
         /// <summary>
+        /// Insert document entity.
+        /// </summary>
+        /// <param name="entities">Indicating the document entities.</param>
+        /// <param name="options">Indication the options.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task</returns>
+        Task<IReadOnlyList<TEntity>> InsertManyAsync(IReadOnlyList<TEntity> entities, InsertManyOptions options, CancellationToken token);
+
+        /// <summary>
         /// Update document entity.
         /// </summary>
         /// <param name="entity">Indicating the document entity.</param>

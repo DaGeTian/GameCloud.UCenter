@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AppClient\AccountType.cs" />
     <Compile Include="Models\AppClient\AccountUploadProfileImageResponse.cs" />
     <Compile Include="Models\AppClient\GuestAccessInfo.cs" />
     <Compile Include="Models\AppClient\GuestConvertInfo.cs" />

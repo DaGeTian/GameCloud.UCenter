@@ -110,6 +110,7 @@
     <Compile Include="Dependency\MefDependencyResolver.cs" />
     <Compile Include="Logger\ConsoleLoggerAdapter.cs" />
     <Compile Include="Logger\CustomTrace.cs" />
+    <Compile Include="Logger\EventTrace.cs" />
     <Compile Include="Logger\ILoggerAdapter.cs" />
     <Compile Include="Logger\NLoggerAdapter.cs" />
     <Compile Include="Modes\PaginationResponse.cs" />

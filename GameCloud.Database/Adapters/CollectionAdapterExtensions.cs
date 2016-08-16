@@ -84,6 +84,20 @@ namespace GameCloud.Database.Adapters
         }
 
         /// <summary>
+        /// Insert document entity.
+        /// </summary>
+        /// <typeparam name="TEntity">Indicating the document type.</typeparam>
+        /// <param name="adapter">Indicating the document adapter.</param>
+        /// <param name="entity">Indicating the document entity.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        public static Task<IReadOnlyList<TEntity>> InsertManyAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, IReadOnlyList<TEntity> entities, CancellationToken token)
+            where TEntity : EntityBase
+        {
+            return adapter.InsertManyAsync(entities, null, token);
+        }
+
+        /// <summary>
         /// Update document entity.
         /// </summary>
         /// <typeparam name="TEntity">Indicating the document type.</typeparam>

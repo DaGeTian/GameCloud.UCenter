@@ -25,7 +25,7 @@ namespace GameCloud.UCenter.SDK.Sample
             // EtUCenterSDK示例
             var et_ucentersdk = EntityMgr.createEntity<EtUCenterSDK>(null, Entity);
             var co_ucentersdk = et_ucentersdk.getComponent<ClientUCenterSDK<DefUCenterSDK>>();
-            co_ucentersdk.UCenterDomain = "http://tp-uc.chinacloudapp.cn/";
+            co_ucentersdk.UCenterDomain = "http://ucenter.playql.com/";
             //co_ucentersdk.UCenterDomain = "http://blair-cs-sh.chinacloudapp.cn/";
 
             // 获取Ip所在地
@@ -48,12 +48,20 @@ namespace GameCloud.UCenter.SDK.Sample
             //co_ucentersdk.login(login_request, _onUCenterLogin);
 
             // 游客登录
-            //co_ucentersdk.guest(_onUCenterGuestLogin);
+            GuestAccessInfo guestAccessInfo = new GuestAccessInfo()
+            {
+                AppId = "texaspoker",
+                Device = new DeviceInfo()
+                {
+                    Id = "U3DSample",
+                }
+            };
+            //co_ucentersdk.guestAccess(guestAccessInfo, _onUCenterGuestAccess);
 
             // 游客帐号转正
             GuestConvertInfo convert_info = new GuestConvertInfo();
-            convert_info.AccountId = "01e94810-ce14-4fff-9c06-16a77990e12c";
-            convert_info.AccountName = "asdfg";
+            convert_info.AccountId = "dc798b4a-e43d-447f-896e-beba9439e3d0";
+            convert_info.AccountName = "sample_user";
             convert_info.Password = "";
             convert_info.SuperPassword = "";
             convert_info.Gender = Gender.DeclineToState;
@@ -61,7 +69,7 @@ namespace GameCloud.UCenter.SDK.Sample
             convert_info.Identity = "";
             convert_info.Phone = "";
             convert_info.Email = "";
-            //co_ucentersdk.convert(convert_info, _onUCenterConvert);
+            co_ucentersdk.guestConvert(convert_info, _onUCenterConvert);
 
             // 重置密码
             AccountResetPasswordInfo resetpassword_request = new AccountResetPasswordInfo();
