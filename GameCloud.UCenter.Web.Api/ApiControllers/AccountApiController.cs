@@ -575,6 +575,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.InvalidAccountPassword);
             }
 
+            if (account.SuperPassword.Length < 6 || account.Password.Length > 64)
+            {
+                throw new UCenterException(UCenterErrorCode.InvalidAccountPassword);
+            }
+
             if (!string.IsNullOrEmpty(account.Email))
             {
                 string emailPattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
