@@ -38,11 +38,11 @@ namespace GameCloud.UCenter.Test.E2ETest
             OperationSystem = "UnitTestDeviceOS"
         };
 
-        [TestInitialize]
+        [ClassInitialize]
         public void Initialize()
         {
             // Note: Do not use public async void Initialize(), it will never triggered
-            this.InitializeAsync().Wait();
+            this.ClassInitializeAsync().Wait();
         }
 
         protected async Task<AccountRegisterResponse> CreateTestAccount(AccountRegisterInfo info = null)
@@ -77,7 +77,7 @@ namespace GameCloud.UCenter.Test.E2ETest
             return registerResponse;
         }
         
-        private async Task InitializeAsync()
+        private async Task ClassInitializeAsync()
         {
             var appInfo = new AppInfo
             {
