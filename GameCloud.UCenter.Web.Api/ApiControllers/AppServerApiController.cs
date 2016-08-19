@@ -108,17 +108,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/apps/{appId}/configurations")]
         public async Task<IHttpActionResult> GetAppConfiguration([FromUri]string appId, CancellationToken token)
         {
-            //var app = await this.Database.Apps.GetSingleAsync(appId, token);
-            //if (app == null)
-            //{
-            //    throw new UCenterException(UCenterErrorCode.AppNotExists);
-            //}
-
             var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(appId, token);
 
             var response = new AppConfigurationResponse
             {
-                AppId = app.Id,
+                AppId = appId,
                 Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
             };
 
