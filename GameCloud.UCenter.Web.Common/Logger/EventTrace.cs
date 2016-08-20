@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database;
@@ -16,7 +14,7 @@ namespace GameCloud.UCenter.Web.Common.Logger
     [Export]
     public class EventTrace
     {
-        internal const int BufferSize = 1000;
+        internal const int BufferSize = 100;
 
         private readonly DatabaseContext context;
         private readonly ConcurrentBag<EntityBase> buffer = new ConcurrentBag<EntityBase>();
