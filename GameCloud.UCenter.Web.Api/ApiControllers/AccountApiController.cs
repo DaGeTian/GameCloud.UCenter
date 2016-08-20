@@ -43,6 +43,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="database">The database context.</param>
         /// <param name="settings">The UCenter settings.</param>
         /// <param name="storageContext">The storage account context.</param>
+        /// <param name="eventTrace">The event trace instance.</param>
         [ImportingConstructor]
         public AccountApiController(
             UCenterDatabaseContext database,

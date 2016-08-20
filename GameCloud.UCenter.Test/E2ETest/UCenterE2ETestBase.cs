@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.SDK.AppClient;

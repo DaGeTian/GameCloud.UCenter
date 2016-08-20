@@ -16,12 +16,12 @@ namespace GameCloud.UCenter.Web.Common.Logger
     [Export]
     public class EventTrace
     {
+        internal const int BufferSize = 1000;
+
         private readonly DatabaseContext context;
         private readonly ConcurrentBag<EntityBase> buffer = new ConcurrentBag<EntityBase>();
         private readonly ConcurrentDictionary<string, ICollectionAdapter<EntityBase>> adapters = new ConcurrentDictionary<string, ICollectionAdapter<EntityBase>>();
-
-        internal const int BufferSize = 1000;
-
+        
         [ImportingConstructor]
         public EventTrace(DatabaseContext context)
         {
@@ -61,7 +61,6 @@ namespace GameCloud.UCenter.Web.Common.Logger
                     CustomTrace.TraceError(ex);
                 }
             }
-
         }
     }
 }
