@@ -42,6 +42,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Local.testsettings = Local.testsettings
 	EndProjectSection
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameCloud.UCenter.Api", "GameCloud.UCenter.Api\GameCloud.UCenter.Api.xproj", "{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.UCenter.OWin.Api", "GameCloud.UCenter.OWin.Api\GameCloud.UCenter.OWin.Api.csproj", "{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +96,14 @@ Global
 		{04052976-FF17-41DB-AAC5-DA5F7F33C934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04052976-FF17-41DB-AAC5-DA5F7F33C934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04052976-FF17-41DB-AAC5-DA5F7F33C934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +121,7 @@ Global
 		{29CDFA3B-3614-4C5A-8C4E-AC4AC6483B4B} = {CB6B13FA-E010-476C-8A9B-2352F6651949}
 		{04052976-FF17-41DB-AAC5-DA5F7F33C934} = {3739162B-9473-44C4-9DDE-76824D893C67}
 		{DACC1FE6-79E7-439A-9231-376BF796678A} = {3739162B-9473-44C4-9DDE-76824D893C67}
+		{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B} = {EED754DD-5382-4B4D-BAB0-90B9B44EC830}
+		{A599EDC2-CB3A-4D58-8C39-DD9B6AD09C70} = {EED754DD-5382-4B4D-BAB0-90B9B44EC830}
 	EndGlobalSection
 EndGlobal

@@ -18,14 +18,14 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppServerApiController : ApiControllerBase
+    public class AppsController : ApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppServerApiController" /> class.
+        /// Initializes a new instance of the <see cref="AppsController" /> class.
         /// </summary>
         /// <param name="database">The database context.</param>
         [ImportingConstructor]
-        public AppServerApiController(UCenterDatabaseContext database)
+        public AppsController(UCenterDatabaseContext database)
             : base(database)
         {
         }

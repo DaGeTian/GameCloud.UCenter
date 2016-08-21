@@ -59,8 +59,10 @@ namespace GameCloud.UCenter.Test.Clients
 
         private bool UseSelfHost()
         {
-            return BaseAddress.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                   BaseAddress.Contains("127.0.0.1");
+            // todo: should self-host new asp.net core api project
+            return false;
+            //return BaseAddress.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            //       BaseAddress.Contains("127.0.0.1");
         }
     }
 }

@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common;
 using GameCloud.UCenter.Common.Extensions;
 using GameCloud.UCenter.Common.IP;
 using GameCloud.UCenter.Common.Models.AppClient;
-using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
@@ -22,6 +19,7 @@ using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Web.Api.ApiControllers
@@ -65,7 +63,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/register")]
-        public async Task<IHttpActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
+        public async Task<IActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
         {
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
@@ -173,7 +171,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/login")]
-        public async Task<IHttpActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
+        public async Task<IActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
@@ -232,7 +230,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/guestaccess")]
-        public async Task<IHttpActionResult> GuestAccess([FromBody] GuestAccessInfo info, CancellationToken token)
+        public async Task<IActionResult> GuestAccess([FromBody] GuestAccessInfo info, CancellationToken token)
         {
             EnsureDeviceInfo(info.Device);
 
@@ -288,7 +286,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/guestconvert")]
-        public async Task<IHttpActionResult> GuestConvert([FromBody] GuestConvertInfo info, CancellationToken token)
+        public async Task<IActionResult> GuestConvert([FromBody] GuestConvertInfo info, CancellationToken token)
         {
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
@@ -327,7 +325,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/resetpassword")]
-        public async Task<IHttpActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
+        public async Task<IActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
@@ -359,45 +357,45 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="accountId">Indicating the account Id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [HttpPost]
-        [Route("api/accounts/{accountId}/upload")]
-        public async Task<IHttpActionResult> UploadProfileImage([FromUri] string accountId, CancellationToken token)
-        {
-            var account = await this.GetAndVerifyAccount(accountId, token);
+        //[HttpPost]
+        //[Route("api/accounts/{accountId}/upload")]
+        //public async Task<IActionResult> UploadProfileImage(string accountId, CancellationToken token)
+        //{
+        //    var account = await this.GetAndVerifyAccount(accountId, token);
 
-            using (var stream = await this.Request.Content.ReadAsStreamAsync())
-            {
-                var image = Image.FromStream(stream);
-                using (var thumbnailStream = this.GetThumbprintStream(image))
-                {
-                    var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
-                    account.ProfileThumbnail =
-                        await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
-                }
+        //    using (var stream = await this.Request.Content.ReadAsStreamAsync())
+        //    {
+        //        var image = Image.FromStream(stream);
+        //        using (var thumbnailStream = this.GetThumbprintStream(image))
+        //        {
+        //            var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
+        //            account.ProfileThumbnail =
+        //                await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
+        //        }
 
-                string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
-                stream.Seek(0, SeekOrigin.Begin);
-                account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
+        //        string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
-                await this.Database.Accounts.UpsertAsync(account, token);
-                await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
+        //        await this.Database.Accounts.UpsertAsync(account, token);
+        //        await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
 
-                return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
-            }
-        }
+        //        return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
+        //    }
+        //}
 
         /// <summary>
         /// Get client IP area.
         /// </summary>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [HttpGet]
-        [Route("api/accounts/ip")]
-        public IHttpActionResult GetClientIp(CancellationToken token)
-        {
-            string ipAddress = IPHelper.GetClientIpAddress(Request);
-            return this.CreateSuccessResult(ipAddress);
-        }
+        //[HttpGet]
+        //[Route("api/accounts/ip")]
+        //public IActionResult GetClientIp(CancellationToken token)
+        //{
+        //    string ipAddress = IPHelper.GetClientIpAddress(Request);
+        //    return this.CreateSuccessResult(ipAddress);
+        //}
 
         private async Task TraceUCenterErrorAsync(
             AccountEntity account,
@@ -405,7 +403,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = IPHelper.GetClientIpAddress(Request);
+            var clientIp = string.Empty;//IPHelper.GetClientIpAddress(Request);
 
             var errorEvent = new ErrorEventEntity()
             {
@@ -428,7 +426,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = IPHelper.GetClientIpAddress(Request);
+            var clientIp = string.Empty;// todo: migrate to asp.net core IPHelper.GetClientIpAddress(Request);
 
             var accountEventEntity = new AccountEventEntity
             {
@@ -438,7 +436,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 EventName = eventName,
                 ClientIp = clientIp,
                 LoginArea = string.Empty,
-                UserAgent = Request.Headers.UserAgent.ToString(),
+                UserAgent = string.Empty, // todo: Migrate to asp.net core Request.Headers.UserAgent.ToString(),
                 Message = message
             };
             if (device != null)
