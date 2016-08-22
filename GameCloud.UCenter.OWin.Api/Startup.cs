@@ -13,6 +13,7 @@ namespace GameCloud.UCenter.OWin.Api
         {
             // Configure Web API for self-host. 
             HttpConfiguration = new HttpConfiguration();
+            HttpConfiguration.MapHttpAttributeRoutes();
             HttpConfiguration.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
