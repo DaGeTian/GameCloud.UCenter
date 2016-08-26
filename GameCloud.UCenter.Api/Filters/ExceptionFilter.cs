@@ -4,8 +4,6 @@ using GameCloud.UCenter.Common.Portable.Contracts;
 using MongoDB.Driver;
 using GameCloud.UCenter.Common.Portable.Exceptions;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace GameCloud.UCenter.Api.Filters
 {
     public class ExceptionFilter : ExceptionFilterAttribute

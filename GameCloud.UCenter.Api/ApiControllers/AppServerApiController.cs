@@ -128,7 +128,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/apps/{appId}/accountlogin")]
-        public async Task<IActionResult> AccountLogin(string appId, AccountLoginAppInfo info, CancellationToken token)
+        public async Task<IActionResult> AccountLogin(string appId, [FromBody]AccountLoginAppInfo info, CancellationToken token)
         {
             await this.CheckAppPermission(appId, info.AppSecret, token);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
