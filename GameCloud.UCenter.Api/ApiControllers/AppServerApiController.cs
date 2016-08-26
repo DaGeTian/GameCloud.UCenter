@@ -157,7 +157,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/apps/{appId}/readdata")]
-        public async Task<IActionResult> ReadAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
+        public async Task<IActionResult> ReadAccountData(string appId, [FromBody]AppAccountDataInfo info, CancellationToken token)
         {
             await this.CheckAppPermission(appId, info.AppSecret, token);
 
@@ -183,7 +183,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/apps/{appId}/writedata")]
-        public async Task<IActionResult> WriteAccountData(string appId, AppAccountDataInfo info, CancellationToken token)
+        public async Task<IActionResult> WriteAccountData(string appId, [FromBody]AppAccountDataInfo info, CancellationToken token)
         {
             await this.CheckAppPermission(appId, info.AppSecret, token);
 
