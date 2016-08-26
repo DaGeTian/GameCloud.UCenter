@@ -3,6 +3,7 @@ using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Web.Common.Filters;
 using Microsoft.AspNetCore.Mvc;
+using GameCloud.UCenter.Api.Filters;
 
 namespace GameCloud.UCenter.Web.Api.ApiControllers
 {
@@ -10,7 +11,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
     /// API controller base class
     /// </summary>
     [Export]
-    //[ActionExecutionFilter]
+    [ExceptionFilter]
     public class ApiControllerBase : Controller
     {
         /// <summary>
