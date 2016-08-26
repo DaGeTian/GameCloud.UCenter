@@ -12,11 +12,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Web.Common.Storage;
+using GameCloud.UCenter.Web.Common.Logger;
 
 namespace GameCloud.UCenter.Api
 {
     public class Startup
     {
+        private readonly ExportProvider exportProvider;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -27,14 +32,14 @@ namespace GameCloud.UCenter.Api
             Configuration = builder.Build();
 
             // MEF initiliazation
-            ExportProvider exportProvider = CompositionContainerFactory.Create();
+            this.exportProvider = CompositionContainerFactory.Create();
             //WebApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
             SettingsInitializer.Initialize<Settings>(
-                exportProvider,
+                this.exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,
                 AppConfigurationValueProvider.Default);
             SettingsInitializer.Initialize<DatabaseContextSettings>(
-                exportProvider,
+                this.exportProvider,
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
         }
@@ -46,6 +51,10 @@ namespace GameCloud.UCenter.Api
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton<Settings>(this.exportProvider.GetExportedValue<Settings>());
+            services.AddSingleton<StorageAccountContext>(this.exportProvider.GetExportedValue<StorageAccountContext>());
+            services.AddSingleton<EventTrace>(this.exportProvider.GetExportedValue<EventTrace>());
+            services.AddSingleton<UCenterDatabaseContext>(this.exportProvider.GetExportedValue<UCenterDatabaseContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
