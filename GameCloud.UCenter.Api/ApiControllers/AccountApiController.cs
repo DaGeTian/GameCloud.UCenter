@@ -21,6 +21,7 @@ using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Http;
 
 namespace GameCloud.UCenter.Web.Api.ApiControllers
 {
@@ -63,7 +64,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/register")]
-        public async Task<IActionResult> Register([FromBody] AccountRegisterRequestInfo info, CancellationToken token)
+        public async Task<IActionResult> Register([FromBody]AccountRegisterRequestInfo info, CancellationToken token)
         {
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
             var error = false;
@@ -171,7 +172,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/login")]
-        public async Task<IActionResult> Login([FromBody] AccountLoginInfo info, CancellationToken token)
+        public async Task<IActionResult> Login([FromBody]AccountLoginInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
@@ -230,7 +231,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/guestaccess")]
-        public async Task<IActionResult> GuestAccess([FromBody] GuestAccessInfo info, CancellationToken token)
+        public async Task<IActionResult> GuestAccess([FromBody]GuestAccessInfo info, CancellationToken token)
         {
             EnsureDeviceInfo(info.Device);
 
@@ -286,7 +287,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/guestconvert")]
-        public async Task<IActionResult> GuestConvert([FromBody] GuestConvertInfo info, CancellationToken token)
+        public async Task<IActionResult> GuestConvert([FromBody]GuestConvertInfo info, CancellationToken token)
         {
             var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
@@ -325,7 +326,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/accounts/resetpassword")]
-        public async Task<IActionResult> ResetPassword([FromBody] AccountResetPasswordInfo info, CancellationToken token)
+        public async Task<IActionResult> ResetPassword([FromBody]AccountResetPasswordInfo info, CancellationToken token)
         {
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
@@ -357,32 +358,32 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <param name="accountId">Indicating the account Id.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        //[HttpPost]
-        //[Route("api/accounts/{accountId}/upload")]
-        //public async Task<IActionResult> UploadProfileImage(string accountId, CancellationToken token)
-        //{
-        //    var account = await this.GetAndVerifyAccount(accountId, token);
+        [HttpPost]
+        [Route("api/accounts/{accountId}/upload")]
+        public async Task<IActionResult> UploadProfileImage(string accountId, IFormFile file, CancellationToken token)
+        {
+            var account = await this.GetAndVerifyAccount(accountId, token);
 
-        //    using (var stream = await this.Request.Content.ReadAsStreamAsync())
-        //    {
-        //        var image = Image.FromStream(stream);
-        //        using (var thumbnailStream = this.GetThumbprintStream(image))
-        //        {
-        //            var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
-        //            account.ProfileThumbnail =
-        //                await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
-        //        }
+            using (var stream = file.OpenReadStream())
+            {
+                var image = Image.FromStream(stream);
+                using (var thumbnailStream = this.GetThumbprintStream(image))
+                {
+                    var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
+                    account.ProfileThumbnail =
+                        await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
+                }
 
-        //        string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
-        //        stream.Seek(0, SeekOrigin.Begin);
-        //        account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
+                string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
+                stream.Seek(0, SeekOrigin.Begin);
+                account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
-        //        await this.Database.Accounts.UpsertAsync(account, token);
-        //        await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
+                await this.Database.Accounts.UpsertAsync(account, token);
+                await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
 
-        //        return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
-        //    }
-        //}
+                return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
+            }
+        }
 
         /// <summary>
         /// Get client IP area.

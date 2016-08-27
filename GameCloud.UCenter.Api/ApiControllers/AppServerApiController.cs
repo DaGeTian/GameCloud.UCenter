@@ -38,7 +38,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/apps")]
-        public async Task<IActionResult> CreateApp([FromBody] AppInfo info, CancellationToken token)
+        public async Task<IActionResult> CreateApp([FromBody]AppInfo info, CancellationToken token)
         {
             var app = await this.Database.Apps.GetSingleAsync(info.AppId, token);
 
@@ -71,7 +71,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         /// <returns>Async task.</returns>
         [HttpPost]
         [Route("api/apps/configurations")]
-        public async Task<IActionResult> CreateAppConfiguration([FromBody] AppConfigurationInfo info, CancellationToken token)
+        public async Task<IActionResult> CreateAppConfiguration([FromBody]AppConfigurationInfo info, CancellationToken token)
         {
             var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(info.AppId, token);
 
