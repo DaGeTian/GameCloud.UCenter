@@ -124,10 +124,6 @@
       <Project>{004e44f3-934b-47ca-99e5-9cd38aa32ef0}</Project>
       <Name>GameCloud.UCenter.SDK.AppServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Web.Api\GameCloud.UCenter.Web.Api.csproj">
-      <Project>{a0cb1d60-827b-4702-8b50-4cb11889d656}</Project>
-      <Name>GameCloud.UCenter.Web.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>
       <Name>GameCloud.UCenter.Web.Common</Name>

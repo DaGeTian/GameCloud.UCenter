@@ -130,8 +130,9 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         [Route("api/apps/{appId}/accountlogin")]
         public async Task<IActionResult> AccountLogin(string appId, [FromBody]AccountLoginAppInfo info, CancellationToken token)
         {
-            await this.CheckAppPermission(appId, info.AppSecret, token);
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
+            await this.CheckAppPermission(appId, info.AppSecret, token);
+
             var result = new AccountLoginAppResponse();
             result.AccountId = account.Id;
             result.AccountName = account.AccountName;
@@ -226,7 +227,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AppNotExists);
             }
 
-            if (appSecret != app.AppSecret)
+            if (app.AppSecret != appSecret)
             {
                 throw new UCenterException(UCenterErrorCode.AppTokenUnauthorized);
             }
