@@ -90,7 +90,7 @@ namespace GameCloud.Database.Adapters
             return entities;
         }
 
-        async Task<TEntity> ICollectionAdapter<TEntity>.UpdateAsync(TEntity entity, UpdateOptions options, CancellationToken token)
+        async Task<TEntity> ICollectionAdapter<TEntity>.ReplaceOneAsync(TEntity entity, UpdateOptions options, CancellationToken token)
         {
             var replaceResult = await this.collection.ReplaceOneAsync(
                 e => e.Id == entity.Id,
@@ -101,6 +101,12 @@ namespace GameCloud.Database.Adapters
             // todo: add some check logic here.
             // todo: reterive the entity from server side??
             return entity;
+        }
+
+        Task ICollectionAdapter<TEntity>.UpdateOneAsync(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update, CancellationToken token)
+        {
+            UpdateOptions update_options = new UpdateOptions() { IsUpsert = true };
+            return this.collection.UpdateOneAsync(filter, update, update_options, token);
         }
 
         async Task<string> ICollectionAdapter<TEntity>.CreateIndexIfNotExistAsync(IndexKeysDefinition<TEntity> keys, CreateIndexOptions options, CancellationToken token)

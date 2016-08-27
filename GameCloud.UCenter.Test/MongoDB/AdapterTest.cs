@@ -39,13 +39,20 @@ namespace GameCloud.UCenter.Test.MongoDB
 
             this.CheckEquals(account, entityFromServer);
 
-            account.Name = GenerateRandomString();
+            //account.Name = GenerateRandomString();
 
-            await adapter.UpdateAsync(account, token);
+            string newAccountName = GenerateRandomString();
 
-            var list = await adapter.GetListAsync(e => e.Name == account.Name, token);
+            var filter = Builders<AccountEntity>.Filter.Where(
+                e => e.Id != account.Id);
+            var updater = Builders<AccountEntity>.Update
+                .Set("Name", newAccountName);
+
+            await adapter.UpdateOneAsync(filter, updater, token);
+
+            var list = await adapter.GetListAsync(e => e.Name == newAccountName, token);
             Assert.AreEqual(1, list.Count);
-            this.CheckEquals(account, list.First());
+            Assert.AreEqual(newAccountName, list.First().Name);
 
             await adapter.DeleteAsync(account, token);
 

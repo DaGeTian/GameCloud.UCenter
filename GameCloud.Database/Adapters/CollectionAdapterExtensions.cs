@@ -105,10 +105,10 @@ namespace GameCloud.Database.Adapters
         /// <param name="entity">Indicating the document entity.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        public static Task<TEntity> UpdateAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, TEntity entity, CancellationToken token)
+        public static Task<TEntity> UpdateOneAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, TEntity entity, UpdateOptions options, CancellationToken token)
            where TEntity : EntityBase
         {
-            return adapter.UpdateAsync(entity, null, token);
+            return adapter.UpdateOneAsync(entity, options, token);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace GameCloud.Database.Adapters
         public static Task<TEntity> UpsertAsync<TEntity>(this ICollectionAdapter<TEntity> adapter, TEntity entity, CancellationToken token)
            where TEntity : EntityBase
         {
-            return adapter.UpdateAsync(
+            return adapter.ReplaceOneAsync(
                 entity,
                 new UpdateOptions { IsUpsert = true },
                 token);

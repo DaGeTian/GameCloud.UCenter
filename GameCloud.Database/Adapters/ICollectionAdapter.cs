@@ -60,7 +60,9 @@ namespace GameCloud.Database.Adapters
         /// <param name="options">Indication the options.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task</returns>
-        Task<TEntity> UpdateAsync(TEntity entity, UpdateOptions options, CancellationToken token);
+        Task UpdateOneAsync(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update, CancellationToken token);
+
+        Task<TEntity> ReplaceOneAsync(TEntity entity, UpdateOptions options, CancellationToken token);
 
         /// <summary>
         /// Delete document entity by filter expression.

@@ -28,12 +28,14 @@ namespace GameCloud.UCenter.Web.Common.Logger
 
         public async Task TraceEvent<TEvent>(TEvent ev, CancellationToken token) where TEvent : EntityBase
         {
-            this.buffer.Add(ev);
+            return;
 
-            if (this.buffer.Count >= BufferSize)
-            {
-                await this.Flush(token);
-            }
+            //this.buffer.Add(ev);
+
+            //if (this.buffer.Count >= BufferSize)
+            //{
+            //    await this.Flush(token);
+            //}
         }
 
         public async Task Flush(CancellationToken token)
@@ -57,6 +59,9 @@ namespace GameCloud.UCenter.Web.Common.Logger
                 catch (Exception ex)
                 {
                     CustomTrace.TraceError(ex);
+                }
+                finally
+                {
                 }
             }
         }

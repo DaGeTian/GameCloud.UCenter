@@ -209,10 +209,13 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
                 throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
-
-            accountEntity.LastLoginDateTime = DateTime.UtcNow;
-            accountEntity.Token = EncryptHashManager.GenerateToken();
-            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+            
+            var filter = Builders<AccountEntity>.Filter.Where(
+                e => e.Id != accountEntity.Id);
+            var updater = Builders<AccountEntity>.Update
+                .Set("LastLoginDateTime", DateTime.UtcNow)
+                .Set("Token", EncryptHashManager.GenerateToken());
+            await this.Database.Accounts.UpdateOneAsync(filter, updater, token);
 
             if (info.Device != null)
             {

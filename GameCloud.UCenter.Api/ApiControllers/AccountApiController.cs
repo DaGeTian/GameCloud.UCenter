@@ -211,7 +211,17 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
 
             accountEntity.LastLoginDateTime = DateTime.UtcNow;
             accountEntity.Token = EncryptHashManager.GenerateToken();
-            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+            //await this.Database.Accounts.UpsertAsync(accountEntity, token);
+
+            var filter = Builders<AccountEntity>.Filter.Where(
+                e => e.Id != accountEntity.Id);
+
+            var updater = Builders<AccountEntity>.Update
+                .Set("LastLoginDateTime", DateTime.UtcNow)
+                .Set("Token", EncryptHashManager.GenerateToken());
+
+            //var list_event_friend = Mongo.UpdateOneAsync<EventFriend>(
+            //    filter, DbCollectName.EventFriend, updater);
 
             if (info.Device != null)
             {
