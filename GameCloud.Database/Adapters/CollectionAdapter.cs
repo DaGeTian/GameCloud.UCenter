@@ -103,10 +103,9 @@ namespace GameCloud.Database.Adapters
             return entity;
         }
 
-        Task ICollectionAdapter<TEntity>.UpdateOneAsync(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update, CancellationToken token)
+        Task<UpdateResult> ICollectionAdapter<TEntity>.UpdateOneAsync(TEntity entity, FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update, UpdateOptions options, CancellationToken token)
         {
-            UpdateOptions update_options = new UpdateOptions() { IsUpsert = true };
-            return this.collection.UpdateOneAsync(filter, update, update_options, token);
+            return this.collection.UpdateOneAsync(filter, update, options, token);
         }
 
         async Task<string> ICollectionAdapter<TEntity>.CreateIndexIfNotExistAsync(IndexKeysDefinition<TEntity> keys, CreateIndexOptions options, CancellationToken token)

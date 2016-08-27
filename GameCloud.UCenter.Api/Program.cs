@@ -17,6 +17,7 @@ namespace GameCloud.UCenter.Api
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://10.0.0.4:80/")
                 .Build();
 
             host.Run();

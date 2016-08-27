@@ -6,10 +6,10 @@ namespace GameCloud.UCenter.Test
     [Export]
     public class UCenterTestSettings
     {
-        [DefaultValue("localhost")]
+        [DefaultValue("10.0.0.4")]
         public string UCenterServerHost { get; set; }
 
-        [DefaultValue(8888)]
+        [DefaultValue(80)]
         public int UCenterServerPort { get; set; }
     }
 }

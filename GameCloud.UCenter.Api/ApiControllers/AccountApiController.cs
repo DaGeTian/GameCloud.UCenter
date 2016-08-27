@@ -209,19 +209,11 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
 
-            accountEntity.LastLoginDateTime = DateTime.UtcNow;
-            accountEntity.Token = EncryptHashManager.GenerateToken();
-            //await this.Database.Accounts.UpsertAsync(accountEntity, token);
-
-            var filter = Builders<AccountEntity>.Filter.Where(
-                e => e.Id != accountEntity.Id);
-
-            var updater = Builders<AccountEntity>.Update
+            var filter = Builders<AccountEntity>.Filter.Where(e => e.Id != accountEntity.Id);
+            var update = Builders<AccountEntity>.Update
                 .Set("LastLoginDateTime", DateTime.UtcNow)
                 .Set("Token", EncryptHashManager.GenerateToken());
-
-            //var list_event_friend = Mongo.UpdateOneAsync<EventFriend>(
-            //    filter, DbCollectName.EventFriend, updater);
+            await this.Database.Accounts.UpdateOneAsync<AccountEntity>(accountEntity, filter, update, token);
 
             if (info.Device != null)
             {

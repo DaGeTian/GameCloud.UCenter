@@ -21,10 +21,13 @@ namespace GameCloud.UCenter.Test.MongoDB
             var token = tokenSource.Token;
             var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
 
-            var account = new AccountEntity
+            string accountNameBeforeUpdate = GenerateRandomString();
+            string accountNameAfterUpdate = GenerateRandomString();
+
+            var accountEntity = new AccountEntity
             {
                 Id = Guid.NewGuid().ToString(),
-                AccountName = GenerateRandomString(),
+                AccountName = accountNameBeforeUpdate,
                 AccountType = AccountType.NormalAccount,
                 Name = GenerateRandomString(),
                 CreatedTime = DateTime.UtcNow,
@@ -33,30 +36,25 @@ namespace GameCloud.UCenter.Test.MongoDB
                 Gender = Gender.Male
             };
 
-            await adapter.InsertAsync(account, token);
+            await adapter.InsertAsync(accountEntity, token);
 
-            var entityFromServer = await adapter.GetSingleAsync(account.Id, token);
+            var entityFromServer = await adapter.GetSingleAsync(accountEntity.Id, token);
+            this.CheckEquals(accountEntity, entityFromServer);
 
-            this.CheckEquals(account, entityFromServer);
+            var filter = Builders<AccountEntity>.Filter.Where(e => e.Id == accountEntity.Id);
+            var update = Builders<AccountEntity>.Update.Set("Name", accountNameAfterUpdate);
+            await adapter.UpdateOneAsync(accountEntity, filter, update, token);
 
-            //account.Name = GenerateRandomString();
+            var list = await adapter.GetListAsync(e => e.Name == accountNameBeforeUpdate, token);
+            Assert.AreEqual(0, list.Count);
 
-            string newAccountName = GenerateRandomString();
-
-            var filter = Builders<AccountEntity>.Filter.Where(
-                e => e.Id != account.Id);
-            var updater = Builders<AccountEntity>.Update
-                .Set("Name", newAccountName);
-
-            await adapter.UpdateOneAsync(filter, updater, token);
-
-            var list = await adapter.GetListAsync(e => e.Name == newAccountName, token);
+            list = await adapter.GetListAsync(e => e.Name == accountNameAfterUpdate, token);
             Assert.AreEqual(1, list.Count);
-            Assert.AreEqual(newAccountName, list.First().Name);
+            Assert.AreEqual(accountNameAfterUpdate, list.First().Name);
 
-            await adapter.DeleteAsync(account, token);
+            await adapter.DeleteAsync(accountEntity, token);
 
-            list = await adapter.GetListAsync(e => e.AccountName == account.AccountName, token);
+            list = await adapter.GetListAsync(e => e.AccountName == accountNameAfterUpdate, token);
 
             Assert.AreEqual(0, list.Count);
         }
