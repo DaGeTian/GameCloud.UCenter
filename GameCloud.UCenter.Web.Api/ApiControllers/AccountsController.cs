@@ -38,7 +38,7 @@ namespace GameCloud.UCenter.Web.Api.ApiControllers
         private readonly EventTrace eventTrace;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountApiController" /> class.
+        /// Initializes a new instance of the <see cref="AccountsController" /> class.
         /// </summary>
         /// <param name="database">The database context.</param>
         /// <param name="settings">The UCenter settings.</param>
