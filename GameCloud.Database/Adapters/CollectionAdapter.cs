@@ -16,7 +16,6 @@ namespace GameCloud.Database.Adapters
     /// Provide an adapter for MongoDBA collection.
     /// </summary>
     /// <typeparam name="TEntity">Indicating the document type.</typeparam>
-    [Export(typeof(ICollectionAdapter<>))]
     public class CollectionAdapter<TEntity> : ICollectionAdapter<TEntity>
         where TEntity : EntityBase
     {
@@ -36,8 +35,7 @@ namespace GameCloud.Database.Adapters
             this.collection = this.context.Database.GetCollection<TEntity>(this.collectionName, this.context.Settings.CollectionSettings);
         }
 
-        [ImportingConstructor]
-        private CollectionAdapter(DatabaseContext context)
+        public CollectionAdapter(DatabaseContext context)
             : this(context, typeof(TEntity).GetCustomAttribute<CollectionNameAttribute>().CollectionName)
         {
         }

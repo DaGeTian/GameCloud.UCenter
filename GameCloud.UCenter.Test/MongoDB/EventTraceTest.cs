@@ -20,7 +20,7 @@ namespace GameCloud.UCenter.Test.MongoDB
         {
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
-            var adapter = ExportProvider.GetExportedValue<UCenterDatabaseContext>()
+            var adapter = ExportProvider.GetExportedValue<UCenterEventDatabaseContext>()
                 .AccountEvents;
             var eventTrace = ExportProvider.GetExportedValue<EventTrace>();
             int bufferSize = EventTrace.BufferSize;

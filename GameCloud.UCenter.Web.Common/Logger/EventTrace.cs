@@ -47,7 +47,6 @@ namespace GameCloud.UCenter.Web.Common.Logger
                 {
                     try
                     {
-                        buffer.Clear();
                         var tasks = tmp.Where(t => t != null)
                             .GroupBy(t => t.GetType())
                             .AsParallel()

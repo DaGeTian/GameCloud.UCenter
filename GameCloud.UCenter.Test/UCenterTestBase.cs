@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
+using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Test.Clients;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
@@ -88,6 +89,11 @@ namespace GameCloud.UCenter.Test
             SettingsInitializer.Initialize<DatabaseContextSettings>(
                 ExportProvider,
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
+
+            SettingsInitializer.Initialize<UCenterEventDatabaseContextSettings>(
+                ExportProvider,
+                SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
 
             // TODO: This will break distributed unit test!

@@ -421,7 +421,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 Message = message
             };
 
-            await this.Database.ErrorEvents.InsertAsync(errorEvent, token);
+            await this.eventTrace.TraceEvent<ErrorEventEntity>(errorEvent, token);
         }
 
         private async Task TraceAccountEvent(
@@ -477,7 +477,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             };
 
             // todo: the event trace not handle device exists problem.
-            await this.eventTrace.TraceEvent<DeviceEntity>(deviceEntity, token);
+            await this.Database.Devices.UpsertAsync(deviceEntity, token);
+            // await this.eventTrace.TraceEvent<DeviceEntity>(deviceEntity, token);
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)

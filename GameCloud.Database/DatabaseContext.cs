@@ -41,7 +41,7 @@ namespace GameCloud.Database
         public ICollectionAdapter<TEntity> GetAdapter<TEntity>()
             where TEntity : EntityBase
         {
-            return this.exportProvider.GetExportedValue<ICollectionAdapter<TEntity>>();
+            return new CollectionAdapter<TEntity>(this);
         }
     }
 }
