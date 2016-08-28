@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="EncryptHashManager.cs" />
     <Compile Include="IP\IPHelper.cs" />
     <Compile Include="MEF\CompositionContainerFactory.cs" />

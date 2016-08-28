@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
+using GameCloud.UCenter.Common.Cache;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
@@ -19,6 +21,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class AppServerApiController : ApiControllerBase
     {
+        private readonly CacheProvider<AppConfigurationResponse> appConfigurationCacheProvider;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AppServerApiController" /> class.
         /// </summary>
@@ -27,6 +31,20 @@ namespace GameCloud.UCenter.Api.ApiControllers
         public AppServerApiController(UCenterDatabaseContext database)
             : base(database)
         {
+            this.appConfigurationCacheProvider = new CacheProvider<AppConfigurationResponse>(
+                TimeSpan.FromMinutes(5),
+                async (key, token) =>
+                {
+                    var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(key, token);
+
+                    var response = new AppConfigurationResponse
+                    {
+                        AppId = key,
+                        Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
+                    };
+
+                    return response;
+                });
         }
 
         /// <summary>
@@ -107,13 +125,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/apps/{appId}/configurations")]
         public async Task<IActionResult> GetAppConfiguration(string appId, CancellationToken token)
         {
-            var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(appId, token);
-
-            var response = new AppConfigurationResponse
-            {
-                AppId = appId,
-                Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
-            };
+            var response = await this.appConfigurationCacheProvider.Get(appId, token);
 
             return this.CreateSuccessResult(response);
         }

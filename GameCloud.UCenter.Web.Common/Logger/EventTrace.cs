@@ -15,11 +15,10 @@ namespace GameCloud.UCenter.Web.Common.Logger
     public class EventTrace
     {
         internal const int BufferSize = 100;
-
         private readonly DatabaseContext context;
-        private readonly ConcurrentBag<EntityBase> buffer = new ConcurrentBag<EntityBase>();
+        private readonly ConcurrentStack<EntityBase> buffer = new ConcurrentStack<EntityBase>();
         private readonly ConcurrentDictionary<string, ICollectionAdapter<EntityBase>> adapters = new ConcurrentDictionary<string, ICollectionAdapter<EntityBase>>();
-        
+
         [ImportingConstructor]
         public EventTrace(DatabaseContext context)
         {
@@ -28,41 +27,51 @@ namespace GameCloud.UCenter.Web.Common.Logger
 
         public async Task TraceEvent<TEvent>(TEvent ev, CancellationToken token) where TEvent : EntityBase
         {
-            return;
+            this.buffer.Push(ev);
 
-            //this.buffer.Add(ev);
-
-            //if (this.buffer.Count >= BufferSize)
-            //{
-            //    await this.Flush(token);
-            //}
+            if (this.buffer.Count >= BufferSize)
+            {
+                await this.Flush(token);
+            }
         }
 
         public async Task Flush(CancellationToken token)
         {
-            var tmp = buffer.ToList();
-            if (tmp.Count > 0)
+            var count = this.buffer.Count;
+            if (count > 0)
             {
-                try
+                EntityBase[] tmp = new EntityBase[count];
+                count = buffer.TryPopRange(tmp, 0, count);
+                if (count > 0)
                 {
-                    var tasks = tmp.GroupBy(t => t.GetType())
-                        .AsParallel()
-                        .Select(async g =>
-                        {
-                            var collectionName = g.Key.GetCustomAttribute<CollectionNameAttribute>().CollectionName;
-                            var adapter = this.adapters.GetOrAdd(collectionName, key => new CollectionAdapter<EntityBase>(this.context, key));
-                            await adapter.InsertManyAsync(g.ToList(), token);
-                        });
+                    try
+                    {
+                        buffer.Clear();
+                        var tasks = tmp.Where(t => t != null)
+                            .GroupBy(t => t.GetType())
+                            .AsParallel()
+                            .Select(async g =>
+                            {
+                                var collectionName = g.Key.GetCustomAttribute<CollectionNameAttribute>().CollectionName;
+                                var adapter = this.adapters.GetOrAdd(collectionName, key => new CollectionAdapter<EntityBase>(this.context, key));
+                                await adapter.InsertManyAsync(g.ToList(), token);
+                            });
 
-                    await Task.WhenAll(tasks);
+                        await Task.WhenAll(tasks);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomTrace.TraceError(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    CustomTrace.TraceError(ex);
-                }
-                finally
-                {
-                }
+            }
+        }
+
+        public long EventsInBuffer
+        {
+            get
+            {
+                return this.buffer.Count;
             }
         }
     }
