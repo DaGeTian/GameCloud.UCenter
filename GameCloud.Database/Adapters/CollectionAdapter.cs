@@ -24,12 +24,6 @@ namespace GameCloud.Database.Adapters
         private readonly string collectionName;
         private readonly DatabaseContext context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CollectionAdapter{TEntity}" /> class.
-        /// </summary>
-        /// <param name="context">Indicating the database context.</param>
-        /// <param name="collectionName">Indicating the database collection</param>
-        [ImportingConstructor]
         public CollectionAdapter(DatabaseContext context, string collectionName)
         {
             this.context = context;
@@ -37,6 +31,12 @@ namespace GameCloud.Database.Adapters
             this.collection = this.context.Database.GetCollection<TEntity>(this.collectionName, this.context.Settings.CollectionSettings);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollectionAdapter{TEntity}" /> class.
+        /// </summary>
+        /// <param name="context">Indicating the database context.</param>
+        /// <param name="collectionName">Indicating the database collection</param>
+        [ImportingConstructor]
         private CollectionAdapter(DatabaseContext context)
             : this(context, typeof(TEntity).GetCustomAttribute<CollectionNameAttribute>().CollectionName)
         {
