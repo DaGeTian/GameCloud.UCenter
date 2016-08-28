@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GameCloud.Database;
 using GameCloud.Database.Adapters;
 using GameCloud.Database.Attributes;
+using GameCloud.UCenter.Database;
 
 namespace GameCloud.UCenter.Web.Common.Logger
 {
@@ -20,7 +21,7 @@ namespace GameCloud.UCenter.Web.Common.Logger
         private readonly ConcurrentDictionary<string, ICollectionAdapter<EntityBase>> adapters = new ConcurrentDictionary<string, ICollectionAdapter<EntityBase>>();
 
         [ImportingConstructor]
-        public EventTrace(DatabaseContext context)
+        public EventTrace(UCenterEventDatabaseContext context)
         {
             this.context = context;
         }

@@ -55,6 +55,8 @@
     <Compile Include="Entities\AppConfigurationEntity.cs" />
     <Compile Include="Entities\AppEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UCenterEventDatabaseContext.cs" />
+    <Compile Include="UCenterEventDatabaseContextSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCloud.Database\GameCloud.Database.csproj">
@@ -64,6 +66,10 @@
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GameCloud.UCenter.Common.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj">
+      <Project>{FCE33A61-93FC-4077-B362-BEB2D5E6D8B0}</Project>
+      <Name>GameCloud.UCenter.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,11 @@ namespace GameCloud.UCenter.Api
                 this.exportProvider,
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
+
+            SettingsInitializer.Initialize<UCenterEventDatabaseContextSettings>(
+                this.exportProvider,
+                SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
         }
 
         public IConfigurationRoot Configuration { get; }

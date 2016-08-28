@@ -135,6 +135,10 @@
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GameCloud.UCenter.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCloud.UCenter.Database\GameCloud.UCenter.Database.csproj">
+      <Project>{463e22cb-446a-4b7f-a8bb-19282313d56f}</Project>
+      <Name>GameCloud.UCenter.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

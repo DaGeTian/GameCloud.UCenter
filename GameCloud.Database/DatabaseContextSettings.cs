@@ -12,21 +12,21 @@ namespace GameCloud.Database
         /// <summary>
         /// Gets or sets the connection string.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public virtual string ConnectionString { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
         /// </summary>
-        public string DatabaseName { get; set; }
+        public virtual string DatabaseName { get; set; }
 
         /// <summary>
         /// Gets or sets the collection settings.
         /// </summary>
-        public MongoCollectionSettings CollectionSettings { get; set; }
+        public virtual MongoCollectionSettings CollectionSettings { get; set; }
 
         /// <summary>
         /// Gets or sets the database settings.
         /// </summary>
-        public MongoDatabaseSettings DatabaseSettings { get; set; }
+        public virtual MongoDatabaseSettings DatabaseSettings { get; set; }
     }
 }

@@ -14,13 +14,24 @@ namespace GameCloud.UCenter.Common.Settings
             var properties = typeof(TSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public);
             foreach (var provider in providers)
             {
-                provider.SettingValues.AsParallel()
-                    .ForAll(pair =>
+                properties.AsParallel()
+                    .ForAll(prop =>
                     {
-                        var property = properties.FirstOrDefault(p => p.Name == pair.Name);
-                        if (property != null)
+                        string name = null;
+                        var attr = prop.GetCustomAttribute<SettingAttribute>();
+                        if (attr != null)
                         {
-                            property.SetValue(settings, Convert.ChangeType(pair.Value, property.PropertyType));
+                            name = attr.SettingName;
+                        }
+                        else
+                        {
+                            name = prop.Name;
+                        }
+
+                        var pair = provider.SettingValues.FirstOrDefault(s => s.Name == name);
+                        if (pair != null)
+                        {
+                            prop.SetValue(settings, Convert.ChangeType(pair.Value, prop.PropertyType));
                         }
                     });
             }
