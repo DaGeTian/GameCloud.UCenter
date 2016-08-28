@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
+using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
@@ -19,7 +20,8 @@ namespace GameCloud.UCenter.Test.MongoDB
         {
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
-            var adapter = ExportProvider.GetExportedValue<ICollectionAdapter<AccountEntity>>();
+            var context = ExportProvider.GetExportedValue<UCenterDatabaseContext>();
+            var adapter = context.Accounts;
 
             string accountNameBeforeUpdate = GenerateRandomString();
             string accountNameAfterUpdate = GenerateRandomString();
