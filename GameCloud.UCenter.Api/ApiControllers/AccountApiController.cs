@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common;
 using GameCloud.UCenter.Common.Extensions;
-using GameCloud.UCenter.Common.IP;
 using GameCloud.UCenter.Common.Models.AppClient;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
@@ -19,11 +18,11 @@ using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using Microsoft.AspNetCore.Http;
 
-namespace GameCloud.UCenter.Web.Api.ApiControllers
+namespace GameCloud.UCenter.Api.ApiControllers
 {
     /// <summary>
     /// UCenter account API controller

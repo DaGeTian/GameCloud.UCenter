@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
@@ -11,7 +10,7 @@ using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameCloud.UCenter.Web.Api.ApiControllers
+namespace GameCloud.UCenter.Api.ApiControllers
 {
     /// <summary>
     /// UCenter app API controller

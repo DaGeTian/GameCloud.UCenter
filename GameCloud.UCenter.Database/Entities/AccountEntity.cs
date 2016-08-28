@@ -47,11 +47,6 @@ namespace GameCloud.UCenter.Database.Entities
         public DateTime LastLoginDateTime { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the account is gust user.
-        /// </summary>
-        public bool IsGuest { get; set; }
-
-        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         public string Name { get; set; }

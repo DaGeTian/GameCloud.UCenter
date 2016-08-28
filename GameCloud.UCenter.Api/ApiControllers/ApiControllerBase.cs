@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.Composition;
+using GameCloud.UCenter.Api.Filters;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Database;
-using GameCloud.UCenter.Web.Common.Filters;
 using Microsoft.AspNetCore.Mvc;
-using GameCloud.UCenter.Api.Filters;
 
-namespace GameCloud.UCenter.Web.Api.ApiControllers
+namespace GameCloud.UCenter.Api.ApiControllers
 {
     /// <summary>
     /// API controller base class

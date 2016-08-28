@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.Composition.Hosting;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
-using GameCloud.UCenter.Web.Common;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Web.Common.Logger;
+using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameCloud.UCenter.Database;
-using GameCloud.UCenter.Web.Common.Storage;
-using GameCloud.UCenter.Web.Common.Logger;
 
 namespace GameCloud.UCenter.Api
 {
