@@ -408,7 +408,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = string.Empty;//IPHelper.GetClientIpAddress(Request);
+            var clientIp = Request.HttpContext.Connection.RemoteIpAddress;// IPHelper.GetClientIpAddress(Request);
 
             var errorEvent = new ErrorEventEntity()
             {
