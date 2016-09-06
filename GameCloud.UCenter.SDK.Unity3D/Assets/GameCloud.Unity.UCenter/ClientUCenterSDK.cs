@@ -147,7 +147,6 @@ namespace GameCloud.UCenter.SDK.Unity
             byte[] bytes = Encoding.UTF8.GetBytes(param);
 
             Dictionary<string, string> headers = _genHeader(bytes.Length);
-
             WWWLogin = new WWW(http_url, bytes, headers);
         }
 
@@ -225,9 +224,15 @@ namespace GameCloud.UCenter.SDK.Unity
 
             byte[] bytes = stream.ToArray();
 
-            Dictionary<string, string> headers = _genHeader(bytes.Length);
+            //int width = 640;
+            //int height = 640;
+            //var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+            //byte[] bytes = tex.EncodeToJPG();
 
-            WWWUploadProfileImage = new WWW(http_url, bytes, headers);
+            WWWForm www_form = new WWWForm();
+            www_form.AddField("frameCount", Time.frameCount.ToString());
+            www_form.AddBinaryData("file", bytes, "profile.jpg", "image/jpg");
+            WWWUploadProfileImage = new WWW(http_url, www_form);
         }
 
         //-------------------------------------------------------------------------
