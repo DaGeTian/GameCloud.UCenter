@@ -25,14 +25,14 @@ namespace GameCloud.UCenter.SDK.Sample
             // EtUCenterSDK示例
             var et_ucentersdk = EntityMgr.createEntity<EtUCenterSDK>(null, Entity);
             var co_ucentersdk = et_ucentersdk.getComponent<ClientUCenterSDK<DefUCenterSDK>>();
-            co_ucentersdk.UCenterDomain = "http://ucenter.playql.com/";
-            //co_ucentersdk.UCenterDomain = "http://blair-cs-sh.chinacloudapp.cn/";
+            //co_ucentersdk.UCenterDomain = "http://ucenter.playql.com/";
+            co_ucentersdk.UCenterDomain = "http://ucenterdev.cragon.cn";
 
             // 获取Ip所在地
             //co_ucentersdk.getIpAddress(_onUCenterGetIpAddress);
 
             // 获取AppConfig
-            co_ucentersdk.getAppConfig("texaspoker", _onUCenterGetAppConfig);
+            //co_ucentersdk.getAppConfig("texaspoker", _onUCenterGetAppConfig);
 
             // 注册
             AccountRegisterInfo register_request = new AccountRegisterInfo();
@@ -43,9 +43,10 @@ namespace GameCloud.UCenter.SDK.Sample
 
             // 登录
             AccountLoginInfo login_request = new AccountLoginInfo();
-            login_request.AccountName = "aaaaabbbb";
+            login_request.AccountName = "lion";
             login_request.Password = "123456";
-            //co_ucentersdk.login(login_request, _onUCenterLogin);
+            login_request.Device = _getDeviceInfo();
+            co_ucentersdk.login(login_request, _onUCenterLogin);
 
             // 游客登录
             GuestAccessInfo guestAccessInfo = new GuestAccessInfo()
@@ -69,7 +70,7 @@ namespace GameCloud.UCenter.SDK.Sample
             convert_info.Identity = "";
             convert_info.Phone = "";
             convert_info.Email = "";
-            co_ucentersdk.guestConvert(convert_info, _onUCenterConvert);
+            //co_ucentersdk.guestConvert(convert_info, _onUCenterConvert);
 
             // 重置密码
             AccountResetPasswordInfo resetpassword_request = new AccountResetPasswordInfo();
@@ -78,7 +79,7 @@ namespace GameCloud.UCenter.SDK.Sample
             //co_ucentersdk.resetPassword(resetpassword_request, _onUCenterResetPassword);
 
             // 上传图片
-            //string account_id = "1111";
+            //string account_id = "8402633f-d6b0-4f13-9348-594f350d266b";
             //byte[] buffer = new byte[100];
             //MemoryStream ms = new MemoryStream(buffer);
             //co_ucentersdk.uploadProfileImage(account_id, ms, _onUCenterUploadProfileImage);
@@ -153,7 +154,9 @@ namespace GameCloud.UCenter.SDK.Sample
         //-------------------------------------------------------------------------
         void _onUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error)
         {
-            EbLog.Note("ClientSampleApp._onUCenterLogin() UCenterResult=" + status);
+            string s = "ClientSampleApp._onUCenterLogin() UCenterResult=" + status;
+            EbLog.Note(s);
+            MbSample.Instance.ListInfo.Add(s);
 
             if (error != null)
             {
@@ -218,6 +221,19 @@ namespace GameCloud.UCenter.SDK.Sample
                 EbLog.Note("ErrorCode=" + error.ErrorCode);
                 EbLog.Note("ErrorMessage=" + error.Message);
             }
+        }
+
+        //-------------------------------------------------------------------------
+        DeviceInfo _getDeviceInfo()
+        {
+            DeviceInfo device_info = new DeviceInfo();
+            device_info.Id = SystemInfo.deviceUniqueIdentifier;
+            device_info.Model = SystemInfo.deviceModel;
+            device_info.Name = SystemInfo.deviceName;
+            device_info.OperationSystem = SystemInfo.operatingSystem;
+            device_info.Type = SystemInfo.deviceType.ToString();
+
+            return device_info;
         }
     }
 }
