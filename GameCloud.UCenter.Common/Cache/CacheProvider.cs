@@ -12,7 +12,6 @@ namespace GameCloud.UCenter.Common.Cache
     {
         private readonly TimeSpan interval;
         private readonly Func<string, CancellationToken, Task<TEntity>> reteriver;
-
         private readonly ConcurrentDictionary<string, CacheInfo> map = new ConcurrentDictionary<string, CacheInfo>();
 
         public CacheProvider(TimeSpan interval, Func<string, CancellationToken, Task<TEntity>> reteriver)

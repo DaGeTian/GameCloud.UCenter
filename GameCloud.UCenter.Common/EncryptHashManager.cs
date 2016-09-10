@@ -64,8 +64,9 @@ namespace GameCloud.UCenter.Common
 
         public static string GenerateToken()
         {
-            var salt1 = GenerateSalt();
-            return ComputeHash(Convert.ToBase64String(salt1), GenerateSalt());
+            //var salt1 = GenerateSalt();
+            //return ComputeHash(Convert.ToBase64String(salt1), GenerateSalt());
+            return Guid.NewGuid().ToString();
         }
 
         public static string GenerateToken(string password, DateTime startTime, DateTime endTime)
