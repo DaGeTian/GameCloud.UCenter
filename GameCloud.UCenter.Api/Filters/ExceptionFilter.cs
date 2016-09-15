@@ -43,6 +43,7 @@ namespace GameCloud.UCenter.Api.Filters
                     ExceptionStackTrace = context.Exception.StackTrace
                 };
 
+                await this.eventTrace.TraceEvent<ExceptionEventEntity>(exceptionEvent, CancellationToken.None);
 
                 var errorCode = UCenterErrorCode.InternalHttpServerError;
 
