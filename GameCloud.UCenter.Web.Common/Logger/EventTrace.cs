@@ -16,6 +16,7 @@ namespace GameCloud.UCenter.Web.Common.Logger
     public class EventTrace
     {
         internal const int BufferSize = 100;
+        internal const int IntervalMS = 1000;
         private readonly DatabaseContext context;
         private readonly ConcurrentStack<EntityBase> buffer = new ConcurrentStack<EntityBase>();
         private readonly ConcurrentDictionary<string, ICollectionAdapter<EntityBase>> adapters = new ConcurrentDictionary<string, ICollectionAdapter<EntityBase>>();
@@ -24,6 +25,7 @@ namespace GameCloud.UCenter.Web.Common.Logger
         public EventTrace(UCenterEventDatabaseContext context)
         {
             this.context = context;
+            StartLoop();
         }
 
         public async Task TraceEvent<TEvent>(TEvent ev, CancellationToken token) where TEvent : EntityBase
@@ -33,6 +35,14 @@ namespace GameCloud.UCenter.Web.Common.Logger
             if (this.buffer.Count >= BufferSize)
             {
                 await this.Flush(token);
+            }
+        }
+
+        public long EventsInBuffer
+        {
+            get
+            {
+                return this.buffer.Count;
             }
         }
 
@@ -67,11 +77,12 @@ namespace GameCloud.UCenter.Web.Common.Logger
             }
         }
 
-        public long EventsInBuffer
+        private async void StartLoop()
         {
-            get
+            while (true)
             {
-                return this.buffer.Count;
+                await this.Flush(CancellationToken.None);
+                await Task.Delay(IntervalMS);
             }
         }
     }
