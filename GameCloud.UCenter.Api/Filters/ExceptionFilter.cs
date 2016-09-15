@@ -9,7 +9,9 @@ using GameCloud.UCenter.Web.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
+using System;
 using System.ComponentModel.Composition.Hosting;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,17 +35,9 @@ namespace GameCloud.UCenter.Api.Filters
         public override async Task OnExceptionAsync(ExceptionContext context)
         {
             var exception = context.Exception;
-            context.Result = new JsonResult(exception.Message);
-
-            if (context.Exception != null)
+            if (exception != null)
             {
-                var exceptionEvent = new ExceptionEventEntity()
-                {
-                    ExceptionMessage = context.Exception.Message,
-                    ExceptionStackTrace = context.Exception.StackTrace
-                };
-
-                await this.eventTrace.TraceEvent<ExceptionEventEntity>(exceptionEvent, CancellationToken.None);
+                await TraceException(exception);
 
                 var errorCode = UCenterErrorCode.InternalHttpServerError;
 
@@ -65,6 +59,26 @@ namespace GameCloud.UCenter.Api.Filters
                 };
 
                 context.Result = new JsonResult(content);
+            }
+        }
+
+        private async Task TraceException(Exception exception)
+        {
+            if (exception != null && !(exception is UCenterException))
+            {
+                var exceptionEvent = new ExceptionEventEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Message = exception.Message,
+                    StackTrace = exception.StackTrace
+                };
+                if (exception.InnerException != null)
+                {
+                    exceptionEvent.Message = exception.InnerException.Message;
+                    exceptionEvent.StackTrace = exception.InnerException.StackTrace;
+                }
+
+                await this.eventTrace.TraceEvent<ExceptionEventEntity>(exceptionEvent, CancellationToken.None);
             }
         }
     }

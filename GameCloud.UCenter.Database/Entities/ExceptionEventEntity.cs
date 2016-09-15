@@ -14,11 +14,11 @@ namespace GameCloud.UCenter.Database.Entities
         /// <summary>
         /// Gets or sets the exception message.
         /// </summary>
-        public string ExceptionMessage { get; set; }
+        public string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the exception stack trace.
         /// </summary>
-        public string ExceptionStackTrace { get; set; }
+        public string StackTrace { get; set; }
     }
 }
