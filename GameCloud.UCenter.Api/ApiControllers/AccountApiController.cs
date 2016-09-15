@@ -173,6 +173,11 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/login")]
         public async Task<IActionResult> Login([FromBody]AccountLoginInfo info, CancellationToken token)
         {
+            if (string.IsNullOrEmpty(info.AccountName))
+            {
+                throw new UCenterException(UCenterErrorCode.InvalidAccountName);
+            }
+
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
 
             if (accountEntity == null)
