@@ -217,7 +217,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 .Set("LastLoginDateTime", accountEntity.LastLoginDateTime);
             await this.Database.Accounts.UpdateOneAsync<AccountEntity>(accountEntity, filter, update, token);
 
-            if (info.Device != null)
+            if (info.Device != null && !string.IsNullOrEmpty(info.Device.Id))
             {
                 await LogDeviceInfo(info.Device, token);
             }
