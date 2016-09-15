@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Entities\ExceptionEventEntity.cs" />
     <Compile Include="Entities\DeviceEntity.cs" />
-    <Compile Include="Entities\ErrorEventEntity.cs" />
+    <Compile Include="Entities\AccountErrorEventEntity.cs" />
     <Compile Include="Entities\AccountEventEntity.cs" />
     <Compile Include="Entities\GuestDeviceEntity.cs" />
     <Compile Include="Entities\KeyPlaceholderEntity.cs" />

@@ -182,7 +182,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
             if (accountEntity == null)
             {
-                await this.TraceUCenterErrorAsync(
+                await this.TraceAccountErrorAsync(
                      accountEntity,
                      UCenterErrorCode.AccountNotExist,
                      "The account does not exist",
@@ -193,7 +193,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
             if (accountEntity.AccountStatus == AccountStatus.Disabled)
             {
-                await this.TraceUCenterErrorAsync(
+                await this.TraceAccountErrorAsync(
                      accountEntity,
                      UCenterErrorCode.AccountDisabled,
                      "The account is disabled",
@@ -204,7 +204,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
             if (!EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
             {
-                await this.TraceUCenterErrorAsync(
+                await this.TraceAccountErrorAsync(
                     accountEntity,
                     UCenterErrorCode.AccountPasswordUnauthorized,
                     "The account name and password do not match",
@@ -345,7 +345,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
             if (!EncryptHelper.VerifyHash(info.SuperPassword, accountEntity.SuperPassword))
             {
-                await this.TraceUCenterErrorAsync(
+                await this.TraceAccountErrorAsync(
                     accountEntity,
                     UCenterErrorCode.AccountPasswordUnauthorized,
                     "The super password provided is incorrect",
@@ -407,7 +407,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         //    return this.CreateSuccessResult(ipAddress);
         //}
 
-        private async Task TraceUCenterErrorAsync(
+        private async Task TraceAccountErrorAsync(
             AccountEntity account,
             UCenterErrorCode code,
             string message = null,
@@ -415,7 +415,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         {
             var clientIp = "";// IPHelper.GetClientIpAddress(Request);
 
-            var errorEvent = new ErrorEventEntity()
+            var accountErrorEvent = new AccountErrorEventEntity()
             {
                 Id = Guid.NewGuid().ToString(),
                 AccountName = account.AccountName,
@@ -426,7 +426,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 Message = message
             };
 
-            await this.eventTrace.TraceEvent<ErrorEventEntity>(errorEvent, token);
+            await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
         }
 
         private async Task TraceAccountEvent(
@@ -491,7 +491,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
             if (account == null)
             {
-                await this.TraceUCenterErrorAsync(
+                await this.TraceAccountErrorAsync(
                      account,
                      UCenterErrorCode.AccountNotExist,
                      "The account does not exist",

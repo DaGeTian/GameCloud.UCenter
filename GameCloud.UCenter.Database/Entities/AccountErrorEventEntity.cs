@@ -8,8 +8,8 @@ namespace GameCloud.UCenter.Database.Entities
     /// <summary>
     /// Provide an error event entity class
     /// </summary>
-    [CollectionName("ErrorEvent")]
-    public class ErrorEventEntity : EntityBase
+    [CollectionName("AccountErrorEvent")]
+    public class AccountErrorEventEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the account name.
