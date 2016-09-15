@@ -1,29 +1,48 @@
-﻿using GameCloud.UCenter.Common.Portable.Contracts;
+﻿using GameCloud.Database;
+using GameCloud.UCenter.Common.MEF;
+using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
+using GameCloud.UCenter.Common.Settings;
+using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Database.Entities;
+using GameCloud.UCenter.Web.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
+using System.ComponentModel.Composition.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GameCloud.UCenter.Api.Filters
 {
     public class ExceptionFilter : ExceptionFilterAttribute
     {
+        private EventTrace eventTrace;
+
         public ExceptionFilter()
         {
+            var ExportProvider = CompositionContainerFactory.Create();
+
+            SettingsInitializer.Initialize<UCenterEventDatabaseContextSettings>(
+                 ExportProvider,
+                 SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
+                 AppConfigurationValueProvider.Default);
+            this.eventTrace = ExportProvider.GetExportedValue<EventTrace>();
         }
 
-        public override void OnException(ExceptionContext context)
+        public override async Task OnExceptionAsync(ExceptionContext context)
         {
             var exception = context.Exception;
             context.Result = new JsonResult(exception.Message);
 
             if (context.Exception != null)
             {
-                //CustomTrace.TraceError(
-                //    context.Exception,
-                //    "Execute request exception: url:{0}, arguments: {1}",
-                //    context.Request.RequestUri,
-                //    context.ActionContext.ActionArguments);
+                var exceptionEvent = new ExceptionEventEntity()
+                {
+                    ExceptionMessage = context.Exception.Message,
+                    ExceptionStackTrace = context.Exception.StackTrace
+                };
+
 
                 var errorCode = UCenterErrorCode.InternalHttpServerError;
 
