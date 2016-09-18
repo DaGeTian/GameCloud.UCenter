@@ -21,13 +21,35 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the login record adapter.
+        /// Gets the account event adapter.
         /// </summary>
         public ICollectionAdapter<AccountEventEntity> AccountEvents
         {
             get
             {
                 return this.GetAdapter<AccountEventEntity>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the account error event adapter.
+        /// </summary>
+        public ICollectionAdapter<AccountErrorEventEntity> AccountErrorEvents
+        {
+            get
+            {
+                return this.GetAdapter<AccountErrorEventEntity>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the exception event adapter.
+        /// </summary>
+        public ICollectionAdapter<ExceptionEventEntity> ExceptionEvents
+        {
+            get
+            {
+                return this.GetAdapter<ExceptionEventEntity>();
             }
         }
     }
