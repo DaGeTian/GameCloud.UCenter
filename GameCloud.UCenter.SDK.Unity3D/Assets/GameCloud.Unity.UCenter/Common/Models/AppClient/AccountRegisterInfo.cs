@@ -6,6 +6,9 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
     public class AccountRegisterInfo
     {
         [DataMember]
+        public virtual string AppId { get; set; }
+
+        [DataMember]
         public virtual string AccountName { get; set; }
 
         [DataMember]

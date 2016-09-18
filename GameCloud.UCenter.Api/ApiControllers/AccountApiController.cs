@@ -66,65 +66,116 @@ namespace GameCloud.UCenter.Api.ApiControllers
         public async Task<IActionResult> Register([FromBody]AccountRegisterRequestInfo info, CancellationToken token)
         {
             var removeTempsIfError = new List<KeyPlaceholderEntity>();
-            var error = false;
+            //var error = false;
 
             try
             {
+                // 检测注册信息合法性
                 ValidateAccount(info);
 
-                var accountEntity = new AccountEntity
+                // 检测帐号名是否可以被注册
+                var oldAccountEntity = await this.Database.Accounts.GetSingleAsync(
+                    a => a.AccountName == info.AccountName,
+                    //|| a.Email == info.Email
+                    //|| a.Phone == info.Phone,
+                    token);
+                if (oldAccountEntity != null)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    AccountName = info.AccountName,
-                    AccountType = AccountType.NormalAccount,
-                    AccountStatus = AccountStatus.Active,
-                    Name = info.Name,
-                    Email = info.Email,
-                    Identity = info.Identity,
-                    Password = EncryptHelper.ComputeHash(info.Password),
-                    SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword),
-                    Phone = info.Phone,
-                    Gender = info.Gender
-                };
-
-                var placeholders = new[]
-                {
-                    this.GenerateKeyPlaceholder(accountEntity.AccountName, KeyType.Name, accountEntity.Id, accountEntity.AccountName),
-                    this.GenerateKeyPlaceholder(accountEntity.Phone, KeyType.Phone, accountEntity.Id, accountEntity.AccountName),
-                    this.GenerateKeyPlaceholder(accountEntity.Email, KeyType.Email, accountEntity.Id, accountEntity.AccountName)
-                };
-
-                foreach (var placeholder in placeholders)
-                {
-                    if (!string.IsNullOrEmpty(placeholder.Name))
-                    {
-                        await this.Database.KeyPlaceholders.InsertAsync(placeholder, token);
-                        removeTempsIfError.Add(placeholder);
-                    }
+                    throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist);
                 }
 
-                // Remove this from UCenter for performance concern
-                // If user does not have default profile icon, app client should use local default one
-                // accountEntity.ProfileImage = await this.storageContext.CopyBlobAsync(
-                //    accountEntity.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
-                //    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountEntity.Id),
-                //    token);
+                // 检查Device是否绑定了游客号
+                AccountEntity accountEntity = null;
+                string guestDeviceId = $"{info.AppId}_{info.Device.Id}";
+                var guestDeviceEntity = await this.Database.GuestDevices.GetSingleAsync(guestDeviceId, token);
+                if (guestDeviceEntity != null)
+                {
+                    accountEntity = await this.Database.Accounts.GetSingleAsync(guestDeviceEntity.AccountId, token);
+                }
 
-                // accountEntity.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
-                //    accountEntity.Gender == Gender.Female
-                //        ? this.settings.DefaultProfileThumbnailForFemaleBlobName
-                //        : this.settings.DefaultProfileThumbnailForMaleBlobName,
-                //    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountEntity.Id),
-                //    token);
+                bool guestConvert = true;
+                if (accountEntity == null)
+                {
+                    guestConvert = false;
 
-                await this.Database.Accounts.InsertAsync(accountEntity, token);
+                    // 没有绑定游客号，正常注册
+                    accountEntity = new AccountEntity
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                    };
+                }
+
+                accountEntity.AccountName = info.AccountName;
+                accountEntity.AccountType = AccountType.NormalAccount;
+                accountEntity.Name = info.Name;
+                accountEntity.Identity = info.Identity;
+                accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
+                accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
+                accountEntity.Phone = info.Phone;
+                accountEntity.Email = info.Email;
+                accountEntity.Gender = info.Gender;
+
+                //var placeholders = new[]
+                //    {
+                //        this.GenerateKeyPlaceholder(accountEntity.AccountName, KeyType.Name, accountEntity.Id, accountEntity.AccountName),
+                //        this.GenerateKeyPlaceholder(accountEntity.Phone, KeyType.Phone, accountEntity.Id, accountEntity.AccountName),
+                //        this.GenerateKeyPlaceholder(accountEntity.Email, KeyType.Email, accountEntity.Id, accountEntity.AccountName)
+                //    };
+
+                //foreach (var placeholder in placeholders)
+                //{
+                //    if (!string.IsNullOrEmpty(placeholder.Name))
+                //    {
+                //        await this.Database.KeyPlaceholders.InsertAsync(placeholder, token);
+                //        removeTempsIfError.Add(placeholder);
+                //    }
+                //}
+
+                if (guestConvert)
+                {
+                    // 绑定了游客号，游客号转正
+                    await this.Database.Accounts.UpsertAsync(accountEntity, token);
+
+                    try
+                    {
+                        await this.Database.GuestDevices.DeleteAsync(
+                            d => d.AppId == info.AppId && d.AccountId == accountEntity.Id,
+                            token);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomTrace.TraceError(ex, "Error to remove guest device");
+                    }
+
+                    await this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
+                }
+                else
+                {
+                    // 没有绑定游客号，正常注册
+
+                    // Remove this from UCenter for performance concern
+                    // If user does not have default profile icon, app client should use local default one
+                    // accountEntity.ProfileImage = await this.storageContext.CopyBlobAsync(
+                    //    accountEntity.Gender == Gender.Female ? this.settings.DefaultProfileImageForFemaleBlobName : this.settings.DefaultProfileImageForMaleBlobName,
+                    //    this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountEntity.Id),
+                    //    token);
+
+                    // accountEntity.ProfileThumbnail = await this.storageContext.CopyBlobAsync(
+                    //    accountEntity.Gender == Gender.Female
+                    //        ? this.settings.DefaultProfileThumbnailForFemaleBlobName
+                    //        : this.settings.DefaultProfileThumbnailForMaleBlobName,
+                    //    this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountEntity.Id),
+                    //    token);
+
+                    await this.Database.Accounts.InsertAsync(accountEntity, token);
+
+                    await TraceAccountEvent(accountEntity, "Register", info.Device, token: token);
+                }
 
                 if (info.Device != null)
                 {
                     await LogDeviceInfo(info.Device, token);
                 }
-
-                await TraceAccountEvent(accountEntity, "Register", info.Device, token: token);
 
                 return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
             }
@@ -132,34 +183,35 @@ namespace GameCloud.UCenter.Api.ApiControllers
             {
                 CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
 
-                error = true;
-                if (ex is MongoWriteException)
-                {
-                    var mex = ex as MongoWriteException;
-                    if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
-                    {
-                        throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
-                    }
-                }
+                //error = true;
+                //if (ex is MongoWriteException)
+                //{
+                //    var mex = ex as MongoWriteException;
+                //    if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                //    {
+                //        throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
+                //    }
+                //}
 
                 throw;
             }
             finally
             {
-                if (error)
-                {
-                    try
-                    {
-                        foreach (var item in removeTempsIfError)
-                        {
-                            this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait(token);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomTrace.TraceError(ex, "Error to remove placeholder");
-                    }
-                }
+                //if (error)
+                //{
+                //    try
+                //    {
+                //        foreach (var item in removeTempsIfError)
+                //        {
+                //            //this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait(token);
+                //            await this.Database.KeyPlaceholders.DeleteAsync(item, token);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        CustomTrace.TraceError(ex, "Error to remove placeholder");
+                //    }
+                //}
             }
         }
 
@@ -179,7 +231,6 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
 
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
-
             if (accountEntity == null)
             {
                 await this.TraceAccountErrorAsync(
@@ -294,38 +345,38 @@ namespace GameCloud.UCenter.Api.ApiControllers
         /// <param name="info">Indicating the account information.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task.</returns>
-        [HttpPost]
-        [Route("api/accounts/guestconvert")]
-        public async Task<IActionResult> GuestConvert([FromBody]GuestConvertInfo info, CancellationToken token)
-        {
-            var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
+        //[HttpPost]
+        //[Route("api/accounts/guestconvert")]
+        //public async Task<IActionResult> GuestConvert([FromBody]GuestConvertInfo info, CancellationToken token)
+        //{
+        //    var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
 
-            accountEntity.AccountName = info.AccountName;
-            accountEntity.AccountType = AccountType.NormalAccount;
-            accountEntity.Name = info.Name;
-            accountEntity.Identity = info.Identity;
-            accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
-            accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
-            accountEntity.Phone = info.Phone;
-            accountEntity.Email = info.Email;
-            accountEntity.Gender = info.Gender;
-            await this.Database.Accounts.UpsertAsync(accountEntity, token);
+        //    accountEntity.AccountName = info.AccountName;
+        //    accountEntity.AccountType = AccountType.NormalAccount;
+        //    accountEntity.Name = info.Name;
+        //    accountEntity.Identity = info.Identity;
+        //    accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
+        //    accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
+        //    accountEntity.Phone = info.Phone;
+        //    accountEntity.Email = info.Email;
+        //    accountEntity.Gender = info.Gender;
+        //    await this.Database.Accounts.UpsertAsync(accountEntity, token);
 
-            try
-            {
-                await this.Database.GuestDevices.DeleteAsync(
-                    d => d.AppId == info.AppId && d.AccountId == info.AccountId,
-                    token);
-            }
-            catch (Exception ex)
-            {
-                CustomTrace.TraceError(ex, "Error to remove guest device");
-            }
+        //    try
+        //    {
+        //        await this.Database.GuestDevices.DeleteAsync(
+        //            d => d.AppId == info.AppId && d.AccountId == info.AccountId,
+        //            token);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomTrace.TraceError(ex, "Error to remove guest device");
+        //    }
 
-            await this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
+        //    await this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
 
-            return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
-        }
+        //    return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
+        //}
 
         /// <summary>
         /// Reset account password.
@@ -418,13 +469,17 @@ namespace GameCloud.UCenter.Api.ApiControllers
             var accountErrorEvent = new AccountErrorEventEntity()
             {
                 Id = Guid.NewGuid().ToString(),
-                AccountName = account.AccountName,
-                AccountId = account.Id,
                 Code = code,
                 ClientIp = clientIp,
                 LoginArea = string.Empty,
                 Message = message
             };
+
+            if (account != null)
+            {
+                accountErrorEvent.AccountName = account.AccountName;
+                accountErrorEvent.AccountId = account.Id;
+            }
 
             await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
         }
@@ -441,14 +496,19 @@ namespace GameCloud.UCenter.Api.ApiControllers
             var accountEventEntity = new AccountEventEntity
             {
                 Id = Guid.NewGuid().ToString(),
-                AccountName = account.AccountName,
-                AccountId = account.Id,
                 EventName = eventName,
                 ClientIp = clientIp,
                 LoginArea = string.Empty,
                 UserAgent = string.Empty, // todo: Migrate to asp.net core Request.Headers.UserAgent.ToString(),
                 Message = message
             };
+
+            if (account != null)
+            {
+                accountEventEntity.AccountName = account.AccountName;
+                accountEventEntity.AccountId = account.Id;
+            }
+
             if (device != null)
             {
                 accountEventEntity.DeviceId = device.Id;
@@ -472,6 +532,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
         private async Task LogDeviceInfo(DeviceInfo device, CancellationToken token)
         {
+            if (device == null) return;
+
             var deviceEntity = new DeviceEntity()
             {
                 Id = device.Id,

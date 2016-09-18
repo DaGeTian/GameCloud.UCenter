@@ -46,30 +46,30 @@ namespace GameCloud.UCenter.SDK.Sample
             login_request.AccountName = "lion";
             login_request.Password = "123456";
             login_request.Device = _getDeviceInfo();
-            co_ucentersdk.login(login_request, _onUCenterLogin);
+            //co_ucentersdk.login(login_request, _onUCenterLogin);
 
             // 游客登录
             GuestAccessInfo guestAccessInfo = new GuestAccessInfo()
             {
-                AppId = "texaspoker",
+                AppId = "fishing",
                 Device = new DeviceInfo()
                 {
                     Id = "U3DSample",
                 }
             };
-            //co_ucentersdk.guestAccess(guestAccessInfo, _onUCenterGuestAccess);
+            co_ucentersdk.guestAccess(guestAccessInfo, _onUCenterGuestAccess);
 
             // 游客帐号转正
-            GuestConvertInfo convert_info = new GuestConvertInfo();
-            convert_info.AccountId = "dc798b4a-e43d-447f-896e-beba9439e3d0";
-            convert_info.AccountName = "sample_user";
-            convert_info.Password = "";
-            convert_info.SuperPassword = "";
-            convert_info.Gender = Gender.DeclineToState;
-            convert_info.Name = "";
-            convert_info.Identity = "";
-            convert_info.Phone = "";
-            convert_info.Email = "";
+            //GuestConvertInfo convert_info = new GuestConvertInfo();
+            //convert_info.AccountId = "dc798b4a-e43d-447f-896e-beba9439e3d0";
+            //convert_info.AccountName = "sample_user";
+            //convert_info.Password = "";
+            //convert_info.SuperPassword = "";
+            //convert_info.Gender = Gender.DeclineToState;
+            //convert_info.Name = "";
+            //convert_info.Identity = "";
+            //convert_info.Phone = "";
+            //convert_info.Email = "";
             //co_ucentersdk.guestConvert(convert_info, _onUCenterConvert);
 
             // 重置密码

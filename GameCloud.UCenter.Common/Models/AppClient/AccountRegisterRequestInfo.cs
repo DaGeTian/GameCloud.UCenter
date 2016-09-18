@@ -8,6 +8,9 @@ namespace GameCloud.UCenter.Common.Models.AppClient
     [DataContract]
     public class AccountRegisterRequestInfo : AccountRegisterInfo
     {
+        [DataMember]
+        public override string AppId { get; set; }
+
         // todo: Set the valide rules of following properties.
         [DataMember]
         //// [RegularExpression(UCenterModelRules.AccountNameRule)]
