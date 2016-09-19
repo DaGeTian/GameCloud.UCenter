@@ -65,14 +65,11 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/register")]
         public async Task<IActionResult> Register([FromBody]AccountRegisterRequestInfo info, CancellationToken token)
         {
-            //var removeTempsIfError = new List<KeyPlaceholderEntity>();
-            //var error = false;
+            // 检测注册信息合法性
+            ValidateAccount(info);
 
             try
             {
-                // 检测注册信息合法性
-                ValidateAccount(info);
-
                 // 检测帐号名是否可以被注册
                 var oldAccountEntity = await this.Database.Accounts.GetSingleAsync(
                     a => a.AccountName == info.AccountName,
@@ -203,7 +200,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/login")]
         public async Task<IActionResult> Login([FromBody]AccountLoginInfo info, CancellationToken token)
         {
-            if (string.IsNullOrEmpty(info.AccountName))
+            if (info == null || string.IsNullOrEmpty(info.AccountName))
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountName);
             }
@@ -231,7 +228,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountDisabled);
             }
 
-            if (!EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
+            if (string.IsNullOrEmpty(info.Password)
+                || !EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
             {
                 await this.TraceAccountErrorAsync(
                     accountEntity,
@@ -271,6 +269,16 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/guestaccess")]
         public async Task<IActionResult> GuestAccess([FromBody]GuestAccessInfo info, CancellationToken token)
         {
+            if (info == null)
+            {
+                throw new UCenterException(UCenterErrorCode.DeviceInfoNull);
+            }
+
+            if (string.IsNullOrEmpty(info.AppId))
+            {
+                throw new UCenterException(UCenterErrorCode.DeviceInfoNull);
+            }
+
             EnsureDeviceInfo(info.Device);
 
             AccountEntity accountEntity;
@@ -366,6 +374,12 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/resetpassword")]
         public async Task<IActionResult> ResetPassword([FromBody]AccountResetPasswordInfo info, CancellationToken token)
         {
+            if (info == null
+                || string.IsNullOrEmpty(info.AccountName))
+            {
+                throw new UCenterException(UCenterErrorCode.AccountNotExist);
+            }
+
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
             {
@@ -610,25 +624,37 @@ namespace GameCloud.UCenter.Api.ApiControllers
             string accountNamePattern = @"^[a-zA-Z0-9.@]*$";
             var accountNameRegex = new Regex(accountNamePattern, RegexOptions.IgnoreCase);
 
-            if (!accountNameRegex.IsMatch(account.AccountName))
+            if (account == null)
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountName);
             }
 
-            if (account.AccountName.Length < 4 || account.AccountName.Length > 64)
+            if (string.IsNullOrEmpty(account.AccountName)
+                || !accountNameRegex.IsMatch(account.AccountName)
+                || account.AccountName.Length < 4
+                || account.AccountName.Length > 64)
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountName);
             }
 
-            if (account.Password.Length < 6 || account.Password.Length > 64)
+            if (string.IsNullOrEmpty(account.Password)
+                || account.Password.Length < 6
+                || account.Password.Length > 64)
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountPassword);
             }
 
-            if (account.SuperPassword.Length < 6 || account.Password.Length > 64)
+            if (string.IsNullOrEmpty(account.SuperPassword)
+                || account.SuperPassword.Length < 6
+                || account.Password.Length > 64)
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountPassword);
             }
+
+            //if (string.IsNullOrEmpty(account.Phone))
+            //{
+            //    throw new UCenterException(UCenterErrorCode.InvalidAccountPhone);
+            //}
 
             if (!string.IsNullOrEmpty(account.Email))
             {

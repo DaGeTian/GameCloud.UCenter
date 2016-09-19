@@ -1,1 +1,0 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="GameCloud.UCenter.Web.Api.WebApiApplication" Language="C#" %>
