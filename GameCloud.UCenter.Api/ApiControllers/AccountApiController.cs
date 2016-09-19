@@ -65,7 +65,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/register")]
         public async Task<IActionResult> Register([FromBody]AccountRegisterRequestInfo info, CancellationToken token)
         {
-            var removeTempsIfError = new List<KeyPlaceholderEntity>();
+            //var removeTempsIfError = new List<KeyPlaceholderEntity>();
             //var error = false;
 
             try
@@ -86,11 +86,17 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
                 // 检查Device是否绑定了游客号
                 AccountEntity accountEntity = null;
-                string guestDeviceId = $"{info.AppId}_{info.Device.Id}";
-                var guestDeviceEntity = await this.Database.GuestDevices.GetSingleAsync(guestDeviceId, token);
-                if (guestDeviceEntity != null)
+                if (info != null
+                    && !string.IsNullOrEmpty(info.AppId)
+                    && info.Device != null
+                    && !string.IsNullOrEmpty(info.Device.Id))
                 {
-                    accountEntity = await this.Database.Accounts.GetSingleAsync(guestDeviceEntity.AccountId, token);
+                    string guestDeviceId = $"{info.AppId}_{info.Device.Id}";
+                    var guestDeviceEntity = await this.Database.GuestDevices.GetSingleAsync(guestDeviceId, token);
+                    if (guestDeviceEntity != null)
+                    {
+                        accountEntity = await this.Database.Accounts.GetSingleAsync(guestDeviceEntity.AccountId, token);
+                    }
                 }
 
                 bool guestConvert = true;
@@ -107,6 +113,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
                 accountEntity.AccountName = info.AccountName;
                 accountEntity.AccountType = AccountType.NormalAccount;
+                accountEntity.AccountStatus = AccountStatus.Active;
                 accountEntity.Name = info.Name;
                 accountEntity.Identity = info.Identity;
                 accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
@@ -182,36 +189,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             catch (Exception ex)
             {
                 CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
-
-                //error = true;
-                //if (ex is MongoWriteException)
-                //{
-                //    var mex = ex as MongoWriteException;
-                //    if (mex.WriteError.Category == ServerErrorCategory.DuplicateKey)
-                //    {
-                //        throw new UCenterException(UCenterErrorCode.AccountNameAlreadyExist, mex.Message);
-                //    }
-                //}
-
                 throw;
-            }
-            finally
-            {
-                //if (error)
-                //{
-                //    try
-                //    {
-                //        foreach (var item in removeTempsIfError)
-                //        {
-                //            //this.Database.KeyPlaceholders.DeleteAsync(item, token).Wait(token);
-                //            await this.Database.KeyPlaceholders.DeleteAsync(item, token);
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        CustomTrace.TraceError(ex, "Error to remove placeholder");
-                //    }
-                //}
             }
         }
 
