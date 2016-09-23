@@ -209,7 +209,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             if (accountEntity == null)
             {
                 await this.TraceAccountErrorAsync(
-                     accountEntity,
+                     info.AccountName,
                      UCenterErrorCode.AccountNotExist,
                      "The account does not exist",
                      token);
@@ -472,6 +472,28 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 accountErrorEvent.AccountName = account.AccountName;
                 accountErrorEvent.AccountId = account.Id;
             }
+
+            await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
+        }
+
+        private async Task TraceAccountErrorAsync(
+            string AccountName,
+            UCenterErrorCode code,
+            string message = null,
+            CancellationToken token = default(CancellationToken))
+        {
+            var clientIp = "";// IPHelper.GetClientIpAddress(Request);
+
+            var accountErrorEvent = new AccountErrorEventEntity()
+            {
+                Id = Guid.NewGuid().ToString(),
+                //AccountId = account.Id,
+                AccountName = AccountName,
+                Code = code,
+                ClientIp = clientIp,
+                LoginArea = string.Empty,
+                Message = message
+            };
 
             await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
         }
