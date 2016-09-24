@@ -22,6 +22,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
     public class AppServerApiController : ApiControllerBase
     {
         private readonly CacheProvider<AppConfigurationResponse> appConfigurationCacheProvider;
+        private readonly CacheProvider<AppResponse> appCacheProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppServerApiController" /> class.
@@ -41,6 +42,19 @@ namespace GameCloud.UCenter.Api.ApiControllers
                     {
                         AppId = key,
                         Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
+                    };
+
+                    return response;
+                });
+            this.appCacheProvider = new CacheProvider<AppResponse>(
+                TimeSpan.FromMinutes(5),
+                async (key, token) =>
+                {
+                    var app = await this.Database.Apps.GetSingleAsync(key, token);
+                    var response = new AppResponse
+                    {
+                        AppId = key,
+                        AppSecret = app == null ? string.Empty : app.AppSecret
                     };
 
                     return response;
@@ -232,7 +246,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
         private async Task CheckAppPermission(string appId, string appSecret, CancellationToken token)
         {
-            var app = await this.Database.Apps.GetSingleAsync(appId, token);
+            var app = await this.appCacheProvider.Get(appId, token);
             if (app == null)
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExists);
