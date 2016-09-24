@@ -16,7 +16,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the account adapter.
+        /// Gets the account collection adapter.
         /// </summary>
         public ICollectionAdapter<AccountEntity> Accounts
         {
@@ -27,7 +27,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the application adapter.
+        /// Gets the app configuration collection adapter.
         /// </summary>
         public ICollectionAdapter<AppConfigurationEntity> AppConfigurations
         {
@@ -38,7 +38,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the application adapter.
+        /// Gets the application collection adapter.
         /// </summary>
         public ICollectionAdapter<AppEntity> Apps
         {
@@ -49,7 +49,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the account application data adapter.
+        /// Gets the account application data collection adapter.
         /// </summary>
         public ICollectionAdapter<AppAccountDataEntity> AppAccountDatas
         {
@@ -60,7 +60,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the key placeholder adapter.
+        /// Gets the key placeholder collection adapter.
         /// </summary>
         public ICollectionAdapter<KeyPlaceholderEntity> KeyPlaceholders
         {
@@ -71,7 +71,7 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the device record adapter.
+        /// Gets the device collection adapter.
         /// </summary>
         public ICollectionAdapter<DeviceEntity> Devices
         {
@@ -82,13 +82,24 @@ namespace GameCloud.UCenter.Database
         }
 
         /// <summary>
-        /// Gets the device record adapter.
+        /// Gets the guest device collection adapter.
         /// </summary>
         public ICollectionAdapter<GuestDeviceEntity> GuestDevices
         {
             get
             {
                 return this.GetAdapter<GuestDeviceEntity>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the order collection adapter.
+        /// </summary>
+        public ICollectionAdapter<OrderEntity> Orders
+        {
+            get
+            {
+                return this.GetAdapter<OrderEntity>();
             }
         }
     }

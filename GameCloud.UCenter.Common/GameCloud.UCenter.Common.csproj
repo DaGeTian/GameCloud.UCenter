@@ -74,6 +74,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\AppClient\AccountRegisterRequestInfo.cs" />
     <Compile Include="Dumper\ObjectDumper.cs" />
+    <Compile Include="Models\PingPlusPlus\PaymentInfo.cs" />
+    <Compile Include="Models\PingPlusPlus\CallbackInfo.cs" />
     <Compile Include="Models\AppServer\AppConfigurationInfo.cs" />
     <Compile Include="Models\AppServer\AppAccountDataInfo.cs" />
     <Compile Include="Models\AppServer\AppAccountDataResponse.cs" />

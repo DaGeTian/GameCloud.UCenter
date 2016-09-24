@@ -42,6 +42,10 @@ namespace GameCloud.UCenter.Api
                 this.exportProvider,
                 SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
+
+            // PingPP init
+            Pingpp.Pingpp.ApiKey = "sk_live_rnjvb1iTWTmHDWzzfT5aHCOO";
+            Pingpp.Pingpp.SetPrivateKeyPath(@"C:\cert\pingpp\private.txt");
         }
 
         public IConfigurationRoot Configuration { get; }
