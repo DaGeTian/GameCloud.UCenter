@@ -28,7 +28,7 @@ import com.pingplusplus.libone.PingppOne;
 public class OneSDKActivity extends FragmentActivity implements
 		OnClickListener, PaymentHandler {
 
-	private static String URL = "http://218.244.151.190/demo/charge";
+	private static String URL = "http://tp-uc.chinacloudapp.cn/api/payments";
 
 	private ListView mListView;
 	private GoodsAdapter myAdapter;
