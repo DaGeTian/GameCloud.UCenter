@@ -11,6 +11,18 @@ namespace GameCloud.UCenter.Common.Settings
 
         public string SecondaryStorageConnectionString { get; set; }
 
+        public string AliOssAccessKeyId { get; set; }
+
+        public string AliOssAccessKeySecret { get; set; }
+
+        [DefaultValue("ucprofile")]
+        public string AliOssBucketName { get; set; }
+
+        public string AliOssEndpoint { get; set; }
+
+        [DefaultValue("Storage.Azure")]
+        public string StorageType { get; set; }
+
         [DefaultValue("images")]
         public string ImageContainerName { get; set; }
 

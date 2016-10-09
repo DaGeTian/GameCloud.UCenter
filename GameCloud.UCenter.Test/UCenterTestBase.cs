@@ -108,7 +108,7 @@ namespace GameCloud.UCenter.Test
             using (var fileStream = File.OpenRead(@"TestData\github.png"))
             {
                 var settings = ExportProvider.GetExportedValue<Settings>();
-                var blobContext = new StorageAccountContext(settings);
+                var blobContext = new AzureStorageContext(settings);
                 await blobContext.UploadBlobAsync(blobName, fileStream, CancellationToken.None);
             }
         }

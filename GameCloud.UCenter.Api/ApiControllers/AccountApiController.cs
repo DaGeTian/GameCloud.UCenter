@@ -32,7 +32,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
     public class AccountApiController : ApiControllerBase
     {
         private readonly Settings settings;
-        private readonly StorageAccountContext storageContext;
+        private readonly IStorageContext storageContext;
         private readonly EventTrace eventTrace;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         public AccountApiController(
             UCenterDatabaseContext database,
             Settings settings,
-            StorageAccountContext storageContext,
+            IStorageContext storageContext,
             EventTrace eventTrace)
             : base(database)
         {

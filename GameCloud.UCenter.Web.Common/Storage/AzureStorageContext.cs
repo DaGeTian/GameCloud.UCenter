@@ -12,18 +12,19 @@ namespace GameCloud.UCenter.Web.Common.Storage
     /// <summary>
     /// Provide a class for storage account context.
     /// </summary>
-    [Export]
-    public class StorageAccountContext
+    [Export("Storage.Azure", typeof(IStorageContext))]
+    [Export(typeof(AzureStorageContext))]
+    public class AzureStorageContext : IStorageContext
     {
         private readonly CloudBlobContainer container;
         private readonly CloudBlobContainer secondaryContainer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StorageAccountContext" /> class.
+        /// Initializes a new instance of the <see cref="AzureStorageContext" /> class.
         /// </summary>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public StorageAccountContext(Settings settings)
+        public AzureStorageContext(Settings settings)
         {
             var account = CloudStorageAccount.Parse(settings.PrimaryStorageConnectionString);
             var client = account.CreateCloudBlobClient();

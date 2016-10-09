@@ -26,7 +26,6 @@ namespace GameCloud.UCenter.Api.ApiControllers
     public class PaymentApiController : ApiControllerBase
     {
         private readonly Settings settings;
-        private readonly StorageAccountContext storageContext;
         private readonly EventTrace eventTrace;
 
         /// <summary>
@@ -40,12 +39,10 @@ namespace GameCloud.UCenter.Api.ApiControllers
         public PaymentApiController(
             UCenterDatabaseContext database,
             Settings settings,
-            StorageAccountContext storageContext,
             EventTrace eventTrace)
             : base(database)
         {
             this.settings = settings;
-            this.storageContext = storageContext;
             this.eventTrace = eventTrace;
         }
 

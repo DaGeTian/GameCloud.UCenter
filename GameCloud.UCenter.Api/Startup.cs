@@ -55,8 +55,10 @@ namespace GameCloud.UCenter.Api
         {
             // Add framework services.
             services.AddMvc();
-            services.AddSingleton<Settings>(this.exportProvider.GetExportedValue<Settings>());
-            services.AddSingleton<StorageAccountContext>(this.exportProvider.GetExportedValue<StorageAccountContext>());
+            var settings = this.exportProvider.GetExportedValue<Settings>();
+            services.AddSingleton<Settings>(settings);
+            // services.AddSingleton<AzureStorageContext>(this.exportProvider.GetExportedValue<AzureStorageContext>());
+            services.AddSingleton<IStorageContext>(this.exportProvider.GetExportedValue<IStorageContext>(settings.StorageType));
             services.AddSingleton<EventTrace>(this.exportProvider.GetExportedValue<EventTrace>());
             services.AddSingleton<UCenterDatabaseContext>(this.exportProvider.GetExportedValue<UCenterDatabaseContext>());
         }
