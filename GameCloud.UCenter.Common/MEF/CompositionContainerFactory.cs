@@ -59,8 +59,9 @@ namespace GameCloud.UCenter.Common.MEF
                         }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                 }
             }
 
