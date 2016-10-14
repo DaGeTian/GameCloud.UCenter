@@ -2,7 +2,7 @@
 
 namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
-    public class WeChatAccessTokenResponse
+    public class OAuthTokenResponse
     {
         [DataMember(Name = "access_token")]
         public string AccessToken { get; set; }

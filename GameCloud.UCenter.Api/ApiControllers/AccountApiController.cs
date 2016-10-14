@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -217,16 +218,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-            if (accountEntity.AccountStatus == AccountStatus.Disabled)
-            {
-                await this.TraceAccountErrorAsync(
-                     accountEntity,
-                     UCenterErrorCode.AccountDisabled,
-                     "The account is disabled",
-                     token);
 
-                throw new UCenterException(UCenterErrorCode.AccountDisabled);
-            }
 
             if (string.IsNullOrEmpty(info.Password)
                 || !EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
@@ -240,14 +232,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountPasswordUnauthorized);
             }
 
-            accountEntity.Token = EncryptHashManager.GenerateToken();
-            accountEntity.LastLoginDateTime = DateTime.UtcNow;
-
-            var filter = Builders<AccountEntity>.Filter.Where(e => e.Id == accountEntity.Id);
-            var update = Builders<AccountEntity>.Update
-                .Set("Token", accountEntity.Token)
-                .Set("LastLoginDateTime", accountEntity.LastLoginDateTime);
-            await this.Database.Accounts.UpdateOneAsync<AccountEntity>(accountEntity, filter, update, token);
+            await AccountLoginAsync(accountEntity, token);
 
             if (info.Device != null && !string.IsNullOrEmpty(info.Device.Id))
             {
@@ -257,6 +242,59 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.TraceAccountEvent(accountEntity, "Login", info.Device, token: token);
 
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
+        }
+
+        /// <summary>
+        /// Get WeChat OAuth access token
+        /// </summary>
+        /// <param name = "token" > Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        [HttpPost]
+        [Route("api/accounts/oauth/wechat/accessToken")]
+        public async Task<IActionResult> WeChatLogin(AccountWeChatOAuthInfo info, CancellationToken token)
+        {
+            string appId = "Todo_AppId";
+            string appSecret = "Todo_AppSecret";
+            string code = "Todo_Code";
+            string grantType = "authorization_code";
+
+            string url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type={grantType}";
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(url, token);
+                var accessToken = await response.Content.ReadAsAsync<OAuthTokenResponse>(token);
+                if (accessToken != null && !string.IsNullOrEmpty(accessToken.AccessToken))
+                {
+                    var weChatAccountEntity = await this.Database.WeChatAccounts.GetSingleAsync(a => a.OpenId == accessToken.OpenId, token);
+                    if (weChatAccountEntity == null)
+                    {
+                        weChatAccountEntity = new WeChatAccountEntity()
+                        {
+                            AccountId = info.AccountId,
+                            AppId = info.AppId,
+                            OpenId = accessToken.OpenId,
+                            UnionId = accessToken.UnionId
+                        };
+                        await this.Database.WeChatAccounts.InsertAsync(weChatAccountEntity, token);
+                        var accountEntity = new AccountEntity()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            AccountName = Guid.NewGuid().ToString(),
+                            AccountType = AccountType.Guest,
+                            AccountStatus = AccountStatus.Active,
+                            Token = EncryptHashManager.GenerateToken()
+                        };
+                        await this.Database.Accounts.InsertAsync(accountEntity, token);
+                        return this.CreateSuccessResult(accountEntity);
+                    }
+                    else
+                    {
+                        var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.Id == weChatAccountEntity.AccountId, token);
+                        await AccountLoginAsync(accountEntity, token);
+                        return this.CreateSuccessResult(accountEntity);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -449,6 +487,34 @@ namespace GameCloud.UCenter.Api.ApiControllers
         //    string ipAddress = IPHelper.GetClientIpAddress(Request);
         //    return this.CreateSuccessResult(ipAddress);
         //}
+
+        /// <summary>
+        /// Generate token and login account
+        /// </summary>
+        /// <param name="token">Indicating the cancellation token.</param>
+        /// <returns>Async task.</returns>
+        private async Task AccountLoginAsync(AccountEntity accountEntity, CancellationToken token)
+        {
+            if (accountEntity.AccountStatus == AccountStatus.Disabled)
+            {
+                await this.TraceAccountErrorAsync(
+                     accountEntity,
+                     UCenterErrorCode.AccountDisabled,
+                     "The account is disabled",
+                     token);
+
+                throw new UCenterException(UCenterErrorCode.AccountDisabled);
+            }
+
+            accountEntity.Token = EncryptHashManager.GenerateToken();
+            accountEntity.LastLoginDateTime = DateTime.UtcNow;
+
+            var filter = Builders<AccountEntity>.Filter.Where(e => e.Id == accountEntity.Id);
+            var update = Builders<AccountEntity>.Update
+                .Set("Token", accountEntity.Token)
+                .Set("LastLoginDateTime", accountEntity.LastLoginDateTime);
+            await this.Database.Accounts.UpdateOneAsync<AccountEntity>(accountEntity, filter, update, token);
+        }
 
         private async Task TraceAccountErrorAsync(
             AccountEntity account,

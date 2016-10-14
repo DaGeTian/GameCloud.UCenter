@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\WeChatAccountEntity.cs" />
     <Compile Include="Entities\ExceptionEventEntity.cs" />
     <Compile Include="Entities\DeviceEntity.cs" />
     <Compile Include="Entities\AccountErrorEventEntity.cs" />
@@ -75,7 +76,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

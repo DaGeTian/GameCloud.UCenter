@@ -20,10 +20,10 @@ namespace GameCloud.UCenter.Api.ApiControllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/mock/sns/oauth2/access_token")]
-        public WeChatAccessTokenResponse GetAuthTokenResponse(string appid, string secret, string code, string grant_type)
+        public OAuthTokenResponse GetAuthTokenResponse(string appid, string secret, string code, string grant_type)
         {
             string scope = code == "codeforsnsapi_userinfo" ? "snsapi_userinfo" : "snsapi_base";
-            var result = new WeChatAccessTokenResponse
+            var result = new OAuthTokenResponse
             {
                 OpenId = "mock_openid",
                 AccessToken = "mock_access_token",
