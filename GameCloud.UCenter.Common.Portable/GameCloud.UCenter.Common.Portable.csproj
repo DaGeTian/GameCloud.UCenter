@@ -73,6 +73,7 @@
     <Compile Include="Contracts\UCenterModelRules.cs" />
     <Compile Include="Models\AppClient\OrderStatus.cs" />
     <Compile Include="Models\AppClient\PaymentInfo.cs" />
+    <Compile Include="Models\AppClient\WeChatAccessTokenResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contracts\UCenterResponse.cs" />
     <Compile Include="Contracts\UCenterResponseStatus.cs" />
