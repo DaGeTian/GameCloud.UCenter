@@ -24,6 +24,7 @@
         // NotFound - 404
         AccountNotExist = 404001,
         AppNotExists = 404002,
+        OrderNotExists = 404003,
 
         // Conflict - 409
         AccountNameAlreadyExist = 409001,

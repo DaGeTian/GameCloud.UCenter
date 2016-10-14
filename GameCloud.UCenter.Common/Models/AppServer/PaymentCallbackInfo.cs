@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace GameCloud.UCenter.Common.Models.PingPlusPlus
+namespace GameCloud.UCenter.Common.Models.AppServer
 {
     public class Extra
     {

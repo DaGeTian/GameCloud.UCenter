@@ -1,6 +1,7 @@
 ﻿using GameCloud.Database;
 using GameCloud.Database.Attributes;
 using System.Collections.Generic;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
 
 namespace GameCloud.UCenter.Database.Entities
 {
@@ -18,5 +19,7 @@ namespace GameCloud.UCenter.Database.Entities
         public string Body { get; set; }
 
         public string ClientIp { get; set; }
+
+        public OrderStatus Status { get; set; }
     }
 }

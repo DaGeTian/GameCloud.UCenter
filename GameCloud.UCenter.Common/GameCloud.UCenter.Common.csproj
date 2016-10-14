@@ -74,8 +74,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\AppClient\AccountRegisterRequestInfo.cs" />
     <Compile Include="Dumper\ObjectDumper.cs" />
-    <Compile Include="Models\PingPlusPlus\PaymentInfo.cs" />
-    <Compile Include="Models\PingPlusPlus\CallbackInfo.cs" />
     <Compile Include="Models\AppServer\AppConfigurationInfo.cs" />
     <Compile Include="Models\AppServer\AppAccountDataInfo.cs" />
     <Compile Include="Models\AppServer\AppAccountDataResponse.cs" />
@@ -83,6 +81,7 @@
     <Compile Include="Models\AppServer\AppResponse.cs" />
     <Compile Include="Models\AppServer\AccountLoginAppInfo.cs" />
     <Compile Include="Models\AppServer\AccountLoginAppResponse.cs" />
+    <Compile Include="Models\AppServer\PaymentCallbackInfo.cs" />
     <Compile Include="SDK\UCenterHttpClient.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="Settings\AppConfigurationValueProvider.cs" />

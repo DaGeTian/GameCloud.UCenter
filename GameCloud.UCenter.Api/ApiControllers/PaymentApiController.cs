@@ -7,12 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Api.Extensions;
+using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Common.Models.PingPlusPlus;
+using GameCloud.UCenter.Common.Portable.Contracts;
+using GameCloud.UCenter.Common.Portable.Exceptions;
+using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
-using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Pingpp.Models;
 
@@ -33,7 +36,6 @@ namespace GameCloud.UCenter.Api.ApiControllers
         /// </summary>
         /// <param name="database">The database context.</param>
         /// <param name="settings">The UCenter settings.</param>
-        /// <param name="storageContext">The storage account context.</param>
         /// <param name="eventTrace">The event trace instance.</param>
         [ImportingConstructor]
         public PaymentApiController(
@@ -55,42 +57,60 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/payments")]
         public async Task<IActionResult> CreateCharge([FromBody]PaymentInfo info, CancellationToken token)
         {
-            Dictionary<String, String> app = new Dictionary<String, String>();
-            app.Add("id", settings.PingPlusPlusAppId);
-            Dictionary<String, Object> param = new Dictionary<String, Object>();
-            param.Add("order_no", info.OrderNo);
-            param.Add("amount", info.Amount);
-            param.Add("channel", info.Channel);
-            param.Add("currency", "cny");
-            param.Add("subject", info.Subject);
-            param.Add("body", info.Body);
-            param.Add("client_ip", "127.0.0.1");
-            param.Add("app", app);
-            try
+            OrderEntity orderEntity;
+            string orderNumber = info.OrderNumber;
+            if (string.IsNullOrEmpty(orderNumber))
             {
-                //await CreateOrderAsync(token);
-                var orderEntity = new OrderEntity
+                orderNumber = Guid.NewGuid().ToString();
+                orderEntity = new OrderEntity
                 {
-                    Id = info.OrderNo,
+                    Id = orderNumber,
                     Amount = info.Amount,
                     Channel = info.Channel,
                     Currency = info.Currency,
                     Subject = info.Subject,
                     Body = info.Body,
                     ClientIp = "",
+                    Status = OrderStatus.Created,
                     CreatedTime = DateTime.UtcNow
                 };
 
                 await this.Database.Orders.InsertAsync(orderEntity, token);
-
-                Charge charge = Charge.Create(param);
-
-                return Ok(charge);
             }
-            catch (Exception ex)
+            else
             {
-                return Ok(ex.Message.ToString());
+                orderEntity = await this.Database.Orders.GetSingleAsync(o => o.Id == info.OrderNumber, token);
+                if (orderEntity == null)
+                {
+                    throw new UCenterException(UCenterErrorCode.OrderNotExists, "Order not exists");
+                }
             }
+
+            var app = new Dictionary<string, string>
+                {
+                    {"id", settings.PingPlusPlusAppId}
+                };
+            var param = new Dictionary<string, object>
+                {
+                    {"order_no", orderNumber},
+                    {"amount", info.Amount},
+                    {"channel", info.Channel},
+                    {"currency", "cny"},
+                    {"subject", info.Subject},
+                    {"body", info.Body},
+                    {"client_ip", "127.0.0.1"},
+                    {"app", app}
+                };
+
+            var charge = Pingpp.Models.Charge.Create(param);
+            var response = new PaymentResponse()
+            {
+                AccountId = info.AccountId,
+                // todo: reuse model
+                //Charge = charge as Common.Portable.Models.AppClient.Charge
+            };
+
+            return this.CreateSuccessResult(response);
         }
 
         /// <summary>
