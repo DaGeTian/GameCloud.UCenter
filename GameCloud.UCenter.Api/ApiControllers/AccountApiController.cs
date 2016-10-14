@@ -294,6 +294,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                         return this.CreateSuccessResult(accountEntity);
                     }
                 }
+                throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized, "OAuth Token Unauthorized");
             }
         }
 

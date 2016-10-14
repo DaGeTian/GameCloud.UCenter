@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AppClient\AccountWeChatOAuthInfo.cs" />
     <Compile Include="Models\AppClient\Charge.cs" />
     <Compile Include="Models\AppClient\PaymentResponse.cs" />
     <Compile Include="Models\AppClient\AccountType.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Contracts\UCenterModelRules.cs" />
     <Compile Include="Models\AppClient\OrderStatus.cs" />
     <Compile Include="Models\AppClient\PaymentInfo.cs" />
-    <Compile Include="Models\AppClient\WeChatAccessTokenResponse.cs" />
+    <Compile Include="Models\AppClient\OAuthTokenResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contracts\UCenterResponse.cs" />
     <Compile Include="Contracts\UCenterResponseStatus.cs" />

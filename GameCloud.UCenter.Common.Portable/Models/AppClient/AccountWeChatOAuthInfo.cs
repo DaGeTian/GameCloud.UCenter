@@ -9,7 +9,7 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         public string AccountId { get; set; }
 
         [DataMember]
-        public string AccountId { get; set; }
+        public string AppId { get; set; }
 
         [DataMember]
         public string Code { get; set; }

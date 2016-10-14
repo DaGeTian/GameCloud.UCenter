@@ -20,6 +20,7 @@
         AccountTokenUnauthorized = 401002,
         AppTokenUnauthorized = 401003,
         AccountDisabled = 401004,
+        AccountOAuthTokenUnauthorized = 401005,
 
         // NotFound - 404
         AccountNotExist = 404001,
