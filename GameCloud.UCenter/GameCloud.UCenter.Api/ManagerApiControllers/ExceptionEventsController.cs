@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using GameCloud.Database.Adapters;
 using GameCloud.Manager.PluginContract.Requests;
 using GameCloud.Manager.PluginContract.Responses;
 using GameCloud.UCenter.Common.Settings;
@@ -13,14 +12,14 @@ using GameCloud.UCenter.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
-namespace GameCloud.UCenter.Manager.Api.ApiControllers
+namespace GameCloud.UCenter.Api.ManagerApiControllers
 {
     /// <summary>
     /// Provide a controller for users.
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ExceptionEventsController : ApiControllerBase
+    public class ExceptionEventsController : ManagerApiControllerBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorEventsController" /> class.
@@ -42,8 +41,8 @@ namespace GameCloud.UCenter.Manager.Api.ApiControllers
         /// </summary>
         /// <param name="request">Indicating the count.</param>
         /// <returns>Async return user list.</returns>
-        [Route("api/exceptionEvents")]
-        public async Task<PluginPaginationResponse<ExceptionEventEntity>> Post([FromBody]PluginRequestInfo request)
+        [Route("api/manager/exceptionEvents")]
+        public async Task<PluginPaginationResponse<ExceptionEventEntity>> Post([FromBody]PluginRequestInfo request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
@@ -56,7 +55,7 @@ namespace GameCloud.UCenter.Manager.Api.ApiControllers
                 filter = a => a.Message.Contains(keyword);
             }
 
-            var total = await this.UCenterEventDatabase.ExceptionEvents.CountAsync(filter, CancellationToken.None);
+            var total = await this.UCenterEventDatabase.ExceptionEvents.CountAsync(filter, null, token);
 
             IQueryable<ExceptionEventEntity> queryable = this.UCenterEventDatabase.ExceptionEvents.Collection.AsQueryable();
             if (filter != null)

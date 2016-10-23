@@ -74,7 +74,8 @@ namespace GameCloud.Database.Adapters
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async task</returns>
         Task<UpdateResult> UpdateOneAsync(
-            TEntity entity, FilterDefinition<TEntity> filter,
+            TEntity entity,
+            FilterDefinition<TEntity> filter,
             UpdateDefinition<TEntity> update,
             UpdateOptions options,
             CancellationToken token);

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition.Hosting;
-using System.IO;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
@@ -29,7 +28,6 @@ namespace GameCloud.UCenter.Api
 
             // MEF initiliazation
             this.exportProvider = CompositionContainerFactory.Create();
-            //WebApplicationManager.InitializeApplication(GlobalConfiguration.Configuration, exportProvider);
             SettingsInitializer.Initialize<Settings>(
                 this.exportProvider,
                 SettingsDefaultValueProvider<Settings>.Default,
@@ -68,10 +66,10 @@ namespace GameCloud.UCenter.Api
             services.AddMvc();
             var settings = this.exportProvider.GetExportedValue<Settings>();
             services.AddSingleton<Settings>(settings);
-            // services.AddSingleton<AzureStorageContext>(this.exportProvider.GetExportedValue<AzureStorageContext>());
             services.AddSingleton<IStorageContext>(this.exportProvider.GetExportedValue<IStorageContext>(settings.StorageType));
             services.AddSingleton<EventTrace>(this.exportProvider.GetExportedValue<EventTrace>());
             services.AddSingleton<UCenterDatabaseContext>(this.exportProvider.GetExportedValue<UCenterDatabaseContext>());
+            services.AddSingleton<UCenterEventDatabaseContext>(this.exportProvider.GetExportedValue<UCenterEventDatabaseContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

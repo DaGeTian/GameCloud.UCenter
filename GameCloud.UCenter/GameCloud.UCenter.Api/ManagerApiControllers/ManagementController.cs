@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using GameCloud.Manager.PluginContract.Models;
@@ -15,10 +12,10 @@ using GameCloud.UCenter.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameCloud.UCenter.Manager.Api.ApiControllers
+namespace GameCloud.UCenter.Api.ManagerApiControllers
 {
     [Export]
-    public class ManagementController : ApiControllerBase
+    public class ManagementController : ManagerApiControllerBase
     {
         private readonly IHostingEnvironment environment;
 
@@ -41,11 +38,10 @@ namespace GameCloud.UCenter.Manager.Api.ApiControllers
         }
 
         [HttpPost]
-        [Route("api/configcenter")]
+        [Route("api/manager/configcenter")]
         public IReadOnlyList<PluginAppSetting> ManageAppSettings(
             [FromBody]UpdateRequestInfo<PluginAppSetting[]> request)
         {
-            var settings = this.Settings;
             if (request.Method == PluginRequestMethod.Read)
             {
                 return this.GetCurrentAppSettings();
