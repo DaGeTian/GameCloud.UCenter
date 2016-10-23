@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "Microsoft.AspNet.WebApi.Client": "5.2.3",
+    "GameCloud.Manager.PluginContract": "1.0.0-*",
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
@@ -11,10 +11,7 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "MongoDB.Driver": "2.3.0",
-    "Newtonsoft.Json": "9.0.1",
-    "pingpp": "1.1.0",
-    "WindowsAzure.Storage": "7.2.1"
+    "MongoDB.Driver": "2.2.4"
   },
 
   "tools": {
@@ -23,23 +20,16 @@
 
   "frameworks": {
     "net461": {
+      "frameworkAssemblies": {
+        "System.ComponentModel.Composition": "4.0.0.0"
+      },
       "dependencies": {
         "GameCloud.Database": {
           "target": "project"
         },
-        "GameCloud.UCenter.Common": {
-          "target": "project"
-        },
-        "GameCloud.UCenter.Common.Portable": {
-          "target": "project"
-        },
-        "GameCloud.UCenter.Web.Common": {
+        "GameCloud.UCenter.Database": {
           "target": "project"
         }
-      },
-      "frameworkAssemblies": {
-        "System.ComponentModel.Composition": "4.0.0.0",
-        "System.Drawing": "4.0.0.0"
       }
     }
   },
