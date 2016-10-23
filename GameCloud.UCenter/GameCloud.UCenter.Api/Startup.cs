@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition.Hosting;
+using System.IO;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
@@ -44,8 +45,18 @@ namespace GameCloud.UCenter.Api
                 AppConfigurationValueProvider.Default);
 
             // PingPP init
-            Pingpp.Pingpp.ApiKey = "sk_live_rnjvb1iTWTmHDWzzfT5aHCOO";
-            Pingpp.Pingpp.SetPrivateKeyPath(@"C:\cert\pingpp\private.txt");
+            var settings = this.exportProvider.GetExportedValue<Settings>();
+            if (!string.IsNullOrEmpty(settings.PingppApiKey))
+            {
+                Pingpp.Pingpp.SetApiKey(settings.PingppApiKey);
+                //Pingpp.Pingpp.ApiKey = "sk_live_rnjvb1iTWTmHDWzzfT5aHCOO";
+            }
+
+            if (!string.IsNullOrEmpty(settings.PingppPrivateKey))
+            {
+                Pingpp.Pingpp.SetPrivateKey(settings.PingppPrivateKey);
+                //Pingpp.Pingpp.SetPrivateKeyPath(@"C:\cert\pingpp\private.txt");
+            }
         }
 
         public IConfigurationRoot Configuration { get; }

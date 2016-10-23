@@ -51,5 +51,11 @@ namespace GameCloud.UCenter.Common.Settings
         public int MaxThumbnailHeight { get; set; }
 
         public string PingPlusPlusAppId { get; set; }
+
+        [DefaultValue("")]
+        public string PingppApiKey { get; set; }
+
+        [DefaultValue("")]
+        public string PingppPrivateKey { get; set; }
     }
 }
