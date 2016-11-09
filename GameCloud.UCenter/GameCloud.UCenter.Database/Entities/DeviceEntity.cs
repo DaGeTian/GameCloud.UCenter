@@ -10,22 +10,22 @@ namespace GameCloud.UCenter.Database.Entities
     public class DeviceEntity : EntityBase
     {
         /// <summary>
-        /// Gets or sets the account name.
+        /// Gets or sets the device name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the status
+        /// Gets or sets the device type.
         /// </summary>
         public string Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the password.
+        /// Gets or sets the device model.
         /// </summary>
         public string Model { get; set; }
 
         /// <summary>
-        /// Gets or sets the super password.
+        /// Gets or sets the device operation system.
         /// </summary>
         public string OperationSystem { get; set; }
     }

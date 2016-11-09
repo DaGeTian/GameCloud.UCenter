@@ -218,8 +218,6 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.AccountNotExist);
             }
 
-
-
             if (string.IsNullOrEmpty(info.Password)
                 || !EncryptHelper.VerifyHash(info.Password, accountEntity.Password))
             {
