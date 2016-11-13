@@ -96,7 +96,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return result;
         }
 
-        [HttpPost, Route("api/userstatistics")]
+        [HttpPost, Route("api/manager/userstatistics")]
         public async Task<UserStatisticsData> UserStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
