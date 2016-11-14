@@ -101,7 +101,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
             var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow).ToUniversalTime();
-            string type = request.GetParameterValue<string>("type");
+            string type = request.GetParameterValue<string>("type", "day");
 
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
                 e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
@@ -121,6 +121,8 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 groups = loginRecords.GroupBy(e => e.CreatedTime.Date.AddDays(-1 * e.CreatedTime.Date.Day + 1));
             }
 
+            groups = groups.OrderBy(g => g.Key);
+
             List<string> previousUsers = null;
             float ratio = 1;
             var remainRate = new ChartData();
@@ -130,11 +132,11 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 if (previousUsers == null || previousUsers.Count == 0)
                 {
                     ratio = 1;
-                    previousUsers = group.Select(g => g.AccountId).ToList();
+                    previousUsers = group.Select(g => g.AccountId).Distinct().ToList();
                 }
                 else
                 {
-                    var currentUsers = group.Select(g => g.AccountId).ToList();
+                    var currentUsers = group.Select(g => g.AccountId).Distinct().ToList();
                     var remainUserCount = currentUsers.Count - currentUsers.Except(previousUsers).Count();
                     ratio = 100 * (float)Math.Round((double)remainUserCount / previousUsers.Count, 2);
                     previousUsers = currentUsers;
