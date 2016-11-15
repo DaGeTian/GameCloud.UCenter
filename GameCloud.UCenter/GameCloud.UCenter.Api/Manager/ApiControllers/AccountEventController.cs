@@ -87,8 +87,8 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         [HttpPost, Route("api/manager/newusers")]
         public async Task<NewUserStatisticsData> NewUsers([FromBody]PluginRequestInfo request, CancellationToken token)
         {
-            var startTime = request.GetParameterValue<DateTime>("date", DateTime.Now).Date.ToUniversalTime();
-            var endTime = startTime.AddDays(1);
+            var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
+            var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow).ToUniversalTime();
 
             var result = new NewUserStatisticsData();
             result.HourlyNewUsers = await this.GetHourlyNewUserChartData(startTime, endTime, token);
@@ -177,30 +177,25 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 u => u.CreatedTime >= startTime && u.CreatedTime < endTime,
                 token);
 
-            var group = users.GroupBy(u => u.CreatedTime.ToLocalTime().Hour)
+            var groups = users
+                .GroupBy(u =>
+                {
+                    var localTime = u.CreatedTime.ToLocalTime();
+                    return localTime.Date.AddHours(localTime.Hour);
+                })
                 .OrderBy(g => g.Key)
                 .ToList();
 
-            var chart = new ChartData();
-            var indexes = ParallelEnumerable.Range(0, 24);
-            chart.Labels = indexes.Select(i => i.ToString()).ToList();
-            chart.Series = new List<string>() { "New Users" };
-            var data = new List<float>();
-            var gidx = 0;
-            foreach (var idx in indexes)
-            {
-                if (group[gidx].Key == idx)
-                {
-                    data.Add(group[gidx].Count());
-                    gidx++;
-                }
-                else
-                {
-                    data.Add(0);
-                }
-            }
+            var data = groups.Select(g => (float)(g.Distinct().Count())).ToList();
+            var labels = groups.Select(g => g.Key.ToString("yyyy-MM-dd HH:00")).ToList();
+            var series = new List<string>() { "小时新增用户" };
 
-            return chart;
+            return new ChartData()
+            {
+                Data = new List<List<float>>() { data },
+                Labels = labels,
+                Series = series
+            };
         }
 
     }
