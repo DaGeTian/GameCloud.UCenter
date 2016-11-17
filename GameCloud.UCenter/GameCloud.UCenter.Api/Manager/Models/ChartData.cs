@@ -16,5 +16,7 @@ namespace GameCloud.UCenter.Api.Manager.Models
         public List<string> Series { get; set; }
 
         public List<List<float>> Data { get; set; }
+
+        public List<ChartOverride> Overrides { get; set; }
     }
 }

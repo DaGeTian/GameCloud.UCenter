@@ -127,6 +127,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             float ratio = 1;
             var remainRate = new ChartData();
             var remainDatas = new List<float>();
+
             foreach (var group in groups)
             {
                 if (previousUsers == null || previousUsers.Count == 0)
@@ -165,11 +166,23 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
 
             return new UserStatisticsData()
             {
-                RemainRate = remainRate,
+                RemainRate = await this.GetStayLostStatisticsData(startTime, endTime, type, true, token),
                 LostRate = lostRate,
                 LifeCycle = lifeCycleRate
             };
         }
+
+        [HttpPost, Route("api/manager/userstatistics2")]
+        public async Task<ChartData> UserStatistics2([FromBody] PluginRequestInfo request, CancellationToken token)
+        {
+            var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
+            var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow).ToUniversalTime();
+            string type = request.GetParameterValue<string>("type", "day");
+            bool isStay = request.GetParameterValue<bool>("isStay");
+
+            return await this.GetStayLostStatisticsData(startTime, endTime, type, isStay, token);
+        }
+
 
         private async Task<ChartData> GetHourlyNewUserChartData(DateTime startTime, DateTime endTime, CancellationToken token)
         {
@@ -198,5 +211,66 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             };
         }
 
+        private async Task<ChartData> GetStayLostStatisticsData(DateTime startTime, DateTime endTime, string type, bool isStay, CancellationToken token)
+        {
+            var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
+                e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
+                token);
+
+            IEnumerable<IGrouping<DateTime, AccountEventEntity>> groups = null;
+            if (type == "day")
+            {
+                groups = loginRecords.GroupBy(e => e.CreatedTime.Date);
+            }
+            else if (type == "week")
+            {
+                groups = loginRecords.GroupBy(e => e.CreatedTime.Date.AddDays(-1 * (int)(e.CreatedTime.Date.DayOfWeek)));
+            }
+            else if (type == "month")
+            {
+                groups = loginRecords.GroupBy(e => e.CreatedTime.Date.AddDays(-1 * e.CreatedTime.Date.Day + 1));
+            }
+
+            groups = groups.OrderBy(g => g.Key);
+
+            List<string> previousUsers = null;
+            float percent = 0;
+            float count = 0;
+            var chart = new ChartData();
+            var percentDatas = new List<float>();
+            var countDatas = new List<float>();
+
+            foreach (var group in groups)
+            {
+                if (previousUsers == null || previousUsers.Count == 0)
+                {
+                    percent = 0;
+                    count = 0;
+                    previousUsers = group.Select(g => g.AccountId).Distinct().ToList();
+                }
+                else
+                {
+                    var currentUsers = group.Select(g => g.AccountId).Distinct().ToList();
+                    count = currentUsers.Count - currentUsers.Except(previousUsers).Count();
+                    percent = (float)Math.Round((double)count / previousUsers.Count, 4) * 100;
+
+                    if (!isStay)
+                    {
+                        count = previousUsers.Count - count;
+                        percent = (float)Math.Round((double)(100 - percent), 2);
+                    }
+
+                    previousUsers = currentUsers;
+                }
+
+                percentDatas.Add(percent);
+                countDatas.Add(count);
+                chart.Labels.Add(group.Key.ToString("yyyy/MM/dd"));
+            }
+
+            chart.Data.Add(percentDatas);
+            chart.Data.Add(countDatas);
+            return chart;
+        }
     }
 }
