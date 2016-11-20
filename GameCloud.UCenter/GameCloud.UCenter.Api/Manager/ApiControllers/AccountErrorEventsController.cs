@@ -43,8 +43,18 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/accountErrorEvents")]
-        public async Task<PluginPaginationResponse<AccountErrorEventEntity>> Post([FromBody]PluginRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<AccountErrorEventEntity>> Post([FromBody]SearchRequestInfo<AccountErrorEventEntity> request, CancellationToken token)
         {
+            if (request.Method == PluginRequestMethod.Delete)
+            {
+                var deleteRawData = request.RawData;
+                if (deleteRawData != null)
+                {
+                    await this.UCenterEventDatabase.AccountErrorEvents.DeleteAsync(
+                        v => v.AccountId == deleteRawData.AccountId, token);
+                }
+            }
+
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
             int count = request.GetParameterValue<int>("pageSize", 10);

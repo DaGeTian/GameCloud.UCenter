@@ -1,9 +1,5 @@
 ﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace GameCloud.UCenter.Api
 {
@@ -11,19 +7,16 @@ namespace GameCloud.UCenter.Api
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", optional: true)
-                .Build();
-
-            var host = new WebHostBuilder()
+            var builder = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseConfiguration(config)
                 .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
 
+#if DEBUG
+            builder.UseUrls("http://localhost:5001");
+#endif
+            var host = builder.Build();
             host.Run();
         }
     }

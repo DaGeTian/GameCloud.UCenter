@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel.Composition.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Database;
+using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Api
 {
@@ -41,6 +45,8 @@ namespace GameCloud.UCenter.Api
                 this.exportProvider,
                 SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
+
+            CreateDatabaseIndexesAsync().Wait();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -65,6 +71,24 @@ namespace GameCloud.UCenter.Api
             loggerFactory.AddDebug();
 
             app.UseMvc();
+        }
+
+        private async Task CreateDatabaseIndexesAsync()
+        {
+            var db = exportProvider.GetExportedValue<UCenterDatabaseContext>();
+
+            await db.Accounts.CreateIndexIfNotExistAsync(
+                Builders<AccountEntity>.IndexKeys.Ascending("AccountName"),
+                new CreateIndexOptions() { Name = "AccountName_IDX" },
+                CancellationToken.None);
+            await db.Accounts.CreateIndexIfNotExistAsync(
+                Builders<AccountEntity>.IndexKeys.Ascending("Email"),
+                new CreateIndexOptions() { Name = "Email_IDX" },
+                CancellationToken.None);
+            await db.Accounts.CreateIndexIfNotExistAsync(
+                Builders<AccountEntity>.IndexKeys.Ascending("Phone"),
+                new CreateIndexOptions() { Name = "Phone_IDX" },
+                CancellationToken.None);
         }
     }
 }
