@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
+using GameCloud.UCenter.Api.Extensions;
 using GameCloud.UCenter.Common;
 using GameCloud.UCenter.Common.Extensions;
 using GameCloud.UCenter.Common.Models.AppClient;
@@ -20,6 +21,7 @@ using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -521,8 +523,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = "";// IPHelper.GetClientIpAddress(Request);
-
+            var clientIp = HttpContext.GetClientIpAddress();
             var accountErrorEvent = new AccountErrorEventEntity()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -547,7 +548,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = "";// IPHelper.GetClientIpAddress(Request);
+            var clientIp = HttpContext.GetClientIpAddress();
 
             var accountErrorEvent = new AccountErrorEventEntity()
             {
@@ -570,7 +571,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             string message = null,
             CancellationToken token = default(CancellationToken))
         {
-            var clientIp = string.Empty;// todo: migrate to asp.net core IPHelper.GetClientIpAddress(Request);
+            var clientIp = HttpContext.GetClientIpAddress();
 
             var accountEventEntity = new AccountEventEntity
             {

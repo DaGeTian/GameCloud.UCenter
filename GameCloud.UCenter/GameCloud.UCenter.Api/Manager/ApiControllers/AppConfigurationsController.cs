@@ -43,7 +43,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/appconfigurations")]
-        public async Task<PluginPaginationResponse<AppConfigurationEntity>> Post([FromBody]PluginRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<AppConfigurationEntity>> Post([FromBody]SearchRequestInfo request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);

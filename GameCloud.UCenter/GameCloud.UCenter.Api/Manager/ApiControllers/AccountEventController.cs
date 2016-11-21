@@ -48,7 +48,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <returns>Async return account event list.</returns>
         [Route("api/manager/accountEvents")]
-        public async Task<PluginPaginationResponse<AccountEventEntity>> AccountEvents([FromBody]PluginRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<AccountEventEntity>> AccountEvents([FromBody]SearchRequestInfo request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
@@ -99,12 +99,16 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         [HttpPost, Route("api/manager/userstatistics")]
         public async Task<UserStatisticsData> UserStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
-            var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
-            var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow).ToUniversalTime();
+            var startDate = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
+            var endDate = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow).ToUniversalTime();
+            var startTime = request.GetParameterValue<DateTime>("startTime", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
+            var endTime = request.GetParameterValue<DateTime>("endTime", DateTime.UtcNow).ToUniversalTime();
             string type = request.GetParameterValue<string>("type", "day");
 
+            var startDateTime = startDate.Date + startTime.TimeOfDay;
+            var endDateTime = endDate.Date + endTime.TimeOfDay;
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
-                e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
+                e => e.EventName == "Login" && e.CreatedTime >= startDateTime && e.CreatedTime <= endDateTime,
                 token);
 
             IEnumerable<IGrouping<DateTime, AccountEventEntity>> groups = null;
