@@ -41,10 +41,33 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get app list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/apps")]
-        public async Task<PluginPaginationResponse<AppEntity>> Post([FromBody]SearchRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<AppEntity>> Post([FromBody]SearchRequestInfo<AppEntity> request, CancellationToken token)
         {
+            if (request.Method == PluginRequestMethod.Update)
+            {
+                var updateRawData = request.RawData;
+                if (updateRawData != null)
+                {
+                    var filterDefinition = Builders<AppEntity>.Filter.Where(e => e.Id == updateRawData.Id);
+                    var updateDefinition = Builders<AppEntity>.Update
+                        .Set(e => e.Name, updateRawData.Name)
+                        .Set(e => e.AppSecret, updateRawData.AppSecret);
+                    await this.UCenterDatabase.Apps.UpdateOneAsync(updateRawData, filterDefinition, updateDefinition, token);
+                }
+            }
+            else if (request.Method == PluginRequestMethod.Delete)
+            {
+                var deleteRawData = request.RawData;
+                if (deleteRawData != null)
+                {
+                    await this.UCenterDatabase.AppConfigurations.DeleteAsync(v => v.Id == deleteRawData.Id, token);
+                    await this.UCenterDatabase.Apps.DeleteAsync(v => v.Id == deleteRawData.Id, token);
+                }
+            }
+
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
             int count = request.GetParameterValue<int>("pageSize", 10);

@@ -41,9 +41,10 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get user list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/devices")]
-        public async Task<PluginPaginationResponse<DeviceEntity>> Post([FromBody]SearchRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<DeviceEntity>> Post([FromBody]SearchRequestInfo<DeviceEntity> request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);

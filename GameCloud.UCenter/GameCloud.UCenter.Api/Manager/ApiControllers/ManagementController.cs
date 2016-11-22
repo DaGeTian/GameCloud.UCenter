@@ -21,7 +21,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         private readonly IHostingEnvironment environment;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppsController" /> class.
+        /// Initializes a new instance of the <see cref="ManagementController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
@@ -40,8 +40,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
 
         [HttpPost]
         [Route("api/manager/configcenter")]
-        public IReadOnlyList<PluginAppSetting> ManageAppSettings(
-            [FromBody]UpdateRequestInfo<PluginAppSetting[]> request)
+        public IReadOnlyList<PluginAppSetting> ManageAppSettings([FromBody]UpdateRequestInfo<PluginAppSetting[]> request)
         {
             if (request.Method == PluginRequestMethod.Read)
             {

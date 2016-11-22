@@ -41,6 +41,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get user list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/orders")]
         public async Task<PluginPaginationResponse<OrderEntity>> Post([FromBody]SearchRequestInfo<OrderEntity> request, CancellationToken token)

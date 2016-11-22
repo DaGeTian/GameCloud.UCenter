@@ -41,6 +41,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get user list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/accounts")]
         public async Task<PluginPaginationResponse<AccountEntity>> Post([FromBody]SearchRequestInfo<AccountEntity> request, CancellationToken token)
@@ -50,10 +51,9 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 var updateRawData = request.RawData;
                 if (updateRawData != null)
                 {
-                    // todo: update the other properties here.
-                    var updateFilter = Builders<AccountEntity>.Filter.Where(e => e.Id == updateRawData.Id);
+                    var filterDefinition = Builders<AccountEntity>.Filter.Where(e => e.Id == updateRawData.Id);
                     var updateDefinition = Builders<AccountEntity>.Update.Set(e => e.AccountStatus, updateRawData.AccountStatus);
-                    await this.UCenterDatabase.Accounts.UpdateOneAsync(updateRawData, updateFilter, updateDefinition, token);
+                    await this.UCenterDatabase.Accounts.UpdateOneAsync(updateRawData, filterDefinition, updateDefinition, token);
                 }
             }
 

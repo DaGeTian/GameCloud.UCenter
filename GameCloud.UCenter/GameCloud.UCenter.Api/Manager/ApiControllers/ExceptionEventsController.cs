@@ -23,7 +23,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
     public class ExceptionEventsController : ManagerApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorEventsController" /> class.
+        /// Initializes a new instance of the <see cref="ExceptionEventsController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
@@ -41,6 +41,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get user list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/exceptionEvents")]
         public async Task<PluginPaginationResponse<ExceptionEventEntity>> Post([FromBody]SearchRequestInfo<ExceptionEventEntity> request, CancellationToken token)

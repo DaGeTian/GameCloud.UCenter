@@ -23,7 +23,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
     public class AppConfigurationsController : ManagerApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppsController" /> class.
+        /// Initializes a new instance of the <see cref="AppConfigurationsController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
@@ -41,10 +41,23 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// Get app configuration list.
         /// </summary>
         /// <param name="request">Indicating the count.</param>
+        /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
         [Route("api/manager/appconfigurations")]
-        public async Task<PluginPaginationResponse<AppConfigurationEntity>> Post([FromBody]SearchRequestInfo request, CancellationToken token)
+        public async Task<PluginPaginationResponse<AppConfigurationEntity>> Post([FromBody]SearchRequestInfo<AppConfigurationEntity> request, CancellationToken token)
         {
+            if (request.Method == PluginRequestMethod.Update)
+            {
+                var updateRawData = request.RawData;
+                if (updateRawData != null)
+                {
+                    var filterDefinition = Builders<AppConfigurationEntity>.Filter.Where(e => e.Id == updateRawData.Id);
+                    var updateDefinition = Builders<AppConfigurationEntity>.Update
+                        .Set(e => e.Configuration, updateRawData.Configuration);
+                    await this.UCenterDatabase.AppConfigurations.UpdateOneAsync(updateRawData, filterDefinition, updateDefinition, token);
+                }
+            }
+
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
             int count = request.GetParameterValue<int>("pageSize", 10);
