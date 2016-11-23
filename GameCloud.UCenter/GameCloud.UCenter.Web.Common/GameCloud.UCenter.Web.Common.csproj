@@ -129,6 +129,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Share\GameCloud.Common\GameCloud.Common.csproj">
+      <Project>{52fb10a4-d86a-4688-b24f-59a52620ed92}</Project>
+      <Name>GameCloud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Share\GameCloud.Database\GameCloud.Database.csproj">
       <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
       <Name>GameCloud.Database</Name>

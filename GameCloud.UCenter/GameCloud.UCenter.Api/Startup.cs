@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
+using GameCloud.Common.MEF;
+using GameCloud.Common.Settings;
 using GameCloud.Database;
-using GameCloud.UCenter.Common.MEF;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
@@ -40,7 +41,6 @@ namespace GameCloud.UCenter.Api
                 this.exportProvider,
                 SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
                 AppConfigurationValueProvider.Default);
-
             SettingsInitializer.Initialize<UCenterEventDatabaseContextSettings>(
                 this.exportProvider,
                 SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,

@@ -2,10 +2,11 @@
 using System.ComponentModel.Composition.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
+using GameCloud.Common.Settings;
 using GameCloud.Database;
-using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Web.Common.Dependency;
 using GameCloud.UCenter.Web.Common.Filters;
+using Settings = GameCloud.UCenter.Common.Settings.Settings;
 
 namespace GameCloud.UCenter.Web.Common
 {

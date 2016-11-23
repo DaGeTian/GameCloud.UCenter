@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using GameCloud.Database;
 using GameCloud.UCenter.Common.Settings;
+using GameCloud.Common.Settings;
 
 namespace GameCloud.UCenter.Database
 {

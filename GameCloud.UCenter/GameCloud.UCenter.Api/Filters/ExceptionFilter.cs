@@ -1,19 +1,16 @@
-﻿using GameCloud.Database;
-using GameCloud.UCenter.Common.MEF;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using GameCloud.Common.MEF;
+using GameCloud.Common.Settings;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
-using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
-using System;
-using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameCloud.UCenter.Api.Filters
 {

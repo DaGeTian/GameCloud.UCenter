@@ -64,8 +64,6 @@
     <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="EncryptHashManager.cs" />
     <Compile Include="IP\IPHelper.cs" />
-    <Compile Include="MEF\CompositionContainerFactory.cs" />
-    <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Dumper\DebugWritter.cs" />
     <Compile Include="Dumper\DumperToAttribute.cs" />
     <Compile Include="Dumper\ObjectDumperExtension.cs" />
@@ -84,14 +82,8 @@
     <Compile Include="Models\AppServer\PaymentCallbackInfo.cs" />
     <Compile Include="SDK\UCenterHttpClient.cs" />
     <Compile Include="EncryptHelper.cs" />
-    <Compile Include="Settings\AppConfigurationValueProvider.cs" />
-    <Compile Include="Settings\ISettingsValueProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\SettingAttribute.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsDefaultValueProvider.cs" />
-    <Compile Include="Settings\SettingsInitializer.cs" />
-    <Compile Include="Settings\SettingsValuePair.cs" />
     <Compile Include="ValidatableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
