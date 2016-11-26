@@ -382,7 +382,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= lastDay,
                 token);
 
-            var groups = loginRecords.GroupBy(e => e.CreatedTime.Date);
+            var groups = loginRecords.GroupBy(e => e.CreatedTime.Date).ToList();
             var dayDatas = new List<float>();
             var last7Datas = new List<float>();
             var last30Datas = new List<float>();
@@ -401,12 +401,12 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                  }
                  else if (next == null)
                  {
-                     return 100;
+                     return 0;
                  }
                  else
                  {
-                     var nextUsers = next.Distinct().ToList();
-                     var currentUsers = group.Distinct().ToList();
+                     var nextUsers = next.Select(u => u.AccountId).Distinct().ToList();
+                     var currentUsers = group.Select(u => u.AccountId).Distinct().ToList();
                      return (float)Math.Round((double)(nextUsers.Count() - nextUsers.Except(currentUsers).Count()) / currentUsers.Count() * 100, 2);
                  }
              };
