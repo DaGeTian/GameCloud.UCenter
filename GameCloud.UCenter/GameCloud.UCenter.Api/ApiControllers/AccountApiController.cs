@@ -343,16 +343,18 @@ namespace GameCloud.UCenter.Api.ApiControllers
                     Device = info.Device
                 };
                 await this.Database.GuestDevices.InsertAsync(guestDeviceEntity, token);
+
+                await this.TraceAccountEvent(accountEntity, "GuestRegister", info.Device, token: token);
             }
             else
             {
                 accountEntity = await this.Database.Accounts.GetSingleAsync(guestDeviceEntity.AccountId, token);
+
+                await this.TraceAccountEvent(accountEntity, "GuestLogin", info.Device, token: token);
             }
 
             await LogDeviceInfo(info.Device, token);
-
-            await this.TraceAccountEvent(accountEntity, "GuestAccess", info.Device, token: token);
-
+            
             var response = new GuestAccessResponse
             {
                 AccountId = accountEntity.Id,
