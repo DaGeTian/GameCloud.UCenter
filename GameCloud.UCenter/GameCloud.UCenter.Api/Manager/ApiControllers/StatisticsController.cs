@@ -236,7 +236,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow.Date).ToUniversalTime();
 
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
-                e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
+                e => (e.EventName == "Login" || e.EventName == "GuestAccess") && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
                 token);
 
             var groups = loginRecords.GroupBy(e => e.CreatedTime.Date).ToList();
@@ -247,7 +247,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             {
                 var group = groups.FirstOrDefault(g => g.Key == date);
                 result.Labels.Add(date.ToString("yyyy/MM/dd"));
-                datas.Add(group == null ? 0 : group.Distinct().Count());
+                datas.Add(group == null ? 0 : group.Select(g => g.AccountId).Distinct().Count());
             }
 
             result.Data.Add(datas);
@@ -407,6 +407,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                  {
                      var nextUsers = next.Select(u => u.AccountId).Distinct().ToList();
                      var currentUsers = group.Select(u => u.AccountId).Distinct().ToList();
+
                      return (float)Math.Round((double)(nextUsers.Count() - nextUsers.Except(currentUsers).Count()) / currentUsers.Count() * 100, 2);
                  }
              };
