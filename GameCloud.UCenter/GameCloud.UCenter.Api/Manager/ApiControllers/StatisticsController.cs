@@ -236,7 +236,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow.Date).ToUniversalTime();
 
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
-                e => (e.EventName == "Login" || e.EventName == "GuestAccess") && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
+                e => (e.EventName == "Login" || e.EventName == "GuestLogin") && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
                 token);
 
             var groups = loginRecords.GroupBy(e => e.CreatedTime.Date).ToList();
