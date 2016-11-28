@@ -188,8 +188,11 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
 
             var users = await this.UCenterDatabase.Accounts.GetListAsync(u => u.CreatedTime >= startTime && u.CreatedTime <= endTime, token);
             var devices = await this.UCenterDatabase.Devices.GetListAsync(d => d.CreatedTime >= startTime && d.CreatedTime <= endTime, token);
-            var userGroups = users.GroupBy(u => u.CreatedTime.Date).ToList();
-            var deviceGroups = devices.GroupBy(d => d.CreatedTime.Date).ToList();
+            var userGroups = users.GroupBy(u => u.CreatedTime.ToLocalTime().Date).ToList();
+            var deviceGroups = devices.GroupBy(d => d.CreatedTime.ToLocalTime().Date).ToList();
+
+            startTime = startTime.ToLocalTime();
+            endTime = endTime.ToLocalTime();
             var result = new ChartData();
             var userData = new List<float>();
             var deviceData = new List<float>();
@@ -239,10 +242,12 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 e => (e.EventName == "Login" || e.EventName == "GuestLogin") && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
                 token);
 
-            var groups = loginRecords.GroupBy(e => e.CreatedTime.Date).ToList();
+            var groups = loginRecords.GroupBy(e => e.CreatedTime.ToLocalTime().Date).ToList();
 
             var result = new ChartData();
             var datas = new List<float>();
+            startTime = startTime.ToLocalTime();
+            endTime = endTime.ToLocalTime();
             for (var date = startTime.Date; date <= endTime.Date; date = date.AddDays(1))
             {
                 var group = groups.FirstOrDefault(g => g.Key == date);
@@ -382,14 +387,14 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
                 e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= lastDay,
                 token);
 
-            var groups = loginRecords.GroupBy(e => e.CreatedTime.Date).ToList();
+            var groups = loginRecords.GroupBy(e => e.CreatedTime.ToLocalTime().Date).ToList();
             var dayDatas = new List<float>();
             var last7Datas = new List<float>();
             var last30Datas = new List<float>();
             var labels = new List<string>();
 
-            var startDate = startTime.Date;
-            var endDate = endTime.Date;
+            var startDate = startTime.ToLocalTime().Date;
+            var endDate = endTime.ToLocalTime().Date;
 
             Func<DateTime, int, float> getStay = (dateTime, days) =>
              {
