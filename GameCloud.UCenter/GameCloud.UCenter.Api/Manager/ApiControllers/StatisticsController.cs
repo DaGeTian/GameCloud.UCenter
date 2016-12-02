@@ -186,8 +186,10 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();
             var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow.Date).ToUniversalTime();
 
-            var users = await this.UCenterDatabase.Accounts.GetListAsync(u => u.CreatedTime >= startTime && u.CreatedTime <= endTime, token);
-            var devices = await this.UCenterDatabase.Devices.GetListAsync(d => d.CreatedTime >= startTime && d.CreatedTime <= endTime, token);
+            // should always query to the day next to endTime.
+            var queryEndTime = endTime.AddDays(1);
+            var users = await this.UCenterDatabase.Accounts.GetListAsync(u => u.CreatedTime >= startTime && u.CreatedTime < queryEndTime, token);
+            var devices = await this.UCenterDatabase.Devices.GetListAsync(d => d.CreatedTime >= startTime && d.CreatedTime < queryEndTime, token);
             var userGroups = users.GroupBy(u => u.CreatedTime.ToLocalTime().Date).ToList();
             var deviceGroups = devices.GroupBy(d => d.CreatedTime.ToLocalTime().Date).ToList();
 
@@ -238,8 +240,11 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();
             var endTime = request.GetParameterValue<DateTime>("endDate", DateTime.UtcNow.Date).ToUniversalTime();
 
+            // for the end time, we should always add 1 day.
+            var queryEndTime = endTime.AddDays(1);
+
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
-                e => (e.EventName == "Login" || e.EventName == "GuestLogin") && e.CreatedTime >= startTime && e.CreatedTime <= endTime,
+                e => (e.EventName == "Login" || e.EventName == "GuestLogin") && (e.CreatedTime >= startTime && e.CreatedTime < queryEndTime),
                 token);
 
             var groups = loginRecords.GroupBy(e => e.CreatedTime.ToLocalTime().Date).ToList();

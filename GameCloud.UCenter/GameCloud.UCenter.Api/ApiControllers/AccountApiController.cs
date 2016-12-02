@@ -354,7 +354,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
 
             await LogDeviceInfo(info.Device, token);
-            
+
             var response = new GuestAccessResponse
             {
                 AccountId = accountEntity.Id,
