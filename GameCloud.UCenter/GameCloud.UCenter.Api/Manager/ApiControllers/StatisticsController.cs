@@ -188,7 +188,9 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
 
             // should always query to the day next to endTime.
             var queryEndTime = endTime.AddDays(1);
-            var users = await this.UCenterDatabase.Accounts.GetListAsync(u => u.CreatedTime >= startTime && u.CreatedTime < queryEndTime, token);
+            var users = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
+                e => (e.EventName == "Register" || e.EventName == "GuestRegister") && (e.CreatedTime >= startTime && e.CreatedTime < queryEndTime),
+                token);
             var devices = await this.UCenterDatabase.Devices.GetListAsync(d => d.CreatedTime >= startTime && d.CreatedTime < queryEndTime, token);
             var userGroups = users.GroupBy(u => u.CreatedTime.ToLocalTime().Date).ToList();
             var deviceGroups = devices.GroupBy(d => d.CreatedTime.ToLocalTime().Date).ToList();
