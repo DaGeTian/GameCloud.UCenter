@@ -616,18 +616,25 @@ namespace GameCloud.UCenter.Api.ApiControllers
         {
             if (device == null) return;
 
-            var deviceEntity = new DeviceEntity()
+            var deviceEntity = await this.Database.Devices.GetSingleAsync(d => d.Id == device.Id, token);
+            if (deviceEntity == null)
             {
-                Id = device.Id,
-                Name = device.Name,
-                Type = device.Type,
-                Model = device.Model,
-                OperationSystem = device.OperationSystem
-            };
-
-            // todo: the event trace not handle device exists problem.
-            await this.Database.Devices.UpsertAsync(deviceEntity, token);
-            // await this.eventTrace.TraceEvent<DeviceEntity>(deviceEntity, token);
+                deviceEntity = new DeviceEntity()
+                {
+                    Id = device.Id,
+                    Name = device.Name,
+                    Type = device.Type,
+                    Model = device.Model,
+                    OperationSystem = device.OperationSystem
+                };
+                await this.Database.Devices.InsertAsync(deviceEntity, token);
+            }
+            else
+            {
+                var filterDefinition = Builders<DeviceEntity>.Filter.Where(e => e.Id == deviceEntity.Id);
+                var updateDefinition = Builders<DeviceEntity>.Update.Set(e => e.UpdatedTime, DateTime.UtcNow);
+                await this.Database.Devices.UpdateOneAsync(deviceEntity, filterDefinition, updateDefinition, token);
+            }
         }
 
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
