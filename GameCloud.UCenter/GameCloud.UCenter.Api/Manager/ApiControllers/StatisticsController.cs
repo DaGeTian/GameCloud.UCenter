@@ -391,7 +391,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         {
             var lastDay = endTime.AddDays(30);
             var loginRecords = await this.UCenterEventDatabase.AccountEvents.GetListAsync(
-                e => e.EventName == "Login" && e.CreatedTime >= startTime && e.CreatedTime <= lastDay,
+                e => (e.EventName == "Login" || e.EventName == "GuestLogin") && (e.CreatedTime >= startTime && e.CreatedTime <= lastDay),
                 token);
 
             var groups = loginRecords.GroupBy(e => e.CreatedTime.ToLocalTime().Date).ToList();
