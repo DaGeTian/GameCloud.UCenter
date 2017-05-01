@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    @await Html.PartialAsync("_NavPartial")
+    @RenderBody()
+</div>
+
+@await Html.PartialAsync("_ScriptsLayout")
+@RenderSection("scripts", required: false)

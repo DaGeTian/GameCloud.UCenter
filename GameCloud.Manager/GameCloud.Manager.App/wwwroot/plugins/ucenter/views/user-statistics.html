@@ -1,0 +1,94 @@
+﻿{{params}}
+<div class="row">
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-addon">统计类型</span>
+            <select name="type" ng-init="params.type = 'day'" class="form-control" ng-model="params.type">
+                <option value="day" selected>日</option>
+                <option value="week">周</option>
+                <option value="month">月</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-addon">起始日期</span>
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="params.startDate" is-open="startDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="startDateOpened=true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="startDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+        <div uib-timepicker ng-model="params.startTime" ng-change="changed()" show-meridian="ismeridian"></div>
+    </div>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-addon">结束日期</span>
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="params.endDate" is-open="endDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="endDateOpened=true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="endDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+        <div uib-timepicker ng-model="params.endTime" ng-change="changed()" show-meridian="ismeridian"></div>
+    </div>
+    <div class="col-sm-3">
+        <button class="btn btn-primary" ng-click="_fetch()"><i class="glyphicon glyphicon-search"></i> 查询</button>
+        <button class="btn btn-info" ng-click="showDetails=!showDetails">显示数据</button>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>留存率</h3>
+                        <p>
+                            <canvas class="chart chart-bar"
+                                    chart-options="options"
+                                    chart-data="data.remainRate.data"
+                                    chart-labels="data.remainRate.labels"
+                                    chart-series="data.remainRate.series"
+                                    chart-dataset-override="data.remainRate.overrides"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>流失率</h3>
+                        <p>
+                            <canvas class="chart chart-line"
+                                    chart-data="data.lostRate.data"
+                                    chart-labels="data.lostRate.labels"
+                                    chart-series="data.lostRate.series"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>生命周期</h3>
+                        <p>
+                            <canvas class="chart chart-line"
+                                    chart-data="data.lifeCycle.data"
+                                    chart-labels="data.lifeCycle.labels"
+                                    chart-series="data.lifeCycle.series"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <code ng-show="showDetails" style="word-wrap:break-word">
+            {{data}}
+        </code>
+    </div>
+</div>

@@ -25,7 +25,7 @@ namespace GameCloud.UCenter.Api
                 .UseStartup<Startup>();
 
 #if DEBUG
-            builder.UseUrls("http://localhost:5001");
+            builder.UseUrls("http://localhost:5000");
 #endif
             var host = builder.Build();
             host.Run();

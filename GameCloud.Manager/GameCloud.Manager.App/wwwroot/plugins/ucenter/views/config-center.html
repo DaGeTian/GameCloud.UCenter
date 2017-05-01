@@ -1,0 +1,14 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th class="col-md-3">配置名称d</th>
+            <th class="col-md-9">配置值</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data">
+            <td>{{row.key}}</td>
+            <td><input type="text" class="form-control" ng-model="row.value" /></td>
+        </tr>
+    </tbody>
+</table>

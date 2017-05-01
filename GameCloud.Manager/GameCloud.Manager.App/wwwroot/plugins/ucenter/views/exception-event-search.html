@@ -1,0 +1,20 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>异常消息</th>
+            <th>异常StackTrace</th>
+            <th>时间</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.message}}</td>
+            <td>{{row.stackTrace}}</td>
+            <td>{{row.createdTime|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="delete(row)"><i class="fa fa-remove"></i> Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

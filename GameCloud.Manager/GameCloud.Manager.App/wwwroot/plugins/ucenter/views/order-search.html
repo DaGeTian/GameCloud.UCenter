@@ -1,0 +1,26 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Amount</th>
+            <th>Channel</th>
+            <th>Currency</th>
+            <th>Subject</th>
+            <th>Body</th>
+            <th>ClientIp</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.id}}</td>
+            <td>{{row.amount}}</td>
+            <td>{{row.channel}}</td>
+            <td>{{row.currency}}</td>
+            <td>{{row.subject}}</td>
+            <td>{{row.body}}</td>
+            <td>{{row.clientIp}}</td>
+            <td>{{row.createdTime|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3739162B-9473-44C4-9DDE-76824D893C67}"
 EndProject
@@ -46,6 +46,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.Database", "..\Share\GameCloud.Database\GameCloud.Database.csproj", "{205BF64D-9B8A-4674-8C19-BD4B978D51DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.Common", "..\Share\GameCloud.Common\GameCloud.Common.csproj", "{52FB10A4-D86A-4688-B24F-59A52620ED92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager", "Manager", "{6021E767-E34F-475D-9A71-A647BCBEF7D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCloud.Manager.App", "..\GameCloud.Manager\GameCloud.Manager.App\GameCloud.Manager.App.csproj", "{57306FD0-7DF4-40C5-B7BB-770656F64AEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.Manager.Database", "..\GameCloud.Manager\GameCloud.Manager.Database\GameCloud.Manager.Database.csproj", "{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +111,14 @@ Global
 		{52FB10A4-D86A-4688-B24F-59A52620ED92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52FB10A4-D86A-4688-B24F-59A52620ED92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52FB10A4-D86A-4688-B24F-59A52620ED92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57306FD0-7DF4-40C5-B7BB-770656F64AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57306FD0-7DF4-40C5-B7BB-770656F64AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57306FD0-7DF4-40C5-B7BB-770656F64AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57306FD0-7DF4-40C5-B7BB-770656F64AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,5 +137,7 @@ Global
 		{D7F3F909-A14F-4A3E-899C-037219213F5D} = {EED754DD-5382-4B4D-BAB0-90B9B44EC830}
 		{205BF64D-9B8A-4674-8C19-BD4B978D51DF} = {E81B8884-9274-4C61-9235-3BC507AABCE8}
 		{52FB10A4-D86A-4688-B24F-59A52620ED92} = {BEB753AA-E31F-42B5-A3EF-701750AC9CE1}
+		{57306FD0-7DF4-40C5-B7BB-770656F64AEE} = {6021E767-E34F-475D-9A71-A647BCBEF7D9}
+		{A2EC0BB9-A07F-464A-AB94-F5CA2DDEC2DE} = {6021E767-E34F-475D-9A71-A647BCBEF7D9}
 	EndGlobalSection
 EndGlobal
