@@ -17,11 +17,13 @@ namespace GameCloud.UCenter.Web.Common.Storage
     [Export(typeof(AliyunStorageContext))]
     public class AliyunStorageContext : IStorageContext
     {
+        //---------------------------------------------------------------------
         private readonly OssClient client;
         private readonly Settings settings;
         private readonly string bucketName;
         private bool bucketCreated = false;
 
+        //---------------------------------------------------------------------
         [ImportingConstructor]
         public AliyunStorageContext(Settings settings)
         {
@@ -34,11 +36,13 @@ namespace GameCloud.UCenter.Web.Common.Storage
 
         }
 
+        //---------------------------------------------------------------------
         public Task<string> CopyBlobAsync(string sourceBlobName, string targetBlobName, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
+        //---------------------------------------------------------------------
         public async Task<string> UploadBlobAsync(string blobName, Stream stream, CancellationToken token)
         {
             try
@@ -58,11 +62,14 @@ namespace GameCloud.UCenter.Web.Common.Storage
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
+
                 CustomTrace.TraceError(ex, "Error while upload file to ali oss");
                 throw;
             }
         }
 
+        //---------------------------------------------------------------------
         private void CreateBucketIfNotExists()
         {
             if (!this.bucketCreated && !this.client.DoesBucketExist(this.bucketName))

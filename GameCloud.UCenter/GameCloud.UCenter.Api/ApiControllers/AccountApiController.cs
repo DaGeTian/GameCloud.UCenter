@@ -27,24 +27,16 @@ using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Api.ApiControllers
 {
-    /// <summary>
-    /// UCenter account API controller
-    /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountApiController : ApiControllerBase
     {
+        //---------------------------------------------------------------------
         private readonly Settings settings;
         private readonly IStorageContext storageContext;
         private readonly EventTrace eventTrace;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountApiController" /> class.
-        /// </summary>
-        /// <param name="database">The database context.</param>
-        /// <param name="settings">The UCenter settings.</param>
-        /// <param name="storageContext">The storage account context.</param>
-        /// <param name="eventTrace">The event trace instance.</param>
+        //---------------------------------------------------------------------
         [ImportingConstructor]
         public AccountApiController(
             UCenterDatabaseContext database,
@@ -58,12 +50,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             this.eventTrace = eventTrace;
         }
 
-        /// <summary>
-        /// Register account.
-        /// </summary>
-        /// <param name="info">Indicating the account information.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/register")]
         public async Task<IActionResult> Register([FromBody]AccountRegisterRequestInfo info, CancellationToken token)
@@ -193,12 +180,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
-        /// <summary>
-        /// Login account.
-        /// </summary>
-        /// <param name="info">Indicating the account information.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/login")]
         public async Task<IActionResult> Login([FromBody]AccountLoginInfo info, CancellationToken token)
@@ -207,6 +189,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             {
                 throw new UCenterException(UCenterErrorCode.InvalidAccountName);
             }
+
+            Console.WriteLine("Login AccName={0}", info.AccountName);
 
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
@@ -244,11 +228,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
         }
 
-        /// <summary>
-        /// Get WeChat OAuth access token
-        /// </summary>
-        /// <param name = "token" > Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/oauth/wechat/accessToken")]
         public async Task<IActionResult> WeChatLogin(AccountWeChatOAuthInfo info, CancellationToken token)
@@ -298,12 +278,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
-        /// <summary>
-        /// Guest account login.
-        /// </summary>
-        /// <param name="info">Indicating the account information.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/guestaccess")]
         public async Task<IActionResult> GuestAccess([FromBody]GuestAccessInfo info, CancellationToken token)
@@ -366,51 +341,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return this.CreateSuccessResult(response);
         }
 
-        /// <summary>
-        /// Convert guest to account.
-        /// </summary>
-        /// <param name="info">Indicating the account information.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
-        //[HttpPost]
-        //[Route("api/accounts/guestconvert")]
-        //public async Task<IActionResult> GuestConvert([FromBody]GuestConvertInfo info, CancellationToken token)
-        //{
-        //    var accountEntity = await this.GetAndVerifyAccount(info.AccountId, token);
-
-        //    accountEntity.AccountName = info.AccountName;
-        //    accountEntity.AccountType = AccountType.NormalAccount;
-        //    accountEntity.Name = info.Name;
-        //    accountEntity.Identity = info.Identity;
-        //    accountEntity.Password = EncryptHelper.ComputeHash(info.Password);
-        //    accountEntity.SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword);
-        //    accountEntity.Phone = info.Phone;
-        //    accountEntity.Email = info.Email;
-        //    accountEntity.Gender = info.Gender;
-        //    await this.Database.Accounts.UpsertAsync(accountEntity, token);
-
-        //    try
-        //    {
-        //        await this.Database.GuestDevices.DeleteAsync(
-        //            d => d.AppId == info.AppId && d.AccountId == info.AccountId,
-        //            token);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CustomTrace.TraceError(ex, "Error to remove guest device");
-        //    }
-
-        //    await this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
-
-        //    return this.CreateSuccessResult(this.ToResponse<AccountRegisterResponse>(accountEntity));
-        //}
-
-        /// <summary>
-        /// Reset account password.
-        /// </summary>
-        /// <param name="info">Indicating the account information.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/resetpassword")]
         public async Task<IActionResult> ResetPassword([FromBody]AccountResetPasswordInfo info, CancellationToken token)
@@ -445,21 +376,19 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return this.CreateSuccessResult(this.ToResponse<AccountResetPasswordResponse>(accountEntity));
         }
 
-        /// <summary>
-        /// Upload account profile image.
-        /// </summary>
-        /// <param name="accountId">Indicating the account Id.</param>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/{accountId}/upload")]
         public async Task<IActionResult> UploadProfileImage(string accountId, IFormFile file, CancellationToken token)
         {
+            Console.WriteLine("UploadProfileImage AccId={0}", accountId);
+
             var account = await this.GetAndVerifyAccount(accountId, token);
 
             using (var stream = file.OpenReadStream())
             {
                 var image = Image.FromStream(stream);
+
                 using (var thumbnailStream = this.GetThumbprintStream(image))
                 {
                     var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
@@ -478,11 +407,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
-        /// <summary>
-        /// Get client IP area.
-        /// </summary>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         //[HttpGet]
         //[Route("api/accounts/ip")]
         //public IActionResult GetClientIp(CancellationToken token)
@@ -491,11 +416,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         //    return this.CreateSuccessResult(ipAddress);
         //}
 
-        /// <summary>
-        /// Generate token and login account
-        /// </summary>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         private async Task AccountLoginAsync(AccountEntity accountEntity, CancellationToken token)
         {
             if (accountEntity.AccountStatus == AccountStatus.Disabled)
@@ -519,6 +440,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.Database.Accounts.UpdateOneAsync<AccountEntity>(accountEntity, filter, update, token);
         }
 
+        //---------------------------------------------------------------------
         private async Task TraceAccountErrorAsync(
             AccountEntity account,
             UCenterErrorCode code,
@@ -544,6 +466,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
         }
 
+        //---------------------------------------------------------------------
         private async Task TraceAccountErrorAsync(
             string AccountName,
             UCenterErrorCode code,
@@ -566,6 +489,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.eventTrace.TraceEvent<AccountErrorEventEntity>(accountErrorEvent, token);
         }
 
+        //---------------------------------------------------------------------
         private async Task TraceAccountEvent(
             AccountEntity account,
             string eventName,
@@ -599,6 +523,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.eventTrace.TraceEvent(accountEventEntity, token);
         }
 
+        //---------------------------------------------------------------------
         private void EnsureDeviceInfo(DeviceInfo device)
         {
             if (device == null)
@@ -612,6 +537,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
+        //---------------------------------------------------------------------
         private async Task LogDeviceInfo(DeviceInfo device, CancellationToken token)
         {
             if (device == null) return;
@@ -637,6 +563,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
+        //---------------------------------------------------------------------
         private async Task<AccountEntity> GetAndVerifyAccount(string accountId, CancellationToken token)
         {
             var account = await this.Database.Accounts.GetSingleAsync(accountId, token);
@@ -654,6 +581,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return account;
         }
 
+        //---------------------------------------------------------------------
         private TResponse ToResponse<TResponse>(AccountEntity entity) where TResponse : AccountRequestResponse
         {
             var res = new AccountResponse
@@ -679,6 +607,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return response;
         }
 
+        //---------------------------------------------------------------------
         private Stream GetThumbprintStream(Image sourceImage)
         {
             var stream = new MemoryStream();
@@ -704,6 +633,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return stream;
         }
 
+        //---------------------------------------------------------------------
         private KeyPlaceholderEntity GenerateKeyPlaceholder(string name, KeyType type, string accountId, string accountName)
         {
             return new KeyPlaceholderEntity
@@ -716,6 +646,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             };
         }
 
+        //---------------------------------------------------------------------
         private void ValidateAccount(AccountRegisterRequestInfo account)
         {
             string accountNamePattern = @"^[a-zA-Z0-9.@]*$";

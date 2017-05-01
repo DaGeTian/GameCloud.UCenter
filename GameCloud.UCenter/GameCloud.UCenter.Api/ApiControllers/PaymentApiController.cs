@@ -21,22 +21,15 @@ using Pingpp.Models;
 
 namespace GameCloud.UCenter.Api.ApiControllers
 {
-    /// <summary>
-    /// UCenter payment api controller
-    /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class PaymentApiController : ApiControllerBase
     {
+        //---------------------------------------------------------------------
         private readonly Settings settings;
         private readonly EventTrace eventTrace;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentApiController" /> class.
-        /// </summary>
-        /// <param name="database">The database context.</param>
-        /// <param name="settings">The UCenter settings.</param>
-        /// <param name="eventTrace">The event trace instance.</param>
+        //---------------------------------------------------------------------
         [ImportingConstructor]
         public PaymentApiController(
             UCenterDatabaseContext database,
@@ -48,11 +41,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             this.eventTrace = eventTrace;
         }
 
-        /// <summary>
-        /// Create a payment charge
-        /// </summary>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/payments")]
         public async Task<IActionResult> CreateCharge([FromBody]PaymentInfo info, CancellationToken token)
@@ -113,11 +102,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             return this.CreateSuccessResult(response);
         }
 
-        /// <summary>
-        /// Create a payment charge
-        /// </summary>
-        /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async task.</returns>
+        //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/payments/callback")]
         public async Task<IActionResult> PaymentWebhook([FromBody]CallbackInfo info, CancellationToken token)
@@ -142,6 +127,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
         }
 
+        //---------------------------------------------------------------------
         private async Task CreateOrderAsync(CancellationToken token)
         {
             var orderEntity = new OrderEntity
@@ -153,6 +139,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.Database.Orders.InsertAsync(orderEntity, token);
         }
 
+        //---------------------------------------------------------------------
         private async Task UpdateOrderAsync(CallbackInfo info, CancellationToken token)
         {
             var orderEntity = await this.Database.Orders.GetSingleAsync(o => o.Id == info.Id, token) ?? new OrderEntity
@@ -171,6 +158,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             await this.Database.Orders.UpsertAsync(orderEntity, token);
         }
 
+        //---------------------------------------------------------------------
         private string VerifySignedHash(string str_DataToVerify, string str_SignedData, string str_publicKeyFilePath)
         {
             byte[] SignedData = Convert.FromBase64String(str_SignedData);
@@ -200,6 +188,5 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 return "verify error";
             }
         }
-
     }
 }
