@@ -40,7 +40,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         {
         }
 
-        [HttpPost, Route("api/manager/newusers")]
+        [HttpPost, Route("api/ucenter/newusers")]
         public async Task<NewUserStatisticsData> NewUsers([FromBody]PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
@@ -52,7 +52,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return result;
         }
 
-        [HttpPost, Route("api/manager/userstatistics")]
+        [HttpPost, Route("api/ucenter/userstatistics")]
         public async Task<UserStatisticsData> UserStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startDate = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
@@ -132,7 +132,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             };
         }
 
-        [HttpPost, Route("api/manager/userstatistics2")]
+        [HttpPost, Route("api/ucenter/userstatistics2")]
         public async Task<ChartData> UserStatistics2([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.AddYears(-1)).ToUniversalTime();
@@ -143,7 +143,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return await this.GetStayLostStatisticsData(startTime, endTime, type, isStay, token);
         }
 
-        [HttpPost, Route("api/manager/hourlystatistics")]
+        [HttpPost, Route("api/ucenter/hourlystatistics")]
         public async Task<ChartData> NewUserStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var today = DateTime.UtcNow.Date;
@@ -180,7 +180,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
 
         #region <<<<<<<<<<<<<<<<<<<<<<<<< The final version.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-        [HttpPost, Route("api/manager/newusersanddevices")]
+        [HttpPost, Route("api/ucenter/newusersanddevices")]
         public async Task<ChartData> NewUserAndDeviceStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();
@@ -218,7 +218,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return result;
         }
 
-        [HttpPost, Route("api/manager/staystatistics")]
+        [HttpPost, Route("api/ucenter/staystatistics")]
         public async Task<ChartData> StayStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();
@@ -227,7 +227,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return await this.GetStayLostStatisticsData2(startTime, endTime, true, token);
         }
 
-        [HttpPost, Route("api/manager/loststatistics")]
+        [HttpPost, Route("api/ucenter/loststatistics")]
         public async Task<ChartData> LostStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();
@@ -236,7 +236,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             return await this.GetStayLostStatisticsData2(startTime, endTime, false, token);
         }
 
-        [HttpPost, Route("api/manager/activeusers")]
+        [HttpPost, Route("api/ucenter/activeusers")]
         public async Task<ChartData> ActiveUserStatistics([FromBody] PluginRequestInfo request, CancellationToken token)
         {
             var startTime = request.GetParameterValue<DateTime>("startDate", DateTime.UtcNow.Date.AddDays(-7)).ToUniversalTime();

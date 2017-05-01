@@ -43,7 +43,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
-        [Route("api/manager/apps")]
+        [Route("api/ucenter/apps")]
         public async Task<PluginPaginationResponse<AppEntity>> Post([FromBody]SearchRequestInfo<AppEntity> request, CancellationToken token)
         {
             if (request.Method == PluginRequestMethod.Update)

@@ -39,7 +39,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         }
 
         [HttpPost]
-        [Route("api/manager/configcenter")]
+        [Route("api/ucenter/configcenter")]
         public IReadOnlyList<PluginAppSetting> ManageAppSettings([FromBody]UpdateRequestInfo<PluginAppSetting[]> request)
         {
             if (request.Method == PluginRequestMethod.Read)

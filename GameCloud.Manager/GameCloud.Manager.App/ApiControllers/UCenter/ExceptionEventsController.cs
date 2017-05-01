@@ -20,16 +20,16 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class DevicesController : ManagerApiControllerBase
+    public class ExceptionEventsController : ManagerApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DevicesController" /> class.
+        /// Initializes a new instance of the <see cref="ExceptionEventsController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public DevicesController(
+        public ExceptionEventsController(
             UCenterDatabaseContext ucenterDb,
             UCenterEventDatabaseContext ucenterventDb,
             Settings settings)
@@ -43,33 +43,43 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
-        [Route("api/manager/devices")]
-        public async Task<PluginPaginationResponse<DeviceEntity>> Post([FromBody]SearchRequestInfo<DeviceEntity> request, CancellationToken token)
+        [Route("api/ucenter/exceptionEvents")]
+        public async Task<PluginPaginationResponse<ExceptionEventEntity>> Post([FromBody]SearchRequestInfo<ExceptionEventEntity> request, CancellationToken token)
         {
+            if (request.Method == PluginRequestMethod.Delete)
+            {
+                var deleteRawData = request.RawData;
+                if (deleteRawData != null)
+                {
+                    await this.UCenterEventDatabase.ExceptionEvents.DeleteAsync(
+                        v => v.Id == deleteRawData.Id, token);
+                }
+            }
+
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
             int count = request.GetParameterValue<int>("pageSize", 10);
 
-            Expression<Func<DeviceEntity, bool>> filter = null;
+            Expression<Func<ExceptionEventEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = a => a.Id.Contains(keyword);
+                filter = a => a.Message.Contains(keyword);
             }
 
-            var total = await this.UCenterDatabase.Devices.CountAsync(filter, token);
+            var total = await this.UCenterEventDatabase.ExceptionEvents.CountAsync(filter, token);
 
-            IQueryable<DeviceEntity> queryable = this.UCenterDatabase.Devices.Collection.AsQueryable();
+            IQueryable<ExceptionEventEntity> queryable = this.UCenterEventDatabase.ExceptionEvents.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
             }
-            queryable = queryable.OrderByDescending(d => d.CreatedTime);
+            queryable = queryable.OrderByDescending(e => e.CreatedTime);
 
             var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PluginPaginationResponse<DeviceEntity>
+            var model = new PluginPaginationResponse<ExceptionEventEntity>
             {
                 Page = page,
                 PageSize = count,

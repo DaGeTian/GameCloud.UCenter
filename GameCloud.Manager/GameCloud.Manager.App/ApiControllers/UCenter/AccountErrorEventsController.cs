@@ -43,7 +43,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
-        [Route("api/manager/accountErrorEvents")]
+        [Route("api/ucenter/accountErrorEvents")]
         public async Task<PluginPaginationResponse<AccountErrorEventEntity>> Post([FromBody]SearchRequestInfo<AccountErrorEventEntity> request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");

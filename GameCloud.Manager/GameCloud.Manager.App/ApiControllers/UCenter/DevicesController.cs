@@ -20,16 +20,16 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class OrdersController : ManagerApiControllerBase
+    public class DevicesController : ManagerApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrdersController" /> class.
+        /// Initializes a new instance of the <see cref="DevicesController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public OrdersController(
+        public DevicesController(
             UCenterDatabaseContext ucenterDb,
             UCenterEventDatabaseContext ucenterventDb,
             Settings settings)
@@ -43,23 +43,23 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// <param name="request">Indicating the count.</param>
         /// <param name="token">Indicating the cancellation token.</param>
         /// <returns>Async return user list.</returns>
-        [Route("api/manager/orders")]
-        public async Task<PluginPaginationResponse<OrderEntity>> Post([FromBody]SearchRequestInfo<OrderEntity> request, CancellationToken token)
+        [Route("api/ucenter/devices")]
+        public async Task<PluginPaginationResponse<DeviceEntity>> Post([FromBody]SearchRequestInfo<DeviceEntity> request, CancellationToken token)
         {
             string keyword = request.GetParameterValue<string>("keyword");
             int page = request.GetParameterValue<int>("page", 1);
             int count = request.GetParameterValue<int>("pageSize", 10);
 
-            Expression<Func<OrderEntity, bool>> filter = null;
+            Expression<Func<DeviceEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
                 filter = a => a.Id.Contains(keyword);
             }
 
-            var total = await this.UCenterDatabase.Orders.CountAsync(filter, token);
+            var total = await this.UCenterDatabase.Devices.CountAsync(filter, token);
 
-            IQueryable<OrderEntity> queryable = this.UCenterDatabase.Orders.Collection.AsQueryable();
+            IQueryable<DeviceEntity> queryable = this.UCenterDatabase.Devices.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
@@ -69,7 +69,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PluginPaginationResponse<OrderEntity>
+            var model = new PluginPaginationResponse<DeviceEntity>
             {
                 Page = page,
                 PageSize = count,

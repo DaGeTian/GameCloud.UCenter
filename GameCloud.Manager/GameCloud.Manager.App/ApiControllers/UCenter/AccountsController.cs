@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,11 +7,9 @@ using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
 using GameCloud.Manager.PluginContract.Requests;
 using GameCloud.Manager.PluginContract.Responses;
-using GameCloud.UCenter.Api.Manager.Models;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
-using GameCloud.UCenter.Manager.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -23,16 +20,16 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
     /// </summary>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountEventsController : ManagerApiControllerBase
+    public class AccountsController : ManagerApiControllerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountEventsController" /> class.
+        /// Initializes a new instance of the <see cref="AccountsController" /> class.
         /// </summary>
         /// <param name="ucenterDb">Indicating the database context.</param>
         /// <param name="ucenterventDb">Indicating the database context.</param>
         /// <param name="settings">Indicating the settings.</param>
         [ImportingConstructor]
-        public AccountEventsController(
+        public AccountsController(
             UCenterDatabaseContext ucenterDb,
             UCenterEventDatabaseContext ucenterventDb,
             Settings settings)
@@ -45,24 +42,37 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
         /// </summary>
         /// <param name="request">Indicating the count.</param>
         /// <param name="token">Indicating the cancellation token.</param>
-        /// <returns>Async return account event list.</returns>
-        [Route("api/manager/accountEvents")]
-        public async Task<PluginPaginationResponse<AccountEventEntity>> AccountEvents([FromBody]SearchRequestInfo<AccountEventEntity> request, CancellationToken token)
+        /// <returns>Async return user list.</returns>
+        [Route("api/ucenter/accounts")]
+        public async Task<PluginPaginationResponse<AccountEntity>> Post([FromBody]SearchRequestInfo<AccountEntity> request, CancellationToken token)
         {
-            string keyword = request.GetParameterValue<string>("keyword");
-            int page = request.GetParameterValue<int>("page", 1);
-            int count = request.GetParameterValue<int>("pageSize", 10);
+            if (request.Method == PluginRequestMethod.Update)
+            {
+                var updateRawData = request.RawData;
+                if (updateRawData != null)
+                {
+                    var filterDefinition = Builders<AccountEntity>.Filter.Where(e => e.Id == updateRawData.Id);
+                    var updateDefinition = Builders<AccountEntity>.Update.Set(e => e.AccountStatus, updateRawData.AccountStatus);
+                    await this.UCenterDatabase.Accounts.UpdateOneAsync(updateRawData, filterDefinition, updateDefinition, token);
+                }
+            }
 
-            Expression<Func<AccountEventEntity, bool>> filter = null;
+            string keyword = request.Keyword;
+            int page = request.Page;
+            int count = request.PageSize;
+
+            Expression<Func<AccountEntity, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                filter = a => a.AccountName.Contains(keyword);
+                filter = a => a.AccountName.Contains(keyword)
+                    || a.Email.Contains(keyword)
+                    || a.Phone.Contains(keyword);
             }
 
-            var total = await this.UCenterEventDatabase.AccountEvents.CountAsync(filter, token);
+            var total = await this.UCenterDatabase.Accounts.CountAsync(filter, token);
 
-            IQueryable<AccountEventEntity> queryable = this.UCenterEventDatabase.AccountEvents.Collection.AsQueryable();
+            IQueryable<AccountEntity> queryable = this.UCenterDatabase.Accounts.Collection.AsQueryable();
             if (filter != null)
             {
                 queryable = queryable.Where(filter);
@@ -72,7 +82,7 @@ namespace GameCloud.UCenter.Api.Manager.ApiControllers
             var result = queryable.Skip((page - 1) * count).Take(count).ToList();
 
             // todo: add orderby support.
-            var model = new PluginPaginationResponse<AccountEventEntity>
+            var model = new PluginPaginationResponse<AccountEntity>
             {
                 Page = page,
                 PageSize = count,

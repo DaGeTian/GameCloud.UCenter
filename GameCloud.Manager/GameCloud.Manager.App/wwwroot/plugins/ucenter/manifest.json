@@ -1,6 +1,6 @@
 ﻿{
   "Name": "UCenter",
-  "DebugUrl": "http://localhost:5001/api/manager",
+  "DebugUrl": "http://localhost:5001/api/ucenter",
   "Scripts": [
     "ucenter-scripts.js"
   ],

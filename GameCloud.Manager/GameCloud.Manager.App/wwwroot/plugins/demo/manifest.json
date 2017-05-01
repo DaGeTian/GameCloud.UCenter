@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Demo",
   "url": "",
-  "DebugUrl": "http://localhost:5001/api",
+  "DebugUrl": "http://localhost:5001/api/demo",
   "RefreshInterval": 5000,
   "Scripts": [
     "demo-scripts.js"
@@ -16,7 +16,7 @@
           "Name": "table",
           "DisplayName": "分页表格示例",
           "Type": "Table",
-          "Route": "demo/table",
+          "Route": "table",
           "View": "demo-table.html"
         }
       ]
@@ -30,7 +30,7 @@
           "Name": "form",
           "DisplayName": "表单示例",
           "Type": "Form",
-          "Route": "demo/form",
+          "Route": "form",
           "View": "demo-form.html"
         }
       ]
@@ -44,7 +44,7 @@
           "Name": "chart",
           "DisplayName": "图表示例",
           "Type": "Chart",
-          "Route": "demo/chart",
+          "Route": "chart",
           "View": "demo-chart.html"
         }
       ]

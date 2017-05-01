@@ -4,19 +4,22 @@ using System.IO;
 using AspNetCore.WebApp.MongoDB.Services;
 using GameCloud.Common.MEF;
 using GameCloud.Common.Settings;
+using GameCloud.Database;
 using GameCloud.Manager.App.Common;
 using GameCloud.Manager.App.Manager;
+using GameCloud.UCenter.Common.Settings;
+using GameCloud.UCenter.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameCloud.Database;
 
 namespace GameCloud.Manager.App
 {
     public class Startup
     {
+        private readonly ExportProvider exportProvider;
         private readonly PluginManager manager;
 
         public Startup(IHostingEnvironment env)
@@ -27,6 +30,21 @@ namespace GameCloud.Manager.App
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            // MEF initiliazation
+            this.exportProvider = CompositionContainerFactory.Create();
+            SettingsInitializer.Initialize<Settings>(
+                this.exportProvider,
+                SettingsDefaultValueProvider<Settings>.Default,
+                AppConfigurationValueProvider.Default);
+            SettingsInitializer.Initialize<DatabaseContextSettings>(
+                this.exportProvider,
+                SettingsDefaultValueProvider<DatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
+            SettingsInitializer.Initialize<UCenterEventDatabaseContextSettings>(
+                this.exportProvider,
+                SettingsDefaultValueProvider<UCenterEventDatabaseContextSettings>.Default,
+                AppConfigurationValueProvider.Default);
 
             string path = Path.Combine(env.WebRootPath, "plugins");
             this.manager = new PluginManager(path);
@@ -42,6 +60,11 @@ namespace GameCloud.Manager.App
                 .AddDefaultTokenProviders();
 
             // Add framework services.
+            var settings = this.exportProvider.GetExportedValue<Settings>();
+            services.AddSingleton<Settings>(settings);
+            //services.AddSingleton<EventTrace>(this.exportProvider.GetExportedValue<EventTrace>());
+            services.AddSingleton<UCenterDatabaseContext>(this.exportProvider.GetExportedValue<UCenterDatabaseContext>());
+            services.AddSingleton<UCenterEventDatabaseContext>(this.exportProvider.GetExportedValue<UCenterEventDatabaseContext>());
             services.AddSingleton<PluginManager>(manager);
             services.AddMvc();
 
