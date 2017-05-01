@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html ng-app="pluginApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GameCloud.Manager.App</title>
+
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/metisMenu/metisMenu.css" rel="stylesheet" />
+    <link href="~/css/sb-admin-2.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <environment names="Development">
+    </environment>
+    <environment names="Staging,Production">
+    </environment>
+</head>
+<body>
+    @RenderBody()
+    <hr />
+    <div class="footer">
+        <footer class="footer">
+            <p class="text-center">
+                Copy right &copy; 2016 v @ViewData["BuildVersion"]
+            </p>
+        </footer>
+    </div>
+
+    @* @RenderSection("scripts", required: false)*@
+</body>
+</html>

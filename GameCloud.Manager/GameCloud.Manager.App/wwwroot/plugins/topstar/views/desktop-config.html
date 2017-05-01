@@ -1,0 +1,50 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>抽水率</th>
+            <th>台费</th>
+            <th style="width:100px;">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.sysPumpingRate}}</td>
+            <td>{{row.desktopFee}}</td>
+            <td>
+                <button class="btn btn-primary" ng-click="open(row)"><i class="fa fa-edit"></i> Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <div modal="showModal" close="cancel()">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>编辑信息</h4>                    
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">抽水率</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="sysPumpingRate" ng-model="raw.sysPumpingRate" placeholder="输入抽水率.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">台费</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="desktopFee" ng-model="raw.desktopFee" placeholder="输入台费.">
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-click="save()">保存</button>
+                    <button class="btn" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

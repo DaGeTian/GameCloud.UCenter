@@ -1,0 +1,18 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>{{data[0].recoverDiamondType|enums:'recoverDiamondType'}}</th>
+            <th>{{data[1].recoverDiamondType|enums:'recoverDiamondType'}}</th>
+            <th>{{data[2].recoverDiamondType|enums:'recoverDiamondType'}}</th>
+            <th>总值</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{data[0].totalDiamonds}}</td>
+            <td>{{data[1].totalDiamonds}}</td>
+            <td>{{data[2].totalDiamonds}}</td>
+            <td>{{data[0].totalDiamonds+data[1].totalDiamonds+data[2].totalDiamonds}}</td>
+        </tr>
+    </tbody>
+</table>

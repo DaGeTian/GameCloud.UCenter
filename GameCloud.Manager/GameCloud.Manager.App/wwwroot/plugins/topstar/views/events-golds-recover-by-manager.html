@@ -1,0 +1,21 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>玩家昵称</th>
+            <th>玩家Id</th>
+            <th>变化筹码数</th>
+            <th>变化后筹码总数</th>
+            <th>事件时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.playerNickName}}</td>
+            <td>{{row.playerActorId}}</td>
+            <td>{{row.changeGolds}}</td>
+            <td>{{row.afterChangeGoldsNum}}</td>
+            <td>{{row.eventTm|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>
+

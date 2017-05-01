@@ -1,0 +1,51 @@
+﻿<div class="row">
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-addon">起始日期</span>
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="params.startDate" is-open="startDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="startDateOpened=true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="startDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-addon">结束日期</span>
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="params.endDate" is-open="endDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="endDateOpened=true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="endDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <button class="btn btn-primary" ng-click="today()">今日</button>
+        <button class="btn btn-primary" ng-click="yesterday()">昨日</button>
+        <button class="btn btn-primary" ng-click="lastNDays(-7)">近7天</button>
+        <button class="btn btn-primary" ng-click="lastNDays(-30)">近30天</button>
+        <button class="btn btn-primary" ng-click="lastNDays(-90)">近90天</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-primary" ng-click="sync()"><i class="glyphicon glyphicon-search"></i> 查询</button>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <p>
+                            <canvas class="chart chart-line"
+                                    chart-options="options"
+                                    chart-colors="colors"
+                                    chart-data="data.data"
+                                    chart-labels="data.labels"
+                                    chart-series="data.series"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

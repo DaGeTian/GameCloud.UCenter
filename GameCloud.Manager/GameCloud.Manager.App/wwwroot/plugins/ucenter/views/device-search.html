@@ -1,0 +1,22 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>设备Id</th>
+            <th>设备名称</th>
+            <th>设备类型</th>
+            <th>设备型号</th>
+            <th>设备操作系统</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.type}}</td>
+            <td>{{row.model}}</td>
+            <td>{{row.operationSystem}}</td>
+            <td>{{row.createdTime|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

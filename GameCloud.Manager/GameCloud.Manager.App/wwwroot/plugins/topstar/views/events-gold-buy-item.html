@@ -1,0 +1,26 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>玩家昵称</th>
+            <th>玩家Id</th>
+            <th>礼物对象</th>
+            <th>礼物对象Id</th>
+            <th>礼物TbId</th>
+            <th>花费筹码数</th>
+            <th>购买后筹码总数</th>
+            <th>事件时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.playerNickName}}</td>
+            <td>{{row.playerActorId}}</td>
+            <td>{{row.targetName}}</td>
+            <td>{{row.targetActorId}}</td>
+            <td>{{row.giftTbId}}</td>
+            <td>{{row.costGolds}}</td>
+            <td>{{row.afterBuyGoldsNum}}</td>
+            <td>{{row.eventTm|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,20 @@
+﻿<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>机器人昵称</th>
+            <th>机器人EtGuid</th>
+            <th>初始筹码数</th>
+            <th>初始金币数</th>
+            <th>事件时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data.raws">
+            <td>{{row.playerNickName}}</td>
+            <td>{{row.playerEtGuid}}</td>
+            <td>{{row.giveGoldsNum}}</td>
+            <td>{{row.giveDiamondNum}}</td>
+            <td>{{row.eventTm|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

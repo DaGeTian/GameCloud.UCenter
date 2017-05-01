@@ -1,0 +1,132 @@
+﻿{
+  "Name": "UCenter",
+  "DebugUrl": "http://localhost:5001/api/manager",
+  "Scripts": [
+    "ucenter-scripts.js"
+  ],
+  "Categories": [
+    {
+      "Name": "data",
+      "DisplayName": "数据查看",
+      "Description": "数据查看",
+      "Items": [
+        {
+          "Name": "app-search",
+          "DisplayName": "App列表",
+          "Type": "Table",
+          "Route": "apps",
+          "View": "app-search.html"
+        },
+        {
+          "Name": "app-configuration-search",
+          "DisplayName": "App配置",
+          "Type": "Table",
+          "Route": "appconfigurations",
+          "View": "app-configuration-search.html"
+        },
+        {
+          "Name": "account-search",
+          "DisplayName": "账号列表",
+          "Type": "Table",
+          "Route": "accounts",
+          "View": "account-search.html"
+        },
+        {
+          "Name": "device-search",
+          "DisplayName": "设备列表",
+          "Type": "Table",
+          "Route": "devices",
+          "View": "device-search.html"
+        },
+        {
+          "Name": "order-search",
+          "DisplayName": "Order列表",
+          "Type": "Table",
+          "Route": "orders",
+          "View": "order-search.html"
+        }
+      ]
+    },
+    {
+      "Name": "events",
+      "DisplayName": "事件查看",
+      "Description": "事件管理",
+      "Items": [
+        {
+          "Name": "account-event-search",
+          "DisplayName": "玩家事件",
+          "Type": "Table",
+          "Route": "accountEvents",
+          "View": "account-event-search.html"
+        },
+        {
+          "Name": "account-error-event-search",
+          "DisplayName": "玩家错误事件",
+          "Type": "Table",
+          "Route": "accountErrorEvents",
+          "View": "account-error-event-search.html"
+        },
+        {
+          "Name": "exception-event-search",
+          "DisplayName": "程序异常事件",
+          "Type": "Table",
+          "Route": "exceptionEvents",
+          "View": "exception-event-search.html"
+        }
+      ]
+    },
+    {
+      "Name": "playeranalytics",
+      "DisplayName": "玩家分析",
+      "Description": "玩家分析",
+      "Items": [
+        {
+          "Name": "newusers",
+          "DisplayName": "新增统计",
+          "Type": "Chart",
+          "Route": "newusersanddevices",
+          "Controller": "ucenterStatisticsController",
+          "View": "statistics.html"
+        },
+        {
+          "Name": "staystatistics",
+          "DisplayName": "活跃统计",
+          "Type": "Chart",
+          "Route": "activeusers",
+          "Controller": "ucenterStatisticsController",
+          "View": "statistics.html"
+        },
+        {
+          "Name": "user-staystatistics",
+          "DisplayName": "留存统计",
+          "Type": "Chart",
+          "Route": "staystatistics",
+          "Controller": "ucenterStatisticsController",
+          "View": "statistics.html"
+        },
+        {
+          "Name": "user-loststatistics",
+          "DisplayName": "流失统计",
+          "Type": "Chart",
+          "Route": "loststatistics",
+          "Controller": "ucenterStatisticsController",
+          "View": "statistics.html"
+        }
+      ]
+    },
+    {
+      "Name": "others",
+      "DisplayName": "其他",
+      "Description": "其他",
+      "Items": [
+        {
+          "Name": "config-center",
+          "DisplayName": "配置中心",
+          "Route": "configcenter",
+          "Type": "Form",
+          "View": "config-center.html"
+        }
+      ]
+    }
+  ]
+}
