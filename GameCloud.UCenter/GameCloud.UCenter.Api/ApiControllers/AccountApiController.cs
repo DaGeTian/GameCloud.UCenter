@@ -7,6 +7,11 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using Senparc.Weixin.Open.OAuthAPIs;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Api.Extensions;
 using GameCloud.UCenter.Common;
@@ -20,10 +25,6 @@ using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 
 namespace GameCloud.UCenter.Api.ApiControllers
 {
@@ -230,52 +231,81 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
         //---------------------------------------------------------------------
         [HttpPost]
-        [Route("api/accounts/oauth/wechat/accessToken")]
+        [Route("api/accounts/wechatlogin")]
         public async Task<IActionResult> WeChatLogin(AccountWeChatOAuthInfo info, CancellationToken token)
         {
-            string appId = "Todo_AppId";
-            string appSecret = "Todo_AppSecret";
-            string code = "Todo_Code";
-            string grantType = "authorization_code";
+            OAuthUserInfo user_info = await OAuthApi.GetUserInfoAsync(info.AccessToken, info.OpenId);
 
-            string url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type={grantType}";
-            using (var httpClient = new HttpClient())
+            if (user_info != null)
             {
-                var response = await httpClient.GetAsync(url, token);
-                var accessToken = await response.Content.ReadAsAsync<OAuthTokenResponse>(token);
-                if (accessToken != null && !string.IsNullOrEmpty(accessToken.AccessToken))
-                {
-                    var weChatAccountEntity = await this.Database.WeChatAccounts.GetSingleAsync(a => a.OpenId == accessToken.OpenId, token);
-                    if (weChatAccountEntity == null)
-                    {
-                        weChatAccountEntity = new WeChatAccountEntity()
-                        {
-                            AccountId = info.AccountId,
-                            AppId = info.AppId,
-                            OpenId = accessToken.OpenId,
-                            UnionId = accessToken.UnionId
-                        };
-                        await this.Database.WeChatAccounts.InsertAsync(weChatAccountEntity, token);
-                        var accountEntity = new AccountEntity()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            AccountName = Guid.NewGuid().ToString(),
-                            AccountType = AccountType.Guest,
-                            AccountStatus = AccountStatus.Active,
-                            Token = EncryptHashManager.GenerateToken()
-                        };
-                        await this.Database.Accounts.InsertAsync(accountEntity, token);
-                        return this.CreateSuccessResult(accountEntity);
-                    }
-                    else
-                    {
-                        var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.Id == weChatAccountEntity.AccountId, token);
-                        await AccountLoginAsync(accountEntity, token);
-                        return this.CreateSuccessResult(accountEntity);
-                    }
-                }
-                throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized, "OAuth Token Unauthorized");
+                Console.WriteLine("OpenId=" + user_info.openid);
+                Console.WriteLine("NickName=" + user_info.nickname);
+                Console.WriteLine("Sex=" + user_info.sex);
+                Console.WriteLine("Province=" + user_info.province);
+                Console.WriteLine("City=" + user_info.city);
+                Console.WriteLine("Country=" + user_info.country);
+                Console.WriteLine("Headimgurl=" + user_info.headimgurl);
+                Console.WriteLine("Unionid=" + user_info.unionid);
             }
+            else
+            {
+                Console.WriteLine("OAuthUserInfo为空");
+            }
+
+            var accountEntity = new AccountEntity()
+            {
+                Id = Guid.NewGuid().ToString(),
+                AccountName = Guid.NewGuid().ToString(),
+                AccountType = AccountType.Guest,
+                AccountStatus = AccountStatus.Active,
+                Token = EncryptHashManager.GenerateToken()
+            };
+
+            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
+
+            //string appId = "Todo_AppId";
+            //string appSecret = "Todo_AppSecret";
+            //string code = "Todo_Code";
+            //string grantType = "authorization_code";
+
+            //string url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type={grantType}";
+            //using (var httpClient = new HttpClient())
+            //{
+            //    var response = await httpClient.GetAsync(url, token);
+            //    var accessToken = await response.Content.ReadAsAsync<OAuthTokenResponse>(token);
+            //    if (accessToken != null && !string.IsNullOrEmpty(accessToken.AccessToken))
+            //    {
+            //        var weChatAccountEntity = await this.Database.WeChatAccounts.GetSingleAsync(a => a.OpenId == accessToken.OpenId, token);
+            //        if (weChatAccountEntity == null)
+            //        {
+            //            weChatAccountEntity = new WeChatAccountEntity()
+            //            {
+            //                AccountId = info.AccountId,
+            //                AppId = info.AppId,
+            //                OpenId = accessToken.OpenId,
+            //                UnionId = accessToken.UnionId
+            //            };
+            //            await this.Database.WeChatAccounts.InsertAsync(weChatAccountEntity, token);
+            //            var accountEntity = new AccountEntity()
+            //            {
+            //                Id = Guid.NewGuid().ToString(),
+            //                AccountName = Guid.NewGuid().ToString(),
+            //                AccountType = AccountType.Guest,
+            //                AccountStatus = AccountStatus.Active,
+            //                Token = EncryptHashManager.GenerateToken()
+            //            };
+            //            await this.Database.Accounts.InsertAsync(accountEntity, token);
+            //            return this.CreateSuccessResult(accountEntity);
+            //        }
+            //        else
+            //        {
+            //            var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.Id == weChatAccountEntity.AccountId, token);
+            //            await AccountLoginAsync(accountEntity, token);
+            //            return this.CreateSuccessResult(accountEntity);
+            //        }
+            //    }
+            //    throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized, "OAuth Token Unauthorized");
+            //}
         }
 
         //---------------------------------------------------------------------

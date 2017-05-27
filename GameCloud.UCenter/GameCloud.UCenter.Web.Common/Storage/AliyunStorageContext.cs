@@ -33,13 +33,12 @@ namespace GameCloud.UCenter.Web.Common.Storage
                 settings.AliOssEndpoint,
                 settings.AliOssAccessKeyId,
                 settings.AliOssAccessKeySecret);
-
         }
 
         //---------------------------------------------------------------------
         public Task<string> CopyBlobAsync(string sourceBlobName, string targetBlobName, CancellationToken token)
         {
-            throw new NotImplementedException();
+            return Task.FromResult("");
         }
 
         //---------------------------------------------------------------------

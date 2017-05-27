@@ -14,6 +14,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
     public delegate void OnUCenterRegister(UCenterResponseStatus status, AccountRegisterResponse response, UCenterError error);
     public delegate void OnUCenterLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
+    public delegate void OnUCenterWechatLogin(UCenterResponseStatus status, AccountLoginResponse response, UCenterError error);
     public delegate void OnUCenterGuestAccess(UCenterResponseStatus status, GuestAccessResponse response, UCenterError error);
     public delegate void OnUCenterConvert(UCenterResponseStatus status, GuestConvertResponse response, UCenterError error);
     public delegate void OnUCenterResetPassword(UCenterResponseStatus status, AccountResetPasswordResponse response, UCenterError error);
@@ -27,6 +28,7 @@ namespace GameCloud.UCenter.SDK.Unity
         public string UCenterDomain { get; set; }
         public WWW WWWRegister { get; private set; }
         public WWW WWWLogin { get; private set; }
+        public WWW WWWWechatLogin { get; private set; }
         public WWW WWWGuestAccess { get; private set; }
         public WWW WWWGuestConvert { get; private set; }
         public WWW WWWResetPassword { get; private set; }
@@ -35,6 +37,7 @@ namespace GameCloud.UCenter.SDK.Unity
         //public WWW WWWGetIpAddress { get; private set; }
         Action<UCenterResponseStatus, AccountRegisterResponse, UCenterError> RegisterHandler { get; set; }
         Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> LoginHandler { get; set; }
+        Action<UCenterResponseStatus, AccountLoginResponse, UCenterError> WechatLoginHandler { get; set; }
         Action<UCenterResponseStatus, GuestAccessResponse, UCenterError> GuestAccessHandler { get; set; }
         Action<UCenterResponseStatus, GuestConvertResponse, UCenterError> GuestConvertHandler { get; set; }
         Action<UCenterResponseStatus, AccountResetPasswordResponse, UCenterError> ResetPasswordHandler { get; set; }
@@ -67,6 +70,12 @@ namespace GameCloud.UCenter.SDK.Unity
             {
                 WWWLogin = null;
                 LoginHandler = null;
+            }
+
+            if (_checkResponse<AccountLoginResponse>(WWWWechatLogin, WechatLoginHandler))
+            {
+                WWWWechatLogin = null;
+                WechatLoginHandler = null;
             }
 
             if (_checkResponse<GuestAccessResponse>(WWWGuestAccess, GuestAccessHandler))
@@ -142,6 +151,25 @@ namespace GameCloud.UCenter.SDK.Unity
             LoginHandler = new Action<UCenterResponseStatus, AccountLoginResponse, UCenterError>(handler);
 
             string http_url = _genUrl("login");
+
+            string param = EbTool.jsonSerialize(request);
+            byte[] bytes = Encoding.UTF8.GetBytes(param);
+
+            Dictionary<string, string> headers = _genHeader(bytes.Length);
+            WWWLogin = new WWW(http_url, bytes, headers);
+        }
+
+        //-------------------------------------------------------------------------
+        public void wechatLogin(AccountWeChatOAuthInfo request, OnUCenterLogin handler)
+        {
+            if (WWWWechatLogin != null)
+            {
+                return;
+            }
+
+            WechatLoginHandler = new Action<UCenterResponseStatus, AccountLoginResponse, UCenterError>(handler);
+
+            string http_url = _genUrl("wechatlogin");
 
             string param = EbTool.jsonSerialize(request);
             byte[] bytes = Encoding.UTF8.GetBytes(param);

@@ -1,17 +1,15 @@
 ﻿using System.Runtime.Serialization;
 
-
 namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 {
+    [DataContract]
     public class AccountWeChatOAuthInfo
     {
         [DataMember]
-        public string AccountId { get; set; }
-
-        [DataMember]
         public string AppId { get; set; }
-
         [DataMember]
-        public string Code { get; set; }
+        public string AccessToken { get; set; }
+        [DataMember]
+        public string OpenId { get; set; }
     }
 }
