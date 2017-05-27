@@ -8,8 +8,6 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
         [DataMember]
         public string AppId { get; set; }
         [DataMember]
-        public string AccessToken { get; set; }
-        [DataMember]
-        public string OpenId { get; set; }
+        public string Code { get; set; }
     }
 }

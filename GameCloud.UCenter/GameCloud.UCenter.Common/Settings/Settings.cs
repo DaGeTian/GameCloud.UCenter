@@ -57,5 +57,11 @@ namespace GameCloud.UCenter.Common.Settings
 
         [DefaultValue("")]
         public string PingppPrivateKey { get; set; }
+
+        [DefaultValue("")]
+        public string WechatAppId { get; set; }
+
+        [DefaultValue("")]
+        public string WechatAppSecret { get; set; }
     }
 }

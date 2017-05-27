@@ -239,7 +239,7 @@ namespace GameCloud.UCenter.SDK.Unity
         }
 
         //-------------------------------------------------------------------------
-        public void uploadProfileImage(string account_id, MemoryStream stream, OnUCenterUploadProfileImage handler)
+        public void uploadProfileImage(string account_id, byte[] bytes, OnUCenterUploadProfileImage handler)
         {
             if (WWWUploadProfileImage != null)
             {
@@ -250,7 +250,7 @@ namespace GameCloud.UCenter.SDK.Unity
 
             string http_url = _genUrl(account_id + "/upload");
 
-            byte[] bytes = stream.ToArray();
+            //byte[] bytes = stream.ToArray();
 
             //int width = 640;
             //int height = 640;

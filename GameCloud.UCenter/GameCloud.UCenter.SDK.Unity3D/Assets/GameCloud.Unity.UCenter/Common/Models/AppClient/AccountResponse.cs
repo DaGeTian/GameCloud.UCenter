@@ -47,5 +47,8 @@ namespace GameCloud.UCenter.Common.Portable.Models.AppClient
 
         [DataMember]
         public string Email { get; set; }
+
+        [DataMember]
+        public LoginFrom LoginFrom { get; set; }
     }
 }
