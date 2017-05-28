@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCloud.UCenter.Api", "GameCloud.UCenter.Api\GameCloud.UCenter.Api.csproj", "{6BCEA52B-2E00-4A8B-AFCC-848F0222CF4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCloud.Manager.App", "GameCloud.Manager.App\GameCloud.Manager.App.csproj", "{57306FD0-7DF4-40C5-B7BB-770656F64AEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCloud.UCenter.Mgr", "GameCloud.UCenter.Mgr\GameCloud.UCenter.Mgr.csproj", "{57306FD0-7DF4-40C5-B7BB-770656F64AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

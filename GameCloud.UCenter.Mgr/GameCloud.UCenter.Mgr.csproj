@@ -3,9 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>GameCloud.Manager.App</AssemblyName>
+    <AssemblyName>GameCloud.UCenter.Mgr</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>GameCloud.Manager.App</PackageId>
+    <PackageId>GameCloud.UCenter.Mgr</PackageId>
+    <RootNamespace>GameCloud.UCenter.Mgr</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
