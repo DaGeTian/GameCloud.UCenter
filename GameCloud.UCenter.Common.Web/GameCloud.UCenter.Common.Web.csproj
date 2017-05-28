@@ -81,6 +81,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -123,6 +124,13 @@
     <Compile Include="MEF\CompositionContainerFactory.cs" />
     <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Modes\PaginationResponse.cs" />
+    <Compile Include="PluginContract\Modes\PluginAppSetting.cs" />
+    <Compile Include="PluginContract\Requests\PluginRequestInfo.cs" />
+    <Compile Include="PluginContract\Requests\PluginRequestMethod.cs" />
+    <Compile Include="PluginContract\Requests\PluginRequestParameter.cs" />
+    <Compile Include="PluginContract\Requests\SearchRequestInfo.cs" />
+    <Compile Include="PluginContract\Requests\UpdateRequestInfo.cs" />
+    <Compile Include="PluginContract\Responses\PluginPaginationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\AppConfigurationValueProvider.cs" />
     <Compile Include="Settings\ISettingsValueProvider.cs" />
