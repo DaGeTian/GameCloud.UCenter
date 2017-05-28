@@ -144,7 +144,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                     }
                     catch (Exception ex)
                     {
-                        CustomTrace.TraceError(ex, "Error to remove guest device");
+                        //CustomTrace.TraceError(ex, "Error to remove guest device");
                     }
 
                     await this.TraceAccountEvent(accountEntity, "GuestConvert", token: token);
@@ -181,7 +181,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
             catch (Exception ex)
             {
-                CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
+                //CustomTrace.TraceError(ex, "Account.Register Exception：AccoundName={info.AccountName}");
                 throw;
             }
         }
@@ -196,7 +196,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 throw new UCenterException(UCenterErrorCode.InvalidAccountName);
             }
 
-            Console.WriteLine("Login AccName={0}", info.AccountName);
+            logger.LogInformation("Login AccName={0}", info.AccountName);
 
             var accountEntity = await this.Database.Accounts.GetSingleAsync(a => a.AccountName == info.AccountName, token);
             if (accountEntity == null)
@@ -417,45 +417,45 @@ namespace GameCloud.UCenter.Api.ApiControllers
 
             var account = await this.GetAndVerifyAccount(accountId, token);
 
-            logger.LogInformation("UploadProfileImage 1");
-
             using (var stream = file.OpenReadStream())
             {
-                logger.LogInformation("UploadProfileImage 2");
-
                 var image = Image.FromStream(stream);
-
-                logger.LogInformation("UploadProfileImage 3 image.Size=" + image.Size);
 
                 using (var thumbnailStream = this.GetThumbprintStream(image))
                 {
-                    logger.LogInformation("UploadProfileImage 4");
-
                     var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
 
-                    logger.LogInformation("UploadProfileImage 5 smallProfileName="+ smallProfileName);
+                    try
+                    {
+                        account.ProfileThumbnail =
+                            await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
 
-                    account.ProfileThumbnail =
-                        await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
-
-                    logger.LogInformation("UploadProfileImage 6");
+                        logger.LogInformation("UploadProfileImage ProfileThumbnail=" + account.ProfileThumbnail);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex.ToString());
+                    }
                 }
 
-                logger.LogInformation("UploadProfileImage 7");
+                try
+                {
+                    string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
-                string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
-                stream.Seek(0, SeekOrigin.Begin);
-                account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
-
-                logger.LogInformation("UploadProfileImage 8");
+                    logger.LogInformation("UploadProfileImage ProfileImage=" + account.ProfileImage);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.ToString());
+                }
 
                 await this.Database.Accounts.UpsertAsync(account, token);
 
-                logger.LogInformation("UploadProfileImage 9");
-
                 await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
 
-                logger.LogInformation("UploadProfileImage 10");
+                logger.LogInformation("UploadProfileImage End");
 
                 return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }

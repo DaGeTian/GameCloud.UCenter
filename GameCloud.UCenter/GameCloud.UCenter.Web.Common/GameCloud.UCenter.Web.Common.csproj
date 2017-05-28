@@ -72,6 +72,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -100,19 +101,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataBase.Manager\Entities\PluginEntity.cs" />
+    <Compile Include="DataBase.Manager\ManagerDatabaseContext.cs" />
+    <Compile Include="DataBase.UCenter\UCenterEventDatabaseContext.cs" />
+    <Compile Include="DataBase.UCenter\UCenterEventDatabaseContextSettings.cs" />
+    <Compile Include="DataBase\Adapters\CollectionAdapter.cs" />
+    <Compile Include="DataBase\Adapters\CollectionAdapterExtensions.cs" />
+    <Compile Include="DataBase\Adapters\ICollectionAdapter.cs" />
+    <Compile Include="DataBase\Attributes\CollectionNameAttribute.cs" />
+    <Compile Include="DataBase\DatabaseConfig.cs" />
+    <Compile Include="DataBase\DatabaseContext.cs" />
+    <Compile Include="DataBase\DatabaseContextSettings.cs" />
+    <Compile Include="DataBase\DatabaseType.cs" />
+    <Compile Include="DataBase\EntityBase.cs" />
+    <Compile Include="Extensions\DisposableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Filters\ActionExecutionFilterAttribute.cs" />
     <Compile Include="Dependency\MefControllerFactory.cs" />
     <Compile Include="Dependency\MefDependencyResolver.cs" />
-    <Compile Include="Logger\ConsoleLoggerAdapter.cs" />
-    <Compile Include="Logger\CustomTrace.cs" />
     <Compile Include="Logger\EventTrace.cs" />
-    <Compile Include="Logger\ILoggerAdapter.cs" />
-    <Compile Include="Logger\NLoggerAdapter.cs" />
+    <Compile Include="MEF\CompositionContainerFactory.cs" />
+    <Compile Include="MEF\DisposableObjectSlim.cs" />
     <Compile Include="Modes\PaginationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\AliyunStorageContext.cs" />
-    <Compile Include="Storage\IStorageContext.cs" />
-    <Compile Include="Storage\AzureStorageContext.cs" />
+    <Compile Include="Settings\AppConfigurationValueProvider.cs" />
+    <Compile Include="Settings\ISettingsValueProvider.cs" />
+    <Compile Include="Settings\SettingAttribute.cs" />
+    <Compile Include="Settings\SettingsDefaultValueProvider.cs" />
+    <Compile Include="Settings\SettingsInitializer.cs" />
+    <Compile Include="Settings\SettingsValuePair.cs" />
+    <Compile Include="Storage\StorageContextAliyun.cs" />
+    <Compile Include="Storage\StorageContextBase.cs" />
+    <Compile Include="Storage\StorageContextAzure.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AccountEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AccountErrorEventEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AccountEventEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AppAccountDataEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AppConfigurationEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AppEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\DeviceEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\ExceptionEventEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\GuestDeviceEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\KeyPlaceholderEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\KeyType.cs" />
+    <Compile Include="DataBase.UCenter\Entities\OrderEntity.cs" />
+    <Compile Include="DataBase.UCenter\Entities\WeChatAccountEntity.cs" />
+    <Compile Include="DataBase.UCenter\UCenterDatabaseContext.cs" />
     <Compile Include="WebApplicationManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,14 +154,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Share\GameCloud.Common\GameCloud.Common.csproj">
-      <Project>{52fb10a4-d86a-4688-b24f-59a52620ed92}</Project>
-      <Name>GameCloud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Share\GameCloud.Database\GameCloud.Database.csproj">
-      <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
-      <Name>GameCloud.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GameCloud.UCenter.Common.Portable</Name>
@@ -135,10 +161,6 @@
     <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GameCloud.UCenter.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Database\GameCloud.UCenter.Database.csproj">
-      <Project>{463e22cb-446a-4b7f-a8bb-19282313d56f}</Project>
-      <Name>GameCloud.UCenter.Database</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

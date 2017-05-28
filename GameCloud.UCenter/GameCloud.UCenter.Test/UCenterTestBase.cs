@@ -37,7 +37,7 @@ namespace GameCloud.UCenter.Test
         public UCenterTestBase()
         {
             this.Tenant = ExportProvider.GetExportedValue<TenantEnvironment>();
-            CustomTrace.Initialize(ExportProvider, "Trace.Console");
+            //CustomTrace.Initialize(ExportProvider, "Trace.Console");
         }
 
         [AssemblyInitialize]

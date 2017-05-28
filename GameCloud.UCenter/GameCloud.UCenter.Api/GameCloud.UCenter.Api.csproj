@@ -13,7 +13,6 @@
     <None Update="Views;Areas\**\Views">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
-    <ProjectReference Include="..\..\Share\GameCloud.Database\GameCloud.Database.csproj" />
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj" />
     <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj" />
     <ProjectReference Include="..\GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj" />
@@ -24,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <ProjectReference Include="..\..\Share\GameCloud.Common\GameCloud.Common.csproj" />
-    <ProjectReference Include="..\GameCloud.UCenter.Database\GameCloud.UCenter.Database.csproj" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Drawing" />
     <Reference Include="System" />

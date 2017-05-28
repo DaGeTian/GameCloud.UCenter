@@ -36,7 +36,7 @@ namespace GameCloud.UCenter.Test.Clients
                 }
                 catch (Exception ex)
                 {
-                    CustomTrace.TraceError(ex);
+                    //CustomTrace.TraceError(ex);
                     throw;
                 }
             }

@@ -99,14 +99,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Share\GameCloud.Common\GameCloud.Common.csproj">
-      <Project>{52FB10A4-D86A-4688-B24F-59A52620ED92}</Project>
-      <Name>GameCloud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Share\GameCloud.Database\GameCloud.Database.csproj">
-      <Project>{205bf64d-9b8a-4674-8c19-bd4b978d51df}</Project>
-      <Name>GameCloud.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GameCloud.UCenter.Common.Portable</Name>
@@ -114,10 +106,6 @@
     <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj">
       <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
       <Name>GameCloud.UCenter.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Database\GameCloud.UCenter.Database.csproj">
-      <Project>{463e22cb-446a-4b7f-a8bb-19282313d56f}</Project>
-      <Name>GameCloud.UCenter.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameCloud.UCenter.SDK.AppClient\GameCloud.UCenter.SDK.AppClient.csproj">
       <Project>{4367dcaa-97af-4710-a12f-8139c48dd9e6}</Project>

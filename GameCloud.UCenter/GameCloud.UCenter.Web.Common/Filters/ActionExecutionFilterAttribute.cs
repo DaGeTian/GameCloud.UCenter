@@ -30,7 +30,7 @@ namespace GameCloud.UCenter.Web.Common.Filters
         /// <returns>Async task.</returns>
         public override async Task OnActionExecutingAsync(HttpActionContext context, CancellationToken token)
         {
-            this.LogInboundRequest(context);
+            //this.LogInboundRequest(context);
 
             if (!context.ModelState.IsValid)
             {
@@ -52,11 +52,11 @@ namespace GameCloud.UCenter.Web.Common.Filters
         {
             if (context.Exception != null)
             {
-                CustomTrace.TraceError(
-                    context.Exception,
-                    "Execute request exception: url:{0}, arguments: {1}",
-                    context.Request.RequestUri,
-                    context.ActionContext.ActionArguments);
+                //CustomTrace.TraceError(
+                //    context.Exception,
+                //    "Execute request exception: url:{0}, arguments: {1}",
+                //    context.Request.RequestUri,
+                //    context.ActionContext.ActionArguments);
 
                 var errorCode = UCenterErrorCode.InternalHttpServerError;
 
@@ -76,24 +76,24 @@ namespace GameCloud.UCenter.Web.Common.Filters
             base.OnActionExecuted(context);
         }
 
-        private void LogInboundRequest(HttpActionContext context)
-        {
-            try
-            {
-                string clientIpAddress = IPHelper.GetClientIpAddress(context.Request);
-                string request = context.Request.ToString();
-                string arguments = context
-                    .ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
-                    .JoinToString(",");
+        //private void LogInboundRequest(HttpActionContext context)
+        //{
+        //    try
+        //    {
+        //        string clientIpAddress = IPHelper.GetClientIpAddress(context.Request);
+        //        string request = context.Request.ToString();
+        //        string arguments = context
+        //            .ActionArguments.Select(a => $"{a.Value.DumpToString(a.Key)}")
+        //            .JoinToString(",");
 
-                string message = $"Inbound Request IP: {clientIpAddress}\n\tRequest: {request}\n\n\t Arguments: {arguments}";
-                CustomTrace.TraceInformation(message);
-            }
-            catch (Exception ex)
-            {
-                CustomTrace.TraceError(ex, $"Log Inbound Request Error: \n\t{context.Request}");
-            }
-        }
+        //        string message = $"Inbound Request IP: {clientIpAddress}\n\tRequest: {request}\n\n\t Arguments: {arguments}";
+        //        CustomTrace.TraceInformation(message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomTrace.TraceError(ex, $"Log Inbound Request Error: \n\t{context.Request}");
+        //    }
+        //}
 
         private HttpResponseMessage CreateErrorResponseMessage(UCenterErrorCode errorCode, string errorMessage)
         {

@@ -71,7 +71,7 @@ namespace GameCloud.UCenter.Web.Common.Logger
                     }
                     catch (Exception ex)
                     {
-                        CustomTrace.TraceError(ex);
+                        //CustomTrace.TraceError(ex);
                     }
                 }
             }
