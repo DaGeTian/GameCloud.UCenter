@@ -255,9 +255,9 @@ paket-files/
 #################
 /.vs
 /packages
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.csproj
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.Editor.csproj
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.Plugins.csproj
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.sln
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/Library/
-/GameCloud.UCenter/GameCloud.UCenter.SDK.Unity3D/Temp/
+/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.csproj
+/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.Editor.csproj
+/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.Plugins.csproj
+/GameCloud.UCenter.SDK.Unity3D/GameCloud.UCenter.SDK.Unity3D.sln
+/GameCloud.UCenter.SDK.Unity3D/Library/
+/GameCloud.UCenter.SDK.Unity3D/Temp/
