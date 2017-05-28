@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
@@ -37,6 +38,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         private readonly Settings settings;
         private readonly IStorageContext storageContext;
         private readonly EventTrace eventTrace;
+        private readonly ILogger logger;
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
@@ -44,12 +46,14 @@ namespace GameCloud.UCenter.Api.ApiControllers
             UCenterDatabaseContext database,
             Settings settings,
             IStorageContext storageContext,
-            EventTrace eventTrace)
+            EventTrace eventTrace,
+            ILoggerFactory logger_factory)
             : base(database)
         {
             this.settings = settings;
             this.storageContext = storageContext;
             this.eventTrace = eventTrace;
+            this.logger = logger_factory.CreateLogger("Default");
         }
 
         //---------------------------------------------------------------------
@@ -233,37 +237,66 @@ namespace GameCloud.UCenter.Api.ApiControllers
         //---------------------------------------------------------------------
         [HttpPost]
         [Route("api/accounts/wechatlogin")]
-        public async Task<IActionResult> WeChatLogin(AccountWeChatOAuthInfo info, CancellationToken token)
+        public async Task<IActionResult> WeChatLogin([FromBody]AccountWeChatOAuthInfo info, CancellationToken token)
         {
-            OAuthAccessTokenResult access_token_result = await OAuthApi.GetAccessTokenAsync(
-                settings.WechatAppId, settings.WechatAppSecret, info.Code);
+            logger.LogInformation("WeChatLogin AppId=" + settings.WechatAppId);
+            logger.LogInformation("WeChatLogin Code=" + info.Code);
+
+            OAuthAccessTokenResult access_token_result = null;
+            try
+            {
+                access_token_result = await OAuthApi.GetAccessTokenAsync(
+                    settings.WechatAppId, settings.WechatAppSecret, info.Code);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+            }
 
             if (access_token_result == null
                 || access_token_result.errcode != 0)
             {
-                Console.WriteLine("GetAccessTokenAsync失败，ErrorCode=" + access_token_result.errcode);
+                logger.LogError("GetAccessTokenAsync失败");
 
                 throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized);
             }
 
-            OAuthUserInfo user_info = await OAuthApi.GetUserInfoAsync(
+            OAuthUserInfo user_info = null;
+            try
+            {
+                user_info = await OAuthApi.GetUserInfoAsync(
                 access_token_result.access_token, access_token_result.openid);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+            }
 
             if (user_info == null)
             {
-                Console.WriteLine("OAuthUserInfo为空");
+                logger.LogError("OAuthUserInfo为空");
 
                 throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized);
             }
 
-            Console.WriteLine("OpenId=" + user_info.openid);
-            Console.WriteLine("NickName=" + user_info.nickname);
-            Console.WriteLine("Sex=" + user_info.sex);
-            Console.WriteLine("Province=" + user_info.province);
-            Console.WriteLine("City=" + user_info.city);
-            Console.WriteLine("Country=" + user_info.country);
-            Console.WriteLine("Headimgurl=" + user_info.headimgurl);
-            Console.WriteLine("Unionid=" + user_info.unionid);
+            logger.LogInformation("OpenId=" + user_info.openid);
+            logger.LogInformation("NickName=" + user_info.nickname);
+            logger.LogInformation("Sex=" + user_info.sex);
+            logger.LogInformation("Province=" + user_info.province);
+            logger.LogInformation("City=" + user_info.city);
+            logger.LogInformation("Country=" + user_info.country);
+            logger.LogInformation("Headimgurl=" + user_info.headimgurl);
+            logger.LogInformation("Unionid=" + user_info.unionid);
+            if (user_info.privilege != null)
+            {
+                foreach (var i in user_info.privilege)
+                {
+                    if (i != null)
+                    {
+                        logger.LogInformation("Privilege=" + i);
+                    }
+                }
+            }
 
             var accountEntity = new AccountEntity()
             {
@@ -380,27 +413,49 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/{accountId}/upload")]
         public async Task<IActionResult> UploadProfileImage(string accountId, IFormFile file, CancellationToken token)
         {
-            Console.WriteLine("UploadProfileImage AccId={0}", accountId);
+            logger.LogInformation("UploadProfileImage AccId={0}", accountId);
 
             var account = await this.GetAndVerifyAccount(accountId, token);
 
+            logger.LogInformation("UploadProfileImage 1");
+
             using (var stream = file.OpenReadStream())
             {
+                logger.LogInformation("UploadProfileImage 2");
+
                 var image = Image.FromStream(stream);
+
+                logger.LogInformation("UploadProfileImage 3 image.Size=" + image.Size);
 
                 using (var thumbnailStream = this.GetThumbprintStream(image))
                 {
+                    logger.LogInformation("UploadProfileImage 4");
+
                     var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(accountId);
+
+                    logger.LogInformation("UploadProfileImage 5 smallProfileName="+ smallProfileName);
+
                     account.ProfileThumbnail =
                         await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
+
+                    logger.LogInformation("UploadProfileImage 6");
                 }
+
+                logger.LogInformation("UploadProfileImage 7");
 
                 string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(accountId);
                 stream.Seek(0, SeekOrigin.Begin);
                 account.ProfileImage = await this.storageContext.UploadBlobAsync(profileName, stream, token);
 
+                logger.LogInformation("UploadProfileImage 8");
+
                 await this.Database.Accounts.UpsertAsync(account, token);
+
+                logger.LogInformation("UploadProfileImage 9");
+
                 await this.TraceAccountEvent(account, "UploadProfileImage", token: token);
+
+                logger.LogInformation("UploadProfileImage 10");
 
                 return this.CreateSuccessResult(this.ToResponse<AccountUploadProfileImageResponse>(account));
             }
