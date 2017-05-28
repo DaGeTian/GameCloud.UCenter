@@ -15,11 +15,8 @@
     </None>
     <ProjectReference Include="..\..\GameCloud.UCenter\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj" />
     <ProjectReference Include="..\..\GameCloud.UCenter\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj" />
-    <ProjectReference Include="..\..\GameCloud.UCenter\GameCloud.UCenter.Database\GameCloud.UCenter.Database.csproj" />
-    <ProjectReference Include="..\..\Share\GameCloud.Common\GameCloud.Common.csproj" />
-    <ProjectReference Include="..\..\Share\GameCloud.Database\GameCloud.Database.csproj" />
+    <ProjectReference Include="..\..\GameCloud.UCenter\GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj" />
     <ProjectReference Include="..\..\Share\GameCloud.Manager.PluginContract\GameCloud.Manager.PluginContract.csproj" />
-    <ProjectReference Include="..\GameCloud.Manager.Database\GameCloud.Manager.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>
