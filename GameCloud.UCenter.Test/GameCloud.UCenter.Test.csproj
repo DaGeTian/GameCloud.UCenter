@@ -115,9 +115,9 @@
       <Project>{004e44f3-934b-47ca-99e5-9cd38aa32ef0}</Project>
       <Name>GameCloud.UCenter.SDK.AppServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj">
+    <ProjectReference Include="..\GameCloud.UCenter.Common.Web\GameCloud.UCenter.Common.Web.csproj">
       <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>
-      <Name>GameCloud.UCenter.Web.Common</Name>
+      <Name>GameCloud.UCenter.Common.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -7,8 +7,8 @@
     <ProjectGuid>{ED28724A-0787-4BE4-90FC-DF7F4C3A6145}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameCloud.UCenter.Web.Common</RootNamespace>
-    <AssemblyName>GameCloud.UCenter.Web.Common</AssemblyName>
+    <RootNamespace>GameCloud.UCenter.Common.Web</RootNamespace>
+    <AssemblyName>GameCloud.UCenter.Common.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

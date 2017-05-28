@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.UCenter.Test", "GameCloud.UCenter.Test\GameCloud.UCenter.Test.csproj", "{5369473C-A2F7-4E3E-9E05-49BE0831F62A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.UCenter.Web.Common", "GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj", "{ED28724A-0787-4BE4-90FC-DF7F4C3A6145}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.UCenter.Common.Web", "GameCloud.UCenter.Common.Web\GameCloud.UCenter.Common.Web.csproj", "{ED28724A-0787-4BE4-90FC-DF7F4C3A6145}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCloud.UCenter.Common", "GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj", "{FCE33A61-93FC-4077-B362-BEB2D5E6D8B0}"
 EndProject

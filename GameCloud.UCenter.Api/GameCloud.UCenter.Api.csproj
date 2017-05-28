@@ -15,11 +15,11 @@
     </None>
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj" />
     <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj" />
-    <ProjectReference Include="..\GameCloud.UCenter.Web.Common\GameCloud.UCenter.Web.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameCloud.Manager.PluginContract\GameCloud.Manager.PluginContract.csproj" />
+    <ProjectReference Include="..\GameCloud.UCenter.Common.Web\GameCloud.UCenter.Common.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
