@@ -62,9 +62,9 @@
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GameCloud.UCenter.Common.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj">
-      <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
-      <Name>GameCloud.UCenter.Common</Name>
+    <ProjectReference Include="..\GameCloud.UCenter.Common.Web\GameCloud.UCenter.Common.Web.csproj">
+      <Project>{ed28724a-0787-4be4-90fc-df7f4c3a6145}</Project>
+      <Name>GameCloud.UCenter.Common.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

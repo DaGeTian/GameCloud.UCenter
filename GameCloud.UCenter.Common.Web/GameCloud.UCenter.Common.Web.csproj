@@ -72,6 +72,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -82,6 +83,7 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -102,6 +104,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Cache\CacheProvider.cs" />
+    <Compile Include="Common\Dumper\DebugWritter.cs" />
+    <Compile Include="Common\Dumper\DumperToAttribute.cs" />
+    <Compile Include="Common\Dumper\ObjectDumper.cs" />
+    <Compile Include="Common\Dumper\ObjectDumperExtension.cs" />
+    <Compile Include="Common\EncryptHashManager.cs" />
+    <Compile Include="Common\EncryptHelper.cs" />
+    <Compile Include="Common\Extensions\DisposableExtensions.cs" />
+    <Compile Include="Common\Extensions\RSACryptoServiceProviderExtension.cs" />
+    <Compile Include="Common\Extensions\StringExtensions.cs" />
+    <Compile Include="Common\IP\IPHelper.cs" />
+    <Compile Include="Common\Models\AppClient\AccountRegisterRequestInfo.cs" />
+    <Compile Include="Common\Models\AppServer\AccountLoginAppInfo.cs" />
+    <Compile Include="Common\Models\AppServer\AccountLoginAppResponse.cs" />
+    <Compile Include="Common\Models\AppServer\AppAccountDataInfo.cs" />
+    <Compile Include="Common\Models\AppServer\AppAccountDataResponse.cs" />
+    <Compile Include="Common\Models\AppServer\AppConfigurationInfo.cs" />
+    <Compile Include="Common\Models\AppServer\AppInfo.cs" />
+    <Compile Include="Common\Models\AppServer\AppResponse.cs" />
+    <Compile Include="Common\Models\AppServer\PaymentCallbackInfo.cs" />
+    <Compile Include="Common\SDK\UCenterHttpClient.cs" />
+    <Compile Include="Common\Settings\Settings.cs" />
+    <Compile Include="Common\ValidatableInfo.cs" />
     <Compile Include="DataBase.Manager\Entities\PluginEntity.cs" />
     <Compile Include="DataBase.Manager\ManagerDatabaseContext.cs" />
     <Compile Include="DataBase.UCenter\UCenterEventDatabaseContext.cs" />
@@ -165,10 +190,6 @@
     <ProjectReference Include="..\GameCloud.UCenter.Common.Portable\GameCloud.UCenter.Common.Portable.csproj">
       <Project>{4497dc6e-5b0e-42e4-9c2d-b93b9783d667}</Project>
       <Name>GameCloud.UCenter.Common.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCloud.UCenter.Common\GameCloud.UCenter.Common.csproj">
-      <Project>{fce33a61-93fc-4077-b362-beb2d5e6d8b0}</Project>
-      <Name>GameCloud.UCenter.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
