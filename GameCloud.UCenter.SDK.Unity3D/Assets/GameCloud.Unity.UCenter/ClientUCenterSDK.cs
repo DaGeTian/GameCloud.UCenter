@@ -175,7 +175,7 @@ namespace GameCloud.UCenter.SDK.Unity
             byte[] bytes = Encoding.UTF8.GetBytes(param);
 
             Dictionary<string, string> headers = _genHeader(bytes.Length);
-            WWWLogin = new WWW(http_url, bytes, headers);
+            WWWWechatLogin = new WWW(http_url, bytes, headers);
         }
 
         //-------------------------------------------------------------------------
