@@ -108,6 +108,23 @@ namespace GameCloud.UCenter.Api
                 Builders<AccountEntity>.IndexKeys.Ascending("Phone"),
                 new CreateIndexOptions() { Name = "Phone_IDX" },
                 CancellationToken.None);
+
+            await db.AccountWechat.CreateIndexIfNotExistAsync(
+                Builders<AccountWechatEntity>.IndexKeys.Ascending("AccountId"),
+                new CreateIndexOptions() { Name = "AccountId_IDX" },
+                CancellationToken.None);
+            await db.AccountWechat.CreateIndexIfNotExistAsync(
+                Builders<AccountWechatEntity>.IndexKeys.Ascending("Unionid"),
+                new CreateIndexOptions() { Name = "Unionid_IDX" },
+                CancellationToken.None);
+            await db.AccountWechat.CreateIndexIfNotExistAsync(
+                Builders<AccountWechatEntity>.IndexKeys.Ascending("OpenId"),
+                new CreateIndexOptions() { Name = "OpenId_IDX" },
+                CancellationToken.None);
+            await db.AccountWechat.CreateIndexIfNotExistAsync(
+                Builders<AccountWechatEntity>.IndexKeys.Ascending("AppId"),
+                new CreateIndexOptions() { Name = "AppId_IDX" },
+                CancellationToken.None);
         }
     }
 }

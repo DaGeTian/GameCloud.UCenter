@@ -106,11 +106,11 @@ namespace GameCloud.UCenter.Database
         /// <summary>
         /// Gets the wechat account collection adapter.
         /// </summary>
-        public ICollectionAdapter<WeChatAccountEntity> WeChatAccounts
+        public ICollectionAdapter<AccountWechatEntity> AccountWechat
         {
             get
             {
-                return this.GetAdapter<WeChatAccountEntity>();
+                return this.GetAdapter<AccountWechatEntity>();
             }
         }
     }

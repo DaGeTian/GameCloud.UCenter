@@ -251,6 +251,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
+
+                throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized);
             }
 
             if (access_token_result == null
@@ -270,6 +272,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
+
+                throw new UCenterException(UCenterErrorCode.AccountOAuthTokenUnauthorized);
             }
 
             if (user_info == null)
@@ -298,16 +302,59 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 }
             }
 
-            var accountEntity = new AccountEntity()
-            {
-                Id = Guid.NewGuid().ToString(),
-                AccountName = Guid.NewGuid().ToString(),
-                AccountType = AccountType.Guest,
-                AccountStatus = AccountStatus.Active,
-                Token = EncryptHashManager.GenerateToken()
-            };
+            // 查找AccountWechat
+            var acc_wechat = await this.Database.AccountWechat.GetSingleAsync(
+                a => a.Unionid == user_info.unionid
+                || a.OpenId == user_info.openid
+                || a.AppId == settings.WechatAppId,
+                token);
 
-            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(accountEntity));
+            // 创建AccountWechat
+            if (acc_wechat == null)
+            {
+                acc_wechat = new AccountWechatEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AccountId = Guid.NewGuid().ToString(),
+                    Unionid = user_info.unionid,
+                    OpenId = user_info.openid,
+                    AppId = settings.WechatAppId,
+                    NickName = user_info.nickname,
+                    Gender = (Gender)user_info.sex,
+                    Province = user_info.province,
+                    City = user_info.city,
+                    Country = user_info.country,
+                    Headimgurl = user_info.headimgurl
+                };
+
+                await this.Database.AccountWechat.InsertAsync(acc_wechat, token);
+            }
+
+            // 查找Account
+            var acc = await this.Database.Accounts.GetSingleAsync(acc_wechat.AccountId, token);
+
+            // 创建Account
+            if (acc == null)
+            {
+                acc = new AccountEntity()
+                {
+                    Id = acc_wechat.AccountId,
+                    AccountName = Guid.NewGuid().ToString(),
+                    AccountType = AccountType.NormalAccount,
+                    AccountStatus = AccountStatus.Active,
+                    //Password = EncryptHelper.ComputeHash(info.Password),
+                    //SuperPassword = EncryptHelper.ComputeHash(info.SuperPassword),
+                    Token = EncryptHashManager.GenerateToken(),
+                    Gender = acc_wechat.Gender,
+                    Identity = string.Empty,
+                    Phone = string.Empty,
+                    Email = string.Empty
+                };
+
+                await this.Database.Accounts.InsertAsync(acc, token);
+            }
+
+            return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(acc));
         }
 
         //---------------------------------------------------------------------

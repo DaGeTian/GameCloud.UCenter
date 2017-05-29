@@ -129,6 +129,7 @@
     <Compile Include="Common\ValidatableInfo.cs" />
     <Compile Include="DataBase.Manager\Entities\PluginEntity.cs" />
     <Compile Include="DataBase.Manager\ManagerDatabaseContext.cs" />
+    <Compile Include="DataBase.UCenter\Entities\AccountWechatEntity.cs" />
     <Compile Include="DataBase.UCenter\UCenterEventDatabaseContext.cs" />
     <Compile Include="DataBase.UCenter\UCenterEventDatabaseContextSettings.cs" />
     <Compile Include="DataBase\Adapters\CollectionAdapter.cs" />
@@ -178,7 +179,6 @@
     <Compile Include="DataBase.UCenter\Entities\KeyPlaceholderEntity.cs" />
     <Compile Include="DataBase.UCenter\Entities\KeyType.cs" />
     <Compile Include="DataBase.UCenter\Entities\OrderEntity.cs" />
-    <Compile Include="DataBase.UCenter\Entities\WeChatAccountEntity.cs" />
     <Compile Include="DataBase.UCenter\UCenterDatabaseContext.cs" />
     <Compile Include="WebApplicationManager.cs" />
   </ItemGroup>
