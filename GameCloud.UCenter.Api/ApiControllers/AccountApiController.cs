@@ -305,8 +305,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             // 查找AccountWechat
             var acc_wechat = await this.Database.AccountWechat.GetSingleAsync(
                 a => a.Unionid == user_info.unionid
-                || a.OpenId == user_info.openid
-                || a.AppId == settings.WechatAppId,
+                && a.OpenId == user_info.openid
+                && a.AppId == settings.WechatAppId,
                 token);
 
             // 创建AccountWechat
@@ -331,7 +331,8 @@ namespace GameCloud.UCenter.Api.ApiControllers
             }
 
             // 查找Account
-            var acc = await this.Database.Accounts.GetSingleAsync(acc_wechat.AccountId, token);
+            var acc = await this.Database.Accounts.GetSingleAsync(
+                acc_wechat.AccountId, token);
 
             // 创建Account
             if (acc == null)
