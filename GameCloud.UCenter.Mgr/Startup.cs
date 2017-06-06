@@ -19,9 +19,12 @@ namespace GameCloud.Manager.App
 {
     public class Startup
     {
+        //---------------------------------------------------------------------
+        public IConfigurationRoot Configuration { get; }
         private readonly ExportProvider exportProvider;
         private readonly PluginManager manager;
 
+        //---------------------------------------------------------------------
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -50,8 +53,7 @@ namespace GameCloud.Manager.App
             this.manager = new PluginManager(path);
         }
 
-        public IConfigurationRoot Configuration { get; }
-
+        //---------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -97,9 +99,9 @@ namespace GameCloud.Manager.App
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
         }
 
+        //---------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {

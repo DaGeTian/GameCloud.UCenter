@@ -89,6 +89,10 @@ namespace GameCloud.UCenter
 
             app.UseMvc();
             //app.UseStaticFiles();
+
+            var db = exportProvider.GetExportedValue<UCenterDatabaseContext>();
+            new UCenterContext(loggerFactory);
+            UCenterContext.Instance.Setup(db, CancellationToken.None).Wait();
         }
 
         //---------------------------------------------------------------------

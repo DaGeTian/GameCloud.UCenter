@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Common.Cache;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Common.Portable.Exceptions;
@@ -19,41 +18,44 @@ namespace GameCloud.UCenter
     public class AppServerApiController : ApiControllerBase
     {
         //---------------------------------------------------------------------
-        private readonly CacheProvider<AppConfigurationResponse> appConfigurationCacheProvider;
-        private readonly CacheProvider<AppResponse> appCacheProvider;
+        //private readonly CacheProvider<AppConfigurationResponse> appConfigurationCacheProvider;
+        //private readonly CacheProvider<AppResponse> appCacheProvider;
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
         public AppServerApiController(UCenterDatabaseContext database)
             : base(database)
         {
-            this.appConfigurationCacheProvider = new CacheProvider<AppConfigurationResponse>(
-                TimeSpan.FromMinutes(5),
-                async (key, token) =>
-                {
-                    var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(key, token);
+            //this.appConfigurationCacheProvider = new CacheProvider<AppConfigurationResponse>(
+            //    TimeSpan.FromMinutes(5),
+            //    async (key, token) =>
+            //    {
+            //        var appConfiguration = await this.Database.AppConfigurations.GetSingleAsync(key, token);
 
-                    var response = new AppConfigurationResponse
-                    {
-                        AppId = key,
-                        Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
-                    };
+            //        var response = new AppConfigurationResponse
+            //        {
+            //            AppId = key,
+            //            Configuration = appConfiguration == null ? string.Empty : appConfiguration.Configuration
+            //        };
 
-                    return response;
-                });
-            this.appCacheProvider = new CacheProvider<AppResponse>(
-                TimeSpan.FromMinutes(5),
-                async (key, token) =>
-                {
-                    var app = await this.Database.Apps.GetSingleAsync(key, token);
-                    var response = new AppResponse
-                    {
-                        AppId = key,
-                        AppSecret = app == null ? string.Empty : app.AppSecret
-                    };
+            //        return response;
+            //    });
 
-                    return response;
-                });
+            //this.appCacheProvider = new CacheProvider<AppResponse>(
+            //    TimeSpan.FromMinutes(5),
+            //    async (key, token) =>
+            //    {
+            //        var app = await this.Database.Apps.GetSingleAsync(key, token);
+            //        var response = new AppResponse
+            //        {
+            //            AppId = key,
+            //            AppSecret = app == null ? string.Empty : app.AppSecret,
+            //            WechatAppId = app == null ? string.Empty : app.WechatAppId,
+            //            WechatAppSecret = app == null ? string.Empty : app.WechatAppSecret
+            //        };
+
+            //        return response;
+            //    });
         }
 
         //---------------------------------------------------------------------
@@ -71,6 +73,8 @@ namespace GameCloud.UCenter
                     Id = info.AppId,
                     Name = info.AppId,
                     AppSecret = info.AppSecret,
+                    WechatAppId = "",
+                    WechatAppSecret = ""
                 };
 
                 await this.Database.Apps.InsertAsync(app, token);
@@ -81,6 +85,7 @@ namespace GameCloud.UCenter
                 AppId = info.AppId,
                 AppSecret = info.AppSecret
             };
+
             return this.CreateSuccessResult(response);
         }
 
@@ -119,7 +124,7 @@ namespace GameCloud.UCenter
         [Route("api/apps/{appId}/configurations")]
         public async Task<IActionResult> GetAppConfiguration(string appId, CancellationToken token)
         {
-            var response = await this.appConfigurationCacheProvider.Get(appId, token);
+            AppConfigurationResponse response = null;// await this.appConfigurationCacheProvider.Get(appId, token);
 
             return this.CreateSuccessResult(response);
         }
@@ -130,7 +135,8 @@ namespace GameCloud.UCenter
         public async Task<IActionResult> AccountLogin(string appId, [FromBody]AccountLoginAppInfo info, CancellationToken token)
         {
             var account = await this.GetAndVerifyAccount(info.AccountId, info.AccountToken, token);
-            await this.CheckAppPermission(appId, info.AppSecret, token);
+
+            this.CheckAppPermission(appId, info.AppSecret);
 
             var result = new AccountLoginAppResponse();
             result.AccountId = account.Id;
@@ -153,7 +159,7 @@ namespace GameCloud.UCenter
         [Route("api/apps/{appId}/readdata")]
         public async Task<IActionResult> ReadAccountData(string appId, [FromBody]AppAccountDataInfo info, CancellationToken token)
         {
-            await this.CheckAppPermission(appId, info.AppSecret, token);
+            this.CheckAppPermission(appId, info.AppSecret);
 
             var dataId = this.GetAppAccountDataId(info.AppId, info.AccountId);
             var accountData = await this.Database.AppAccountDatas.GetSingleAsync(dataId, token);
@@ -173,7 +179,7 @@ namespace GameCloud.UCenter
         [Route("api/apps/{appId}/writedata")]
         public async Task<IActionResult> WriteAccountData(string appId, [FromBody]AppAccountDataInfo info, CancellationToken token)
         {
-            await this.CheckAppPermission(appId, info.AppSecret, token);
+            this.CheckAppPermission(appId, info.AppSecret);
 
             var account = await this.GetAndVerifyAccount(info.AccountId, token);
 
@@ -207,9 +213,10 @@ namespace GameCloud.UCenter
         }
 
         //---------------------------------------------------------------------
-        private async Task CheckAppPermission(string appId, string appSecret, CancellationToken token)
+        private void CheckAppPermission(string appId, string appSecret)
         {
-            var app = await this.appCacheProvider.Get(appId, token);
+            var app = UCenterContext.Instance.CacheAppEntity.GetAppEntityByAppId(appId);
+
             if (app == null)
             {
                 throw new UCenterException(UCenterErrorCode.AppNotExists);

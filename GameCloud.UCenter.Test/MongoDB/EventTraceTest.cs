@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GameCloud.UCenter.Common.Cache;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
@@ -43,28 +42,6 @@ namespace GameCloud.UCenter.Test.MongoDB
             Assert.IsNotNull(record);
             Assert.IsNotNull(record.AccountName);
             Assert.AreEqual(0, eventTrace.EventsInBuffer);
-        }
-
-        [TestMethod]
-        public async Task CachProviderTest()
-        {
-            var index = 0;
-            var interval = TimeSpan.FromSeconds(1);
-            CacheProvider<AccountEventEntity> cache = new CacheProvider<AccountEventEntity>(
-                interval,
-                async (k, token) =>
-                {
-                    return await Task.FromResult<AccountEventEntity>(this.GenerateTestRecord(index++));
-                });
-            string key = "testkey";
-            var entity1 = await cache.Get(key, CancellationToken.None);
-            var entity2 = await cache.Get(key, CancellationToken.None);
-            var entity3 = await cache.Get(key, CancellationToken.None);
-            Assert.AreEqual(entity1, entity2);
-            Assert.AreEqual(entity1, entity3);
-            await Task.Delay(interval);
-            var entity4 = await cache.Get(key, CancellationToken.None);
-            Assert.IsTrue(entity4.CreatedTime > entity1.CreatedTime);
         }
 
         private AccountEventEntity GenerateTestRecord(int index)

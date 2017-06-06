@@ -12,6 +12,12 @@ namespace GameCloud.UCenter.Common.Models.AppServer
         public string AppSecret { get; set; }
 
         [DataMember]
+        public string WechatAppId { get; set; }
+
+        [DataMember]
+        public string WechatAppSecret { get; set; }
+
+        [DataMember]
         public string Token { get; set; }
     }
 }

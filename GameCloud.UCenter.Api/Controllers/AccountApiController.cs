@@ -56,13 +56,7 @@ namespace GameCloud.UCenter
             this.storageContext = storageContext;
             this.eventTrace = eventTrace;
             this.logger = logger_factory.CreateLogger("Default");
-
-            webClient = new WebClient();
-            //var handler = new HttpClientHandler();
-            //handler.UseDefaultCredentials = true;
-            //handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-            //httpClient = new HttpClient(handler);
-            //httpClient.Timeout = TimeSpan.FromSeconds(15);
+            this.webClient = new WebClient();
         }
 
         //---------------------------------------------------------------------
@@ -390,11 +384,17 @@ namespace GameCloud.UCenter
                 };
 
                 await this.Database.Accounts.InsertAsync(acc, token);
+
+                need_update_nickname = true;
+                need_update_icon = true;
+            }
+            else
+            {
             }
 
             // 微信头像覆盖Acc头像
-            if (//need_update_icon && 
-                !string.IsNullOrEmpty(acc_wechat.Headimgurl))
+            if (need_update_icon 
+                && !string.IsNullOrEmpty(acc_wechat.Headimgurl))
             {
                 //logger.LogInformation("微信头像覆盖Acc头像，Headimgurl={0}", acc_wechat.Headimgurl);
 
@@ -404,33 +404,39 @@ namespace GameCloud.UCenter
                 await this.Database.Accounts.UpsertAsync(acc, token);
             }
 
-            // 微信昵称覆盖Acc昵称
-            if (//need_update_nickname)
-                true)
+            string current_nickname = string.Empty;
+            var app = UCenterContext.Instance.CacheAppEntity.GetAppEntityByWechatAppId(settings.WechatAppId);
+            var data_id = $"{app.Id}_{acc.Id}";
+            var account_data = await this.Database.AppAccountDatas.GetSingleAsync(data_id, token);
+            if (account_data != null)
             {
-                var data_id = $"{info.AppId}_{acc.Id}";
-                var account_data = await this.Database.AppAccountDatas.GetSingleAsync(data_id, token);
-                if (account_data != null)
+                var m = JsonConvert.DeserializeObject<Dictionary<string, string>>(account_data.Data);
+                if (m.ContainsKey("nick_name"))
                 {
-                    var m = JsonConvert.DeserializeObject<Dictionary<string, string>>(account_data.Data);
-                    m["nick_name"] = acc_wechat.NickName;
-                    account_data.Data = JsonConvert.SerializeObject(m);
-                }
-                else
-                {
-                    Dictionary<string, string> m = new Dictionary<string, string>();
-                    m["nick_name"] = acc_wechat.NickName;
-                    account_data = new AppAccountDataEntity
-                    {
-                        Id = data_id,
-                        AppId = info.AppId,
-                        AccountId = acc.Id,
-                        Data = JsonConvert.SerializeObject(m)
-                    };
+                    current_nickname = m["nick_name"];
                 }
 
-                logger.LogInformation("AppId={0}", account_data.AppId);
-                logger.LogInformation("Data={0}", account_data.Data);
+                // 微信昵称覆盖Acc昵称
+                if (current_nickname != acc_wechat.NickName && !string.IsNullOrEmpty(acc_wechat.NickName))
+                {
+                    m["nick_name"] = acc_wechat.NickName;
+                    account_data.Data = JsonConvert.SerializeObject(m);
+
+                    await this.Database.AppAccountDatas.UpsertAsync(account_data, token);
+                }
+            }
+            else
+            {
+                Dictionary<string, string> m = new Dictionary<string, string>();
+                m["nick_name"] = acc_wechat.NickName;
+
+                account_data = new AppAccountDataEntity
+                {
+                    Id = data_id,
+                    AppId = app.Id,
+                    AccountId = acc.Id,
+                    Data = JsonConvert.SerializeObject(m)
+                };
 
                 await this.Database.AppAccountDatas.UpsertAsync(account_data, token);
             }
