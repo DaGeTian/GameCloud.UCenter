@@ -17,7 +17,7 @@ using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 
-namespace GameCloud.UCenter.Api
+namespace GameCloud.UCenter
 {
     public class Startup
     {

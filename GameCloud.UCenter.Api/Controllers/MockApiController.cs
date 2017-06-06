@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameCloud.UCenter.Api.ApiControllers
+namespace GameCloud.UCenter
 {
     public class MockApiController : Controller
     {

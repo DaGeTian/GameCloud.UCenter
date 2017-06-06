@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Api.Extensions;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Settings;
 using GameCloud.UCenter.Common.Models.PingPlusPlus;
@@ -19,7 +18,7 @@ using GameCloud.UCenter.Web.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Pingpp.Models;
 
-namespace GameCloud.UCenter.Api.ApiControllers
+namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]

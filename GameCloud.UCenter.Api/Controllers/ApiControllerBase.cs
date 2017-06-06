@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.Composition;
-using GameCloud.UCenter.Api.Filters;
 using GameCloud.UCenter.Common.Portable.Contracts;
 using GameCloud.UCenter.Database;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameCloud.UCenter.Api.ApiControllers
+namespace GameCloud.UCenter
 {
     [Export]
     [ExceptionFilter]

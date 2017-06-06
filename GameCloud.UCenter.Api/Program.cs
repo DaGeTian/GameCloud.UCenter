@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
-namespace GameCloud.UCenter.Api
+namespace GameCloud.UCenter
 {
     public class Program
     {

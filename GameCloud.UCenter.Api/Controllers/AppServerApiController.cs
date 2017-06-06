@@ -12,7 +12,7 @@ using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameCloud.UCenter.Api.ApiControllers
+namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]

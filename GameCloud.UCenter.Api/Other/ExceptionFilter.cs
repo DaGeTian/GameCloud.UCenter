@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
 
-namespace GameCloud.UCenter.Api.Filters
+namespace GameCloud.UCenter
 {
     public class ExceptionFilter : ExceptionFilterAttribute
     {

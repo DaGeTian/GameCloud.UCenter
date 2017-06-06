@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -12,10 +13,10 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using GameCloud.Database.Adapters;
-using GameCloud.UCenter.Api.Extensions;
 using GameCloud.UCenter.Common;
 using GameCloud.UCenter.Common.Extensions;
 using GameCloud.UCenter.Common.Models.AppClient;
@@ -28,7 +29,7 @@ using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
 using GameCloud.UCenter.Web.Common.Storage;
 
-namespace GameCloud.UCenter.Api.ApiControllers
+namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -39,6 +40,7 @@ namespace GameCloud.UCenter.Api.ApiControllers
         private readonly IStorageContext storageContext;
         private readonly EventTrace eventTrace;
         private readonly ILogger logger;
+        private readonly WebClient webClient;
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
@@ -54,6 +56,13 @@ namespace GameCloud.UCenter.Api.ApiControllers
             this.storageContext = storageContext;
             this.eventTrace = eventTrace;
             this.logger = logger_factory.CreateLogger("Default");
+
+            webClient = new WebClient();
+            //var handler = new HttpClientHandler();
+            //handler.UseDefaultCredentials = true;
+            //handler.ClientCertificateOptions = ClientCertificateOption.Automatic;
+            //httpClient = new HttpClient(handler);
+            //httpClient.Timeout = TimeSpan.FromSeconds(15);
         }
 
         //---------------------------------------------------------------------
@@ -239,6 +248,9 @@ namespace GameCloud.UCenter.Api.ApiControllers
         [Route("api/accounts/wechatlogin")]
         public async Task<IActionResult> WeChatLogin([FromBody]AccountWeChatOAuthInfo info, CancellationToken token)
         {
+            // info.AppId目前传值不正确，应等于settings.WechatAppId
+            // 后续应当根据info.AppId去查找对应WechatAppSecret
+            logger.LogInformation("WeChatLogin AppId=" + info.AppId);
             logger.LogInformation("WeChatLogin AppId=" + settings.WechatAppId);
             logger.LogInformation("WeChatLogin Code=" + info.Code);
 
@@ -302,6 +314,9 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 }
             }
 
+            bool need_update_nickname = false;
+            bool need_update_icon = false;
+
             // 查找AccountWechat
             var acc_wechat = await this.Database.AccountWechat.GetSingleAsync(
                 a => a.Unionid == user_info.unionid
@@ -328,6 +343,28 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 };
 
                 await this.Database.AccountWechat.InsertAsync(acc_wechat, token);
+
+                need_update_nickname = true;
+                need_update_icon = true;
+            }
+            else
+            {
+                if (acc_wechat.Headimgurl != user_info.headimgurl)
+                {
+                    acc_wechat.Headimgurl = user_info.headimgurl;
+                    need_update_icon = true;
+                }
+
+                if (acc_wechat.NickName != user_info.nickname)
+                {
+                    acc_wechat.NickName = user_info.nickname;
+                    need_update_nickname = true;
+                }
+
+                if (need_update_icon || need_update_nickname)
+                {
+                    await this.Database.AccountWechat.UpsertAsync(acc_wechat, token);
+                }
             }
 
             // 查找Account
@@ -353,6 +390,49 @@ namespace GameCloud.UCenter.Api.ApiControllers
                 };
 
                 await this.Database.Accounts.InsertAsync(acc, token);
+            }
+
+            // 微信头像覆盖Acc头像
+            if (//need_update_icon && 
+                !string.IsNullOrEmpty(acc_wechat.Headimgurl))
+            {
+                //logger.LogInformation("微信头像覆盖Acc头像，Headimgurl={0}", acc_wechat.Headimgurl);
+
+                await DownloadWechatHeadIcon(acc_wechat.Headimgurl, acc.Id, token);
+
+                acc.ProfileImage = acc_wechat.Headimgurl;
+                await this.Database.Accounts.UpsertAsync(acc, token);
+            }
+
+            // 微信昵称覆盖Acc昵称
+            if (//need_update_nickname)
+                true)
+            {
+                var data_id = $"{info.AppId}_{acc.Id}";
+                var account_data = await this.Database.AppAccountDatas.GetSingleAsync(data_id, token);
+                if (account_data != null)
+                {
+                    var m = JsonConvert.DeserializeObject<Dictionary<string, string>>(account_data.Data);
+                    m["nick_name"] = acc_wechat.NickName;
+                    account_data.Data = JsonConvert.SerializeObject(m);
+                }
+                else
+                {
+                    Dictionary<string, string> m = new Dictionary<string, string>();
+                    m["nick_name"] = acc_wechat.NickName;
+                    account_data = new AppAccountDataEntity
+                    {
+                        Id = data_id,
+                        AppId = info.AppId,
+                        AccountId = acc.Id,
+                        Data = JsonConvert.SerializeObject(m)
+                    };
+                }
+
+                logger.LogInformation("AppId={0}", account_data.AppId);
+                logger.LogInformation("Data={0}", account_data.Data);
+
+                await this.Database.AppAccountDatas.UpsertAsync(account_data, token);
             }
 
             return this.CreateSuccessResult(this.ToResponse<AccountLoginResponse>(acc));
@@ -517,6 +597,49 @@ namespace GameCloud.UCenter.Api.ApiControllers
         //    string ipAddress = IPHelper.GetClientIpAddress(Request);
         //    return this.CreateSuccessResult(ipAddress);
         //}
+
+        //---------------------------------------------------------------------
+        private async Task DownloadWechatHeadIcon(string url, string account_id, CancellationToken token)
+        {
+            try
+            {
+                //Stream stream = await this.httpClient.GetStreamAsync(new Uri(url));
+                var data = await webClient.DownloadDataTaskAsync(url);
+                using (MemoryStream stream = new MemoryStream(data))
+                {
+                    var image = Image.FromStream(stream);
+
+                    using (var thumbnailStream = this.GetThumbprintStream(image))
+                    {
+                        var smallProfileName = this.settings.ProfileThumbnailForBlobNameTemplate.FormatInvariant(account_id);
+
+                        try
+                        {
+                            await this.storageContext.UploadBlobAsync(smallProfileName, thumbnailStream, token);
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogError(ex.ToString());
+                        }
+                    }
+
+                    try
+                    {
+                        string profileName = this.settings.ProfileImageForBlobNameTemplate.FormatInvariant(account_id);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        await this.storageContext.UploadBlobAsync(profileName, stream, token);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+            }
+        }
 
         //---------------------------------------------------------------------
         private async Task AccountLoginAsync(AccountEntity accountEntity, CancellationToken token)
