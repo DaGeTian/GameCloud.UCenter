@@ -33,7 +33,7 @@ namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountApiController : ApiControllerBase
+    public class AccountController : BaseController
     {
         //---------------------------------------------------------------------
         private readonly Settings settings;
@@ -44,7 +44,7 @@ namespace GameCloud.UCenter
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
-        public AccountApiController(
+        public AccountController(
             UCenterDatabaseContext database,
             Settings settings,
             IStorageContext storageContext,

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameCloud.UCenter
 {
-    public class MockApiController : Controller
+    public class MockController : Controller
     {
         //---------------------------------------------------------------------
         // Mock https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code

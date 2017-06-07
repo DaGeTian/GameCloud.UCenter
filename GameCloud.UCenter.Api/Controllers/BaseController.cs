@@ -7,14 +7,14 @@ namespace GameCloud.UCenter
 {
     [Export]
     [ExceptionFilter]
-    public class ApiControllerBase : Controller
+    public class BaseController : Controller
     {
         //---------------------------------------------------------------------
         public UCenterDatabaseContext Database { get; private set; }
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
-        public ApiControllerBase(UCenterDatabaseContext database)
+        public BaseController(UCenterDatabaseContext database)
         {
             this.Database = database;
         }

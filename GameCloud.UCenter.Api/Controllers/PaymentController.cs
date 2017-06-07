@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Pingpp.Models;
 using GameCloud.Database.Adapters;
 using GameCloud.UCenter.Common.Models.AppServer;
 using GameCloud.UCenter.Common.Settings;
@@ -15,14 +17,12 @@ using GameCloud.UCenter.Common.Portable.Models.AppClient;
 using GameCloud.UCenter.Database;
 using GameCloud.UCenter.Database.Entities;
 using GameCloud.UCenter.Web.Common.Logger;
-using Microsoft.AspNetCore.Mvc;
-using Pingpp.Models;
 
 namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class PaymentApiController : ApiControllerBase
+    public class PaymentController : BaseController
     {
         //---------------------------------------------------------------------
         private readonly Settings settings;
@@ -30,7 +30,7 @@ namespace GameCloud.UCenter
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
-        public PaymentApiController(
+        public PaymentController(
             UCenterDatabaseContext database,
             Settings settings,
             EventTrace eventTrace)

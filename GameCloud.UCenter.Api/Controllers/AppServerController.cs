@@ -15,7 +15,7 @@ namespace GameCloud.UCenter
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppServerApiController : ApiControllerBase
+    public class AppServerController : BaseController
     {
         //---------------------------------------------------------------------
         //private readonly CacheProvider<AppConfigurationResponse> appConfigurationCacheProvider;
@@ -23,7 +23,7 @@ namespace GameCloud.UCenter
 
         //---------------------------------------------------------------------
         [ImportingConstructor]
-        public AppServerApiController(UCenterDatabaseContext database)
+        public AppServerController(UCenterDatabaseContext database)
             : base(database)
         {
             //this.appConfigurationCacheProvider = new CacheProvider<AppConfigurationResponse>(
