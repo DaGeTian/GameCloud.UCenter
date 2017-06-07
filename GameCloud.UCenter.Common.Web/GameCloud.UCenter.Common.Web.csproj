@@ -104,11 +104,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Cache\CacheProvider.cs" />
-    <Compile Include="Common\Dumper\DebugWritter.cs" />
-    <Compile Include="Common\Dumper\DumperToAttribute.cs" />
-    <Compile Include="Common\Dumper\ObjectDumper.cs" />
-    <Compile Include="Common\Dumper\ObjectDumperExtension.cs" />
     <Compile Include="Common\EncryptHashManager.cs" />
     <Compile Include="Common\EncryptHelper.cs" />
     <Compile Include="Common\Extensions\DisposableExtensions.cs" />

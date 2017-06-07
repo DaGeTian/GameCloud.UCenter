@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using GameCloud.UCenter.Common.Dumper;
 using GameCloud.UCenter.Common.Extensions;
 using GameCloud.UCenter.Common.IP;
 using GameCloud.UCenter.Common.Portable.Contracts;

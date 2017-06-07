@@ -388,19 +388,16 @@ namespace GameCloud.UCenter
                 need_update_nickname = true;
                 need_update_icon = true;
             }
-            else
-            {
-            }
 
             // 微信头像覆盖Acc头像
-            if (need_update_icon 
-                && !string.IsNullOrEmpty(acc_wechat.Headimgurl))
+            if (need_update_icon &&
+                !string.IsNullOrEmpty(user_info.headimgurl))
             {
                 //logger.LogInformation("微信头像覆盖Acc头像，Headimgurl={0}", acc_wechat.Headimgurl);
 
-                await DownloadWechatHeadIcon(acc_wechat.Headimgurl, acc.Id, token);
+                await DownloadWechatHeadIcon(user_info.headimgurl, acc.Id, token);
 
-                acc.ProfileImage = acc_wechat.Headimgurl;
+                acc.ProfileImage = user_info.headimgurl;
                 await this.Database.Accounts.UpsertAsync(acc, token);
             }
 
